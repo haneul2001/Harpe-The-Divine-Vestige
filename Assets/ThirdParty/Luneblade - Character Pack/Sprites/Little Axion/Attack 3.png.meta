@@ -196,7 +196,7 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 4096
     resizeAlgorithm: 0
@@ -209,7 +209,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -226,17 +226,16 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack 3_0
+      name: Axe3_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2210
+        y: 64
+        width: 61
+        height: 38
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -248,61 +247,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_1
+      name: Axe3_5
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2653
+        y: 64
+        width: 49
+        height: 34
+      alignment: 9
+      pivot: {x: 0.2, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 89aa127ed452c9960800000000000000
-      internalID: 7609998486869748376
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_2
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 28615c6d0b3691650800000000000000
-      internalID: 6204099572848203394
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_3
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -314,61 +268,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_4
+      name: Axe3_6
       rect:
         serializedVersion: 2
-        x: 576
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2794
+        y: 64
+        width: 52
+        height: 33
+      alignment: 9
+      pivot: {x: 0.2, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23860daa176d4e440800000000000000
-      internalID: 4964328472954562610
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_5
-      rect:
-        serializedVersion: 2
-        x: 720
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 66428c78f52039330800000000000000
-      internalID: 3716316726833980518
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_6
-      rect:
-        serializedVersion: 2
-        x: 864
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -380,17 +289,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_7
+      name: Axe1_1
       rect:
         serializedVersion: 2
-        x: 1008
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 55
+        y: 64
+        width: 25
+        height: 19
+      alignment: 9
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -402,17 +310,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_8
+      name: Axe1_4
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 476
+        y: 64
+        width: 68
+        height: 19
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -424,17 +331,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_9
+      name: Axe1_7
       rect:
         serializedVersion: 2
-        x: 1296
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 910
+        y: 64
+        width: 52
+        height: 19
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -446,17 +352,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_10
+      name: Axe2_1
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1056
+        y: 64
+        width: 48
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -468,17 +373,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_11
+      name: Axe2_2
       rect:
         serializedVersion: 2
-        x: 1584
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1198
+        y: 64
+        width: 49
+        height: 20
+      alignment: 9
+      pivot: {x: 0.55, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -490,17 +394,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_12
+      name: Axe2_3
       rect:
         serializedVersion: 2
-        x: 1728
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1348
+        y: 64
+        width: 63
+        height: 23
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -512,39 +415,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_13
+      name: Axe2_5
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1633
+        y: 64
+        width: 63
+        height: 23
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: db3728804644b2530800000000000000
-      internalID: 3831231104438924221
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_14
-      rect:
-        serializedVersion: 2
-        x: 2016
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -556,39 +436,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_15
+      name: Axe2_6
       rect:
         serializedVersion: 2
-        x: 2160
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1777
+        y: 64
+        width: 63
+        height: 23
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2fd0ce21ba08a4940800000000000000
-      internalID: 5281174985290550770
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_16
-      rect:
-        serializedVersion: 2
-        x: 2304
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -600,39 +457,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_17
+      name: Axe2_7
       rect:
         serializedVersion: 2
-        x: 2448
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1920
+        y: 64
+        width: 64
+        height: 23
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e70e7d44e7bc65ad0800000000000000
-      internalID: -2713757982262828930
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_18
-      rect:
-        serializedVersion: 2
-        x: 2592
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -644,17 +478,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_19
+      name: Axe3_1
       rect:
         serializedVersion: 2
-        x: 2736
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2062
+        y: 64
+        width: 59
+        height: 22
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -666,61 +499,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack 3_20
+      name: Axe3_7
       rect:
         serializedVersion: 2
-        x: 2880
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2937
+        y: 64
+        width: 43
+        height: 19
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 03a18014ba00a41c0800000000000000
-      internalID: -4518798540582413776
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_21
-      rect:
-        serializedVersion: 2
-        x: 3024
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7e3c7c8da9e43b5d0800000000000000
-      internalID: -3048006095830793241
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack 3_22
-      rect:
-        serializedVersion: 2
-        x: 3168
-        y: 0
-        width: 144
-        height: 144
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -731,8 +519,196 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Axe3_8
+      rect:
+        serializedVersion: 2
+        x: 3079
+        y: 64
+        width: 25
+        height: 19
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8237d6b83622abb4d9d3db6adac5c4f6
+      internalID: -47168153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe3_9
+      rect:
+        serializedVersion: 2
+        x: 3224
+        y: 64
+        width: 24
+        height: 20
+      alignment: 9
+      pivot: {x: 0.7, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13151d8cf5e1ae94d8dd83acac5d817c
+      internalID: -234505727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe1_2
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 64
+        width: 26
+        height: 18
+      alignment: 9
+      pivot: {x: 0.7, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9122e3ba6d936504ebbd82d3d002a459
+      internalID: 1257962680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe1_3
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 64
+        width: 28
+        height: 18
+      alignment: 9
+      pivot: {x: 0.7, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7800f6a712bf89b47bf59c5d233f60f7
+      internalID: -63259277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe1_5
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 64
+        width: 58
+        height: 17
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b598b7fe8774698419e194a3c55dfbd0
+      internalID: 1564291710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe1_6
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 64
+        width: 54
+        height: 18
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61eae8e99b4cd8e4395b775ec11324dd
+      internalID: -609513132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe2_4
+      rect:
+        serializedVersion: 2
+        x: 1490
+        y: 64
+        width: 64
+        height: 23
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fcdfd21b5d7bbf4ca531eaacaa066a3
+      internalID: 61492241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe3_3
+      rect:
+        serializedVersion: 2
+        x: 2364
+        y: 64
+        width: 49
+        height: 38
+      alignment: 9
+      pivot: {x: 0.2, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a88f09d412c648d42af9d14003b2444a
+      internalID: 1806912785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Axe3_4
+      rect:
+        serializedVersion: 2
+        x: 2508
+        y: 64
+        width: 49
+        height: 37
+      alignment: 9
+      pivot: {x: 0.2, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 000921e50bbc270499b0b63563c924c0
+      internalID: 1069034211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
-    customData: 
     physicsShape: []
     bones: []
     spriteID: 62ddf0dd6f6b307448a029ef2beadc9d
@@ -742,32 +718,49 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      Attack 3_0: -3386692302524107902
-      Attack 3_1: 7609998486869748376
-      Attack 3_10: -2330243541313507034
-      Attack 3_11: 2202633215065404225
-      Attack 3_12: -4786459360687646522
       Attack 3_13: 3831231104438924221
-      Attack 3_14: 3586587298392485555
       Attack 3_15: 5281174985290550770
-      Attack 3_16: 2309558097827278143
       Attack 3_17: -2713757982262828930
-      Attack 3_18: -1367557752523858002
-      Attack 3_19: -4197636423938757051
-      Attack 3_2: 6204099572848203394
       Attack 3_20: -4518798540582413776
       Attack 3_21: -3048006095830793241
-      Attack 3_22: -7704408756792383762
-      Attack 3_3: -8638976135704868811
+      Attack 3_28: -999740048
+      Attack 3_29: -167785120
+      Attack 3_31: -1176485217
+      Attack 3_33: 1019949571
+      Attack 3_35: 1637152304
+      Attack 3_37: 1122670110
+      Attack 3_38: 2086179928
+      Attack 3_39: -2079180689
       Attack 3_4: 4964328472954562610
+      Attack 3_40: -314552570
+      Attack 3_41: 250349141
+      Attack 3_42: -1652121348
+      Attack 3_43: -1746236371
       Attack 3_5: 3716316726833980518
-      Attack 3_6: 4118416523739615010
-      Attack 3_7: 8666728556394499820
-      Attack 3_8: 5676956180038453517
-      Attack 3_9: 7689786819982131055
+      Axe1_1: 8666728556394499820
+      Axe1_2: 1257962680
+      Axe1_3: -63259277
+      Axe1_4: 5676956180038453517
+      Axe1_5: 1564291710
+      Axe1_6: -609513132
+      Axe1_7: 7689786819982131055
+      Axe2_1: -2330243541313507034
+      Axe2_2: 2202633215065404225
+      Axe2_3: -4786459360687646522
+      Axe2_4: 61492241
+      Axe2_5: 3586587298392485555
+      Axe2_6: 2309558097827278143
+      Axe2_7: -1367557752523858002
+      Axe3_1: -4197636423938757051
+      Axe3_2: -3386692302524107902
+      Axe3_3: 1806912785
+      Axe3_4: 1069034211
+      Axe3_5: -8638976135704868811
+      Axe3_6: 4118416523739615010
+      Axe3_7: -7704408756792383762
+      Axe3_8: -47168153
+      Axe3_9: -234505727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

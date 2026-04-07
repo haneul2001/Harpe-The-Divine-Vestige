@@ -1,61 +1,117 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [Header("이동 설정")]
+    public float speed = 5f;
 
-    Rigidbody2D rb;
-    Animator anim;
-    SpriteRenderer spriter;
-    PlayerCombat combat;
+    [Header("대쉬 설정")]
+    public float dashSpeed = 10f;
+    public float dashDuration = 0.25f;
+    public float dashCooldown = 1f;
 
+    private Rigidbody2D rb;
+    private Animator anim;
+    private SpriteRenderer spriter;
+    private PlayerCombat combat;
 
-    public float speed;
-    Vector2 moveVec;
-    
+    private Vector2 moveInput;
+    private Vector2 dashDirection;
+
+    private bool isDashing = false;
+    private float dashTimeLeft = 0f;
+    private float lastDashTime = -100f;
+
     void Awake()
     {
-        combat = GetComponent<PlayerCombat>(); //플레이어 전투 관련 스크립트 참조
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+        combat = GetComponent<PlayerCombat>();
     }
 
     void Update()
     {
+        // 입력 받기
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
 
-        moveVec.x = Input.GetAxisRaw("Horizontal"); //입력은 업데이트에서 받음
-        moveVec.y = Input.GetAxisRaw("Vertical");
-        float yScale = moveVec.y != 0 ? 0.7f : 1f; 
-        moveVec.y *= yScale;
-        moveVec = moveVec.normalized; //대각선 이동 시 속도 보정
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            moveInput = moveInput.normalized;
+            float yScale = (moveInput.y != 0) ? 0.7f : 1f;
+            moveInput.y *= yScale;
+        }
+
+        // 대쉬 입력
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && Time.time >= lastDashTime + dashCooldown)
+        {
+            StartDash();
+        }
     }
 
-    
     void FixedUpdate()
     {
-        Move();
-    } 
-           
-    void Move()
+        if (isDashing)
+        {
+            HandleDash();
+        }
+        else
+        {
+            HandleNormalMovement();
+        }
+    }
+
+    // ====================== 대쉬 시작 ======================
+    private void StartDash()
     {
-        if (combat.isAttacking) { //공격 중에는 이동하지 않음
+        isDashing = true;
+        dashTimeLeft = dashDuration;
+        lastDashTime = Time.time;
+
+        anim.SetTrigger("Dash");
+
+        // ★★★ 핵심 수정: 스프라이트가 바라보는 방향으로 대쉬 방향 결정 ★★★
+        dashDirection = spriter.flipX ? Vector2.left : Vector2.right;
+
+        // 만약 위/아래도 대쉬하고 싶다면 아래처럼 y값도 고려할 수 있지만,
+        // 당신이 요청한 대로 좌우만 바라보는 방향으로 고정합니다.
+    }
+
+    // ====================== 대쉬 중 처리 ======================
+    private void HandleDash()
+    {
+        dashTimeLeft -= Time.fixedDeltaTime;
+
+        rb.velocity = dashDirection * dashSpeed;
+
+        if (dashTimeLeft <= 0f)
+        {
+            isDashing = false;
+        }
+
+        if (combat.isAttacking)
+            isDashing = false;
+    }
+
+    // ====================== 일반 이동 ======================
+    private void HandleNormalMovement()
+    {
+        if (combat.isAttacking)
+        {
             rb.velocity = Vector2.zero;
             anim.SetBool("isRun", false);
             return;
         }
 
-        rb.velocity = moveVec * speed * Time.deltaTime;
+        rb.velocity = moveInput * speed;
 
-        if (!combat.isAttacking && moveVec.x != 0) //스프라이트의 좌우 컨트롤
+        // 스프라이트 좌우 반전 (이 부분이 대쉬 방향의 기준이 됩니다)
+        if (moveInput.x != 0)
         {
-            spriter.flipX = moveVec.x < 0;
+            spriter.flipX = moveInput.x < 0;
         }
 
-        anim.SetBool ("isRun", moveVec != Vector2.zero);
-
-
+        anim.SetBool("isRun", moveInput.sqrMagnitude > 0.01f);
     }
-
 }
