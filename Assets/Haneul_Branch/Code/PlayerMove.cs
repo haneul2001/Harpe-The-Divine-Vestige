@@ -18,6 +18,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 dashDirection;
 
+    public bool isExecuting = false;
     private bool isDashing = false;
     private float dashTimeLeft = 0f;
     private float lastDashTime = -100f;
@@ -42,11 +43,17 @@ public class PlayerMove : MonoBehaviour
             float yScale = (moveInput.y != 0) ? 0.7f : 1f;
             moveInput.y *= yScale;
         }
+        
 
         // 대쉬 입력
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && Time.time >= lastDashTime + dashCooldown)
         {
             StartDash();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log("V 눌림 (Move에서)");
+            combat.TryExecuteEnemy();
         }
     }
 
