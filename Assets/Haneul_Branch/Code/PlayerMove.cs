@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V))
         {
             Debug.Log("V 눌림 (Move에서)");
-            combat.TryExecuteEnemy();
+            //combat.TryExecuteEnemy();
         }
     }
 

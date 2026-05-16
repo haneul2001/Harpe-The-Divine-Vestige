@@ -1,292 +1,165 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
 public class Enemy : MonoBehaviour
 {
-    // ====================== 상태 ======================
-    enum EnemyState
-    {
-        Idle,
-        Chase,
-        Attack,
-        Execute,
-        Dead
-    }
-
-    private EnemyState currentState;
-
-    // ====================== 설정 ======================
     [Header("AI 설정")]
-    public float detectRange = 8f;
-    public float attackRange = 1.5f;
+    public float detectRange = 40f;
+    public float attackRange = 2.5f;
     public float moveSpeed = 2.5f;
-
-    [Header("처형 위치")]
-    public Transform backPosition;
-    public float backOffset = 0.6f;
-
+    [Header("전투 대기")]
+    public float combatIdleDuration = 1.5f;
+    // 공격 관련
+    public float attackCooldown = 2f;
+    public float attackDelay = 0.5f;
+    [Header("피격")]
+    public float hitDuration = 0.2f;
     [Header("참조")]
     public Transform player;
-    public GameObject harvest_image;
 
-    // ====================== 내부 ======================
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
-
-    private bool isFacingRight = false;
-    private bool isAttacking = false;
-
-    public float attackCooldown = 4f;
-    public float attackDelay = 0.5f;
-    private float lastAttackTime = 0f;
-
+    [Header("체력")]
     public int hp = 3;
 
-    // ====================== 초기화 ======================
-    void Start()
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
+
+    public EnemyStateMachine StateMachine { get; private set; }
+
+    // 상태들
+    [HideInInspector] public IdleState IdleState;
+    [HideInInspector] public ChaseState ChaseState;
+    [HideInInspector] public AttackState AttackState;
+    [HideInInspector] public CombatIdleState CombatIdleState;
+    [HideInInspector] public HitState HitState;
+    [HideInInspector] public float lastAttackTime;
+
+    // 방향
+    public bool IsFacingRight { get; private set; }
+    public bool isDead { get; private set; }
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (harvest_image == null)
-            harvest_image = transform.Find("harvest_point")?.gameObject;
+        StateMachine = new EnemyStateMachine();
+        CombatIdleState = new CombatIdleState(this, StateMachine);
+        IdleState = new IdleState(this, StateMachine);
+        ChaseState = new ChaseState(this, StateMachine);
+        AttackState = new AttackState(this, StateMachine);
+        HitState = new HitState(this, StateMachine);
+    }
 
-        if (harvest_image != null)
-            harvest_image.SetActive(false);
-
-        if (backPosition == null)
-            backPosition = transform.Find("BackPosition");
-
-        if (player == null)
+    private void Start()
+    {
+        // Inspector에 할당되어 있어도, 항상 Scene의 실제 Player를 새로 찾음
+        if (player == null || player.name == "Exe")  // "Exe"가 Player 오브젝트 이름이라면
         {
-            var p = GameObject.FindGameObjectWithTag("Player");
-            if (p != null) player = p.transform;
-        }
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
-        FaceToPlayer();
-        ChangeState(EnemyState.Idle);
-    }
-
-    // ====================== 업데이트 ======================
-    void Update()
-    {
-        if (player == null || currentState == EnemyState.Dead)
-            return;
-
-        switch (currentState)
-        {
-            case EnemyState.Idle:
-                UpdateIdle();
-                break;
-
-            case EnemyState.Chase:
-                UpdateChase();
-                break;
-
-            case EnemyState.Attack:
-                UpdateAttack();
-                break;
-        }
-    }
-
-    // ====================== 상태별 로직 ======================
-
-    void UpdateIdle()
-    {
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        if (distance <= detectRange)
-            ChangeState(EnemyState.Chase);
-    }
-
-    void UpdateChase()
-    {
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        FaceToPlayer();
-        MoveToPlayer();
-
-        if (distance <= attackRange && CanAttack())
-        {
-            ChangeState(EnemyState.Attack);
-        }
-    }
-
-    void UpdateAttack()
-    {
-        FaceToPlayer();
-
-        if (!isAttacking)
-        {
-            StartCoroutine(AttackRoutine());
-        }
-    }
-
-    // ====================== 상태 전환 ======================
-    void ChangeState(EnemyState newState)
-    {
-        currentState = newState;
-
-        switch (newState)
-        {
-            case EnemyState.Idle:
-                animator.SetBool("isWalking", false);
-                break;
-
-            case EnemyState.Chase:
-                break;
-
-            case EnemyState.Attack:
-                break;
-
-            case EnemyState.Execute:
-                StartCoroutine(ExecutionSequence());
-                break;
-
-            case EnemyState.Dead:
-                Die();
-                break;
-        }
-    }
-
-    // ====================== 이동 ======================
-    void MoveToPlayer()
-    {
-        Vector2 targetPos = new Vector2(player.position.x, transform.position.y);
-
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            targetPos,
-            moveSpeed * Time.deltaTime
-        );
-
-        animator.SetBool("isWalking", true);
-    }
-
-    // ====================== 방향 ======================
-    void FaceToPlayer()
-    {
-        float dx = player.position.x - transform.position.x;
-
-        if (Mathf.Abs(dx) > 0.01f)
-            SetFacing(dx > 0);
-    }
-
-    void SetFacing(bool faceRight)
-    {
-        isFacingRight = faceRight;
-        spriteRenderer.flipX = !faceRight;
-        FlipBackPosition();
-    }
-
-    void FlipBackPosition()
-    {
-        if (backPosition == null) return;
-
-        float xPos = isFacingRight ? -backOffset : backOffset;
-        backPosition.localPosition = new Vector3(xPos, 0, 0);
-    }
-
-    // ====================== 공격 ======================
-    bool CanAttack()
-    {
-        return Time.time - lastAttackTime > attackCooldown;
-    }
-
-    IEnumerator AttackRoutine()
-    {
-        isAttacking = true;
-        lastAttackTime = Time.time;
-
-        animator.SetBool("isWalking", false);
-        animator.SetTrigger("undead atk");
-
-        yield return new WaitForSeconds(attackDelay);
-
-        isAttacking = false;
-        ChangeState(EnemyState.Chase);
-    }
-
-    // ====================== 처형 ======================
-    public bool CanExecute()
-    {
-        return hp <= 2 && currentState != EnemyState.Execute;
-    }
-
-    public void TryExecution(Transform playerTransform)
-    {
-        if (!CanExecute()) return;
-
-        player = playerTransform;
-        ChangeState(EnemyState.Execute);
-    }
-
-    IEnumerator ExecutionSequence()
-    {
-        animator.SetBool("isWalking", false);
-
-        Rigidbody2D prb = player.GetComponent<Rigidbody2D>();
-        PlayerMove pm = player.GetComponent<PlayerMove>();
-
-        if (pm != null) pm.isExecuting = true;
-        if (prb != null) prb.velocity = Vector2.zero;
-
-        player.position = backPosition.position;
-
-        SpriteRenderer playerSR = player.GetComponent<SpriteRenderer>();
-        if (playerSR != null)
-        {
-            playerSR.flipX = isFacingRight;
-        }
-
-        yield return null;
-
-        Animator playerAnim = player.GetComponent<Animator>();
-        if (playerAnim != null)
-        {
-            playerAnim.ResetTrigger("Attack");
-            playerAnim.SetTrigger("Execution");
-        }
-
-        yield return new WaitForSeconds(0.2f);
-
-        animator.SetTrigger("undead death");
-
-        yield return new WaitForSeconds(1.0f);
-
-        if (pm != null) pm.isExecuting = false;
-
-        Destroy(gameObject);
-    }
-
-    // ====================== 데미지 ======================
-    public void TakeDamage(int damage)
-    {
-        if (currentState == EnemyState.Execute) return;
-
-        hp -= damage;
-
-        if (hp <= 2 && harvest_image != null)
-            harvest_image.SetActive(true);
-
-        if (hp <= 0)
-        {
-            ChangeState(EnemyState.Dead);
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+                Debug.Log($" Scene에서 Player 재할당 성공: {player.name}");
+            }
+            else
+            {
+                Debug.LogError(" Tag 'Player'를 가진 Player를 찾을 수 없음");
+            }
         }
         else
         {
-            animator.SetTrigger("undead hurt");
+            Debug.Log($"Inspector Player 사용: {player.name}");
         }
+
+        StateMachine.Initialize(IdleState);
     }
 
-    // ====================== 사망 ======================
-    void Die()
+    private void Update()
     {
-        StopAllCoroutines();
+        //Debug.Log(player.position); // player가 제대로 할당되었는지 확인하는 로그
+        if (player == null || isDead)
+            return;
 
-        animator.SetBool("isWalking", false);
-        animator.SetTrigger("undead death");
+        StateMachine.Update();
+    }
 
-        Destroy(gameObject, 1.8f);
+    // =========================
+    // 공용 함수
+    // =========================
+
+    public void MoveToPlayer()
+    {
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            player.position,
+            moveSpeed * Time.deltaTime
+        );
+
+        animator.SetBool("isFollow", true);
+    }
+
+    public void StopMove()
+    {
+        animator.SetBool("isFollow", false);
+    }
+
+    public void FaceToPlayer()
+    {
+        float dx = player.position.x - transform.position.x;
+
+        if (Mathf.Abs(dx) <= 0.01f)
+            return;
+
+        SetFacing(dx > 0);
+    }
+
+    private void SetFacing(bool faceRight)
+    {
+        IsFacingRight = faceRight;
+
+        spriteRenderer.flipX = !faceRight;
+    }
+
+    public bool CanAttack()
+    {
+        return Time.time - lastAttackTime >= attackCooldown;
+    }
+
+    public void Attack()
+    {
+        lastAttackTime = Time.time;
+
+        animator.SetTrigger("attack");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead)
+            return;
+        Debug.Log("TakeDamage 호출");
+
+        hp -= damage;
+
+        if (hp <= 0)
+        {
+            Die();
+            return;
+        }
+
+        StateMachine.ChangeState(HitState);
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        animator.SetBool("isFollow", false);
+        animator.SetTrigger("dead");
+
+        Destroy(gameObject, 1.5f);
+    }
+
+    public float DistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, player.position);
     }
 }

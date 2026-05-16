@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 8652391595165629333}
   - component: {fileID: 8652391595165629332}
   - component: {fileID: 3431724731649026214}
-  m_Layer: 0
+  - component: {fileID: 6178726137642623463}
+  - component: {fileID: 8341510178345884582}
+  m_Layer: 7
   m_Name: Bat1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 764995451
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1428758561, guid: 778622a03ffd0ea4ea456b9304f40e63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -96,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 8652391595165629335}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ce3ebcf6677c4ec45864b8871bc781f4, type: 2}
+  m_Controller: {fileID: 22100000, guid: d8cac711ec0e2a8408d631a6eb05696d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,4 +121,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3764293527a8f694182ae380daade51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
+  enemyInfo: {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
+--- !u!114 &6178726137642623463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652391595165629335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af17b6239e95fac45a09c31279f831ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRange: 40
+  attackRange: 1.5
+  moveSpeed: 2.5
+  combatIdleDuration: 0.3
+  attackCooldown: 2
+  attackDelay: 0.5
+  hitDuration: 0.2
+  player: {fileID: 0}
+  hp: 3
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  lastAttackTime: 0
+--- !u!70 &8341510178345884582
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652391595165629335}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.09}
+  m_Size: {x: 0.36, y: 0.27}
+  m_Direction: 0

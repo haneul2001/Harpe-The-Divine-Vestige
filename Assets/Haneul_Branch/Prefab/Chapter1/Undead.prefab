@@ -164,7 +164,8 @@ GameObject:
   - component: {fileID: 7457510136974621221}
   - component: {fileID: 2620356634174968775}
   - component: {fileID: 3975488056953351661}
-  m_Layer: 0
+  - component: {fileID: 6273092391648089611}
+  m_Layer: 7
   m_Name: Undead
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -181,7 +182,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7094761602158244972}
@@ -273,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3764293527a8f694182ae380daade51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfo: {fileID: 0}
+  enemyInfo: {fileID: 11400000, guid: 06ee35e126204fc4c87951a8b722d928, type: 2}
 --- !u!114 &3975488056953351661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,11 +287,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af17b6239e95fac45a09c31279f831ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectRange: 8
-  attackRange: 1.5
-  moveSpeed: 2.5
-  backPosition: {fileID: 7094761602158244972}
-  backOffset: 0.6
-  player: {fileID: 4861499790606278931, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
-  harvest_image: {fileID: 5427015639932474731}
+  detectRange: 40
+  attackRange: 2.5
+  moveSpeed: 1.5
+  combatIdleDuration: 0.3
+  attackCooldown: 4
+  attackDelay: 0.3
+  hitDuration: 0.2
+  player: {fileID: 0}
   hp: 3
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  lastAttackTime: 0
+--- !u!70 &6273092391648089611
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457510136974621220}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.22}
+  m_Size: {x: 0.3, y: 0.57}
+  m_Direction: 0
