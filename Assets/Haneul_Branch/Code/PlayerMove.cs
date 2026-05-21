@@ -46,7 +46,12 @@ public class PlayerMove : MonoBehaviour
         
 
         // 대쉬 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && Time.time >= lastDashTime + dashCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) &&
+            !isDashing && 
+            Time.time >= lastDashTime + dashCooldown&&
+            !combat.isAttacking &&
+            !combat.isCharging
+            ) //대시는 공격이나 차징 중에는 사용할 수 없도록 조건 추가
         {
             StartDash();
         }
@@ -77,9 +82,19 @@ public class PlayerMove : MonoBehaviour
         lastDashTime = Time.time;
 
         anim.SetTrigger("Dash");
+        float yScale = (moveInput.y != 0) ? 0.7f : 1f;
+        Vector2 dashInput = new Vector2(moveInput.x, moveInput.y * yScale);
 
-        // ★★★ 핵심 수정: 스프라이트가 바라보는 방향으로 대쉬 방향 결정 ★★★
-        dashDirection = spriter.flipX ? Vector2.left : Vector2.right;
+        if (moveInput != Vector2.zero)
+        {
+            dashDirection = dashInput.normalized;
+        }
+        else
+        {
+            dashDirection = spriter.flipX ? Vector2.left : Vector2.right;
+        }// ★★★ 핵심 수정: 스프라이트가 바라보는 방향으로 대쉬 방향 결정 ★★★
+
+        
 
         // 만약 위/아래도 대쉬하고 싶다면 아래처럼 y값도 고려할 수 있지만,
         // 당신이 요청한 대로 좌우만 바라보는 방향으로 고정합니다.

@@ -9,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
     private Animator anim;
 
     public bool isAttacking = false;
-    private bool isCharging = false;
+    public bool isCharging = false;
 
     private float chargeTime;
     [SerializeField] private float maxChargeTime = 1.5f;
@@ -36,6 +36,11 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (!isAttacking)
+        {
+            sr.color = new Color(1f, 1f, 1f);
+        }
+       
         NormalAttack(); // Z입력
         UpdateChargeUI();
 
@@ -124,6 +129,12 @@ public class PlayerCombat : MonoBehaviour
         {
             isCharging = false;
             isAttacking = true; //어택 시작시 공격 중 상태로 전환 공격 인덱스 버그 방지 위해 공격 시작 시점에 true로 변경
+
+            if (fullCharged)
+            {
+                sr.color = new Color(1f, 0f, 0f);
+            }
+            
 
             // 공격 애니메이션
             Attack(attackNum);
