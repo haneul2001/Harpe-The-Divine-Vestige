@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
+   
     [Header("AI 설정")]
     public float detectRange = 40f;
     public float attackRange = 2.5f;
@@ -12,8 +15,13 @@ public class Enemy : MonoBehaviour
     // 공격 관련
     public float attackCooldown = 2f;
     public float attackDelay = 0.5f;
+    public bool isAttacking { get; protected set; }
+    [Header("공격")]
+    [SerializeField] protected int attackDamage = 1;
+    public int AttackDamage => attackDamage;
     [Header("피격")]
     public float hitDuration = 0.2f;
+    
     [Header("참조")]
     public Transform player;
 
@@ -49,21 +57,21 @@ public class Enemy : MonoBehaviour
         HitState = new HitState(this, StateMachine);
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        // Inspector에 할당되어 있어도, 항상 Scene의 실제 Player를 새로 찾음
-        if (player == null || player.name == "Exe")  // "Exe"가 Player 오브젝트 이름이라면
+        // Inspector 할당이 없을 때만 씬의 Player를 찾음
+        if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
             if (playerObj != null)
             {
                 player = playerObj.transform;
-                Debug.Log($" Scene에서 Player 재할당 성공: {player.name}");
+                Debug.Log($"Scene에서 Player 할당 성공: {player.name}");
             }
             else
             {
-                Debug.LogError(" Tag 'Player'를 가진 Player를 찾을 수 없음");
+                Debug.LogError("Tag 'Player'를 가진 Player를 찾을 수 없음");
             }
         }
         else
@@ -89,22 +97,29 @@ public class Enemy : MonoBehaviour
 
     public void MoveToPlayer()
     {
-        transform.position = Vector2.MoveTowards(
+        if (player == null)
+            return;
+
+        Vector3 target = player.position;
+        transform.position = Vector3.MoveTowards(
             transform.position,
-            player.position,
+            target,
             moveSpeed * Time.deltaTime
         );
 
-        animator.SetBool("isFollow", true);
+        if (animator != null) animator.SetBool("isFollow", true);
     }
 
     public void StopMove()
     {
-        animator.SetBool("isFollow", false);
+        if (animator != null) animator.SetBool("isFollow", false);
     }
 
     public void FaceToPlayer()
     {
+        if (player == null)
+            return;
+
         float dx = player.position.x - transform.position.x;
 
         if (Mathf.Abs(dx) <= 0.01f)
@@ -116,8 +131,8 @@ public class Enemy : MonoBehaviour
     private void SetFacing(bool faceRight)
     {
         IsFacingRight = faceRight;
-
-        spriteRenderer.flipX = !faceRight;
+        if(faceRight) transform.rotation = Quaternion.Euler(0f,0f,0f);
+        else transform.rotation = Quaternion.Euler(0f,180f,0f);
     }
 
     public bool CanAttack()
@@ -125,11 +140,14 @@ public class Enemy : MonoBehaviour
         return Time.time - lastAttackTime >= attackCooldown;
     }
 
-    public void Attack()
+    public virtual void Attack() 
     {
         lastAttackTime = Time.time;
 
-        animator.SetTrigger("attack");
+        if (animator != null)
+        {
+            animator.SetTrigger("attack");
+        }
     }
 
     public void TakeDamage(int damage)
@@ -152,14 +170,18 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        animator.SetBool("isFollow", false);
-        animator.SetTrigger("dead");
+        if (animator != null)
+        {
+            animator.SetBool("isFollow", false);
+            animator.SetTrigger("dead");
+        }
 
         Destroy(gameObject, 1.5f);
     }
 
     public float DistanceToPlayer()
     {
-        return Vector2.Distance(transform.position, player.position);
+        if (player == null) return float.MaxValue;
+        return Vector3.Distance(transform.position, player.position);
     }
 }

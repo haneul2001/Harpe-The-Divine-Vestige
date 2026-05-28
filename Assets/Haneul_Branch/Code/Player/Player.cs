@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public PlayerMove playerMove;
     public PlayerCombat playerCombat;
+    public PlayerStatus playerStatus;
 
     [SerializeField]
     private List<PlayerSkill> skills; 
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMove>();
         playerCombat = GetComponent<PlayerCombat>();
-
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     public void StartParry(float duration)

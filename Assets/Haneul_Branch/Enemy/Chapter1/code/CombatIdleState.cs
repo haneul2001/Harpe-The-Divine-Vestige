@@ -13,39 +13,39 @@ public class CombatIdleState : IEnemyState
         this.stateMachine = stateMachine;
     }
 
-    public void Enter()
+   public void Enter()
     {
         Debug.Log("Enter CombatIdle");
 
         waitTimer = enemy.combatIdleDuration;
 
         enemy.StopMove();
+
+        // 여기서 딱 한 번 방향 고정
+        enemy.FaceToPlayer();
+
+        if (enemy is ZombieEnemy zombie)
+        {
+            zombie.ShowAttackRange(true);
+        }
     }
 
     public void Update()
     {
-        enemy.FaceToPlayer();
-
         waitTimer -= Time.deltaTime;
 
-        if (waitTimer <= 0f)
+        // 공격 준비 끝
+        if (waitTimer <= 0f && enemy.CanAttack())
         {
-            float distance = enemy.DistanceToPlayer();
-
-            // 공격 가능 + 공격 범위 안
-            if (distance <= enemy.attackRange && enemy.CanAttack())
-            {
-                stateMachine.ChangeState(enemy.AttackState);
-            }
-            // 공격 불가능하거나 플레이어가 멀면 다시 추적
-            else
-            {
-                stateMachine.ChangeState(enemy.ChaseState);
-            }
+            stateMachine.ChangeState(enemy.AttackState);
         }
     }
 
     public void Exit()
     {
+        if (enemy is ZombieEnemy zombie)
+        {
+            zombie.ShowAttackRange(false);
+        }
     }
 }

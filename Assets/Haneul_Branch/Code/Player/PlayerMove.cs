@@ -9,7 +9,11 @@ public class PlayerMove : MonoBehaviour
     public float dashSpeed = 10f;
     public float dashDuration = 0.25f;
     public float dashCooldown = 1f;
+    [Header("피격")]
+    public float knockBackPower = 8f;
+    public float hitDuration = 0.2f;
 
+    private bool isHit = false;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer spriter;
@@ -64,14 +68,17 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDashing)
-        {
-            HandleDash();
-        }
-        else
-        {
-            HandleNormalMovement();
-        }
+        if (isHit)
+                return;
+
+            if (isDashing)
+            {
+                HandleDash();
+            }
+            else
+            {
+                HandleNormalMovement();
+            }
     }
 
     // ====================== 대쉬 시작 ======================
@@ -136,4 +143,22 @@ public class PlayerMove : MonoBehaviour
 
         anim.SetBool("isRun", moveInput.sqrMagnitude > 0.01f);
     }
+    public void KnockBack(Vector2 attackPos)
+    {
+        isHit = true;
+
+        Vector2 dir =
+            ((Vector2)transform.position - attackPos).normalized;
+
+        rb.velocity = dir * knockBackPower;
+
+        anim.SetTrigger("Hurt");
+
+        Invoke(nameof(EndHit), hitDuration);
+    }
+    private void EndHit()
+    {
+        isHit = false;
+    }
+
 }

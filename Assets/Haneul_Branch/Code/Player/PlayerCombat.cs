@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private SpriteRenderer sr;
     private Animator anim;
+    private PlayerOutline outline;
 
     public bool isAttacking = false;
     public bool isCharging = false;
@@ -32,14 +33,12 @@ public class PlayerCombat : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        outline = GetComponent<PlayerOutline>();
     }
 
     void Update()
     {
-        if (!isAttacking)
-        {
-            sr.color = new Color(1f, 1f, 1f);
-        }
+        
        
         NormalAttack(); // Z입력
         UpdateChargeUI();
@@ -120,7 +119,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 fullCharged = true;
 
-                StartCoroutine(FullChargeFlash(0.1f));
+                StartCoroutine(FullChargeFlash(0.25f));
             }
         }
 
@@ -132,7 +131,8 @@ public class PlayerCombat : MonoBehaviour
 
             if (fullCharged)
             {
-                sr.color = new Color(1f, 0f, 0f);
+                outline.StartAttackOutline();
+                Debug.Log("풀차징 공격!");
             }
             
 
@@ -191,6 +191,8 @@ public class PlayerCombat : MonoBehaviour
     public void EndAttack()
     {
         isAttacking = false;
+
+        outline.EndAttackOutline();
     }
 
     private void UpdateChargeUI()
@@ -205,11 +207,13 @@ public class PlayerCombat : MonoBehaviour
     }
     private IEnumerator FullChargeFlash(float duration)
     {
-        sr.color = new Color(1f, 0f, 0f);
+        outline.StartAttackOutline();
 
         yield return new WaitForSeconds(duration);
 
-        sr.color = Color.white;
+        outline.EndAttackOutline();
+
+        if (!isAttacking) { outline.EndAttackOutline(); }
     }
 
     private void OnDrawGizmosSelected()

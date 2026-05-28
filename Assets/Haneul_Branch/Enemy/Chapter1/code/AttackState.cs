@@ -5,9 +5,6 @@ public class AttackState : IEnemyState
     private Enemy enemy;
     private EnemyStateMachine stateMachine;
 
-    private float attackTimer;
-    private float attackDuration = 0.3f; // 나중에 데이터 참조
-
     public AttackState(Enemy enemy, EnemyStateMachine stateMachine)
     {
         this.enemy = enemy;
@@ -18,22 +15,31 @@ public class AttackState : IEnemyState
     {
         Debug.Log("Enter Attack");
 
-        attackTimer = attackDuration;
-
         enemy.StopMove();
 
-        enemy.FaceToPlayer();
+        // 삭제
+        // enemy.FaceToPlayer();
 
         enemy.Attack();
     }
 
     public void Update()
     {
-        attackTimer -= Time.deltaTime;
-
-        if (attackTimer <= 0f)
+        // 공격 끝
+        if (!enemy.isAttacking)
         {
-            stateMachine.ChangeState(enemy.CombatIdleState);
+            float distance = enemy.DistanceToPlayer();
+
+            // 멀어졌으면 추적
+            if (distance > enemy.attackRange)
+            {
+                stateMachine.ChangeState(enemy.ChaseState);
+            }
+            // 가까우면 다시 공격 준비
+            else
+            {
+                stateMachine.ChangeState(enemy.CombatIdleState);
+            }
         }
     }
 

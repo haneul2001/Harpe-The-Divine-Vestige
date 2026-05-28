@@ -4,13 +4,23 @@ public class EnemyStateMachine
 
     public void Initialize(IEnemyState startState) //처음 시작을 현재 상태로 설정하는 메서드
     {
+        if (startState == null)
+        {
+            return;
+        }
+
         CurrentState = startState;
         CurrentState.Enter();
     }
 
     public void ChangeState(IEnemyState newState)
     {
-        CurrentState.Exit(); //사용하던 상태를 나감
+        if (newState == null)
+        {
+            return;
+        }
+
+        CurrentState?.Exit(); //사용하던 상태를 나감
 
         CurrentState = newState;
 

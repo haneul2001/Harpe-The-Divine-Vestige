@@ -54,9 +54,9 @@ TagManager:
   - name: Enemy
     uniqueID: 764995451
     locked: 0
-  - name: UI
-    uniqueID: 1410086151
-    locked: 0
   - name: Harvest_image
     uniqueID: 1408591065
+    locked: 0
+  - name: UI
+    uniqueID: 1410086151
     locked: 0
