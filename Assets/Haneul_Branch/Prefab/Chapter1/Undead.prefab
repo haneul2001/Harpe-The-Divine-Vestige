@@ -25,12 +25,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495099166625073761}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5087, y: 0.1497, z: 0}
-  m_LocalScale: {x: 0.743161, y: 0.3485267, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7457510136974621219}
+  m_Father: {fileID: 5523003351059058473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7174761963216419180
 SpriteRenderer:
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1950682087
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0.4433962, b: 0.4433962, a: 0.1764706}
@@ -245,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8908802767264811485}
   - component: {fileID: 7966645580133773062}
+  - component: {fileID: 4469130282879762474}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -260,12 +261,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6794120174358240803}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5087, y: 0.1497, z: 0}
-  m_LocalScale: {x: 0.743161, y: 0.3485267, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.211, y: 0, z: 0}
+  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7457510136974621219}
+  m_Father: {fileID: 5523003351059058473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7966645580133773062
 SpriteRenderer:
@@ -305,11 +306,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1950682087
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.4433962, b: 0.4433962, a: 0.1764706}
+  m_Color: {r: 0.66800827, g: 1, b: 0.4431373, a: 0.12941177}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -319,6 +320,64 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4469130282879762474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794120174358240803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba9f44fdf37d7d40aaf3ea557b2ec2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7019295580986608686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5523003351059058473}
+  - component: {fileID: 4637790864469009028}
+  m_Layer: 7
+  m_Name: AttackPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5523003351059058473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7019295580986608686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4207458763449411560}
+  - {fileID: 8908802767264811485}
+  m_Father: {fileID: 7457510136974621219}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4637790864469009028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7019295580986608686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaac75542f42d5c46bfdd17b41a9fd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7457510136974621220
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +391,7 @@ GameObject:
   - component: {fileID: 7457510136974621221}
   - component: {fileID: 2620356634174968775}
   - component: {fileID: 6273092391648089611}
-  - component: {fileID: 5574615354500070108}
+  - component: {fileID: 3218856451508016240}
   m_Layer: 7
   m_Name: Undead
   m_TagString: Enemy
@@ -350,13 +409,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7094761602158244972}
   - {fileID: 1708543540383591097}
-  - {fileID: 4207458763449411560}
-  - {fileID: 8908802767264811485}
+  - {fileID: 5523003351059058473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7457510136974621218
@@ -480,7 +538,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.22}
   m_Size: {x: 0.3, y: 0.57}
   m_Direction: 0
---- !u!114 &5574615354500070108
+--- !u!114 &3218856451508016240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -493,11 +551,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRange: 40
-  attackRange: 2.5
-  moveSpeed: 1.5
-  combatIdleDuration: 0.3
-  attackCooldown: 4
-  attackDelay: 0.3
+  attackRange: 3
+  moveSpeed: 2.5
+  attackIdleTime: 2
+  attackWarningDuration: 2
+  attackDamage: 1
   hitDuration: 0.2
   player: {fileID: 0}
   hp: 5
@@ -506,7 +564,6 @@ MonoBehaviour:
   lastAttackTime: 0
   attackHitBox: {fileID: 6794120174358240803}
   attackRangeBox: {fileID: 1495099166625073761}
-  attackDamage: 1
-  prepareTime: 0.5
-  dashSpeed: 5
+  attackPivot: {fileID: 7019295580986608686}
+  dashSpeed: 15
   dashDuration: 0.3

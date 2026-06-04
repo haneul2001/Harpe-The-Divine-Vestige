@@ -5,28 +5,35 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
-   
+    [SerializeField] private Transform backPosition;
+
+    public Transform BackPosition => backPosition;
+    
+    [Header("분리")]
+    [SerializeField] private float separationRadius = 0.8f; //몹끼리 밀어내는 범위
+    [SerializeField] private float separationForce = 2f;//몹끼리 밀어내는 힘
     [Header("AI 설정")]
-    public float detectRange = 40f;
-    public float attackRange = 2.5f;
-    public float moveSpeed = 2.5f;
+    public float detectRange = 40f;//플레이어 감지 범위
+    public float attackRange = 2.5f;//공격 범위
+    public float moveSpeed = 2.5f; //이동속도
     [Header("전투 대기")]
-    public float combatIdleDuration = 1.5f;
+    // public float combatIdleDuration = 1.5f;
     // 공격 관련
-    public float attackCooldown = 2f;
-    public float attackDelay = 0.5f;
+    public float attackIdleTime  = 2f; //CanAttack()에서 사용되는 공격 쿨타임
+    public float attackWarningDuration = 2f; //오버라이드 된 코드에서 공격 예고 시간으로 사용
     public bool isAttacking { get; protected set; }
     [Header("공격")]
-    [SerializeField] protected int attackDamage = 1;
+    [SerializeField] protected int attackDamage = 1;//공격력
     public int AttackDamage => attackDamage;
     [Header("피격")]
-    public float hitDuration = 0.2f;
+    public float hitDuration = 0.2f;//피격 상태 지속 시간
     
     [Header("참조")]
     public Transform player;
 
     [Header("체력")]
-    public int hp = 3;
+    public int maxHp = 5;//체력
+    public int hp { get; private set; }
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -37,7 +44,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public IdleState IdleState;
     [HideInInspector] public ChaseState ChaseState;
     [HideInInspector] public AttackState AttackState;
-    [HideInInspector] public CombatIdleState CombatIdleState;
+    // [HideInInspector] public CombatIdleState CombatIdleState;
     [HideInInspector] public HitState HitState;
     [HideInInspector] public float lastAttackTime;
 
@@ -50,7 +57,7 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         StateMachine = new EnemyStateMachine();
-        CombatIdleState = new CombatIdleState(this, StateMachine);
+        // CombatIdleState = new CombatIdleState(this, StateMachine);
         IdleState = new IdleState(this, StateMachine);
         ChaseState = new ChaseState(this, StateMachine);
         AttackState = new AttackState(this, StateMachine);
@@ -59,6 +66,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+            hp = maxHp;
+
         // Inspector 할당이 없을 때만 씬의 Player를 찾음
         if (player == null)
         {
@@ -89,6 +98,8 @@ public class Enemy : MonoBehaviour
             return;
 
         StateMachine.Update();
+
+       
     }
 
     // =========================
@@ -100,16 +111,20 @@ public class Enemy : MonoBehaviour
         if (player == null)
             return;
 
-        Vector3 target = player.position;
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            target,
-            moveSpeed * Time.deltaTime
-        );
+        Vector3 moveDir =
+            (player.position - transform.position).normalized;
 
-        if (animator != null) animator.SetBool("isFollow", true);
+        Vector3 separation =
+            GetSeparation();
+
+        Vector3 finalDir =
+            (moveDir + separation).normalized;
+
+        transform.position +=
+            finalDir * moveSpeed * Time.deltaTime;
+
+        animator.SetBool("isFollow", true);
     }
-
     public void StopMove()
     {
         if (animator != null) animator.SetBool("isFollow", false);
@@ -137,19 +152,16 @@ public class Enemy : MonoBehaviour
 
     public bool CanAttack()
     {
-        return Time.time - lastAttackTime >= attackCooldown;
+        return Time.time - lastAttackTime >= attackIdleTime && DistanceToPlayer() <= attackRange;
     }
 
     public virtual void Attack() 
-    {
-        lastAttackTime = Time.time;
-
-        if (animator != null)
-        {
-            animator.SetTrigger("attack");
-        }
+    {   
+        //Override에서 처리
     }
-
+    public virtual void ShowAttackRange(bool show)
+    {
+    }
     public void TakeDamage(int damage)
     {
         if (isDead)
@@ -184,4 +196,45 @@ public class Enemy : MonoBehaviour
         if (player == null) return float.MaxValue;
         return Vector3.Distance(transform.position, player.position);
     }
+
+    private Vector3 GetSeparation() // 몹끼리 밀어내는 힘 계산
+    {
+        Collider2D[] hits =
+            Physics2D.OverlapCircleAll(
+                transform.position,
+                separationRadius);
+
+        Vector3 push = Vector3.zero;
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.gameObject == gameObject)
+                continue;
+
+            Enemy other = hit.GetComponent<Enemy>();
+
+            if (other == null)
+                continue;
+
+            Vector3 dir =
+                transform.position -
+                other.transform.position;
+
+            float distance = dir.magnitude;
+
+            if (distance > 0f)
+            {
+                push += dir.normalized / distance;
+            }
+        }
+
+        return push * separationForce;
+    }
+    public bool CanHarvest
+{
+    get
+    {
+        return (float)hp / maxHp <= 0.3f;
+    }
+}
 }

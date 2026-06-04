@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [SerializeField] private float harvestRange = 5f;
     private SpriteRenderer sr;
     private Animator anim;
     private PlayerOutline outline;
@@ -44,6 +45,10 @@ public class PlayerCombat : MonoBehaviour
         UpdateChargeUI();
 
         // ===== 처형 =====
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            TryHarvest();
+        }
     }
 
     void LateUpdate()
@@ -66,30 +71,44 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    //public void TryExecuteEnemy()
-    //{
-    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 7f);
+    private void TryHarvest()
+    {
+      Enemy enemy = FindClosestHarvestEnemy();
 
-    //    SpriteRenderer playerSR = GetComponent<SpriteRenderer>();
-    //    Vector2 playerForward = playerSR.flipX ? Vector2.left : Vector2.right;
+        if (enemy == null)
+        {
+            return;
+        }
+        HarvestManager.Instance.ExecuteHarvest(enemy, transform, anim, sr);
+        
+         
+    }
+    private Enemy FindClosestHarvestEnemy(){
+        Collider2D[] hits = 
+        Physics2D.OverlapCircleAll(
+            transform.position,
+            harvestRange,
+            enemyLayer
+        );
+        Enemy closestEnemy = null;
+        float closestDistance = float.MaxValue;
 
-    //    foreach (var hit in hits)
-    //    {
-    //        Enemy enemy = hit.GetComponentInParent<Enemy>();
-    //        if (enemy == null) continue;
-    //        if (!enemy.CanExecute()) continue;
+        foreach (Collider2D hit in hits)
+        {
+            Enemy enemy = hit.GetComponentInParent<Enemy>();
+            if (enemy == null || !enemy.CanHarvest)
+                continue;
 
-    //        Vector2 dirToEnemy = (enemy.transform.position - transform.position).normalized;
-    //        float dot = Vector2.Dot(playerForward, dirToEnemy);
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
 
-    //        if (dot > 0.5f)
-    //        {
-    //            Debug.Log("정면 처형 성공");
-    //            enemy.TryExecution(transform);
-    //            break;
-    //        }
-    //    }
-    //}
+        return closestEnemy;
+    }
 
     public void NormalAttack()
     {

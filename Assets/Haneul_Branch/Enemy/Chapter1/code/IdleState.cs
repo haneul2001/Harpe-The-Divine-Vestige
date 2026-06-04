@@ -10,7 +10,7 @@ public class IdleState : IEnemyState
         this.enemy = enemy;
         this.stateMachine = stateMachine;
     }
-
+// Enter()는 상태가 시작될 때 한 번 호출되는 메서드입니다. 여기서는 적이 멈추도록 설정합니다.
     public void Enter()
     {
         enemy.StopMove();
@@ -21,9 +21,9 @@ public class IdleState : IEnemyState
     public void Update()
     {
         float distance = enemy.DistanceToPlayer();
-
+        //distance가 범위에 들어오면 ChaseState로 전환
         if (distance <= enemy.detectRange)
-        {
+        {//chaseState로 전환
             stateMachine.ChangeState(enemy.ChaseState);
         }
     }

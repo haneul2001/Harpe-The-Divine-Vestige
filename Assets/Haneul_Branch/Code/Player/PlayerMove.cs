@@ -59,11 +59,7 @@ public class PlayerMove : MonoBehaviour
         {
             StartDash();
         }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Debug.Log("V 눌림 (Move에서)");
-            //combat.TryExecuteEnemy();
-        }
+        
     }
 
     void FixedUpdate()

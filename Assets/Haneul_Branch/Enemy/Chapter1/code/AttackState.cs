@@ -14,7 +14,7 @@ public class AttackState : IEnemyState
     public void Enter()
     {
         Debug.Log("Enter Attack");
-
+        
         enemy.StopMove();
 
         // 삭제
@@ -28,18 +28,7 @@ public class AttackState : IEnemyState
         // 공격 끝
         if (!enemy.isAttacking)
         {
-            float distance = enemy.DistanceToPlayer();
-
-            // 멀어졌으면 추적
-            if (distance > enemy.attackRange)
-            {
                 stateMachine.ChangeState(enemy.ChaseState);
-            }
-            // 가까우면 다시 공격 준비
-            else
-            {
-                stateMachine.ChangeState(enemy.CombatIdleState);
-            }
         }
     }
 

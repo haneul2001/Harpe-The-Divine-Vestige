@@ -17,17 +17,14 @@ public class CombatIdleState : IEnemyState
     {
         Debug.Log("Enter CombatIdle");
 
-        waitTimer = enemy.combatIdleDuration;
+        // waitTimer = enemy.combatIdleDuration;
 
         enemy.StopMove();
 
         // 여기서 딱 한 번 방향 고정
         enemy.FaceToPlayer();
 
-        if (enemy is ZombieEnemy zombie)
-        {
-            zombie.ShowAttackRange(true);
-        }
+        enemy.ShowAttackRange(true);//공격 범위 표시
     }
 
     public void Update()
@@ -43,9 +40,6 @@ public class CombatIdleState : IEnemyState
 
     public void Exit()
     {
-        if (enemy is ZombieEnemy zombie)
-        {
-            zombie.ShowAttackRange(false);
-        }
+        
     }
 }

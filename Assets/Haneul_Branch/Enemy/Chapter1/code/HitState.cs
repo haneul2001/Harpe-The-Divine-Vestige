@@ -30,7 +30,7 @@ public class HitState : IEnemyState
 
         if (hitTimer <= 0f)
         {
-            stateMachine.ChangeState(enemy.CombatIdleState);
+            stateMachine.ChangeState(enemy.IdleState);
         }
     }
 

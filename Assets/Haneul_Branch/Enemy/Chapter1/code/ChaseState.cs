@@ -14,35 +14,32 @@ public class ChaseState : IEnemyState
     public void Enter()
     {
         Debug.Log("Enter Chase");
-
-        if (enemy is ZombieEnemy zombie)
-        {
-            zombie.ShowAttackRange(false);
-        }
     }
 
     public void Update()
+{
+    float distance = enemy.DistanceToPlayer();
+
+    enemy.FaceToPlayer();
+
+    // 공격 범위 안
+    if (distance <= enemy.attackRange)
     {
-        float distance = enemy.DistanceToPlayer();
+        enemy.StopMove();
 
-        // 공격 범위 밖이면 추적
-        if (distance > enemy.attackRange)
+        if (enemy.CanAttack())
         {
-            enemy.FaceToPlayer();
-
-            enemy.MoveToPlayer();
+            stateMachine.ChangeState(enemy.AttackState);
         }
-        // 공격 범위 안이면 전투 대기
-        else
-        {
-            enemy.StopMove();
 
-            stateMachine.ChangeState(enemy.CombatIdleState);
-        }
+        return;
     }
+
+    // 공격 범위 밖
+    enemy.MoveToPlayer();
+}
 
     public void Exit()
     {
-        enemy.StopMove();
     }
 }
