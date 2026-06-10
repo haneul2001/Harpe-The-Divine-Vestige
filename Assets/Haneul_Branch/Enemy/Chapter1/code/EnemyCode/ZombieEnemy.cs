@@ -79,11 +79,11 @@ private IEnumerator DashAttackCoroutine()
     {
         timer -= Time.deltaTime;
 
-        transform.position +=
-            (Vector3)(dashDirection * dashSpeed * Time.deltaTime);
+        rb.velocity = dashDirection*dashSpeed;
 
         yield return null;
     }
+    rb.velocity = Vector2.zero;
     
     attackHitBox.SetActive(false);
     yield return new WaitForSeconds(1f);

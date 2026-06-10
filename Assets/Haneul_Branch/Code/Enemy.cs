@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
+    [HideInInspector] public Rigidbody2D rb;
     [SerializeField] private Transform backPosition;
 
     public Transform BackPosition => backPosition;
@@ -53,6 +54,7 @@ public class Enemy : MonoBehaviour
     public bool isDead { get; private set; }
     private void Awake()
     {
+        rb.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -120,14 +122,15 @@ public class Enemy : MonoBehaviour
         Vector3 finalDir =
             (moveDir + separation).normalized;
 
-        transform.position +=
-            finalDir * moveSpeed * Time.deltaTime;
+        rb.velocity = finalDir * moveSpeed;
 
         animator.SetBool("isFollow", true);
     }
     public void StopMove()
     {
-        if (animator != null) animator.SetBool("isFollow", false);
+        rb.velocity = Vector2.zero;
+        if (animator != null) 
+        animator.SetBool("isFollow", false);
     }
 
     public void FaceToPlayer()
@@ -182,13 +185,15 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         isDead = true;
+
+        rb.velocity = Vector2.zero;
         if (animator != null)
         {
             animator.SetBool("isFollow", false);
             animator.SetTrigger("dead");
         }
 
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 1.5f);//사라지는 시간
     }
 
     public float DistanceToPlayer()
@@ -197,14 +202,14 @@ public class Enemy : MonoBehaviour
         return Vector3.Distance(transform.position, player.position);
     }
 
-    private Vector3 GetSeparation() // 몹끼리 밀어내는 힘 계산
+    private Vector2 GetSeparation() // 몹끼리 밀어내는 힘 계산
     {
         Collider2D[] hits =
             Physics2D.OverlapCircleAll(
                 transform.position,
                 separationRadius);
 
-        Vector3 push = Vector3.zero;
+        Vector2 push = Vector2.zero;
 
         foreach (Collider2D hit in hits)
         {
@@ -216,7 +221,7 @@ public class Enemy : MonoBehaviour
             if (other == null)
                 continue;
 
-            Vector3 dir =
+            Vector2 dir =
                 transform.position -
                 other.transform.position;
 

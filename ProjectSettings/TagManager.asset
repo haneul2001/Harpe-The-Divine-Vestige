@@ -19,7 +19,7 @@ TagManager:
   - 
   - 
   - Map
-  - 
+  - Wall
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
     locked: 0
   - name: Map
     uniqueID: 4038569621
+    locked: 0
+  - name: Wall
+    uniqueID: 3374894885
     locked: 0
   - name: Player
     uniqueID: 3000611651

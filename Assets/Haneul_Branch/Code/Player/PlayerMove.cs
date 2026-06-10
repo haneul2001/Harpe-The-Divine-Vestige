@@ -141,6 +141,7 @@ public class PlayerMove : MonoBehaviour
     }
     public void KnockBack(Vector2 attackPos)
     {
+        combat.CancelAttack(); // 피격 시 공격 취소
         isHit = true;
 
         Vector2 dir =
@@ -151,10 +152,12 @@ public class PlayerMove : MonoBehaviour
         anim.SetTrigger("Hurt");
 
         Invoke(nameof(EndHit), hitDuration);
+        
     }
     private void EndHit()
     {
         isHit = false;
     }
 
+    
 }

@@ -9,11 +9,30 @@ public class PlayerOutline : MonoBehaviour
     private readonly Color normalColor = Color.white;
     private readonly Color superArmorColor = Color.yellow;
 
-    void Awake()
+ void Awake()
+{
+    GameObject player =
+        GameObject.FindGameObjectWithTag("Player");
+
+    if (player == null)
     {
-        mat = spriteRender.material;
-        SetOutlineColor(normalColor);
+        Debug.LogError("Player를 찾을 수 없음");
+        return;
     }
+
+    spriteRender =
+        player.GetComponentInChildren<SpriteRenderer>();
+
+    if (spriteRender == null)
+    {
+        Debug.LogError("SpriteRenderer를 찾을 수 없음");
+        return;
+    }
+
+    mat = spriteRender.material;
+
+    SetOutlineColor(normalColor);
+}
 
     public void StartAttackOutline()
     {

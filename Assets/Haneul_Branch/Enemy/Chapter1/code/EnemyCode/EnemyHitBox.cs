@@ -25,7 +25,7 @@ public class EnemyHitBox : MonoBehaviour
         Debug.Log("충돌 대상 : " + other.name);
 
         PlayerStatus playerHealth =
-            other.GetComponent<PlayerStatus>();
+            other.GetComponentInParent<PlayerStatus>();
 
         if (playerHealth != null)
         {
@@ -35,7 +35,7 @@ public class EnemyHitBox : MonoBehaviour
             playerHealth.TakeDamage(owner.AttackDamage);
 
             PlayerMove move =
-            playerHealth.GetComponent<PlayerMove>();
+            playerHealth.GetComponentInParent<PlayerMove>();
 
             if (move != null)
             {

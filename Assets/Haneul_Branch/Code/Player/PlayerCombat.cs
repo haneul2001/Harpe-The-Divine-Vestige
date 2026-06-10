@@ -243,7 +243,12 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, 2f);
     }
-
+    public void CancelAttack()
+    {
+        isAttacking = false;
+        isCharging = false;
+        attackNum = 0;
+    }
     public void StartParry()
     {
         Debug.Log("패링 시작");

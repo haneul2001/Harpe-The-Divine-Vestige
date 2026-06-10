@@ -6,23 +6,38 @@ public class NewBehaviourScript : MonoBehaviour
 {
     Vector2 position;
     public Transform player;
-    public Transform CameraPoint1;
-    public Transform CameraPoint2;
+    public Transform CameraPoint_xMin;
+    public Transform CameraPoint_xMax;
+    public Transform CameraPoint_yMin;
+    public Transform CameraPoint_yMax;
 
     void Start()
     {
-        
+        Debug.Log(player.position);
+        Debug.Log(CameraPoint_yMin.position);
+        Debug.Log(CameraPoint_yMax.position);
     }
 
     // Update is called once per frame
-    void LateUpdate() 
-    {
-        float clampX = Mathf.Clamp(
-            player.position.x,
-            CameraPoint1.position.x,
-            CameraPoint2.position.x);
+    void LateUpdate()
+{
+    float clampX = Mathf.Clamp(
+        player.position.x,
+        CameraPoint_xMin.position.x,
+        CameraPoint_xMax.position.x);
 
-        transform.position = new Vector3(
-            clampX, player.position.y, -40f);
-    }
+    float clampY = Mathf.Clamp(
+        player.position.y,
+        CameraPoint_yMin.position.y,
+        CameraPoint_yMax.position.y);
+
+    // Debug.Log(
+    //     $"PlayerY={player.position.y} " +
+    //     $"Min={CameraPoint_yMin.position.y} " +
+    //     $"Max={CameraPoint_yMax.position.y} " +
+    //     $"Clamp={clampY}");
+
+    transform.position = new Vector3(
+        clampX, clampY, -40f);
+}
 }
