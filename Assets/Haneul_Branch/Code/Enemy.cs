@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     public bool isDead { get; private set; }
     private void Awake()
     {
-        rb.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -110,6 +110,7 @@ public class Enemy : MonoBehaviour
 
     public void MoveToPlayer()
     {
+        Debug.Log($"MoveToPlayer 호출 / isAttacking = {isAttacking}");
         if (player == null)
             return;
 
@@ -128,11 +129,15 @@ public class Enemy : MonoBehaviour
     }
     public void StopMove()
     {
-        rb.velocity = Vector2.zero;
-        if (animator != null) 
-        animator.SetBool("isFollow", false);
-    }
+        Debug.Log($"StopMove 호출, velocity = {rb.velocity}");
 
+        rb.velocity = Vector2.zero;
+
+        Debug.Log($"StopMove 후 velocity = {rb.velocity}");
+
+        if (animator != null)
+            animator.SetBool("isFollow", false);
+    }
     public void FaceToPlayer()
     {
         if (player == null)
@@ -201,9 +206,12 @@ public class Enemy : MonoBehaviour
         if (player == null) return float.MaxValue;
         return Vector3.Distance(transform.position, player.position);
     }
-
-    private Vector2 GetSeparation() // 몹끼리 밀어내는 힘 계산
+    private Vector2 GetSeparation()
     {
+        // 내가 공격 중이면 분리 안 함
+        if (isAttacking)
+            return Vector2.zero;
+
         Collider2D[] hits =
             Physics2D.OverlapCircleAll(
                 transform.position,
@@ -221,9 +229,12 @@ public class Enemy : MonoBehaviour
             if (other == null)
                 continue;
 
+            // 공격 중인 몬스터는 밀지 않음
+            if (other.isAttacking)
+                continue;
+
             Vector2 dir =
-                transform.position -
-                other.transform.position;
+                (Vector2)(transform.position - other.transform.position);
 
             float distance = dir.magnitude;
 
@@ -236,10 +247,22 @@ public class Enemy : MonoBehaviour
         return push * separationForce;
     }
     public bool CanHarvest
-{
-    get
     {
-        return (float)hp / maxHp <= 0.3f;
+        get
+        {
+            return (float)hp / maxHp <= 0.3f;
+        }
     }
-}
+    public void HarvestDie(float destroyDelay)
+    {
+        if(isDead) return;
+        isDead = true;
+        StopMove();
+        if(animator != null)
+        {
+            animator.SetBool("isFollow", false);
+            animator.SetTrigger("dead");
+        }
+        Destroy(gameObject, destroyDelay);
+    }
 }

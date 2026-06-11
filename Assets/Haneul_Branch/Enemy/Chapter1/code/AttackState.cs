@@ -25,9 +25,11 @@ public class AttackState : IEnemyState
 
     public void Update()
     {
+        Debug.Log("AttackState Update");
         // 공격 끝
         if (!enemy.isAttacking)
         {
+            Debug.Log("Attack -> Chase");
                 stateMachine.ChangeState(enemy.ChaseState);
         }
     }

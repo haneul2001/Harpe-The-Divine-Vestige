@@ -9,6 +9,27 @@ EditorBuildSettings:
     path: Assets/_Harpe/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Haneul_Branch/Player_test/Test.unity
-    guid: 01ef42814ae363045a86a62eb1d5acbc
+    path: Assets/_Harpe/Scenes/TITLE.unity
+    guid: e3632dbf02e486c43b05501e76ade711
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/CutScene.unity
+    guid: 69df3f5774594b848a89642f1e70ed01
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/Town.unity
+    guid: f5e0e82f4663694438a3a7c2e01fb793
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/SelectChapter.unity
+    guid: ab3bacbe4308db2478ecc8f6745b0952
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/Chapter1-1.unity
+    guid: c0ee2253414bdc147831000daf08a919
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/Chapter1-2.unity
+    guid: f616451ef7cd4bc4da9fd04d18f504b1
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/Chapter1-3.unity
+    guid: 3b3acb69c22732248938879beb8ddf03
+  - enabled: 1
+    path: Assets/_Harpe/Scenes/Chapter1-4.unity
+    guid: 50fb951cdfdd3e343be7cb3f0cc6ce68
   m_configObjects: {}

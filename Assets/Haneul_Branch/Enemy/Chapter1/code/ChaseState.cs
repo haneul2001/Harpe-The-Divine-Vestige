@@ -18,6 +18,7 @@ public class ChaseState : IEnemyState
 
     public void Update()
 {
+    Debug.Log("ChaseState Update");
     float distance = enemy.DistanceToPlayer();
 
     enemy.FaceToPlayer();
@@ -29,6 +30,7 @@ public class ChaseState : IEnemyState
 
         if (enemy.CanAttack())
         {
+            Debug.Log("Chase -> Attack");
             stateMachine.ChangeState(enemy.AttackState);
         }
 

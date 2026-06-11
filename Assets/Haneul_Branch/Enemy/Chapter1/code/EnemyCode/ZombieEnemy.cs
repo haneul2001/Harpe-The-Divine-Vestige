@@ -50,6 +50,8 @@ public class ZombieEnemy : Enemy
 
 private IEnumerator DashAttackCoroutine()
 {
+    rb.bodyType = RigidbodyType2D.Kinematic; //공격하는 동안은 키네마틱으로 변경해서 이동 제어
+    Debug.Log("공격 코루틴 시작");
     StopMove();
 
    FaceToPlayer();
@@ -62,11 +64,13 @@ private IEnumerator DashAttackCoroutine()
     attackRangeBox.SetActive(true);
     // 공격 예고
     attackRangeBox.SetActive(true);
+    Debug.Log("공격 예고");
 
     yield return new WaitForSeconds(attackWarningDuration);
 
     attackRangeBox.SetActive(false);
 
+    Debug.Log("공격 실행");
     animator.SetTrigger("attack");
 
     hitBox.ResetHit();
@@ -84,13 +88,15 @@ private IEnumerator DashAttackCoroutine()
         yield return null;
     }
     rb.velocity = Vector2.zero;
-    
+    Debug.Log("공격 종료");
     attackHitBox.SetActive(false);
     yield return new WaitForSeconds(1f);
+    
     // 여기서 쿨타임 시작
     lastAttackTime = Time.time;
-
+    rb.bodyType = RigidbodyType2D.Dynamic; //공격 끝나고 바디타입 다시 다이나믹으로 변경
     isAttacking = false;
+    
 }
 
     private void OnDisable()

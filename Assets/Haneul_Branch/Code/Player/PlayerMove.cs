@@ -37,6 +37,12 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (isExecuting)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         // 입력 받기
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
@@ -64,6 +70,12 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isExecuting)
+        {
+            rb.velocity = Vector2.zero;
+            anim.SetBool("isRun", false);
+            return;
+        }
         if (isHit)
                 return;
 
