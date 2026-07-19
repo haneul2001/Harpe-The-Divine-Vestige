@@ -35,12 +35,16 @@ public class EnemyHitBox : MonoBehaviour
         }
 
         hasHit = true;
-        playerHealth.TakeDamage(owner.AttackDamage);
+        bool landed = playerHealth.TakeDamage(owner.AttackDamage, owner);
 
-        PlayerMove move = playerHealth.GetComponentInParent<PlayerMove>();
-        if (move != null)
+        // 퍼펙트 패링/무적으로 무효화된 경우 넉백도 없음
+        if (landed)
         {
-            move.KnockBack(transform.position);
+            PlayerMove move = playerHealth.GetComponentInParent<PlayerMove>();
+            if (move != null)
+            {
+                move.KnockBack(transform.position);
+            }
         }
     }
 }

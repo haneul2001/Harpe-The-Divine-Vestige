@@ -18,9 +18,9 @@ public class SkillContext
         Combat = player.playerCombat;
         Move = player.playerMove;
         Status = player.playerStatus;
-        Animator = player.GetComponent<Animator>();
+        Animator = player.GetComponentInChildren<Animator>();
         Rigidbody = player.GetComponent<Rigidbody2D>();
-        Sprite = player.GetComponent<SpriteRenderer>();
+        Sprite = player.GetComponentInChildren<SpriteRenderer>();
         CoroutineRunner = player;
         Transform = player.transform;
     }

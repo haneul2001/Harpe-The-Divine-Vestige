@@ -11,18 +11,32 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("일반 공격 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
     [SerializeField] private float attackSpeed = 1f;
 
+    [Header("데미지")]
+    [Tooltip("차징(풀차징) 공격 데미지 배율. 일반 공격 대비 몇 배인지.")]
+    [SerializeField] private float chargedDamageMultiplier = 2f;
+
     private SpriteRenderer sr;
     private Animator anim;
     private PlayerOutline outline;
+    private PlayerStatus status;
 
     public bool isAttacking = false;
     public bool isCharging = false;
+
+    [Header("차징 공격 스킬 해금")]
+    [Tooltip("체크 시 Z 홀드로 차징 공격 가능. 해제 시 차징 없이 일반 공격만 나감.")]
+    public bool HasChargingAttackSkill = false;
 
     private float chargeTime;
     [SerializeField] private float maxChargeTime = 1.5f;
     [SerializeField] private float chargedThreshold = 1.4f;//풀차징 기준
 
     public int attackNum = 0;
+
+    [Header("콤보")]
+    [Tooltip("이전 공격 후 이 시간(초) 안에 다시 공격하지 않으면 콤보가 0타로 리셋됨.")]
+    [SerializeField] private float comboResetTime = 1f;
+    private float lastAttackTime = -999f;
 
     [SerializeField]
     private LayerMask enemyLayer;
@@ -40,6 +54,7 @@ public class PlayerCombat : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         outline = GetComponent<PlayerOutline>();
+        status = GetComponent<PlayerStatus>();
     }
 
     void Update()
@@ -129,6 +144,15 @@ public class PlayerCombat : MonoBehaviour
 
     public void NormalAttack()
     {
+        if (HasChargingAttackSkill)
+            ChargingAttack(); // 차징 공격 해금됨
+        else
+            SimpleAttack();   // 차징 미해금: 일반 공격만
+    }
+
+    // 차징 공격 (해금 시): Z 홀드로 차징, 뗄 때 공격
+    private void ChargingAttack()
+    {
         // 차징 시작
         if (!isAttacking && Input.GetKeyDown(KeyCode.Z))
         {
@@ -169,13 +193,37 @@ public class PlayerCombat : MonoBehaviour
                 outline.StartAttackOutline();
                 Debug.Log("풀차징 공격!");
             }
-            
 
-            // 공격 애니메이션
-            Attack(attackNum);
 
-            attackNum = (attackNum + 1) % 3;
+            DoComboAttack();
         }
+    }
+
+    // 콤보 진행 + 리셋 타이머. 이전 공격 후 comboResetTime을 넘기면 0타부터 다시 시작.
+    private void DoComboAttack()
+    {
+        if (Time.time - lastAttackTime > comboResetTime)
+            attackNum = 0;
+
+        // 공격 애니메이션
+        Attack(attackNum);
+
+        lastAttackTime = Time.time;
+        attackNum = (attackNum + 1) % 3;
+    }
+
+    // 일반 공격 (차징 미해금): Z 누르면 즉시 공격, 차징 없음
+    private void SimpleAttack()
+    {
+        if (isAttacking || !Input.GetKeyDown(KeyCode.Z))
+            return;
+
+        isCharging = false;
+        isAttacking = true;
+        chargeTime = 0f;      // 항상 비차징 판정(데미지 1)
+        fullCharged = false;
+
+        DoComboAttack();
     }
 
     public void Attack(int attackNum)
@@ -184,7 +232,12 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetBool("Charged", isCharged);
 
-        anim.SetFloat("AttackSpeed", attackSpeed);
+        // 민첩(dex) 공격속도 배율(AttackSpeedMult)을 애니메이션 속도에 곱함
+        float effectiveAttackSpeed = attackSpeed;
+        if (status != null)
+            effectiveAttackSpeed *= status.Stats.AttackSpeedMult;
+
+        anim.SetFloat("AttackSpeed", effectiveAttackSpeed);
         anim.SetFloat("Blend", attackNum);
         anim.SetTrigger("Attack");
     }
@@ -192,7 +245,12 @@ public class PlayerCombat : MonoBehaviour
     // 공격 판정 (애니메이션 이벤트)
     public void AttackHit()
     {
-        int damage = chargeTime >= chargedThreshold ? 3 : 1;
+        bool isCharged = chargeTime >= chargedThreshold;
+
+        // 스탯 기반 데미지 계산 (치명타는 한 번의 스윙당 1회 판정)
+        int damage;
+        bool isCritical;
+        CalculateAttackDamage(isCharged, out damage, out isCritical);
 
         // 공격 판정
         Collider2D[] hits = Physics2D.OverlapBoxAll(
@@ -214,9 +272,32 @@ public class PlayerCombat : MonoBehaviour
             {
                 Debug.Log("Enemy 찾음");
 
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, isCritical);
             }
         }
+    }
+
+    // 스탯 기반 공격 데미지 계산.
+    // CharacterStats.RollPhysicalDamage(민댐~맥댐 + 밸런스 + 치명타) 사용. 차징이면 배율.
+    private void CalculateAttackDamage(bool isCharged, out int damage, out bool isCritical)
+    {
+        CharacterStats stats = status != null ? status.Stats : null;
+
+        if (stats == null)
+        {
+            // 안전장치: 스탯 없으면 최소 데미지
+            isCritical = false;
+            damage = 1;
+            return;
+        }
+
+        // 민댐~맥댐 사이에서 밸런스로 굴리고, 치명타까지 내부에서 판정
+        int rolled = stats.RollPhysicalDamage(out isCritical);
+
+        if (isCharged)
+            rolled = Mathf.RoundToInt(rolled * chargedDamageMultiplier); // 차징 배율
+
+        damage = Mathf.Max(1, rolled);
     }
 
     //public void StartAttack()

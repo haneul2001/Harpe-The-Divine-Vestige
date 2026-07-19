@@ -10,6 +10,9 @@ public class HarvestManager : MonoBehaviour
     [Tooltip("처형(V) 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
     [SerializeField] private float harvestSpeed = 1f;
 
+    [Tooltip("처형 시 획득 소울량. 적 EnemyInfo에 Soul 값이 있으면 그 값을, 없으면 이 기본값을 사용.")]
+    [SerializeField] private int defaultSoulGain = 10;
+
     public enum DashTrailMode
     {
         SingleStretched,   // 이펙트 1개를 경로 길이에 맞춰 늘림 (슬래시/섬광선 형태에 적합)
@@ -159,6 +162,18 @@ public class HarvestManager : MonoBehaviour
         // 플레이어 처형 애니메이션
         playerAnimator.SetFloat("HarvestSpeed", speed);
         playerAnimator.SetTrigger("Harvest");
+
+        // 처형 문구 "HARVEST!" 표시
+        if (DamageNumberSpawner.Instance != null)
+            DamageNumberSpawner.Instance.ShowText(enemy.transform.position, "HARVEST!");
+
+        // 처형 보상: 소울 획득 (스킬 자원)
+        PlayerStatus playerStatus = player.GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            int soulGain = (enemy.Info != null && enemy.Info.Soul > 0) ? enemy.Info.Soul : defaultSoulGain;
+            playerStatus.AddSoul(soulGain);
+        }
 
         // 몬스터 사망 애니메이션 + scaledDuration 뒤 제거
         enemy.HarvestDie(scaledDuration);

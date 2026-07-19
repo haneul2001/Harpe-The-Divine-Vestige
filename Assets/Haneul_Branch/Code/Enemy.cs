@@ -180,11 +180,15 @@ public class Enemy : MonoBehaviour
         return Time.time - lastAttackTime >= attackIdleTime && DistanceToPlayer() <= attackRange;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isCritical = false)
     {
         if (isDead)
             return;
         Debug.Log("TakeDamage 호출");
+
+        // 플로팅 데미지 숫자 표시 (죽는 타격도 보이도록 hp 차감 전에 호출)
+        if (DamageNumberSpawner.Instance != null)
+            DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical);
 
         hp -= damage;
 
@@ -263,6 +267,13 @@ public class Enemy : MonoBehaviour
             return (float)hp / maxHp <= 0.3f;
         }
     }
+    // 패링 등으로 인한 경직 (기존 피격 상태 재사용)
+    public void Stagger()
+    {
+        if (isDead) return;
+        StateMachine.ChangeState(HitState);
+    }
+
     public void HarvestDie(float destroyDelay)
     {
         if(isDead) return;
