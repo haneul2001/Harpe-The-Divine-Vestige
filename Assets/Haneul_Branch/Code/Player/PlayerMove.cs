@@ -30,8 +30,8 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        spriter = GetComponent<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        spriter = GetComponentInChildren<SpriteRenderer>();
         combat = GetComponent<PlayerCombat>();
     }
 

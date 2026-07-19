@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public float attackIdleTime  = 2f; //CanAttack()에서 사용되는 공격 쿨타임
     public float attackWarningDuration = 2f; //오버라이드 된 코드에서 공격 예고 시간으로 사용
     public bool isAttacking { get; protected set; }
+    public IEnemyAttack AttackBehavior { get; private set; }
     [Header("공격")]
     [SerializeField] protected int attackDamage = 1;//공격력
     public int AttackDamage => attackDamage;
@@ -35,6 +36,11 @@ public class Enemy : MonoBehaviour
     [Header("체력")]
     public int maxHp = 5;//체력
     public int hp { get; private set; }
+
+    [Header("데이터 (선택)")]
+    [Tooltip("있으면 hp/이동속도/공격력을 이 SO 값으로 오버라이드")]
+    [SerializeField] private EnemyInfo enemyInfo;
+    public EnemyInfo Info => enemyInfo;
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -52,11 +58,12 @@ public class Enemy : MonoBehaviour
     // 방향
     public bool IsFacingRight { get; private set; }
     public bool isDead { get; private set; }
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        AttackBehavior = GetComponent<IEnemyAttack>();
 
         StateMachine = new EnemyStateMachine();
         // CombatIdleState = new CombatIdleState(this, StateMachine);
@@ -66,9 +73,24 @@ public class Enemy : MonoBehaviour
         HitState = new HitState(this, StateMachine);
     }
 
+    public void Initialize(EnemyInfo info)
+    {
+        enemyInfo = info;
+        ApplyEnemyInfo();
+    }
+
+    private void ApplyEnemyInfo()
+    {
+        if (enemyInfo == null) return;
+        maxHp = enemyInfo.HP;
+        moveSpeed = enemyInfo.Speed;
+        attackDamage = enemyInfo.Damage;
+    }
+
     protected virtual void Start()
     {
-            hp = maxHp;
+        ApplyEnemyInfo();
+        hp = maxHp;
 
         // Inspector 할당이 없을 때만 씬의 Player를 찾음
         if (player == null)
@@ -110,7 +132,6 @@ public class Enemy : MonoBehaviour
 
     public void MoveToPlayer()
     {
-        Debug.Log($"MoveToPlayer 호출 / isAttacking = {isAttacking}");
         if (player == null)
             return;
 
@@ -129,11 +150,7 @@ public class Enemy : MonoBehaviour
     }
     public void StopMove()
     {
-        Debug.Log($"StopMove 호출, velocity = {rb.velocity}");
-
         rb.velocity = Vector2.zero;
-
-        Debug.Log($"StopMove 후 velocity = {rb.velocity}");
 
         if (animator != null)
             animator.SetBool("isFollow", false);
@@ -163,13 +180,6 @@ public class Enemy : MonoBehaviour
         return Time.time - lastAttackTime >= attackIdleTime && DistanceToPlayer() <= attackRange;
     }
 
-    public virtual void Attack() 
-    {   
-        //Override에서 처리
-    }
-    public virtual void ShowAttackRange(bool show)
-    {
-    }
     public void TakeDamage(int damage)
     {
         if (isDead)

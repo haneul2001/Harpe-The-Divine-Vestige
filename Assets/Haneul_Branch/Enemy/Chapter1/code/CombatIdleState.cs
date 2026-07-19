@@ -24,7 +24,7 @@ public class CombatIdleState : IEnemyState
         // 여기서 딱 한 번 방향 고정
         enemy.FaceToPlayer();
 
-        enemy.ShowAttackRange(true);//공격 범위 표시
+        enemy.AttackBehavior?.ShowRange(true);//공격 범위 표시
     }
 
     public void Update()

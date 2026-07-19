@@ -14,23 +14,29 @@ public class AttackState : IEnemyState
     public void Enter()
     {
         Debug.Log("Enter Attack");
-        
+
         enemy.StopMove();
 
         // 삭제
         // enemy.FaceToPlayer();
 
-        enemy.Attack();
+        if (enemy.AttackBehavior != null)
+        {
+            enemy.AttackBehavior.Execute();
+        }
+        else
+        {
+            Debug.LogWarning($"{enemy.name}: IEnemyAttack 컴포넌트가 없음. Chase로 복귀.");
+            stateMachine.ChangeState(enemy.ChaseState);
+        }
     }
 
     public void Update()
     {
-        Debug.Log("AttackState Update");
         // 공격 끝
         if (!enemy.isAttacking)
         {
-            Debug.Log("Attack -> Chase");
-                stateMachine.ChangeState(enemy.ChaseState);
+            stateMachine.ChangeState(enemy.ChaseState);
         }
     }
 

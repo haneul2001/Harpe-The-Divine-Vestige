@@ -1,12 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Parry", menuName = "PlayerSkill/Parry")]
 public class Parry : PlayerSkill
 {
-    public override void Activate(Player player)
+    [Header("Parry 설정")]
+    [SerializeField] private float duration = 0.5f;
+
+    public override void Activate(SkillContext ctx)
     {
-        player.StartParry(1.0f); // Example duration, adjust as needed
+        ctx.CoroutineRunner.StartCoroutine(ParryRoutine(ctx));
+    }
+
+    private IEnumerator ParryRoutine(SkillContext ctx)
+    {
+        Debug.Log($"[{skillName}] 패링 시작");
+        // TODO: 무적/반사 판정. PlayerCombat 등에 IsParrying 플래그 노출 후 여기서 제어.
+        yield return new WaitForSeconds(duration);
+        Debug.Log($"[{skillName}] 패링 종료");
     }
 }

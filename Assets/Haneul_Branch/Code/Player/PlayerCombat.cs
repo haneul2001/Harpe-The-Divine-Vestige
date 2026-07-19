@@ -6,6 +6,11 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private float harvestRange = 5f;
+
+    [Header("공격 속도")]
+    [Tooltip("일반 공격 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
+    [SerializeField] private float attackSpeed = 1f;
+
     private SpriteRenderer sr;
     private Animator anim;
     private PlayerOutline outline;
@@ -32,8 +37,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Awake()
     {
-        anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         outline = GetComponent<PlayerOutline>();
     }
 
@@ -73,31 +78,43 @@ public class PlayerCombat : MonoBehaviour
 
     private void TryHarvest()
     {
-      Enemy enemy = FindClosestHarvestEnemy();
+        Enemy enemy = FindClosestHarvestEnemy();
 
         if (enemy == null)
         {
+            Debug.Log("[Harvest] 처형 가능한 몹이 범위 안에 없음");
             return;
         }
+
+        if (enemy.BackPosition == null)
+        {
+            Debug.LogWarning($"[Harvest] '{enemy.name}'에 BackPosition이 세팅 안 됨");
+            return;
+        }
+
+        // 공격/차징 중이면 확실히 정리 (Attack Blend가 EndAttack 이벤트 없이 인터럽트되는 것 방지)
+        CancelAttack();
+        if (outline != null) outline.EndAttackOutline();
+
         HarvestManager.Instance.ExecuteHarvest(enemy, transform, anim, sr);
-        
-         
     }
-    private Enemy FindClosestHarvestEnemy(){
-        Collider2D[] hits = 
-        Physics2D.OverlapCircleAll(
+
+    private Enemy FindClosestHarvestEnemy()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
             harvestRange,
-            enemyLayer
-        );
+            enemyLayer);
+
         Enemy closestEnemy = null;
         float closestDistance = float.MaxValue;
 
         foreach (Collider2D hit in hits)
         {
             Enemy enemy = hit.GetComponentInParent<Enemy>();
-            if (enemy == null || !enemy.CanHarvest)
-                continue;
+            if (enemy == null) continue;
+            if (enemy.isDead) continue;         // 이미 처형/사망 진행 중이면 후보에서 제외
+            if (!enemy.CanHarvest) continue;    // 체력 30% 초과면 처형 불가
 
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
             if (distance < closestDistance)
@@ -124,7 +141,6 @@ public class PlayerCombat : MonoBehaviour
         // 차징 중
         if (isCharging)
         {
-            Debug.Log(chargeTime);
             chargeTime += Time.deltaTime;
 
             chargeTime = Mathf.Clamp(
@@ -168,6 +184,7 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetBool("Charged", isCharged);
 
+        anim.SetFloat("AttackSpeed", attackSpeed);
         anim.SetFloat("Blend", attackNum);
         anim.SetTrigger("Attack");
     }
@@ -248,9 +265,5 @@ public class PlayerCombat : MonoBehaviour
         isAttacking = false;
         isCharging = false;
         attackNum = 0;
-    }
-    public void StartParry()
-    {
-        Debug.Log("패링 시작");
     }
 }

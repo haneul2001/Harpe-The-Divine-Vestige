@@ -4,6 +4,7 @@ public class EnemyHitBox : MonoBehaviour
 {
     private Enemy owner;
     private bool hasHit;
+
     public void Initialize(Enemy enemy)
     {
         owner = enemy;
@@ -14,34 +15,32 @@ public class EnemyHitBox : MonoBehaviour
         hasHit = false;
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(hasHit)
-            return;
-        if(owner == null)
-            return;
+        if (hasHit) return;
+        if (owner == null) return;
 
-        Debug.Log("충돌 대상 : " + other.name);
+        PlayerStatus playerHealth = other.GetComponentInParent<PlayerStatus>();
+        if (playerHealth == null) return;
 
-        PlayerStatus playerHealth =
-            other.GetComponentInParent<PlayerStatus>();
-
-        if (playerHealth != null)
+        // 이 공격이 지면 공격이고 플레이어가 공중이면 무시
+        IEnemyAttack attack = owner.AttackBehavior;
+        if (attack != null && attack.IsGroundOnly)
         {
-            hasHit = true;
-            Debug.Log("플레이어 감지");
-            
-            playerHealth.TakeDamage(owner.AttackDamage);
-
-            PlayerMove move =
-            playerHealth.GetComponentInParent<PlayerMove>();
-
-            if (move != null)
+            PlayerJump jump = playerHealth.GetComponentInParent<PlayerJump>();
+            if (jump != null && jump.IsAirborne)
             {
-                move.KnockBack(transform.position);
+                return; // 회피 성공
             }
-            Debug.Log("데미지 적용");
+        }
+
+        hasHit = true;
+        playerHealth.TakeDamage(owner.AttackDamage);
+
+        PlayerMove move = playerHealth.GetComponentInParent<PlayerMove>();
+        if (move != null)
+        {
+            move.KnockBack(transform.position);
         }
     }
 }

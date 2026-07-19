@@ -10,18 +10,20 @@ public enum EnemyType
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField]
-    private List<EnemyInfo> enemyInfos;
+    [System.Serializable]
+    public class EnemyEntry
+    {
+        public EnemyType type;
+        public EnemyInfo info;
+        public GameObject prefab;
+    }
 
-    [SerializeField]
-    private List<GameObject> enemyPrefabs;
+    [Header("몬스터 목록")]
+    [SerializeField] private List<EnemyEntry> entries;
 
     [Header("스폰 설정")]
-    [SerializeField]
-    private float spawnInterval = 5f;
-
-    [SerializeField]
-    private int maxSpawnCount = 5;
+    [SerializeField] private float spawnInterval = 5f;
+    [SerializeField] private int maxSpawnCount = 5;
 
     private int currentSpawnCount;
 
@@ -35,30 +37,44 @@ public class Spawner : MonoBehaviour
         while (currentSpawnCount < maxSpawnCount)
         {
             SpawnRandomEnemy();
-
             currentSpawnCount++;
-            Debug.Log(currentSpawnCount);
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     private void SpawnRandomEnemy()
     {
-        int randomIndex = Random.Range(0, enemyPrefabs.Count);
+        if (entries == null || entries.Count == 0) return;
 
-        SpawnEnemy((EnemyType)randomIndex);
+        int randomIndex = Random.Range(0, entries.Count);
+        SpawnEnemy(entries[randomIndex]);
     }
 
-    public EnemyDataFuntion SpawnEnemy(EnemyType type)
+    public Enemy SpawnEnemy(EnemyType type)
     {
-        EnemyDataFuntion newEnemy =
-            Instantiate(enemyPrefabs[(int)type], transform.position, Quaternion.identity)
-            .GetComponent<EnemyDataFuntion>();
+        EnemyEntry entry = entries.Find(e => e.type == type);
+        return entry != null ? SpawnEnemy(entry) : null;
+    }
 
-        newEnemy.enemyInfo = enemyInfos[(int)type];
+    private Enemy SpawnEnemy(EnemyEntry entry)
+    {
+        if (entry.prefab == null) return null;
 
-        newEnemy.name = newEnemy.enemyInfo.EnemyName;
+        GameObject go = Instantiate(entry.prefab, transform.position, Quaternion.identity);
+        Enemy enemy = go.GetComponent<Enemy>();
 
-        return newEnemy;
+        if (enemy == null)
+        {
+            Debug.LogError($"Spawner: {entry.prefab.name} 프리팹에 Enemy 컴포넌트가 없음");
+            return null;
+        }
+
+        if (entry.info != null)
+        {
+            enemy.Initialize(entry.info);
+            go.name = entry.info.EnemyName;
+        }
+
+        return enemy;
     }
 }

@@ -13203,6 +13203,22 @@ MonoBehaviour:
   maxExp: 100
   level: 1
   invincibleTime: 0.5
+--- !u!114 &1298295752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298295738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911f1a2cb5fe6b748bf7257c4613ba01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpHeight: 1.8
+  jumpDuration: 0.6
+  jumpKey: 99
+  spriteRoot: {fileID: 0}
 --- !u!1 &1318693539
 GameObject:
   m_ObjectHideFlags: 0
@@ -15949,6 +15965,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 38356141006681360, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1298295751}
+    - targetCorrespondingSourceObject: {fileID: 38356141006681360, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1298295752}
   m_SourcePrefab: {fileID: 100100000, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
 --- !u!1 &1807159040
 GameObject:
@@ -16691,6 +16710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harvestDuration: 1.5
+  harvestSpeed: 1
 --- !u!4 &2135462009
 Transform:
   m_ObjectHideFlags: 0

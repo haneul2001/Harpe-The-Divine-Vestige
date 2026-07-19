@@ -377,12 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41ef126e1a947342b5263aadb5b30a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfos:
-  - {fileID: 11400000, guid: 06ee35e126204fc4c87951a8b722d928, type: 2}
-  - {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
-  enemyPrefabs:
-  - {fileID: 7457510136974621220, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
-  - {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+  entries: []
   spawnInterval: 4
   maxSpawnCount: 6
 --- !u!4 &155068308
@@ -12580,12 +12575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41ef126e1a947342b5263aadb5b30a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfos:
-  - {fileID: 11400000, guid: 06ee35e126204fc4c87951a8b722d928, type: 2}
-  - {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
-  enemyPrefabs:
-  - {fileID: 7457510136974621220, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
-  - {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+  entries: []
   spawnInterval: 4
   maxSpawnCount: 6
 --- !u!4 &377257682
@@ -14156,6 +14146,22 @@ MonoBehaviour:
   maxExp: 100
   level: 1
   invincibleTime: 0.5
+--- !u!114 &1298295752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298295738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911f1a2cb5fe6b748bf7257c4613ba01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpHeight: 1.8
+  jumpDuration: 0.6
+  jumpKey: 99
+  spriteRoot: {fileID: 0}
 --- !u!1 &1318693539
 GameObject:
   m_ObjectHideFlags: 0
@@ -17239,6 +17245,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 38356141006681360, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1298295751}
+    - targetCorrespondingSourceObject: {fileID: 38356141006681360, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1298295752}
   m_SourcePrefab: {fileID: 100100000, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
 --- !u!1 &1807159040
 GameObject:
@@ -17503,6 +17512,7 @@ MonoBehaviour:
   hitDuration: 0.2
   player: {fileID: 318979682}
   maxHp: 5
+  enemyInfo: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   lastAttackTime: 0
@@ -17511,6 +17521,10 @@ MonoBehaviour:
   attackPivot: {fileID: 236159318}
   dashSpeed: 15
   dashDuration: 0.3
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.1
 --- !u!114 &1826126044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18044,6 +18058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harvestDuration: 1.5
+  harvestSpeed: 1
 --- !u!4 &2135462009
 Transform:
   m_ObjectHideFlags: 0

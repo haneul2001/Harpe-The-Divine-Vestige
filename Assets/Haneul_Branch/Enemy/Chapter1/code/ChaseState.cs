@@ -17,29 +17,27 @@ public class ChaseState : IEnemyState
     }
 
     public void Update()
-{
-    Debug.Log("ChaseState Update");
-    float distance = enemy.DistanceToPlayer();
-
-    enemy.FaceToPlayer();
-
-    // 공격 범위 안
-    if (distance <= enemy.attackRange)
     {
-        enemy.StopMove();
+        float distance = enemy.DistanceToPlayer();
 
-        if (enemy.CanAttack())
+        enemy.FaceToPlayer();
+
+        // 공격 범위 안
+        if (distance <= enemy.attackRange)
         {
-            Debug.Log("Chase -> Attack");
-            stateMachine.ChangeState(enemy.AttackState);
+            enemy.StopMove();
+
+            if (enemy.CanAttack())
+            {
+                stateMachine.ChangeState(enemy.AttackState);
+            }
+
+            return;
         }
 
-        return;
+        // 공격 범위 밖
+        enemy.MoveToPlayer();
     }
-
-    // 공격 범위 밖
-    enemy.MoveToPlayer();
-}
 
     public void Exit()
     {
