@@ -7,6 +7,10 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private float harvestRange = 5f;
 
+    [Tooltip("체크 시 처형할 때 적 '뒤'가 아니라 적 '좌표'로 순간이동 (예: Reaper 내려찍기). 캐릭터별로 설정.")]
+    [SerializeField] private bool harvestTeleportOntoTarget = false;
+    public bool HarvestTeleportOntoTarget => harvestTeleportOntoTarget;
+
     [Header("공격 속도")]
     [Tooltip("일반 공격 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
     [SerializeField] private float attackSpeed = 1f;

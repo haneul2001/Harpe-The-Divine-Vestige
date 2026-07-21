@@ -15,7 +15,22 @@ public class EnemyHitBox : MonoBehaviour
         hasHit = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // 이동하며 진입할 때(돌진 등)
+    private void OnTriggerEnter2D(Collider2D other) => TryHit(other);
+
+    // 이미 겹친 채로 히트박스가 켜지는 경우(제자리 공격 등):
+    // Enter가 안 터지므로, 켜지는 순간 직접 겹침 검사로 확실히 처리 (트리거/sleep 의존 X)
+    private void OnEnable()
+    {
+        var col = GetComponent<Collider2D>();
+        if (col == null) return;
+
+        Physics2D.SyncTransforms();
+        Collider2D[] hits = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.size, 0f);
+        foreach (var h in hits) TryHit(h);
+    }
+
+    private void TryHit(Collider2D other)
     {
         if (hasHit) return;
         if (owner == null) return;

@@ -13,6 +13,9 @@ public class HarvestManager : MonoBehaviour
     [Tooltip("처형 시 획득 소울량. 적 EnemyInfo에 Soul 값이 있으면 그 값을, 없으면 이 기본값을 사용.")]
     [SerializeField] private int defaultSoulGain = 10;
 
+    [Tooltip("'적 좌표로 순간이동'(OntoTarget) 모드일 때 적 위치 기준 보정. 내려찍기 등 연출용.")]
+    [SerializeField] private Vector3 onTargetOffset = Vector3.zero;
+
     public enum DashTrailMode
     {
         SingleStretched,   // 이펙트 1개를 경로 길이에 맞춰 늘림 (슬래시/섬광선 형태에 적합)
@@ -113,7 +116,10 @@ public class HarvestManager : MonoBehaviour
             return;
         }
 
-        if (enemy.BackPosition == null)
+        // '적 좌표로 순간이동' 모드가 아닐 때만 BackPosition 필요
+        PlayerCombat combat = player.GetComponent<PlayerCombat>();
+        bool ontoTarget = combat != null && combat.HarvestTeleportOntoTarget;
+        if (!ontoTarget && enemy.BackPosition == null)
         {
             Debug.LogError("Harvest 실패: enemy.BackPosition이 null입니다.");
             return;
@@ -138,10 +144,16 @@ public class HarvestManager : MonoBehaviour
         }
 
         // 순간이동 시작/도착 위치
-        Vector3 startPos = player.position;
-        Vector3 endPos = enemy.BackPosition.position + new Vector3(0f, -0.5f, 0f);
+        // OntoTarget(예: Reaper): 적 좌표로 / 기본: 적 뒤로
+        PlayerCombat combat = player.GetComponent<PlayerCombat>();
+        bool ontoTarget = combat != null && combat.HarvestTeleportOntoTarget;
 
-        // 플레이어를 몬스터 뒤로 이동
+        Vector3 startPos = player.position;
+        Vector3 endPos = ontoTarget
+            ? enemy.transform.position + onTargetOffset
+            : enemy.BackPosition.position + new Vector3(0f, -0.5f, 0f);
+
+        // 순간이동
         player.position = endPos;
 
         // 순간이동 경로(시작→도착)에 섬광/잔상 이펙트 생성

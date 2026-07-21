@@ -1,15 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class ZombieEnemy : Enemy, IEnemyAttack
+// 돌진 좀비: 공격 예고 후 플레이어 방향으로 돌진하며 부딪힘.
+public class ZombieEnemy : AttackEnemyBase
 {
-    [Header("좀비 공격 설정")]
-    [SerializeField] private GameObject attackHitBox;
-    [SerializeField] private GameObject attackRangeBox;
-    [SerializeField] private GameObject attackPivot;
-    private AttackRangeSet attackRangeSet;
-    private EnemyHitBox hitBox;
-
     [Header("돌진 설정")]
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.3f;
@@ -18,96 +12,45 @@ public class ZombieEnemy : Enemy, IEnemyAttack
     [Tooltip("돌진 중 이 레이어(벽/장애물)에 막히면 즉시 멈춤")]
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private float wallCheckDistance = 0.1f;
+
     private ContactFilter2D wallFilter;
     private readonly RaycastHit2D[] wallHitBuffer = new RaycastHit2D[1];
+    private CollisionDetectionMode2D originalMode;
 
-    public bool IsRunning => isAttacking;
-    public bool IsGroundOnly => false; // 근접 대시 = 지상+공중 다 맞힘
-
-    protected override void Start()
+    protected override void OnStart()
     {
-        base.Start();
-
-        attackRangeSet = attackPivot.GetComponent<AttackRangeSet>();
-        hitBox = attackHitBox.GetComponent<EnemyHitBox>();
-        hitBox.Initialize(this);
-
-        attackHitBox.SetActive(false);
-        attackRangeBox.SetActive(false);
-
         wallFilter = new ContactFilter2D { useTriggers = false };
         wallFilter.SetLayerMask(wallLayer);
+        originalMode = rb.collisionDetectionMode;
     }
 
-    public void ShowRange(bool show)
+    protected override IEnumerator AttackActivePhase(Vector2 dir)
     {
-        attackRangeBox.SetActive(show);
-    }
+        // Dynamic 유지(벽이 좀비를 막게 함) + 고속 이동 터널링 방지
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-    public void Execute()
-    {
-        if (isAttacking)
-            return;
-
-        isAttacking = true;
-
-        StartCoroutine(DashAttackCoroutine());
-    }
-
-    private IEnumerator DashAttackCoroutine()
-    {
-        CollisionDetectionMode2D originalMode = rb.collisionDetectionMode;
-
-        try
+        float timer = dashDuration;
+        while (timer > 0f && !isDead)
         {
-            // Dynamic 유지(벽이 좀비를 막게 함) + 고속 이동 터널링 방지
-            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-            StopMove();
+            timer -= Time.deltaTime;
+            rb.velocity = dir * dashSpeed;
 
-            FaceToPlayer();
-
-            Vector2 dashDirection =
-                (player.position - transform.position).normalized;
-
-            attackRangeSet.SetDirection(dashDirection);
-
-            attackRangeBox.SetActive(true);
-            yield return new WaitForSeconds(attackWarningDuration);
-
-            attackRangeBox.SetActive(false);
-
-            animator.SetTrigger("attack");
-
-            hitBox.ResetHit();
-            attackHitBox.SetActive(true);
-
-            float timer = dashDuration;
-            while (timer > 0f && !isDead)
+            // 벽/장애물에 막히면 즉시 돌진 종료 (플레이어를 벽 너머로 밀지 않도록)
+            if (IsBlockedByWall(dir))
             {
-                timer -= Time.deltaTime;
-                rb.velocity = dashDirection * dashSpeed;
-
-                // 벽/장애물에 막히면 즉시 돌진 종료 (플레이어를 벽 너머로 밀지 않도록)
-                if (IsBlockedByWall(dashDirection))
-                {
-                    rb.velocity = Vector2.zero;
-                    break;
-                }
-
-                yield return null;
+                rb.velocity = Vector2.zero;
+                break;
             }
 
-            rb.velocity = Vector2.zero;
-            attackHitBox.SetActive(false);
+            yield return null;
+        }
 
-            yield return new WaitForSeconds(1f);
-        }
-        finally
-        {
-            if (rb != null) rb.collisionDetectionMode = originalMode;
-            lastAttackTime = Time.time;
-            isAttacking = false;
-        }
+        rb.velocity = Vector2.zero;
+    }
+
+    protected override void OnAttackFinally()
+    {
+        if (rb != null) rb.collisionDetectionMode = originalMode;
     }
 
     // 돌진 방향으로 콜라이더를 살짝 캐스트해서 벽/장애물에 막혔는지 확인
@@ -115,11 +58,5 @@ public class ZombieEnemy : Enemy, IEnemyAttack
     {
         if (wallLayer.value == 0) return false;
         return rb.Cast(direction, wallFilter, wallHitBuffer, wallCheckDistance) > 0;
-    }
-
-    private void OnDisable()
-    {
-        if (attackHitBox != null) attackHitBox.SetActive(false);
-        if (attackRangeBox != null) attackRangeBox.SetActive(false);
     }
 }
