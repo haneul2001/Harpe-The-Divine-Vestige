@@ -17146,7 +17146,9 @@ MonoBehaviour:
   rb: {fileID: 0}
   backPosition: {fileID: 118205145}
   separationRadius: 0.8
-  separationForce: 2
+  separationWeight: 0.6
+  crowdPressureThreshold: 1.5
+  settleDeadzone: 0.25
   detectRange: 40
   attackRange: 2.5
   moveSpeed: 2.5
@@ -17163,6 +17165,8 @@ MonoBehaviour:
   attackHitBox: {fileID: 118205144}
   attackRangeBox: {fileID: 1523165170}
   attackPivot: {fileID: 236159318}
+  groundOnly: 0
+  recoverTime: 1
   dashSpeed: 15
   dashDuration: 0.3
   wallLayer:
@@ -17704,6 +17708,7 @@ MonoBehaviour:
   harvestDuration: 1.5
   harvestSpeed: 1
   defaultSoulGain: 10
+  onTargetOffset: {x: 0, y: 0, z: 0}
   dashTrailMode: 2
   dashTrailEffect: {fileID: 0}
   dashTrailLifetime: 0.4

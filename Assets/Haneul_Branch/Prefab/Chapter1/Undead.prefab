@@ -585,8 +585,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   backPosition: {fileID: 7094761602158244972}
-  separationRadius: 0.8
-  separationForce: 2
+  separationRadius: 2.6
+  separationWeight: 0.6
+  crowdPressureThreshold: 0.8
   detectRange: 40
   attackRange: 3
   moveSpeed: 2.5

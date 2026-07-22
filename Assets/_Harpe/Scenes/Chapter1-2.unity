@@ -12860,7 +12860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd7fb6e90bf1f4438da92e4acd84cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStatus: {fileID: 1298295751}
+  playerStatus: {fileID: 1637438590}
   fillImage: {fileID: 453337554}
   hpText: {fileID: 1091880449}
 --- !u!1 &752929568
@@ -13871,17 +13871,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1298295751 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5858121162117983177, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
-  m_PrefabInstance: {fileID: 1786768113}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9cad3b6befaf04ca92dc5080e57116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1318693539
 GameObject:
   m_ObjectHideFlags: 0
@@ -14057,7 +14046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc57a71d55a6a04fb3bf3b31bfac1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 318979682}
+  player: {fileID: 489956146}
   CameraPoint_xMin: {fileID: 328101591}
   CameraPoint_xMax: {fileID: 845423912}
   CameraPoint_yMin: {fileID: 1624408849}
@@ -16535,6 +16524,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59a720f2f62f92e48b2fd2ea3db5eaa8, type: 3}
+--- !u!114 &1637438590 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5858121162117983177, guid: 59a720f2f62f92e48b2fd2ea3db5eaa8, type: 3}
+  m_PrefabInstance: {fileID: 1637438589}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a9cad3b6befaf04ca92dc5080e57116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1661397241
 GameObject:
   m_ObjectHideFlags: 0

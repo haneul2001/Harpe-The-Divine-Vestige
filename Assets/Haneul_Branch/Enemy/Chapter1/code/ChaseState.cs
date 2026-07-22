@@ -22,10 +22,10 @@ public class ChaseState : IEnemyState
 
         enemy.FaceToPlayer();
 
-        // 공격 범위 안
+        // 공격 범위 안: 전진은 멈추되 분리는 유지해 서로 겹치지 않게 자리를 잡음
         if (distance <= enemy.attackRange)
         {
-            enemy.StopMove();
+            enemy.SettleWithSeparation();
 
             if (enemy.CanAttack())
             {
@@ -35,7 +35,7 @@ public class ChaseState : IEnemyState
             return;
         }
 
-        // 공격 범위 밖
+        // 공격 범위 밖: 추격
         enemy.MoveToPlayer();
     }
 

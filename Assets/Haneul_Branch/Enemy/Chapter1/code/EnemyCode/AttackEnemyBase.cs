@@ -81,7 +81,10 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             }
 
             // 공격 활성 동안의 동작 (돌진 / 제자리 / 발사 등) — 파생 구현
+            // 이 구간엔 파생이 속도를 직접 제어하므로 상태머신의 분리 정렬을 끈다.
+            IsAttackActive = true;
             yield return AttackActivePhase(dir);
+            IsAttackActive = false;
 
             if (attackHitBox != null) attackHitBox.SetActive(false);
 
@@ -93,6 +96,7 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             OnAttackFinally();
             lastAttackTime = Time.time;
             isAttacking = false;
+            IsAttackActive = false;
         }
     }
 

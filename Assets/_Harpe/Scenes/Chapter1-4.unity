@@ -17697,6 +17697,7 @@ MonoBehaviour:
   harvestDuration: 1.5
   harvestSpeed: 1
   defaultSoulGain: 10
+  onTargetOffset: {x: 0, y: 0, z: 0}
   dashTrailMode: 2
   dashTrailEffect: {fileID: 0}
   dashTrailLifetime: 0.4

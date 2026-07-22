@@ -310,12 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41ef126e1a947342b5263aadb5b30a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfos:
-  - {fileID: 11400000, guid: 06ee35e126204fc4c87951a8b722d928, type: 2}
-  - {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
-  enemyPrefabs:
-  - {fileID: 7457510136974621220, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
-  - {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+  entries: []
   spawnInterval: 4
   maxSpawnCount: 6
 --- !u!4 &155068308
@@ -12467,12 +12462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41ef126e1a947342b5263aadb5b30a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInfos:
-  - {fileID: 11400000, guid: 06ee35e126204fc4c87951a8b722d928, type: 2}
-  - {fileID: 11400000, guid: 114f9440e0f98a447ac2b8d8516f057f, type: 2}
-  enemyPrefabs:
-  - {fileID: 7457510136974621220, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
-  - {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+  entries: []
   spawnInterval: 4
   maxSpawnCount: 6
 --- !u!4 &377257682
@@ -13250,7 +13240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd7fb6e90bf1f4438da92e4acd84cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStatus: {fileID: 1298295751}
+  playerStatus: {fileID: 1786768114}
   fillImage: {fileID: 453337554}
   hpText: {fileID: 1091880449}
 --- !u!1 &752929568
@@ -13926,8 +13916,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9cad3b6befaf04ca92dc5080e57116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
-  maxSoul: 100
+  stats:
+    baseHp: 100
+    stamina: 100
+    soul: 0
+    baseMaxSoul: 100
+    baseAttackPower: 100
+    baseDefense: 0
+    str: 0
+    dex: 0
+    intel: 0
   currentExp: 0
   maxExp: 100
   level: 1
@@ -16711,6 +16709,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1298295751}
   m_SourcePrefab: {fileID: 100100000, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
+--- !u!114 &1786768114 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5858121162117983177, guid: c9c9c6b3011357349a5ecb860b240be1, type: 3}
+  m_PrefabInstance: {fileID: 1786768113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298295738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a9cad3b6befaf04ca92dc5080e57116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1807159040
 GameObject:
   m_ObjectHideFlags: 0
@@ -17476,6 +17485,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5887ae7f822469f4b9301b4a3f69537c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  harvestDuration: 1.5
+  harvestSpeed: 1
+  defaultSoulGain: 10
+  onTargetOffset: {x: 0, y: 0, z: 0}
+  dashTrailMode: 2
+  dashTrailEffect: {fileID: 0}
+  dashTrailLifetime: 0.4
+  dashTrailHeightOffset: 0.3
+  dashTrailAnimSpeed: 1
+  matchHarvestSpeed: 1
+  stretchToDistance: 1
+  trailCount: 5
+  lineBeamMaterial: {fileID: 0}
+  lineBeamColor: {r: 1, g: 1, b: 1, a: 1}
+  lineBeamWidth: 0.2
+  lineBeamShape: 1
+  lineBeamFadeOut: 1
 --- !u!4 &2135462009
 Transform:
   m_ObjectHideFlags: 0
