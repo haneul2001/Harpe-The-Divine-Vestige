@@ -16,6 +16,6 @@ MonoBehaviour:
   hp: 150
   damage: 1
   exp: 14
-  speed: 3.2
+  speed: 2.56
   soul: 7
   attacks: []

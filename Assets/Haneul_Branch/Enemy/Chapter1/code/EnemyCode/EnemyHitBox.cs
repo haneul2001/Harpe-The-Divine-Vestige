@@ -35,6 +35,10 @@ public class EnemyHitBox : MonoBehaviour
         if (hasHit) return;
         if (owner == null) return;
 
+        // 공격 예고 중에 죽으면 코루틴이 그대로 돌아 히트박스가 켜진다.
+        // 시체가 때리지 않도록 여기서 끊는다.
+        if (owner.isDead) return;
+
         PlayerStatus playerHealth = other.GetComponentInParent<PlayerStatus>();
         if (playerHealth == null) return;
 

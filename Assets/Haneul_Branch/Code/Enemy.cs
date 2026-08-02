@@ -358,8 +358,8 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
 
-        SetPositionLocked(false); // 시체가 고정된 벽처럼 남지 않게
-        rb.velocity = Vector2.zero;
+        DetachFromPhysics();
+
         if (animator != null)
         {
             animator.SetBool("isFollow", false);
@@ -367,6 +367,26 @@ public class Enemy : MonoBehaviour
         }
 
         Destroy(gameObject, 1.5f);//사라지는 시간
+    }
+
+    // 죽는 순간 물리에서 완전히 빠진다.
+    // 시체가 다른 적/플레이어에게 밀려 미끄러지지도, 반대로 남의 길을 막지도 않는다.
+    // 죽은 자리에 그대로 서서 사망 애니메이션만 재생된다.
+    private void DetachFromPhysics()
+    {
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            SetPositionLocked(false);
+
+            // 이 리지드바디에 붙은 콜라이더(몸통·발밑·히트박스)가 한 번에 시뮬레이션에서 빠진다
+            rb.simulated = false;
+        }
+
+        // 리지드바디가 없는 프리팹이나 자체 리지드바디를 가진 자식까지 확실히 정리
+        Collider2D[] cols = GetComponentsInChildren<Collider2D>(true);
+        for (int i = 0; i < cols.Length; i++)
+            cols[i].enabled = false;
     }
 
     public float DistanceToPlayer()
@@ -514,6 +534,10 @@ public class Enemy : MonoBehaviour
     {
         get
         {
+            // 죽으면 hp가 0 이하라 비율 조건은 항상 참이 된다.
+            // 사망 중인 적은 처형 대상도 아니고 처형 표시도 뜨면 안 되므로 먼저 걸러낸다.
+            if (isDead) return false;
+
             return (float)hp / maxHp <= 0.3f;
         }
     }
@@ -528,8 +552,9 @@ public class Enemy : MonoBehaviour
     {
         if(isDead) return;
         isDead = true;
-        SetPositionLocked(false);
-        StopMove();
+
+        DetachFromPhysics();
+
         if(animator != null)
         {
             animator.SetBool("isFollow", false);

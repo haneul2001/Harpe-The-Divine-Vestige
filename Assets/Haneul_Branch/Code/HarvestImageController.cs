@@ -23,6 +23,10 @@ public class HarvestImageController : MonoBehaviour
         if (enemy == null || harvestImage == null)
             return;
 
-        harvestImage.SetActive(enemy.CanHarvest);
+        // CanHarvest도 사망 시 false지만, 실행 순서와 무관하게 확실히 꺼지도록 여기서도 막는다
+        bool show = !enemy.isDead && enemy.CanHarvest;
+
+        if (harvestImage.activeSelf != show)
+            harvestImage.SetActive(show);
     }
 }
