@@ -26,6 +26,15 @@ public class DamageNumberSpawner : MonoBehaviour
     [SerializeField] private string sortingLayer = "Skill";
     [SerializeField] private int sortingOrder = 100;
 
+    [Header("크리티컬 연출")]
+    [Tooltip("크리티컬 숫자가 뜰 때 카메라를 흔든다. Main Camera에 CameraShake 컴포넌트 필요.")]
+    [SerializeField] private bool shakeOnCritical = true;
+
+    [Tooltip("크리티컬 흔들림 세기 0~1. 처형과 같은 0.6이 기본.\n" +
+             "흔들림은 세기의 제곱에 비례하므로 0.3 이하로 내리면 거의 안 보인다.")]
+    [Range(0f, 1f)]
+    [SerializeField] private float criticalShake = 0.6f;
+
     private void Awake()
     {
         Instance = this;
@@ -42,6 +51,11 @@ public class DamageNumberSpawner : MonoBehaviour
 
         DamageNumber dn = prefab.Spawn(worldPosition + offset, amount);
         ApplySorting(dn);
+
+        // 크리티컬은 빨간 숫자 + 카메라 흔들림으로 타격감을 준다.
+        // 숫자 표시와 함께 처리하므로 공격/스킬 어디서 들어온 크리티컬이든 동일하게 적용된다.
+        if (critical && shakeOnCritical)
+            CameraShake.Shake(criticalShake);
     }
 
     // 월드 위치에 문구를 띄운다. (예: 처형 "HARVEST!")

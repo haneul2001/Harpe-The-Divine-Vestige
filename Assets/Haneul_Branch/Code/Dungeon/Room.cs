@@ -12,6 +12,8 @@ public class Room : MonoBehaviour
         [Tooltip("있으면 Enemy.Initialize로 HP/속도/공격력을 이 값으로 덮어씀")]
         public EnemyInfo info;
         [Min(1)] public int count = 1;
+        [Tooltip("스폰 시 적용할 크기 배율. Chapter1-2처럼 잡몹 3배, 보스 5배 식으로 씀")]
+        [Min(0.1f)] public float scale = 1f;
     }
 
     [Header("방 종류")]
@@ -196,7 +198,15 @@ public class Room : MonoBehaviour
                 if (entry.info != null)
                 {
                     enemy.Initialize(entry.info);
-                    go.name = entry.info.EnemyName;
+                    if (!string.IsNullOrEmpty(entry.info.EnemyName))
+                        go.name = entry.info.EnemyName;
+                }
+
+                if (!Mathf.Approximately(entry.scale, 1f))
+                {
+                    go.transform.localScale = Vector3.one * entry.scale;
+                    // 콜라이더가 커진 만큼 분리 반경도 키워야 서로 겹치지 않는다
+                    enemy.SeparationRadius *= entry.scale;
                 }
 
                 alive.Add(enemy);

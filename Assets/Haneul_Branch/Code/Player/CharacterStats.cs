@@ -39,7 +39,7 @@ public class CharacterStats
         // 기본값 & 상한
         public const float BaseBalance   = 50f;    // 기본 밸런스 50%
         public const float MaxBalance    = 80f;    // 마비노기도 밸런스 캡 존재
-        public const float BaseCritRate  = 5f;     // 기본 치확 5%
+        public const float BaseCritRate  = 9f;     // 기본 치확 9% (dex 10이면 10%)
         public const float MaxCritRate   = 50f;    // 로그라이트용 캡 (마비노기는 30)
         public const float BaseCritDmg   = 150f;   // 치명타 기본 150%
         public const float DefenseScale  = 100f;   // 방어 비율 감산 기준값

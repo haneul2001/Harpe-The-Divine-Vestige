@@ -9,7 +9,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform backPosition;
 
     public Transform BackPosition => backPosition;
-    
+
+    // 스폰 시 transform.localScale을 키우면 콜라이더는 커지지만 분리 반경은 그대로라
+    // 서로 겹친다(분리 힘이 0이 됨). 스폰하는 쪽에서 스케일만큼 같이 키워 주기 위한 접근자.
+    public float SeparationRadius
+    {
+        get { return separationRadius; }
+        set { separationRadius = value; }
+    }
+
     [Header("분리 (몹끼리 겹침 방지)")]
     [Tooltip("이 반경 안의 다른 적을 부드럽게 피함")]
     [SerializeField] private float separationRadius = 0.8f;

@@ -16,6 +16,32 @@ public class HarvestManager : MonoBehaviour
     [Tooltip("'적 좌표로 순간이동'(OntoTarget) 모드일 때 적 위치 기준 보정. 내려찍기 등 연출용.")]
     [SerializeField] private Vector3 onTargetOffset = Vector3.zero;
 
+    [Header("임팩트 (내려찍기가 닿는 순간)")]
+    [Tooltip("처형 애니메이션 시작 후 내려찍기가 적중하는 시점(초).\n" +
+             "Reaper의 Surprise Attack은 12fps 클립의 10번째 프레임에서 임팩트 이펙트가 터지므로 10/12 = 0.833초.\n" +
+             "harvestSpeed 배율은 자동으로 반영된다.")]
+    [SerializeField] private float impactTime = 0.833f;
+
+    [Tooltip("임팩트 순간에 처형 데미지 숫자를 띄운다. 값은 적의 남은 체력(= 처형으로 준 피해)")]
+    [SerializeField] private bool showDamageOnImpact = true;
+
+    [Tooltip("처형 데미지를 크리티컬 숫자 프리팹으로 띄운다")]
+    [SerializeField] private bool impactDamageAsCritical = true;
+
+    [Tooltip("체크: 'HARVEST!' 문구도 임팩트에 맞춰 띄운다 / 해제: 기존처럼 처형 시작과 동시에 띄운다")]
+    [SerializeField] private bool harvestTextOnImpact = true;
+
+    [Tooltip("데미지 숫자와 겹치지 않도록 'HARVEST!' 문구만 추가로 올리는 높이")]
+    [SerializeField] private float harvestTextExtraHeight = 0.8f;
+
+    [Header("카메라 흔들림")]
+    [Tooltip("임팩트 순간 카메라를 흔든다 (Main Camera에 CameraShake 컴포넌트 필요)")]
+    [SerializeField] private bool shakeOnImpact = true;
+
+    [Tooltip("흔들림 세기 0~1. 0.2 가벼운 타격 / 0.6 처형 / 1.0 최대")]
+    [Range(0f, 1f)]
+    [SerializeField] private float impactShake = 0.6f;
+
     public enum DashTrailMode
     {
         SingleStretched,   // 이펙트 1개를 경로 길이에 맞춰 늘림 (슬래시/섬광선 형태에 적합)
@@ -175,9 +201,13 @@ public class HarvestManager : MonoBehaviour
         playerAnimator.SetFloat("HarvestSpeed", speed);
         playerAnimator.SetTrigger("Harvest");
 
-        // 처형 문구 "HARVEST!" 표시
-        if (DamageNumberSpawner.Instance != null)
-            DamageNumberSpawner.Instance.ShowText(enemy.transform.position, "HARVEST!");
+        // 처형으로 준 피해 = 적의 남은 체력. HarvestDie 전에 미리 확보해 둔다.
+        int harvestDamage = Mathf.Max(1, enemy.hp);
+        Vector3 impactPos = enemy.transform.position;
+
+        // 기존 동작: 처형 시작과 동시에 문구 표시
+        if (!harvestTextOnImpact)
+            ShowHarvestText(impactPos);
 
         // 처형 보상: 소울 획득 (스킬 자원)
         PlayerStatus playerStatus = player.GetComponent<PlayerStatus>();
@@ -193,7 +223,28 @@ public class HarvestManager : MonoBehaviour
         // 나중에 여기 근처에 soul stack 증가 넣으면 됨
         // 예: playerStatus.AddSoulStack(1);
 
-        yield return new WaitForSeconds(scaledDuration);
+        // ── 내려찍기가 닿는 순간까지 대기 ──
+        float impactDelay = Mathf.Clamp(impactTime / speed, 0f, scaledDuration);
+        if (impactDelay > 0f)
+            yield return new WaitForSeconds(impactDelay);
+
+        // 적이 아직 살아 있으면 최신 위치를 쓴다 (넉백 등으로 밀렸을 수 있음)
+        if (enemy != null)
+            impactPos = enemy.transform.position;
+
+        if (showDamageOnImpact && DamageNumberSpawner.Instance != null)
+            DamageNumberSpawner.Instance.Show(impactPos, harvestDamage, impactDamageAsCritical);
+
+        if (harvestTextOnImpact)
+            ShowHarvestText(impactPos + new Vector3(0f, harvestTextExtraHeight, 0f));
+
+        if (shakeOnImpact)
+            CameraShake.Shake(impactShake);
+
+        // ── 남은 시간 대기 ──
+        float remain = scaledDuration - impactDelay;
+        if (remain > 0f)
+            yield return new WaitForSeconds(remain);
 
         if (playerMove != null)
         {
@@ -201,6 +252,12 @@ public class HarvestManager : MonoBehaviour
         }
 
         isHarvesting = false;
+    }
+
+    private void ShowHarvestText(Vector3 worldPos)
+    {
+        if (DamageNumberSpawner.Instance != null)
+            DamageNumberSpawner.Instance.ShowText(worldPos, "HARVEST!");
     }
 
     // 순간이동 시작→도착 경로에 섬광/잔상 이펙트를 생성한다.

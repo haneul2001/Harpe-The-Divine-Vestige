@@ -65,7 +65,16 @@ public class CameraFollow : MonoBehaviour
     //     $"Max={CameraPoint_yMax.position.y} " +
     //     $"Clamp={clampY}");
 
-    transform.position = new Vector3(
-        clampX, clampY, -40f);
+    Vector3 pos = new Vector3(clampX, clampY, -40f);
+
+    // 카메라 흔들림은 위치를 정한 뒤 마지막에 얹는다.
+    // CameraShake는 Update에서 값을 갱신하므로 여기(LateUpdate)선 항상 최신값이다.
+    if (CameraShake.Instance != null)
+    {
+        pos += CameraShake.Instance.Offset;
+        transform.rotation = Quaternion.Euler(0f, 0f, CameraShake.Instance.Roll);
+    }
+
+    transform.position = pos;
 }
 }
