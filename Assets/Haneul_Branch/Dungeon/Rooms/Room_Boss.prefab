@@ -1815,10 +1815,17 @@ MonoBehaviour:
     info: {fileID: 11400000, guid: b0692644003e0d34c9529a6f3af71d1f, type: 2}
     count: 1
     scale: 5
-  - prefab: {fileID: 7457510136974621220, guid: 97f70200e34045842bcb0e51141e3ea3, type: 3}
-    info: {fileID: 11400000, guid: 48c7be8575082bb4d8dab341b76a2e85, type: 2}
+    separationRadius: 0
+  - prefab: {fileID: 2331721778063490303, guid: 8dec85a7533d9dd4793715ec28b9b781, type: 3}
+    info: {fileID: 11400000, guid: 0b12f2f83166adb4f8f3691419f1b559, type: 2}
     count: 2
-    scale: 3
+    scale: 2.5
+    separationRadius: 0
+  - prefab: {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+    info: {fileID: 11400000, guid: 44a85aa7f5bf97e479c8e1db17b12b62, type: 2}
+    count: 1
+    scale: 2.5
+    separationRadius: 0
   enemyContainer: {fileID: 0}
   clearCheckInterval: 0.2
   gizmoRoomSize: {x: 18, y: 10}

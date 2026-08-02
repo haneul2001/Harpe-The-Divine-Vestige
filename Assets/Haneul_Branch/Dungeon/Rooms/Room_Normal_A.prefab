@@ -2339,8 +2339,14 @@ MonoBehaviour:
   spawns:
   - prefab: {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
     info: {fileID: 11400000, guid: 48c7be8575082bb4d8dab341b76a2e85, type: 2}
-    count: 3
+    count: 2
     scale: 3
+    separationRadius: 0
+  - prefab: {fileID: 2331721778063490303, guid: 8dec85a7533d9dd4793715ec28b9b781, type: 3}
+    info: {fileID: 11400000, guid: 0b12f2f83166adb4f8f3691419f1b559, type: 2}
+    count: 2
+    scale: 2.5
+    separationRadius: 0
   enemyContainer: {fileID: 0}
   clearCheckInterval: 0.2
   gizmoRoomSize: {x: 18, y: 10}

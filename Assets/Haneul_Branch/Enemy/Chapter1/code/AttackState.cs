@@ -17,6 +17,11 @@ public class AttackState : IEnemyState
 
         enemy.StopMove();
 
+        // 공격 예고 동안 다른 적에게 밀려 끌려오지 않도록 위치를 잠근다.
+        // (돌진처럼 발동 구간에 스스로 움직이는 공격은 AttackEnemyBase가 그때만 풀어 준다)
+        if (enemy.LockPositionWhileAttacking)
+            enemy.SetPositionLocked(true);
+
         // 삭제
         // enemy.FaceToPlayer();
 
@@ -48,5 +53,7 @@ public class AttackState : IEnemyState
 
     public void Exit()
     {
+        // 피격 등으로 중간에 끊겨도 잠금이 남지 않게
+        enemy.SetPositionLocked(false);
     }
 }

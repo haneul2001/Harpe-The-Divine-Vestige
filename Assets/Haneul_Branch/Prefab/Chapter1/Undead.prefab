@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1495099166625073761}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.211, y: 0, z: 0}
+  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5523003351059058473}
@@ -436,8 +436,8 @@ GameObject:
   - component: {fileID: 7457510136974621218}
   - component: {fileID: 7457510136974621221}
   - component: {fileID: 6273092391648089611}
-  - component: {fileID: 3218856451508016240}
   - component: {fileID: 7329064166964689157}
+  - component: {fileID: 2725539258776033914}
   m_Layer: 7
   m_Name: Undead
   m_TagString: Enemy
@@ -571,7 +571,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.22}
   m_Size: {x: 0.3, y: 0.57}
   m_Direction: 0
---- !u!114 &3218856451508016240
+--- !u!114 &7329064166964689157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -580,16 +580,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 7457510136974621220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb4ea58cbe8ecbd4d92b74ca4171f21e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fe15743c06296447a67d8ac93d492d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  harvestImage: {fileID: 5427015639932474731}
+--- !u!114 &2725539258776033914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457510136974621220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f2e08c76ff650449be1ae700f28086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   backPosition: {fileID: 7094761602158244972}
   separationRadius: 2.6
-  separationWeight: 0.6
+  separationWeight: 0
   crowdPressureThreshold: 0.8
+  settleDeadzone: 0.25
+  settleSpeedFactor: 0
+  settleRadiusFactor: 0.5
+  lockPositionWhileAttacking: 1
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  avoidProbeDistance: 0.6
+  avoidMaxAngle: 120
+  avoidAngleStep: 30
   detectRange: 40
-  attackRange: 3
+  attackRange: 1.68
   moveSpeed: 2.5
   attackIdleTime: 2
   attackWarningDuration: 1
@@ -606,23 +630,6 @@ MonoBehaviour:
   attackPivot: {fileID: 7019295580986608686}
   groundOnly: 0
   recoverTime: 1
-  dashSpeed: 15
-  dashDuration: 0.3
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  wallCheckDistance: 0.1
---- !u!114 &7329064166964689157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457510136974621220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe15743c06296447a67d8ac93d492d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 3218856451508016240}
-  harvestImage: {fileID: 5427015639932474731}
+  matchAttackRangeToHitBox: 1
+  attackRangePadding: 0.4
+  attackActiveDuration: 0.3

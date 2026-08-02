@@ -24,6 +24,13 @@ public class ZombieEnemy : AttackEnemyBase
         originalMode = rb.collisionDetectionMode;
     }
 
+    // 돌진은 발동 구간에 직접 이동하므로 그동안은 위치를 잠그지 않는다.
+    protected override bool LockPositionDuringActivePhase => false;
+
+    // 돌진하며 파고드는 거리만큼은 히트박스보다 멀리서 시작해야 한다.
+    // (히트박스 도달 거리만 쓰면 이미 닿은 뒤에야 돌진을 시작해 의미가 없다)
+    protected override float ExtraAttackReach => dashSpeed * dashDuration;
+
     protected override IEnumerator AttackActivePhase(Vector2 dir)
     {
         // Dynamic 유지(벽이 좀비를 막게 함) + 고속 이동 터널링 방지

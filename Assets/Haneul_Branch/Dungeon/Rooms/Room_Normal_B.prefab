@@ -1079,10 +1079,12 @@ MonoBehaviour:
     info: {fileID: 11400000, guid: 48c7be8575082bb4d8dab341b76a2e85, type: 2}
     count: 2
     scale: 3
-  - prefab: {fileID: 7457510136974621220, guid: 90bd6369e35dc7640904ee8eeae08c2f, type: 3}
-    info: {fileID: 11400000, guid: dac4e76e671dfbb49872e21c1b7b22b8, type: 2}
-    count: 1
+    separationRadius: 0
+  - prefab: {fileID: 8652391595165629335, guid: 1b173540bddeab04ea08b8a1862179eb, type: 3}
+    info: {fileID: 11400000, guid: 44a85aa7f5bf97e479c8e1db17b12b62, type: 2}
+    count: 2
     scale: 2.5
+    separationRadius: 0
   enemyContainer: {fileID: 0}
   clearCheckInterval: 0.2
   gizmoRoomSize: {x: 18, y: 10}

@@ -14,6 +14,10 @@ public class Room : MonoBehaviour
         [Min(1)] public int count = 1;
         [Tooltip("스폰 시 적용할 크기 배율. Chapter1-2처럼 잡몹 3배, 보스 5배 식으로 씀")]
         [Min(0.1f)] public float scale = 1f;
+
+        [Tooltip("분리 반경 덮어쓰기. 0이면 프리팹 값 그대로 사용.\n" +
+                 "프리팹의 기본값은 이미 3배 크기 사용을 전제로 잡혀 있으므로 보통 건드릴 필요 없다.")]
+        [Min(0f)] public float separationRadius = 0f;
     }
 
     [Header("방 종류")]
@@ -203,11 +207,13 @@ public class Room : MonoBehaviour
                 }
 
                 if (!Mathf.Approximately(entry.scale, 1f))
-                {
                     go.transform.localScale = Vector3.one * entry.scale;
-                    // 콜라이더가 커진 만큼 분리 반경도 키워야 서로 겹치지 않는다
-                    enemy.SeparationRadius *= entry.scale;
-                }
+
+                // 분리 반경은 크기 배율을 따라가지 않는다.
+                // 프리팹 기본값(2.6)이 이미 스케일 3 기준으로 잡힌 값이라
+                // 여기에 배율을 또 곱하면 반경이 방 폭의 절반까지 커져 온 방의 적이 서로 밀어낸다.
+                if (entry.separationRadius > 0f)
+                    enemy.SeparationRadius = entry.separationRadius;
 
                 alive.Add(enemy);
             }

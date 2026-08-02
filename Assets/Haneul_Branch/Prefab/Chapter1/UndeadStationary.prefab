@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1495099166625073761}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.211, y: 0, z: 0}
+  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5523003351059058473}
@@ -601,11 +601,20 @@ MonoBehaviour:
   rb: {fileID: 0}
   backPosition: {fileID: 7094761602158244972}
   separationRadius: 1.8
-  separationWeight: 0.6
+  separationWeight: 0
   crowdPressureThreshold: 0.8
   settleDeadzone: 0.25
+  settleSpeedFactor: 0
+  settleRadiusFactor: 0.5
+  lockPositionWhileAttacking: 1
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  avoidProbeDistance: 0.6
+  avoidMaxAngle: 120
+  avoidAngleStep: 30
   detectRange: 40
-  attackRange: 1.7
+  attackRange: 1.68
   moveSpeed: 2.5
   attackIdleTime: 2
   attackWarningDuration: 1
@@ -622,6 +631,8 @@ MonoBehaviour:
   attackPivot: {fileID: 7019295580986608686}
   groundOnly: 0
   recoverTime: 1
+  matchAttackRangeToHitBox: 1
+  attackRangePadding: 0.4
   attackActiveDuration: 0.3
 --- !u!50 &1015330754462937375
 Rigidbody2D:
