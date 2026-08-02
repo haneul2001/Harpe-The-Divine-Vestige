@@ -27,10 +27,27 @@ public class CameraFollow : MonoBehaviour
             Debug.LogWarning("[CameraFollow] player 미할당 & 'Player' 태그 오브젝트 없음");
     }
 
+    // 방(Room) 단위로 카메라 경계를 갈아끼운다. RoomManager가 방 이동 시 호출.
+    public void SetBounds(Transform xMin, Transform xMax, Transform yMin, Transform yMax)
+    {
+        CameraPoint_xMin = xMin;
+        CameraPoint_xMax = xMax;
+        CameraPoint_yMin = yMin;
+        CameraPoint_yMax = yMax;
+    }
+
+    // 경계를 바꾼 직후 다음 프레임을 기다리지 않고 즉시 위치를 맞춘다 (방 전환 시 한 프레임 어긋남 방지).
+    public void SnapToTarget()
+    {
+        LateUpdate();
+    }
+
     // Update is called once per frame
     void LateUpdate()
 {
     if (player == null) return;
+    if (CameraPoint_xMin == null || CameraPoint_xMax == null ||
+        CameraPoint_yMin == null || CameraPoint_yMax == null) return;
 
     float clampX = Mathf.Clamp(
         player.position.x,
