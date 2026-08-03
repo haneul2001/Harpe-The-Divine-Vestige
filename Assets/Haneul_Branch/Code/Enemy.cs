@@ -163,10 +163,19 @@ public class Enemy : MonoBehaviour
         HitState = new HitState(this, StateMachine);
     }
 
+    // 체력이 확정됐는지. 확정 전에는 hp가 0이라 CanHarvest가 참이 되어
+    // 스폰 순간 처형 표시가 번쩍인다. 특히 등장 연출 중에는 Enemy 컴포넌트가
+    // 꺼져 있어 Start가 미뤄지므로 그 시간 내내 떠 있게 된다.
+    private bool statsReady;
+
     public void Initialize(EnemyInfo info)
     {
         enemyInfo = info;
         ApplyEnemyInfo();
+
+        // Start를 기다리지 않고 여기서 바로 체력을 채운다
+        hp = maxHp;
+        statsReady = true;
     }
 
     private void ApplyEnemyInfo()
@@ -180,7 +189,13 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         ApplyEnemyInfo();
-        hp = maxHp;
+
+        // Initialize로 이미 채웠으면 덮어쓰지 않는다 (등장 연출 중 피해를 입었을 수도 있다)
+        if (!statsReady)
+        {
+            hp = maxHp;
+            statsReady = true;
+        }
 
         // Inspector 할당이 없을 때만 씬의 Player를 찾음
         if (player == null)
@@ -553,6 +568,9 @@ public class Enemy : MonoBehaviour
             // 죽으면 hp가 0 이하라 비율 조건은 항상 참이 된다.
             // 사망 중인 적은 처형 대상도 아니고 처형 표시도 뜨면 안 되므로 먼저 걸러낸다.
             if (isDead) return false;
+
+            // 체력이 채워지기 전에도 hp가 0이라 같은 문제가 생긴다 (스폰 순간 번쩍임)
+            if (!statsReady || maxHp <= 0) return false;
 
             return (float)hp / maxHp <= 0.3f;
         }

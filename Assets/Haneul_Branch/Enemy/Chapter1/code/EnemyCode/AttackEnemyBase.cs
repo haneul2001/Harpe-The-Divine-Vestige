@@ -11,6 +11,26 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
     [SerializeField] protected GameObject attackRangeBox;
     [SerializeField] protected GameObject attackPivot;
 
+    [Header("공격 타이밍")]
+    [Tooltip("공격 애니메이션 중간에 걸린 이벤트를 기다렸다 히트박스를 켠다.\n" +
+             "끄면 애니메이션 시작과 동시에 켜진다(예전 방식).")]
+    [SerializeField] protected bool waitForAnimationHit = true;
+
+    [Tooltip("이벤트가 오지 않을 때를 대비한 최대 대기 시간(초).\n" +
+             "애니메이션에 이벤트를 안 걸었거나 클립이 바뀌어도 공격이 먹통이 되지 않게 한다.")]
+    [SerializeField] protected float hitEventTimeout = 0.7f;
+
+    // 애니메이션 이벤트가 이 프레임에 도달했는지
+    private bool animHitReceived;
+
+    // ── 애니메이션 이벤트에서 호출 ──────────────────────────
+    // 공격 클립 중간 프레임에 Function 이름으로 "AnimAttackHit"을 걸어 두면 된다.
+    // Animator와 같은 오브젝트에 이 컴포넌트가 있어야 호출된다 (둘 다 적 루트에 있다).
+    public void AnimAttackHit()
+    {
+        animHitReceived = true;
+    }
+
     [Header("공격 공통 설정")]
     [Tooltip("지상 전용 공격이면 체크 (플레이어가 공중이면 회피됨)")]
     [SerializeField] protected bool groundOnly = false;
@@ -151,6 +171,12 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
             // 공격 발동
             animator.SetTrigger("attack");
+
+            // 애니메이션 중간 지점까지 기다렸다 판정을 켠다.
+            // 휘두르기 시작과 동시에 맞는 것보다 훨씬 읽기 쉬운 공격이 된다.
+            if (waitForAnimationHit)
+                yield return WaitForAnimationHit();
+
             if (attackHitBox != null)
             {
                 hitBox.ResetHit();
@@ -179,6 +205,21 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             lastAttackTime = Time.time;
             isAttacking = false;
             IsAttackActive = false;
+        }
+    }
+
+    // 애니메이션 이벤트를 기다린다.
+    // 이벤트가 없거나(클립에 안 걸었거나 교체됐거나) 늦으면 타임아웃으로 넘어간다 —
+    // 공격이 영영 안 나가는 것보다 조금 어긋나는 편이 낫다.
+    private IEnumerator WaitForAnimationHit()
+    {
+        animHitReceived = false;
+
+        float elapsed = 0f;
+        while (!animHitReceived && elapsed < hitEventTimeout && !isDead)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
         }
     }
 

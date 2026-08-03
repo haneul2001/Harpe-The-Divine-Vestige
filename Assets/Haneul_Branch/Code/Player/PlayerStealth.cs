@@ -34,6 +34,14 @@ public class PlayerStealth : MonoBehaviour
     [Tooltip("은신이 풀린 뒤 다시 은신할 수 있을 때까지의 시간(초)")]
     [SerializeField] private float recloakDelay = 0.5f;
 
+    [Header("물리")]
+    [Tooltip("은신 중에는 몬스터와 부딪히지 않는다.\n" +
+             "숨어 있는데 몬스터를 밀고 다니면 은신이 들킨 것처럼 보인다.")]
+    [SerializeField] private bool passThroughEnemies = true;
+
+    [Tooltip("은신 중 무시할 레이어. 비우면 EnemyFoot(발밑 콜라이더)을 자동으로 쓴다")]
+    [SerializeField] private LayerMask passThroughLayers;
+
     public bool IsUnlocked { get { return unlocked; } set { unlocked = value; } }
 
     private bool hidden;
@@ -51,6 +59,12 @@ public class PlayerStealth : MonoBehaviour
     private SpriteRenderer[] renderers;
     private Color[] baseColors;
 
+    // 몸통 콜라이더와 원래 제외 레이어.
+    // 전역 Physics2D.IgnoreLayerCollision을 쓰면 프로젝트 설정을 건드려
+    // 플레이 종료 후에도 남을 수 있다. 콜라이더 단위로만 끄는 편이 안전하다.
+    private Collider2D bodyCollider;
+    private int baseExcludeLayers;
+
     private void Awake()
     {
         Instance = this;
@@ -60,10 +74,23 @@ public class PlayerStealth : MonoBehaviour
         status = GetComponent<PlayerStatus>();
 
         // 원래 색을 기억해 둔다. 알파를 곱해서 쓰므로 원본 투명도가 있어도 유지된다.
-        renderers = GetComponentsInChildren<SpriteRenderer>(true);
+        // 디버그 표시는 제외 — 은신했다고 공격 범위 표시까지 흐려질 이유가 없다.
+        var all = GetComponentsInChildren<SpriteRenderer>(true);
+        var keep = new System.Collections.Generic.List<SpriteRenderer>(all.Length);
+
+        for (int i = 0; i < all.Length; i++)
+            if (!DebugVisual.Owns(all[i])) keep.Add(all[i]);
+
+        renderers = keep.ToArray();
         baseColors = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
             baseColors[i] = renderers[i].color;
+
+        bodyCollider = GetComponent<Collider2D>();
+        if (bodyCollider != null) baseExcludeLayers = bodyCollider.excludeLayers.value;
+
+        if (passThroughLayers.value == 0)
+            passThroughLayers = LayerMask.GetMask("EnemyFoot");
     }
 
     private void Start()
@@ -105,6 +132,19 @@ public class PlayerStealth : MonoBehaviour
         if (ShouldBreak()) return;
 
         hidden = true;
+        ApplyPhysics();
+    }
+
+    // 은신 중에는 몬스터 발밑 콜라이더와의 충돌을 끈다.
+    // 콜라이더 단위(excludeLayers)라 전역 설정을 건드리지 않고,
+    // 플레이 종료 시에도 남지 않는다.
+    private void ApplyPhysics()
+    {
+        if (bodyCollider == null) return;
+
+        bodyCollider.excludeLayers = hidden && passThroughEnemies
+            ? baseExcludeLayers | passThroughLayers.value
+            : baseExcludeLayers;
     }
 
     // 외부에서 은신을 끊을 때 (스킬 발동 등). 컴포넌트를 못 찾아도 안전하게 동작한다.
@@ -119,6 +159,14 @@ public class PlayerStealth : MonoBehaviour
 
         hidden = false;
         nextCloakTime = Time.time + recloakDelay;
+        ApplyPhysics();
+    }
+
+    // 컴포넌트가 꺼지거나 파괴돼도 통과 상태로 굳지 않게 되돌린다
+    private void OnDisable()
+    {
+        hidden = false;
+        ApplyPhysics();
     }
 
     // 이동 외의 행동. 스킬은 SkillInputController가 실제로 발동한 순간에 직접 끊어 준다

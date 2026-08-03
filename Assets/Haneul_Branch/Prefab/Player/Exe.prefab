@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 865448011856814539}
   - component: {fileID: 4539739479256873142}
   - component: {fileID: 1983008821764083162}
+  - component: {fileID: 1903061372961969743}
   m_Layer: 8
   m_Name: Exe
   m_TagString: Player
@@ -270,6 +271,21 @@ MonoBehaviour:
   breakOnDash: 1
   breakOnDamage: 1
   recloakDelay: 0.5
+--- !u!114 &1903061372961969743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f4cd4649db6a347805e2e285389420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackColor: {r: 1, g: 0.85, b: 0.3, a: 0.85}
+  showHarvestRange: 1
+  harvestColor: {r: 0.45, g: 0.9, b: 1, a: 0.55}
 --- !u!1 &1300492352161192977
 GameObject:
   m_ObjectHideFlags: 0

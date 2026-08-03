@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -49,7 +50,16 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
-        renderers = GetComponentsInChildren<SpriteRenderer>(true);
+        // 디버그 표시(공격 박스 등)는 제외한다.
+        // 안 거르면 무적 깜빡임이 끝나면서 전부 enabled=true로 되돌려
+        // 꺼 둔 디버그 박스가 한 대 맞을 때마다 되살아난다.
+        var all = GetComponentsInChildren<SpriteRenderer>(true);
+        var keep = new List<SpriteRenderer>(all.Length);
+
+        for (int i = 0; i < all.Length; i++)
+            if (!DebugVisual.Owns(all[i])) keep.Add(all[i]);
+
+        renderers = keep.ToArray();
     }
 
     private void Start()
