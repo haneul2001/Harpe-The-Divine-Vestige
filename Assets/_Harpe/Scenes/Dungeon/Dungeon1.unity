@@ -122,6 +122,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &64911957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 64911958}
+  - component: {fileID: 64911959}
+  m_Layer: 0
+  m_Name: ToastGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &64911958
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64911957}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 675638412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &64911959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64911957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25301f40d315fe44d84d1043c30d2b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 340
+  height: 44
+  labelPadding: 6
+  spacing: 8
+  margin: {x: 28, y: 28}
+  maxVisible: 4
+  holdDuration: 2.4
+  background: {r: 0.16, g: 0.16, b: 0.18, a: 0.94}
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  infoAccent: {r: 0.55, g: 0.6, b: 0.7, a: 1}
+  warnAccent: {r: 0.92, g: 0.68, b: 0.32, a: 1}
+  fontSize: 20
+  sortingOrder: 400
+  font: {fileID: 0}
 --- !u!1 &86758538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1202,7 @@ RectTransform:
   - {fileID: 655275976}
   - {fileID: 521580507}
   - {fileID: 950334964}
+  - {fileID: 64911958}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1929,6 +1992,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleKey: 27
+  blockDuringCombat: 1
+  combatBlockMessage: "\uC804\uD22C \uC911\uC5D0\uB294 \uC77C\uC2DC\uC815\uC9C0\uD560
+    \uC218 \uC5C6\uC2B5\uB2C8\uB2E4"
   itemHeight: 58
   itemSpacing: 6
   menuWidth: 420

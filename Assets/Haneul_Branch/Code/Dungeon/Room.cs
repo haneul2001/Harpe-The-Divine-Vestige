@@ -92,6 +92,9 @@ public class Room : MonoBehaviour
     public Vector2Int GridPos { get; private set; }
 
     public bool IsCleared { get; private set; }
+
+    // 적이 스폰됐고 아직 못 깬 상태. 문이 잠겨 있는 구간과 같다.
+    public bool IsInCombat { get { return spawned && !IsCleared; } }
     // 플레이어가 한 번이라도 들어온 방 (미니맵 표시용)
     public bool Visited { get; private set; }
     public bool HasEnemies => spawns != null && spawns.Count > 0;

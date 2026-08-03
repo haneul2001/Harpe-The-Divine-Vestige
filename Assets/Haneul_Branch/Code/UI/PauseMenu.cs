@@ -15,6 +15,10 @@ public class PauseMenu : MonoBehaviour
     [Header("입력")]
     [SerializeField] private KeyCode toggleKey = KeyCode.Escape;
 
+    [Tooltip("방을 못 깬 상태(문이 잠긴 전투 중)에는 일시정지를 열 수 없게 한다")]
+    [SerializeField] private bool blockDuringCombat = true;
+    [SerializeField] private string combatBlockMessage = "전투 중에는 일시정지할 수 없습니다";
+
     [Header("배치")]
     [SerializeField] private float itemHeight = 58f;
     [SerializeField] private float itemSpacing = 6f;
@@ -79,8 +83,22 @@ public class PauseMenu : MonoBehaviour
         if (abilityPanel != null && abilityPanel.IsOpen) { abilityPanel.Close(); return; }
         if (cheatPanel != null && cheatPanel.IsOpen) { cheatPanel.Close(); return; }
 
-        if (IsOpen) Close();
-        else Open();
+        // 닫는 건 언제나 허용. 막는 건 "여는 것"뿐이다.
+        if (IsOpen) { Close(); return; }
+
+        if (blockDuringCombat && IsInCombat())
+        {
+            ToastManager.Show(combatBlockMessage, ToastManager.Kind.Warn);
+            return;
+        }
+
+        Open();
+    }
+
+    private bool IsInCombat()
+    {
+        RoomManager rm = RoomManager.Instance;
+        return rm != null && rm.Current != null && rm.Current.IsInCombat;
     }
 
     // ─────────────────────────────────────────────
