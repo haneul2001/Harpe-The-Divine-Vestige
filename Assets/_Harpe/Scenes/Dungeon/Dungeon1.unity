@@ -849,7 +849,7 @@ MonoBehaviour:
   defaultSoulGain: 10
   onTargetOffset: {x: 0, y: 0, z: 0}
   impactTime: 0.833
-  showDamageOnImpact: 1
+  showDamageOnImpact: 0
   impactDamageAsCritical: 0
   harvestTextOnImpact: 1
   harvestTextExtraHeight: 0.8
@@ -1899,6 +1899,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1048902503}
   m_CullTransparentMesh: 1
+--- !u!1 &1090004401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090004403}
+  - component: {fileID: 1090004402}
+  m_Layer: 0
+  m_Name: PauseMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1090004402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090004401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f7dbc807e1ce44682c0ae6950920b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 27
+  itemHeight: 58
+  itemSpacing: 6
+  menuWidth: 420
+  leftMargin: 180
+  slideDistance: 12
+  backdropColor: {r: 0.02, g: 0.02, b: 0.04, a: 0.86}
+  accentColor: {r: 0.93, g: 0.83, b: 0.56, a: 1}
+  idleTextColor: {r: 0.6, g: 0.61, b: 0.66, a: 1}
+  titleColor: {r: 0.93, g: 0.83, b: 0.56, a: 1}
+  titleSize: 54
+  itemSize: 30
+  font: {fileID: 0}
+--- !u!4 &1090004403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090004401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1132454778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,6 +2439,7 @@ GameObject:
   - component: {fileID: 1413800636}
   - component: {fileID: 1413800645}
   - component: {fileID: 1413800646}
+  - component: {fileID: 1413800647}
   m_Layer: 8
   m_Name: Reaper
   m_TagString: Player
@@ -2645,17 +2703,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcaf7fc604a75441bfd64cb80cb3a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCards:
-  - {fileID: 11400000, guid: 760b22ad648db1247b279bd1585dd29a, type: 2}
-  - {fileID: 11400000, guid: f479672cd51adb441a10065082547170, type: 2}
-  - {fileID: 11400000, guid: b6e2850dd63de8341b9fbd8b23c11eac, type: 2}
-  - {fileID: 11400000, guid: 176424136054533459b8271b72459bfc, type: 2}
-  - {fileID: 11400000, guid: eec47f678c90aee43912e64f641ab7de, type: 2}
-  - {fileID: 11400000, guid: 7505f8e169759f544a24dd9dc0dc1684, type: 2}
-  - {fileID: 11400000, guid: b61f3bbdd3eb9b7499e3415b7eb5ec85, type: 2}
-  - {fileID: 11400000, guid: 1d9e73507465dfd4bbf9b6381f521551, type: 2}
-  - {fileID: 11400000, guid: c62e97a171e21f64e854983acebc13de, type: 2}
+  startingCards: []
   allowDuplicates: 1
+--- !u!114 &1413800647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413800634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f299b33ab480bb43a20c2dd585fce6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  debugLog: 1
+--- !u!1 &1417814942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1417814944}
+  - component: {fileID: 1417814943}
+  m_Layer: 0
+  m_Name: AbilityCheatPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1417814943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417814942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b2d0ec647fe084ebe284a832f3bd49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 282
+  cards: []
+  columns: 5
+  cardSize: {x: 150, y: 200}
+  cardSpacing: {x: 16, y: 34}
+  backdropColor: {r: 0, g: 0, b: 0, a: 0.85}
+  panelFill: {r: 0.06, g: 0.07, b: 0.06, a: 0.98}
+  panelBorder: {r: 0.45, g: 0.72, b: 0.45, a: 0.9}
+  slotFill: {r: 0.12, g: 0.13, b: 0.12, a: 1}
+  onColor: {r: 0.42, g: 0.86, b: 0.48, a: 1}
+  offColor: {r: 0.45, g: 0.46, b: 0.5, a: 1}
+  dimColor: {r: 0, g: 0, b: 0, a: 0.62}
+  skin: {fileID: 0}
+  font: {fileID: 0}
+--- !u!4 &1417814944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417814942}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1437040774
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,7 +3722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08135184667acfd4a8aad3179a132e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleKey: 27
+  toggleKey: 105
   pauseWhileOpen: 1
   columns: 4
   cardSize: {x: 210, y: 280}
@@ -3614,6 +3735,7 @@ MonoBehaviour:
   panelBorder: {r: 0.62, g: 0.55, b: 0.4, a: 0.9}
   slotFill: {r: 0.12, g: 0.12, b: 0.16, a: 1}
   headerColor: {r: 0.92, g: 0.86, b: 0.7, a: 1}
+  skin: {fileID: 0}
   font: {fileID: 0}
 --- !u!4 &1942894691
 Transform:
@@ -3970,3 +4092,5 @@ SceneRoots:
   - {fileID: 1688193602}
   - {fileID: 1570975584}
   - {fileID: 1942894691}
+  - {fileID: 1417814944}
+  - {fileID: 1090004403}

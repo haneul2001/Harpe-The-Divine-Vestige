@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
-  m_Name: Card_SoulHarvest
+  m_Name: Card_ShockScythe
   m_EditorClassIdentifier: 
-  displayName: "\uC601\uD63C \uC218\uD655"
-  description: "\uCC98\uD615\uC73C\uB85C \uC5BB\uB294 \uC18C\uC6B8\uC774 2 \uC99D\uAC00\uD55C\uB2E4."
+  displayName: "\uCDA9\uACA9\uC758 \uB0AB"
+  description: "\uCC98\uD615 \uC2DC \uC8FC\uBCC0 \uC801\uC5D0\uAC8C \uCDA9\uACA9\uD30C
+    \uD53C\uD574 3."
   icon: {fileID: 0}
   rarity: 1
   set: {fileID: 11400000, guid: 8a8f2e2216dd4ba4d88da42378bfa2a6, type: 2}
   flavor: "\uB0AB\uC740 \uC601\uD63C\uC744 \uAC00\uB978\uB2E4."
+  effects:
+  - {fileID: 11400000, guid: 11802be6d038a1d4db7f1157dc9f5e62, type: 2}

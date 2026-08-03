@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f15dac70f3c934ca681e3aaf7eb18a, type: 3}
+  m_Name: Effect_HarvestShockwave
+  m_EditorClassIdentifier: 
+  summary: "\uCC98\uD615 \uC2DC \uC8FC\uBCC0\uC5D0 \uCDA9\uACA9\uD30C"
+  radius: 3
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  damage: 3
+  asCritical: 0
+  vfxPrefab: {fileID: 0}
+  vfxLifetime: 1
+  drawRing: 1
+  ringColor: {r: 0.55, g: 0.95, b: 1, a: 0.9}
+  ringDuration: 0.35
+  shake: 0.35
+  debugArea: 1
+  debugColor: {r: 1, g: 0.35, b: 0.35, a: 0.55}
+  debugDuration: 1.5

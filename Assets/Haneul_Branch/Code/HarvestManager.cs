@@ -22,8 +22,11 @@ public class HarvestManager : MonoBehaviour
              "harvestSpeed 배율은 자동으로 반영된다.")]
     [SerializeField] private float impactTime = 0.833f;
 
-    [Tooltip("임팩트 순간에 처형 데미지 숫자를 띄운다. 값은 적의 남은 체력(= 처형으로 준 피해)")]
-    [SerializeField] private bool showDamageOnImpact = true;
+    [Tooltip("임팩트 순간에 처형 데미지 숫자를 띄운다. 값은 적의 남은 체력(= 처형으로 준 피해).\n" +
+             "끄면 'HARVEST!' 문구만 남는다 — 문구와 숫자가 겹치면 시선이 분산된다.\n" +
+             "이 옵션은 '처형 대상'의 숫자만 막는다. 처형 파생 효과(충격파 등)로\n" +
+             "주변 몹이 받는 피해는 Enemy.TakeDamage를 타므로 그쪽 숫자는 정상적으로 뜬다.")]
+    [SerializeField] private bool showDamageOnImpact = false;
 
     [Tooltip("처형 데미지를 크리티컬 숫자 프리팹으로 띄운다")]
     [SerializeField] private bool impactDamageAsCritical = true;
@@ -33,6 +36,10 @@ public class HarvestManager : MonoBehaviour
 
     [Tooltip("데미지 숫자와 겹치지 않도록 'HARVEST!' 문구만 추가로 올리는 높이")]
     [SerializeField] private float harvestTextExtraHeight = 0.8f;
+
+    // 처형의 내려찍기가 실제로 닿은 순간. 능력 카드 효과가 여기에 올라탄다.
+    // 이벤트로 둔 이유: 카드가 늘어날 때마다 이 클래스에 if가 쌓이면 안 된다.
+    public event System.Action<HarvestImpact> ImpactLanded;
 
     [Header("카메라 흔들림")]
     [Tooltip("임팩트 순간 카메라를 흔든다 (Main Camera에 CameraShake 컴포넌트 필요)")]
@@ -240,6 +247,11 @@ public class HarvestManager : MonoBehaviour
 
         if (shakeOnImpact)
             CameraShake.Shake(impactShake);
+
+        // 처형 파생 효과(충격파 등)가 붙는 지점.
+        // HarvestManager는 어떤 카드가 무엇을 하는지 몰라야 하므로 "일어났다"만 알린다.
+        if (ImpactLanded != null)
+            ImpactLanded(new HarvestImpact(impactPos, enemy));
 
         // ── 남은 시간 대기 ──
         float remain = scaledDuration - impactDelay;

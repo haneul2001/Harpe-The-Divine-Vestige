@@ -25,10 +25,15 @@ public class AbilityCard : ScriptableObject
     [TextArea(1, 3)]
     [SerializeField] private string flavor = "";
 
+    [Tooltip("이 카드가 실제로 하는 일. 여러 개를 넣을 수 있다\n" +
+             "(예: '처형 시 충격파' + '소울 획득 +2' 를 한 장에)")]
+    [SerializeField] private AbilityEffect[] effects = new AbilityEffect[0];
+
     public string DisplayName => displayName;
     public string Description => description;
     public Sprite Icon => icon;
     public AbilityRarity Rarity => rarity;
     public AbilitySet Set => set;
     public string Flavor => flavor;
+    public AbilityEffect[] Effects => effects;
 }

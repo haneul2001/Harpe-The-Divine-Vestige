@@ -15,7 +15,8 @@ using UnityEngine.UI;
 public class AbilityPanel : MonoBehaviour
 {
     [Header("입력")]
-    [SerializeField] private KeyCode toggleKey = KeyCode.Escape;
+    [Tooltip("ESC는 일시정지 메뉴가 쓰므로 능력 패널은 I를 쓴다")]
+    [SerializeField] private KeyCode toggleKey = KeyCode.I;
     [Tooltip("열려 있는 동안 게임을 멈춘다")]
     [SerializeField] private bool pauseWhileOpen = true;
 
