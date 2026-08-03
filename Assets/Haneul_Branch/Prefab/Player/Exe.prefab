@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 667097894837244086}
   - component: {fileID: 865448011856814539}
   - component: {fileID: 4539739479256873142}
+  - component: {fileID: 1983008821764083162}
   m_Layer: 8
   m_Name: Exe
   m_TagString: Player
@@ -121,9 +122,10 @@ MonoBehaviour:
   dashSpeed: 15
   dashDuration: 0.2
   dashCooldown: 0.75
-  knockBackPower: 8
+  knockBackPower: 2.67
   hitDuration: 0.3
   isExecuting: 0
+  inputLocked: 0
 --- !u!114 &8136257344840416870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harvestRange: 6
+  harvestTeleportOntoTarget: 0
   attackSpeed: 1.2
   chargedDamageMultiplier: 2
   isAttacking: 0
@@ -192,6 +195,9 @@ MonoBehaviour:
   maxExp: 100
   level: 1
   invincibleTime: 0.5
+  blinkWhileInvincible: 1
+  blinkInterval: 0.06
+  hitShake: 0.5
 --- !u!114 &667097894837244086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 1.8
   jumpDuration: 0.6
-  jumpKey: 99
+  jumpKey: 32
   spriteRoot: {fileID: 8855447018516937838}
 --- !u!114 &865448011856814539
 MonoBehaviour:
@@ -245,6 +251,25 @@ MonoBehaviour:
   - key: 101
     skill: {fileID: 11400000, guid: ff91d3e04d9b2eb4ea2982adf066a579, type: 2}
     lastUsedTime: -999
+--- !u!114 &1983008821764083162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d30cb48ed61484db31a2af9bd1346f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 99
+  unlocked: 1
+  hiddenAlpha: 0.5
+  fadeDuration: 0.12
+  breakOnDash: 1
+  breakOnDamage: 1
+  recloakDelay: 0.5
 --- !u!1 &1300492352161192977
 GameObject:
   m_ObjectHideFlags: 0

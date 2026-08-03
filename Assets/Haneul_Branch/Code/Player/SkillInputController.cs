@@ -40,6 +40,10 @@ public class SkillInputController : MonoBehaviour
 
             s.skill.Activate(ctx);
             s.lastUsedTime = Time.time;
+
+            // 스킬을 실제로 쓴 순간에만 은신을 끊는다.
+            // 쿨타임/자원 부족으로 불발된 키 입력까지 풀어 버리면 억울하다.
+            PlayerStealth.BreakStealth();
         }
     }
 
@@ -53,6 +57,7 @@ public class SkillInputController : MonoBehaviour
 
         s.skill.Activate(ctx);
         s.lastUsedTime = Time.time;
+        PlayerStealth.BreakStealth();
         return true;
     }
 }

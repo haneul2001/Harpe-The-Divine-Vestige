@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,10 @@ public class Room : MonoBehaviour
         [Tooltip("분리 반경 덮어쓰기. 0이면 프리팹 값 그대로 사용.\n" +
                  "프리팹의 기본값은 이미 3배 크기 사용을 전제로 잡혀 있으므로 보통 건드릴 필요 없다.")]
         [Min(0f)] public float separationRadius = 0f;
+
+        [Tooltip("이 적이 이 방의 보스. 죽을 때 슬로우 + 줌인 피니시 연출이 나온다.\n" +
+                 "아무것도 체크하지 않으면 보스 방에서는 가장 크게 스폰되는 적을 보스로 본다.")]
+        public bool isBoss = false;
     }
 
     [Header("방 종류")]
@@ -44,6 +49,41 @@ public class Room : MonoBehaviour
     [Tooltip("적 생존 여부를 확인하는 주기(초). 이벤트 대신 폴링이라 Enemy.cs를 고칠 필요 없음")]
     [SerializeField] private float clearCheckInterval = 0.2f;
 
+    [Header("등장 연출")]
+    [Tooltip("문이 쾅 닫히고 나서 첫 적이 튀어나오기까지의 뜸(초)")]
+    [SerializeField] private float spawnLeadIn = 0.15f;
+    [Tooltip("적이 한 마리씩 차례로 튀어나오는 간격(초). 0이면 전부 동시에")]
+    [SerializeField] private float spawnStagger = 0.08f;
+    [Tooltip("한 마리가 튀어나오는 데 걸리는 시간(초)")]
+    [SerializeField] private float spawnPopDuration = 0.26f;
+    [Tooltip("튀어나올 때 제 크기의 몇 배까지 부풀었다 돌아오는지. 1이면 그냥 커지기만 한다")]
+    [SerializeField] private float spawnOvershoot = 1.18f;
+    [Tooltip("전투 시작으로 문이 잠길 때 카메라 흔들림 세기. 0이면 없음")]
+    [SerializeField] private float doorSlamShake = 0.25f;
+    [Tooltip("방을 클리어해 문이 열릴 때 카메라 흔들림 세기. 0이면 없음")]
+    [SerializeField] private float clearShake = 0.15f;
+
+    [Header("보스 처치 피니시 (던파식 슬로우 + 줌인)")]
+    [Tooltip("보스가 죽을 때 시간이 느려지고 카메라가 당겨진다")]
+    [SerializeField] private bool bossFinish = true;
+    [Tooltip("느려진 시간 배율. 0.2~0.3이 묵직하다")]
+    [Range(0.05f, 1f)]
+    [SerializeField] private float finishTimeScale = 0.25f;
+    [Tooltip("카메라 시야 배율. 작을수록 확대. 0.7이면 30% 당겨진다")]
+    [Range(0.3f, 1f)]
+    [SerializeField] private float finishZoom = 0.7f;
+    [Tooltip("카메라가 보스 쪽으로 얼마나 따라붙는지. 1이면 보스를 화면 정중앙에 놓는다")]
+    [Range(0f, 1f)]
+    [SerializeField] private float finishFocusWeight = 0.6f;
+    [Tooltip("줌인에 걸리는 시간(초, 실제 시간)")]
+    [SerializeField] private float finishZoomIn = 0.28f;
+    [Tooltip("줌인 상태로 머무는 시간(초, 실제 시간)")]
+    [SerializeField] private float finishHold = 0.55f;
+    [Tooltip("원래대로 돌아오는 시간(초, 실제 시간)")]
+    [SerializeField] private float finishRecover = 0.4f;
+    [Tooltip("처치 순간 카메라 흔들림. 0이면 없음")]
+    [SerializeField] private float finishShake = 0.5f;
+
     [Header("에디터 표시")]
     [Tooltip("DungeonGenerator의 roomSize와 같은 값을 넣으면 방 크기를 맞추기 쉬움")]
     [SerializeField] private Vector2 gizmoRoomSize = new Vector2(32f, 18f);
@@ -62,8 +102,28 @@ public class Room : MonoBehaviour
     private bool spawned;
     private float nextClearCheck;
 
+    // 등장 연출이 아직 안 끝난 적들. 방을 나가 버리면 코루틴이 죽으므로
+    // 크기 0에 AI가 꺼진 채로 남지 않도록 여기 담아 두고 즉시 마무리한다.
+    private class PendingPop
+    {
+        public Enemy enemy;
+        public Vector3 targetScale;
+    }
+    private readonly List<PendingPop> pendingPops = new List<PendingPop>();
+
+    // 보스 처치 연출 상태
+    private readonly HashSet<Enemy> bossEnemies = new HashSet<Enemy>();
+    private bool finishPlayed;
+    private bool finishRunning;
+    // 연출 시작 전 카메라 시야. 도중에 방이 꺼져도 되돌릴 수 있게 필드로 들고 있는다.
+    private float finishBaseSize = -1f;
+    // 슬로우가 이미 걸린 상태에서 다시 읽으면 값이 중첩되므로 원래 물리 간격을 한 번만 잡아 둔다
+    private static float defaultFixedDelta = -1f;
+
     private void Awake()
     {
+        if (defaultFixedDelta <= 0f) defaultFixedDelta = Time.fixedDeltaTime;
+
         EnsureDoors();
 
         if (enemyContainer == null)
@@ -125,10 +185,14 @@ public class Room : MonoBehaviour
             spawned = true;
         }
 
-        // 적이 남아 있으면 문을 잠근다
+        // 적이 남아 있으면 문을 잠근다 — 여기가 전투 시작 신호라 카메라를 한 번 친다
         if (alive.Count > 0)
         {
             SetDoorsLocked(true);
+            if (doorSlamShake > 0f) CameraShake.Shake(doorSlamShake);
+
+            StartCoroutine(PlaySpawnSequence());
+
             nextClearCheck = Time.time + clearCheckInterval;
         }
         else
@@ -160,6 +224,7 @@ public class Room : MonoBehaviour
     {
         IsCleared = true;
         SetDoorsLocked(false);
+        if (clearShake > 0f) CameraShake.Shake(clearShake);
         Debug.Log($"[Room] {name} {GridPos} 클리어");
     }
 
@@ -177,15 +242,39 @@ public class Room : MonoBehaviour
     // 스폰
     // ─────────────────────────────────────────────
 
+    // 어느 엔트리가 보스인지 정한다.
+    // 아무것도 체크돼 있지 않으면 보스 방에 한해 "가장 크게 스폰되는 적"을 보스로 본다.
+    private int ResolveBossEntry()
+    {
+        for (int i = 0; i < spawns.Count; i++)
+            if (spawns[i] != null && spawns[i].isBoss) return -2;   // 명시적 지정이 있음
+
+        if (type != RoomType.Boss) return -1;
+
+        int best = -1;
+        float bestScale = 0f;
+        for (int i = 0; i < spawns.Count; i++)
+        {
+            if (spawns[i] == null || spawns[i].prefab == null) continue;
+            if (spawns[i].scale > bestScale) { bestScale = spawns[i].scale; best = i; }
+        }
+        return best;
+    }
+
     private void SpawnEnemies()
     {
         alive.Clear();
+        bossEnemies.Clear();
         ResetSpawnOrder();
+
+        int autoBossIndex = ResolveBossEntry();
 
         for (int i = 0; i < spawns.Count; i++)
         {
             SpawnEntry entry = spawns[i];
             if (entry == null || entry.prefab == null) continue;
+
+            bool entryIsBoss = entry.isBoss || i == autoBossIndex;
 
             for (int n = 0; n < entry.count; n++)
             {
@@ -206,8 +295,8 @@ public class Room : MonoBehaviour
                         go.name = entry.info.EnemyName;
                 }
 
-                if (!Mathf.Approximately(entry.scale, 1f))
-                    go.transform.localScale = Vector3.one * entry.scale;
+                Vector3 targetScale = Vector3.one * entry.scale;
+                go.transform.localScale = targetScale;
 
                 // 분리 반경은 크기 배율을 따라가지 않는다.
                 // 프리팹 기본값(2.6)이 이미 스케일 3 기준으로 잡힌 값이라
@@ -216,8 +305,225 @@ public class Room : MonoBehaviour
                     enemy.SeparationRadius = entry.separationRadius;
 
                 alive.Add(enemy);
+                PrepareForPopIn(enemy, targetScale);
+
+                if (entryIsBoss && bossFinish)
+                {
+                    bossEnemies.Add(enemy);
+                    enemy.Died += OnEnemyDied;
+                }
             }
         }
+    }
+
+    // ─────────────────────────────────────────────
+    // 보스 처치 피니시 — 시간이 늘어지고 카메라가 훅 들어간다
+    // ─────────────────────────────────────────────
+
+    private void OnEnemyDied(Enemy enemy)
+    {
+        if (enemy != null) enemy.Died -= OnEnemyDied;
+
+        if (!bossFinish || finishPlayed) return;
+        if (enemy == null || !bossEnemies.Contains(enemy)) return;
+
+        finishPlayed = true;
+        StartCoroutine(PlayBossFinish(enemy.transform.position));
+    }
+
+    // 연출 내내 실제 시간(unscaled)으로 돌아야 한다. 슬로우가 걸린 상태에서
+    // 스케일된 시간을 쓰면 연출 자체가 같이 느려져 영영 안 끝난다.
+    private IEnumerator PlayBossFinish(Vector3 bossPos)
+    {
+        finishRunning = true;
+
+        Camera cam = Camera.main;
+        CameraFollow follow = FindObjectOfType<CameraFollow>();
+
+        float baseSize = cam != null ? cam.orthographicSize : 0f;
+        finishBaseSize = baseSize;
+
+        // 카메라가 쉬는 자리 = 방 중심. transform.position을 쓰면 흔들림 오프셋이 섞이지 않는다.
+        Vector3 restPos = new Vector3(
+            transform.position.x, transform.position.y,
+            cam != null ? cam.transform.position.z : -40f);
+
+        Vector3 focusPos = Vector3.Lerp(
+            restPos,
+            new Vector3(bossPos.x, bossPos.y, restPos.z),
+            finishFocusWeight);
+
+        if (finishShake > 0f) CameraShake.Shake(finishShake);
+
+        if (follow != null)
+        {
+            follow.Suspended = true;
+            follow.OverridePosition = restPos;
+        }
+
+        // ① 늘어지며 당겨진다
+        yield return LerpFinish(0f, 1f, finishZoomIn, cam, follow, baseSize, restPos, focusPos);
+
+        // ② 유지
+        if (finishHold > 0f) yield return new WaitForSecondsRealtime(finishHold);
+
+        // ③ 풀린다
+        yield return LerpFinish(1f, 0f, finishRecover, cam, follow, baseSize, restPos, focusPos);
+
+        RestoreAfterFinish(cam, follow, baseSize);
+    }
+
+    private IEnumerator LerpFinish(float from, float to, float duration,
+        Camera cam, CameraFollow follow, float baseSize, Vector3 restPos, Vector3 focusPos)
+    {
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += duration > 0f ? Time.unscaledDeltaTime / duration : 1f;
+            float e = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t));
+            float k = Mathf.Lerp(from, to, e);
+
+            SetTimeScale(Mathf.Lerp(1f, finishTimeScale, k));
+
+            if (cam != null) cam.orthographicSize = Mathf.Lerp(baseSize, baseSize * finishZoom, k);
+            if (follow != null) follow.OverridePosition = Vector3.Lerp(restPos, focusPos, k);
+
+            yield return null;
+        }
+    }
+
+    private void RestoreAfterFinish(Camera cam, CameraFollow follow, float baseSize)
+    {
+        SetTimeScale(1f);
+        if (cam != null && baseSize > 0f) cam.orthographicSize = baseSize;
+        if (follow != null) follow.Suspended = false;
+        finishRunning = false;
+        finishBaseSize = -1f;
+    }
+
+    // timeScale만 바꾸면 물리가 뚝뚝 끊긴다. fixedDeltaTime도 같이 줄여야 부드럽다.
+    private static void SetTimeScale(float scale)
+    {
+        Time.timeScale = scale;
+        if (defaultFixedDelta > 0f) Time.fixedDeltaTime = defaultFixedDelta * scale;
+    }
+
+    // ─────────────────────────────────────────────
+    // 등장 연출 — 크기 0에서 튀어나오며 AI가 켜진다
+    // ─────────────────────────────────────────────
+
+    // Enemy 컴포넌트를 꺼 두면 Update(상태머신)가 멈춘다.
+    // Unity는 비활성 컴포넌트의 Start를 "처음 켜지는 시점"까지 미루므로,
+    // 초기화(사거리 자동 계산 등)도 최종 크기가 정해진 뒤에 돌아 오히려 정확하다.
+    private void PrepareForPopIn(Enemy enemy, Vector3 targetScale)
+    {
+        if (spawnPopDuration <= 0f) return;
+
+        enemy.enabled = false;
+        enemy.transform.localScale = Vector3.zero;
+
+        SetAlpha(enemy, 0f);
+
+        pendingPops.Add(new PendingPop { enemy = enemy, targetScale = targetScale });
+    }
+
+    private IEnumerator PlaySpawnSequence()
+    {
+        if (spawnLeadIn > 0f) yield return new WaitForSeconds(spawnLeadIn);
+
+        // 리스트 사본으로 돈다 — 연출 중 방을 나가면 원본이 비워질 수 있다
+        PendingPop[] queue = pendingPops.ToArray();
+
+        for (int i = 0; i < queue.Length; i++)
+        {
+            StartCoroutine(PopIn(queue[i]));
+
+            if (spawnStagger > 0f && i < queue.Length - 1)
+                yield return new WaitForSeconds(spawnStagger);
+        }
+    }
+
+    private IEnumerator PopIn(PendingPop pop)
+    {
+        Enemy enemy = pop.enemy;
+        float time = 0f;
+
+        while (time < spawnPopDuration)
+        {
+            if (enemy == null) yield break;
+
+            time += Time.deltaTime;
+            float k = Mathf.Clamp01(time / spawnPopDuration);
+
+            // 0 → 오버슛 → 제 크기. 앞 60%에서 부풀고 뒤 40%에서 가라앉는다.
+            float s = (k < 0.6f)
+                ? Mathf.Lerp(0f, spawnOvershoot, k / 0.6f)
+                : Mathf.Lerp(spawnOvershoot, 1f, (k - 0.6f) / 0.4f);
+
+            enemy.transform.localScale = pop.targetScale * s;
+            SetAlpha(enemy, k);
+
+            yield return null;
+        }
+
+        FinishPop(pop);
+    }
+
+    private void FinishPop(PendingPop pop)
+    {
+        pendingPops.Remove(pop);
+
+        Enemy enemy = pop.enemy;
+        if (enemy == null) return;
+
+        enemy.transform.localScale = pop.targetScale;
+        SetAlpha(enemy, 1f);
+        enemy.enabled = true;
+    }
+
+    // 방을 나가면 이 오브젝트가 꺼지면서 코루틴이 죽는다.
+    // 등장 도중이던 적이 크기 0에 AI가 꺼진 채로 굳지 않도록 즉시 마무리한다.
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+
+        // 피니시 도중 방이 꺼지면(클리어로 문이 열려 그대로 나가 버리는 경우)
+        // 코루틴이 죽으면서 시간이 느려진 채로 영영 묶인다. 반드시 되돌린다.
+        if (finishRunning)
+        {
+            CameraFollow follow = FindObjectOfType<CameraFollow>();
+            RestoreAfterFinish(Camera.main, follow, finishBaseSize);
+        }
+
+        // 남은 구독 정리
+        foreach (Enemy e in bossEnemies)
+            if (e != null) e.Died -= OnEnemyDied;
+
+        for (int i = pendingPops.Count - 1; i >= 0; i--)
+        {
+            PendingPop pop = pendingPops[i];
+            if (pop.enemy != null)
+            {
+                pop.enemy.transform.localScale = pop.targetScale;
+                SetAlpha(pop.enemy, 1f);
+                pop.enemy.enabled = true;
+            }
+        }
+        pendingPops.Clear();
+    }
+
+    // 적 본체 스프라이트만 건드린다. 그림자/히트박스 표시까지 같이 페이드하면
+    // 크기 0일 때 잔상처럼 남는 것들이 생긴다.
+    private static void SetAlpha(Enemy enemy, float a)
+    {
+        if (enemy == null) return;
+
+        SpriteRenderer sr = enemy.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+
+        Color c = sr.color;
+        c.a = a;
+        sr.color = c;
     }
 
     // 스폰 포인트를 섞어서 순서대로 소비한다. 무작위로 매번 뽑으면

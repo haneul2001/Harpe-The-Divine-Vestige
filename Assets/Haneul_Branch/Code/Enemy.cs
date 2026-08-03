@@ -127,6 +127,10 @@ public class Enemy : MonoBehaviour
     // 방향
     public bool IsFacingRight { get; private set; }
     public bool isDead { get; private set; }
+
+    // 죽는 순간 알린다. Room의 클리어 판정은 0.2초 폴링이라 타격 순간을 잡을 수 없어
+    // 보스 처치 연출처럼 타이밍이 중요한 곳은 이 이벤트를 쓴다.
+    public event System.Action<Enemy> Died;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -366,6 +370,8 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("dead");
         }
 
+        if (Died != null) Died(this);
+
         Destroy(gameObject, 1.5f);//사라지는 시간
     }
 
@@ -393,6 +399,16 @@ public class Enemy : MonoBehaviour
     {
         if (player == null) return float.MaxValue;
         return Vector3.Distance(transform.position, player.position);
+    }
+
+    // 플레이어를 인식하고 있는지. 은신 중이면 거리와 무관하게 못 본다.
+    // 추격을 시작하는 조건이자, 추격을 유지하는 조건이기도 하다.
+    public bool CanSeePlayer()
+    {
+        if (player == null) return false;
+        if (PlayerStealth.IsHidden) return false;
+
+        return DistanceToPlayer() <= detectRange;
     }
     // 주변 적을 피하는 방향(크기 0~1)을 반환. 부드러운 감쇠로 튕김/진동 없음.
     // 추격 중에는 기본값(전체 반경 + 산개)을 쓴다.
@@ -560,6 +576,9 @@ public class Enemy : MonoBehaviour
             animator.SetBool("isFollow", false);
             animator.SetTrigger("dead");
         }
+
+        if (Died != null) Died(this);
+
         Destroy(gameObject, destroyDelay);
     }
 }

@@ -20,10 +20,9 @@ public class IdleState : IEnemyState
 
     public void Update()
     {
-        float distance = enemy.DistanceToPlayer();
-        //distance가 범위에 들어오면 ChaseState로 전환
-        if (distance <= enemy.detectRange)
-        {//chaseState로 전환
+        // 감지 범위 안이고 은신 중이 아니면 추격 시작
+        if (enemy.CanSeePlayer())
+        {
             stateMachine.ChangeState(enemy.ChaseState);
         }
     }

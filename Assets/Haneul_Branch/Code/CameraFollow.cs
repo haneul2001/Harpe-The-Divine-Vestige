@@ -42,39 +42,52 @@ public class CameraFollow : MonoBehaviour
         LateUpdate();
     }
 
-    // Update is called once per frame
-    void LateUpdate()
-{
-    if (player == null) return;
-    if (CameraPoint_xMin == null || CameraPoint_xMax == null ||
-        CameraPoint_yMin == null || CameraPoint_yMax == null) return;
+    // 방 전환 슬라이드처럼 외부가 카메라를 직접 몰아야 할 때 추적을 잠시 멈춘다.
+    // 켜져 있는 동안은 OverridePosition을 기준 위치로 쓴다.
+    // transform.position을 그대로 읽으면 이미 얹힌 흔들림 오프셋이 매 프레임 누적돼 카메라가 흘러간다.
+    public bool Suspended { get; set; }
+    public Vector3 OverridePosition { get; set; }
 
-    float clampX = Mathf.Clamp(
-        player.position.x,
-        CameraPoint_xMin.position.x,
-        CameraPoint_xMax.position.x);
-
-    float clampY = Mathf.Clamp(
-        player.position.y,
-        CameraPoint_yMin.position.y,
-        CameraPoint_yMax.position.y);
-
-    // Debug.Log(
-    //     $"PlayerY={player.position.y} " +
-    //     $"Min={CameraPoint_yMin.position.y} " +
-    //     $"Max={CameraPoint_yMax.position.y} " +
-    //     $"Clamp={clampY}");
-
-    Vector3 pos = new Vector3(clampX, clampY, -40f);
-
-    // 카메라 흔들림은 위치를 정한 뒤 마지막에 얹는다.
-    // CameraShake는 Update에서 값을 갱신하므로 여기(LateUpdate)선 항상 최신값이다.
-    if (CameraShake.Instance != null)
+    // 지금 경계 기준으로 카메라가 있어야 할 자리. 슬라이드의 도착점을 미리 구할 때 쓴다.
+    public bool TryGetTargetPosition(out Vector3 result)
     {
-        pos += CameraShake.Instance.Offset;
-        transform.rotation = Quaternion.Euler(0f, 0f, CameraShake.Instance.Roll);
+        result = transform.position;
+
+        if (player == null) return false;
+        if (CameraPoint_xMin == null || CameraPoint_xMax == null ||
+            CameraPoint_yMin == null || CameraPoint_yMax == null) return false;
+
+        float clampX = Mathf.Clamp(
+            player.position.x,
+            CameraPoint_xMin.position.x,
+            CameraPoint_xMax.position.x);
+
+        float clampY = Mathf.Clamp(
+            player.position.y,
+            CameraPoint_yMin.position.y,
+            CameraPoint_yMax.position.y);
+
+        result = new Vector3(clampX, clampY, -40f);
+        return true;
     }
 
-    transform.position = pos;
-}
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        Vector3 pos;
+
+        // 슬라이드 중에는 위치를 연출이 정한다. 흔들림만 그 위에 얹어 준다.
+        if (Suspended) pos = OverridePosition;
+        else if (!TryGetTargetPosition(out pos)) return;
+
+        // 카메라 흔들림은 위치를 정한 뒤 마지막에 얹는다.
+        // CameraShake는 Update에서 값을 갱신하므로 여기(LateUpdate)선 항상 최신값이다.
+        if (CameraShake.Instance != null)
+        {
+            pos += CameraShake.Instance.Offset;
+            transform.rotation = Quaternion.Euler(0f, 0f, CameraShake.Instance.Roll);
+        }
+
+        transform.position = pos;
+    }
 }

@@ -5,7 +5,8 @@ public class PlayerJump : MonoBehaviour
     [Header("점프 설정")]
     [SerializeField] private float jumpHeight = 1.8f;
     [SerializeField] private float jumpDuration = 0.6f;
-    [SerializeField] private KeyCode jumpKey = KeyCode.C;
+    // C는 은신(PlayerStealth)이 쓰므로 점프는 스페이스로 옮겼다
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
 
     [Header("참조")]
     [Tooltip("점프 시 위로 뜨는 자식 오브젝트. 비워두면 자동 감지.")]

@@ -18,6 +18,13 @@ public class ChaseState : IEnemyState
 
     public void Update()
     {
+        // 은신 등으로 플레이어를 놓치면 추격을 멈추고 대기로 돌아간다
+        if (!enemy.CanSeePlayer())
+        {
+            stateMachine.ChangeState(enemy.IdleState);
+            return;
+        }
+
         float distance = enemy.DistanceToPlayer();
 
         enemy.FaceToPlayer();

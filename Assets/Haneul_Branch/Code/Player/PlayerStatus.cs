@@ -24,7 +24,18 @@ public class PlayerStatus : MonoBehaviour
 
     [Header("피격")]
     [SerializeField] private float invincibleTime = 0.5f;
+    [Tooltip("무적 동안 스프라이트를 깜빡여 눈에 보이게 한다.\n" +
+             "색이 아니라 렌더러 on/off를 토글하므로 은신(알파 조절)과 충돌하지 않는다.")]
+    [SerializeField] private bool blinkWhileInvincible = true;
+    [Tooltip("깜빡임 주기(초). 작을수록 빠르게 명멸한다")]
+    [SerializeField] private float blinkInterval = 0.06f;
+    [Tooltip("피격 시 카메라 흔들림 세기 (0.2 = 가벼운 타격 / 0.6 = 처형급). 0이면 없음")]
+    [SerializeField] private float hitShake = 0.25f;
+
     private bool isInvincible;
+    public bool IsInvincible => isInvincible;
+
+    private SpriteRenderer[] renderers;
 
     // 패링 상태 (Parry 스킬이 BeginParry로 설정)
     private float parryPerfectEndTime = -1f;
@@ -35,6 +46,11 @@ public class PlayerStatus : MonoBehaviour
     private float parryIframeDuration = 0f;
 
     private enum ParryResult { None, Normal, Perfect }
+
+    private void Awake()
+    {
+        renderers = GetComponentsInChildren<SpriteRenderer>(true);
+    }
 
     private void Start()
     {
@@ -65,6 +81,9 @@ public class PlayerStatus : MonoBehaviour
 
         currentHp -= taken;
         Debug.Log($"플레이어피격 : {taken} damage (원본 {damage}, 패링 x{mult}, 방어 {stats.Defense}). HP: {currentHp}/{MaxHp}");
+
+        // 실제로 피해가 들어간 경우에만 (무적·퍼펙트 패링은 위에서 이미 빠져나갔다)
+        if (hitShake > 0f) CameraShake.Shake(hitShake);
 
         if (currentHp <= 0)
             Die();
@@ -120,8 +139,39 @@ public class PlayerStatus : MonoBehaviour
     private IEnumerator InvincibleFor(float duration)
     {
         isInvincible = true;
-        yield return new WaitForSeconds(duration);
+        yield return Blink(duration);
         isInvincible = false;
+    }
+
+    // 무적 동안 스프라이트를 명멸시킨다.
+    // 무적인지 아닌지 화면에서 안 보이면 플레이어는 그냥 "안 맞은 것"으로 착각한다.
+    private IEnumerator Blink(float duration)
+    {
+        if (!blinkWhileInvincible || renderers == null || blinkInterval <= 0f)
+        {
+            yield return new WaitForSeconds(duration);
+            yield break;
+        }
+
+        float elapsed = 0f;
+        bool on = false;
+
+        while (elapsed < duration)
+        {
+            SetRenderersEnabled(on);
+            on = !on;
+
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval;
+        }
+
+        SetRenderersEnabled(true);
+    }
+
+    private void SetRenderersEnabled(bool value)
+    {
+        for (int i = 0; i < renderers.Length; i++)
+            if (renderers[i] != null) renderers[i].enabled = value;
     }
 
     // 소울 획득 (처형 시). CharacterStats.GainSoul이 최대치로 클램프.
@@ -135,7 +185,7 @@ public class PlayerStatus : MonoBehaviour
     private IEnumerator InvincibleCoroutine()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(invincibleTime);
+        yield return Blink(invincibleTime);
         isInvincible = false;
     }
 

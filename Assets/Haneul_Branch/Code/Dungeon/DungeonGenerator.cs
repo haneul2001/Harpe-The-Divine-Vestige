@@ -20,6 +20,9 @@ public class DungeonGenerator : MonoBehaviour
     [Header("방 크기 (유닛) — 방 프리팹의 실제 크기와 반드시 일치시킬 것")]
     [SerializeField] private Vector2 roomSize = new Vector2(32f, 18f);
 
+    // 미니맵이 방 안에서의 플레이어 상대 위치를 계산할 때 쓴다.
+    public Vector2 RoomSize { get { return roomSize; } }
+
     [Header("랜덤 시드")]
     [SerializeField] private bool useRandomSeed = true;
     [Tooltip("useRandomSeed를 끄면 이 값으로 항상 같은 던전이 나옴 (디버깅용)")]

@@ -10,8 +10,14 @@ public class PlayerMove : MonoBehaviour
     public float dashDuration = 0.25f;
     public float dashCooldown = 1f;
     [Header("피격")]
-    public float knockBackPower = 8f;
+    [Tooltip("넉백 초기 속도. 시간에 따라 0까지 잦아들므로 실제 밀리는 거리는\n" +
+             "약 (knockBackPower × hitDuration ÷ 2) 유닛이다.")]
+    public float knockBackPower = 2.67f;
     public float hitDuration = 0.2f;
+
+    // 넉백 감쇠용
+    private Vector2 knockBackDir;
+    private float knockBackEndTime;
 
     private bool isHit = false;
     private Rigidbody2D rb;
@@ -23,7 +29,15 @@ public class PlayerMove : MonoBehaviour
     private Vector2 dashDirection;
 
     public bool isExecuting = false;
+
+    // 방 전환 같은 연출 중 조작만 막는다.
+    // isExecuting과 달리 속도를 0으로 만들지 않는다 — 연출이 직접 속도를 몰아야 하기 때문.
+    [HideInInspector] public bool inputLocked = false;
+
     private bool isDashing = false;
+
+    // 은신 해제 판정 등 외부에서 대시 여부를 봐야 할 때
+    public bool IsDashing { get { return isDashing; } }
     private float dashTimeLeft = 0f;
     private float lastDashTime = -100f;
 
@@ -37,7 +51,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (isExecuting)
+        if (isExecuting || inputLocked)
         {
             moveInput = Vector2.zero;
             return;
@@ -70,6 +84,11 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 연출 중: 속도는 건드리지 않는다. 방 전환의 "밀어 넣기"가 속도를 직접 몰기 때문에
+        // 여기서 0으로 덮으면 매 물리 스텝마다 상쇄돼 플레이어가 문에 박힌다.
+        if (inputLocked)
+            return;
+
         if (isExecuting)
         {
             rb.velocity = Vector2.zero;
@@ -77,7 +96,14 @@ public class PlayerMove : MonoBehaviour
             return;
         }
         if (isHit)
-                return;
+        {
+            // 넉백은 시간에 따라 잦아든다.
+            // 등속으로 밀면 같은 거리라도 "밀렸다"가 아니라 "날아갔다"로 느껴진다.
+            float remain = knockBackEndTime - Time.time;
+            float k = hitDuration > 0f ? Mathf.Clamp01(remain / hitDuration) : 0f;
+            rb.velocity = knockBackDir * knockBackPower * k;
+            return;
+        }
 
             if (isDashing)
             {
@@ -156,10 +182,11 @@ public class PlayerMove : MonoBehaviour
         combat.CancelAttack(); // 피격 시 공격 취소
         isHit = true;
 
-        Vector2 dir =
+        knockBackDir =
             ((Vector2)transform.position - attackPos).normalized;
 
-        rb.velocity = dir * knockBackPower;
+        knockBackEndTime = Time.time + hitDuration;
+        rb.velocity = knockBackDir * knockBackPower;
 
         anim.SetTrigger("Hurt");
 
