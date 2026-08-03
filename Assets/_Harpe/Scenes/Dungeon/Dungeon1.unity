@@ -2381,6 +2381,7 @@ GameObject:
   - component: {fileID: 1413800637}
   - component: {fileID: 1413800636}
   - component: {fileID: 1413800645}
+  - component: {fileID: 1413800646}
   m_Layer: 8
   m_Name: Reaper
   m_TagString: Player
@@ -2632,6 +2633,29 @@ MonoBehaviour:
   breakOnDash: 1
   breakOnDamage: 1
   recloakDelay: 0.5
+--- !u!114 &1413800646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413800634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcaf7fc604a75441bfd64cb80cb3a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingCards:
+  - {fileID: 11400000, guid: 760b22ad648db1247b279bd1585dd29a, type: 2}
+  - {fileID: 11400000, guid: f479672cd51adb441a10065082547170, type: 2}
+  - {fileID: 11400000, guid: b6e2850dd63de8341b9fbd8b23c11eac, type: 2}
+  - {fileID: 11400000, guid: 176424136054533459b8271b72459bfc, type: 2}
+  - {fileID: 11400000, guid: eec47f678c90aee43912e64f641ab7de, type: 2}
+  - {fileID: 11400000, guid: 7505f8e169759f544a24dd9dc0dc1684, type: 2}
+  - {fileID: 11400000, guid: b61f3bbdd3eb9b7499e3415b7eb5ec85, type: 2}
+  - {fileID: 11400000, guid: 1d9e73507465dfd4bbf9b6381f521551, type: 2}
+  - {fileID: 11400000, guid: c62e97a171e21f64e854983acebc13de, type: 2}
+  allowDuplicates: 1
 --- !u!1 &1437040774
 GameObject:
   m_ObjectHideFlags: 0
@@ -3548,6 +3572,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1993535285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1942894689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942894691}
+  - component: {fileID: 1942894690}
+  m_Layer: 0
+  m_Name: AbilityPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942894690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942894689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08135184667acfd4a8aad3179a132e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 27
+  pauseWhileOpen: 1
+  columns: 4
+  cardSize: {x: 210, y: 280}
+  cardSpacing: {x: 24, y: 24}
+  cardHoverLift: 10
+  setColumnWidth: 132
+  setIconSize: 74
+  backdropColor: {r: 0, g: 0, b: 0, a: 0.78}
+  panelFill: {r: 0.07, g: 0.07, b: 0.1, a: 0.98}
+  panelBorder: {r: 0.62, g: 0.55, b: 0.4, a: 0.9}
+  slotFill: {r: 0.12, g: 0.12, b: 0.16, a: 1}
+  headerColor: {r: 0.92, g: 0.86, b: 0.7, a: 1}
+  font: {fileID: 0}
+--- !u!4 &1942894691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942894689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1993535284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3887,3 +3969,4 @@ SceneRoots:
   - {fileID: 442504033}
   - {fileID: 1688193602}
   - {fileID: 1570975584}
+  - {fileID: 1942894691}
