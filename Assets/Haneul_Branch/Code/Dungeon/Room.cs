@@ -114,6 +114,9 @@ public class Room : MonoBehaviour
     }
     private readonly List<PendingPop> pendingPops = new List<PendingPop>();
 
+    // 상단 체력바에 띄울 보스. 때리지 않아도 방에 들어가면 바로 보이게 하려고 들고 있는다.
+    private Enemy barBoss;
+
     // 보스 처치 연출 상태
     private readonly HashSet<Enemy> bossEnemies = new HashSet<Enemy>();
     private bool finishPlayed;
@@ -310,6 +313,13 @@ public class Room : MonoBehaviour
                 alive.Add(enemy);
                 PrepareForPopIn(enemy, targetScale);
 
+                // 등급은 처치 연출 옵션과 무관하게 붙인다 — 상단 체력바가 이 값을 본다
+                if (entryIsBoss)
+                {
+                    enemy.Grade = EnemyGrade.Boss;
+                    barBoss = enemy;
+                }
+
                 if (entryIsBoss && bossFinish)
                 {
                     bossEnemies.Add(enemy);
@@ -433,6 +443,9 @@ public class Room : MonoBehaviour
     private IEnumerator PlaySpawnSequence()
     {
         if (spawnLeadIn > 0f) yield return new WaitForSeconds(spawnLeadIn);
+
+        // 보스는 첫 타를 맞기 전에 이름과 체력이 보여야 한다
+        if (barBoss != null) EnemyHealthBar.ShowBoss(barBoss);
 
         // 리스트 사본으로 돈다 — 연출 중 방을 나가면 원본이 비워질 수 있다
         PendingPop[] queue = pendingPops.ToArray();

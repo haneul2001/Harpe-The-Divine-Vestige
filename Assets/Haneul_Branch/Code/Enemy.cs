@@ -106,6 +106,22 @@ public class Enemy : MonoBehaviour
     public int maxHp = 5;//체력
     public int hp { get; private set; }
 
+    [Header("등급")]
+    [Tooltip("상단 체력바의 크기·색·표기를 정한다. 보스 방의 보스는 스폰할 때 자동으로 Boss가 된다.")]
+    [SerializeField] private EnemyGrade grade = EnemyGrade.Normal;
+    public EnemyGrade Grade { get { return grade; } set { grade = value; } }
+
+    // 체력바에 띄울 이름. 데이터 에셋의 이름을 우선 쓰고, 없으면 오브젝트 이름에서 (Clone)만 떼어 낸다.
+    public string DisplayName
+    {
+        get
+        {
+            if (enemyInfo != null && !string.IsNullOrEmpty(enemyInfo.EnemyName))
+                return enemyInfo.EnemyName;
+            return name.Replace("(Clone)", "").Trim();
+        }
+    }
+
     [Header("데이터 (선택)")]
     [Tooltip("있으면 hp/이동속도/공격력을 이 SO 값으로 오버라이드")]
     [SerializeField] private EnemyInfo enemyInfo;
@@ -131,6 +147,11 @@ public class Enemy : MonoBehaviour
     // 죽는 순간 알린다. Room의 클리어 판정은 0.2초 폴링이라 타격 순간을 잡을 수 없어
     // 보스 처치 연출처럼 타이밍이 중요한 곳은 이 이벤트를 쓴다.
     public event System.Action<Enemy> Died;
+
+    // 아무 적이나 맞을 때마다 발생. 상단 체력바가 "방금 때린 대상"을 잡는 데 쓴다.
+    // 개체마다 구독하면 스폰/파괴 때마다 등록·해제를 챙겨야 하므로 정적 이벤트로 둔다.
+    // 구독하는 쪽은 OnDisable에서 반드시 해제할 것.
+    public static event System.Action<Enemy> AnyDamaged;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -363,6 +384,10 @@ public class Enemy : MonoBehaviour
             DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical);
 
         hp -= damage;
+
+        // 체력이 깎인 뒤에 알린다 — 구독자가 곧바로 남은 체력을 읽어야 한다.
+        // 죽는 타격도 포함해야 체력바가 0까지 내려가는 게 보인다.
+        if (AnyDamaged != null) AnyDamaged(this);
 
         if (hp <= 0)
         {
