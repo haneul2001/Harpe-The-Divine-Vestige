@@ -45,6 +45,12 @@ public class Room : MonoBehaviour
     [Tooltip("스폰된 적이 들어갈 부모. 비우면 방 루트 (스케일 1이어야 함)")]
     [SerializeField] private Transform enemyContainer;
 
+    [Header("스폰 제외 구역")]
+    [Tooltip("화면 오른쪽 위에는 미니맵이 떠 있어서 그 아래에서 적이 나오면 가려서 안 보인다. "
+           + "방 오른쪽 위 이만큼의 칸(정사각)에서는 적을 스폰하지 않는다. 0이면 제외 없음.")]
+    [Min(0)]
+    [SerializeField] private int noSpawnCornerCells = 3;
+
     [Header("클리어 판정")]
     [Tooltip("적 생존 여부를 확인하는 주기(초). 이벤트 대신 폴링이라 Enemy.cs를 고칠 필요 없음")]
     [SerializeField] private float clearCheckInterval = 0.2f;
@@ -87,6 +93,10 @@ public class Room : MonoBehaviour
     [Header("에디터 표시")]
     [Tooltip("DungeonGenerator의 roomSize와 같은 값을 넣으면 방 크기를 맞추기 쉬움")]
     [SerializeField] private Vector2 gizmoRoomSize = new Vector2(32f, 18f);
+
+    // 방의 실제 크기. 생성기가 격자에 배치할 때 쓴다.
+    // 프리팹이 자기 크기를 들고 있으므로 생성기 인스펙터의 숫자와 어긋날 일이 없다.
+    public Vector2 Size { get { return gizmoRoomSize; } }
 
     // 생성기가 채움
     public Vector2Int GridPos { get; private set; }
@@ -542,6 +552,20 @@ public class Room : MonoBehaviour
         sr.color = c;
     }
 
+    // 미니맵에 가리는 오른쪽 위 구석인지. 방 안에서의 상대 위치로 판단하므로
+    // 방이 격자 어디에 배치되든 똑같이 동작한다.
+    private bool IsInNoSpawnCorner(Transform point)
+    {
+        if (noSpawnCornerCells <= 0 || point == null) return false;
+
+        Vector3 local = point.position - transform.position;
+        float halfX = gizmoRoomSize.x * 0.5f;
+        float halfY = gizmoRoomSize.y * 0.5f;
+
+        return local.x >= halfX - noSpawnCornerCells
+            && local.y >= halfY - noSpawnCornerCells;
+    }
+
     // 스폰 포인트를 섞어서 순서대로 소비한다. 무작위로 매번 뽑으면
     // 같은 자리에 여러 마리가 겹쳐서 나온다.
     private void ResetSpawnOrder()
@@ -551,7 +575,16 @@ public class Room : MonoBehaviour
 
         for (int i = 0; i < spawnPoints.Length; i++)
         {
-            if (spawnPoints[i] != null) spawnOrder.Add(i);
+            if (spawnPoints[i] == null) continue;
+            if (IsInNoSpawnCorner(spawnPoints[i])) continue;   // 미니맵 아래는 건너뛴다
+            spawnOrder.Add(i);
+        }
+
+        // 전부 제외돼 버리면 스폰할 자리가 없어진다 — 그럴 땐 제외를 무시하고 다 쓴다
+        if (spawnOrder.Count == 0)
+        {
+            for (int i = 0; i < spawnPoints.Length; i++)
+                if (spawnPoints[i] != null) spawnOrder.Add(i);
         }
 
         for (int i = spawnOrder.Count - 1; i > 0; i--)

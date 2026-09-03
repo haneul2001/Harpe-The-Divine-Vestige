@@ -368,9 +368,18 @@ public class Enemy : MonoBehaviour
         else transform.rotation = Quaternion.Euler(0f,180f,0f);
     }
 
+    // 공격을 낼 수 있는 자세인지. 기본은 항상 참이고,
+    // 좌우로만 공격하는 적(AttackEnemyBase)이 높이 차를 따져 덮어쓴다.
+    public virtual bool IsAttackAligned()
+    {
+        return true;
+    }
+
     public bool CanAttack()
     {
-        return Time.time - lastAttackTime >= attackIdleTime && DistanceToPlayer() <= attackRange;
+        return Time.time - lastAttackTime >= attackIdleTime
+            && DistanceToPlayer() <= attackRange
+            && IsAttackAligned();
     }
 
     public void TakeDamage(int damage, bool isCritical = false)
@@ -382,6 +391,10 @@ public class Enemy : MonoBehaviour
         // 플로팅 데미지 숫자 표시 (죽는 타격도 보이도록 hp 차감 전에 호출)
         if (DamageNumberSpawner.Instance != null)
             DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical);
+
+        // 피격 이펙트 — 몸통 한가운데쯤에서 터지게 살짝 올린다.
+        // 적을 부모로 삼지 않는다. 넉백으로 밀려나도 맞은 자리에 남아야 타격 위치가 읽힌다.
+        PixelVfx.Play("EnemyHit", transform.position + Vector3.up * 0.6f);
 
         hp -= damage;
 

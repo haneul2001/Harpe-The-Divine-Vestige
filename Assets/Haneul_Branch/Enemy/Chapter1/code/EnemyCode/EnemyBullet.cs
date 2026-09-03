@@ -30,6 +30,11 @@ public class EnemyBullet : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
+        // 이펙트를 자식으로 붙여 같이 날아가게 한다. 원래 스프라이트는 자리만 차지하므로 끈다.
+        var own = GetComponent<SpriteRenderer>();
+        if (own != null) own.enabled = false;
+        PixelVfx.Play("BatShot", transform.position, angle, transform);
+
         Destroy(gameObject, lifeTime);
     }
 

@@ -23,25 +23,27 @@ public static class EnemyGradeUtil
         }
     }
 
-    // 이름·테두리·등급칩에 쓰는 강조색
+    // 이름·등급칩에 쓰는 강조색.
+    // 사신 컨셉에 맞춰 회색~연보라 계열로만 간다. 채도가 높으면 화면에서 UI만 튄다.
     public static Color Accent(this EnemyGrade grade)
     {
         switch (grade)
         {
-            case EnemyGrade.Boss:  return new Color(0.96f, 0.62f, 0.24f);
-            case EnemyGrade.Elite: return new Color(0.72f, 0.46f, 0.95f);
-            default:               return new Color(0.80f, 0.82f, 0.86f);
+            case EnemyGrade.Boss:  return new Color(0.741f, 0.667f, 0.867f);  // 창백한 연보라
+            case EnemyGrade.Elite: return new Color(0.573f, 0.502f, 0.706f);  // 중간 보라회색
+            default:               return new Color(0.616f, 0.635f, 0.671f);  // 회색
         }
     }
 
-    // 체력 채움색. 강조색보다 진해야 글자가 위에서 읽힌다.
+    // 체력 채움색. 어두운 프레임 위에 얹히므로 진하되 탁하게 간다.
+    // 완전한 회색으로 두면 "체력"으로 안 읽히므로 붉은 기운은 남긴다.
     public static Color Fill(this EnemyGrade grade)
     {
         switch (grade)
         {
-            case EnemyGrade.Boss:  return new Color(0.82f, 0.20f, 0.16f);
-            case EnemyGrade.Elite: return new Color(0.52f, 0.24f, 0.78f);
-            default:               return new Color(0.38f, 0.62f, 0.34f);
+            case EnemyGrade.Boss:  return new Color(0.596f, 0.157f, 0.208f);  // 짙은 핏빛
+            case EnemyGrade.Elite: return new Color(0.463f, 0.216f, 0.439f);  // 진한 자주
+            default:               return new Color(0.435f, 0.216f, 0.275f);  // 어두운 적자
         }
     }
 
@@ -51,9 +53,9 @@ public static class EnemyGradeUtil
     {
         switch (grade)
         {
-            case EnemyGrade.Boss:  return 1800f;
-            case EnemyGrade.Elite: return 1280f;
-            default:               return 920f;
+            case EnemyGrade.Boss:  return 1200f;
+            case EnemyGrade.Elite: return 850f;
+            default:               return 620f;
         }
     }
 

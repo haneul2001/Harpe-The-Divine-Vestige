@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Undead_Boss
   m_EditorClassIdentifier: 
   enemyName: Big Undead
-  hp: 800
+  hp: 2400
   damage: 2
   exp: 80
   speed: 2

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Undead_Elite
   m_EditorClassIdentifier: 
   enemyName: Elite Undead
-  hp: 400
+  hp: 1200
   damage: 2
   exp: 20
   speed: 2

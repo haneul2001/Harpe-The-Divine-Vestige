@@ -31,6 +31,24 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
         animHitReceived = true;
     }
 
+    [Header("공격 방향")]
+    [Tooltip("플레이어처럼 좌우로만 공격한다. 끄면 플레이어 쪽으로 임의 각도로 회전한다.\n" +
+             "탑다운이지만 캐릭터·이펙트가 전부 좌우 기준으로 그려져 있어 켜 두는 편이 자연스럽다.")]
+    [SerializeField] protected bool horizontalAttackOnly = true;
+
+    [Tooltip("좌우 공격일 때 높이가 이만큼 안에 들어와야 공격한다.\n" +
+             "너무 좁으면 적이 줄을 맞추느라 계속 따라다니고, 너무 넓으면 빗나가는 게 눈에 보인다.")]
+    [SerializeField] protected float verticalTolerance = 1.2f;
+
+    [Header("공격 예고 표시")]
+    [Tooltip("공격 전 범위 표시를 띄운다. 끄면 예고 시간(attackWarningDuration)은 그대로 두고 표시만 안 나온다 — "
+           + "리듬은 유지하되 화면을 깔끔하게 두고 싶을 때 쓴다.")]
+    [SerializeField] protected bool showAttackWarning = false;
+
+    // 지금 떠 있는 예고 표식. 적이 예고 도중 죽으면 코루틴이 finally 없이 끊기므로
+    // 여기 들고 있다가 OnDisable에서 확실히 지운다.
+    private PixelVfx activeTelegraph;
+
     [Header("공격 공통 설정")]
     [Tooltip("지상 전용 공격이면 체크 (플레이어가 공중이면 회피됨)")]
     [SerializeField] protected bool groundOnly = false;
@@ -53,6 +71,25 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
     public bool IsRunning => isAttacking;
     public bool IsGroundOnly => groundOnly;
+
+    // 좌우 공격이면 높이가 맞아야 실제로 닿는다. 안 맞으면 계속 접근해 줄을 맞춘다.
+    public override bool IsAttackAligned()
+    {
+        if (!horizontalAttackOnly || player == null) return true;
+        return Mathf.Abs(player.position.y - transform.position.y) <= verticalTolerance;
+    }
+
+    // 플레이어 쪽 방향. 좌우 공격이면 x 부호만 남긴다.
+    protected Vector2 AimDirection()
+    {
+        Vector2 raw = player != null
+            ? ((Vector2)(player.position - transform.position))
+            : (IsFacingRight ? Vector2.right : Vector2.left);
+
+        if (!horizontalAttackOnly) return raw.sqrMagnitude > 0.0001f ? raw.normalized : Vector2.right;
+
+        return raw.x >= 0f ? Vector2.right : Vector2.left;
+    }
 
     protected override void Start()
     {
@@ -140,6 +177,65 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
         rangeBox.localScale = hitBoxTransform.localScale;
     }
 
+    // 베기 이펙트. 판정이 나가는 그 자리에, 그 크기로, 그 방향으로 띄운다.
+    // 판정과 그림이 어긋나면 "분명히 피했는데 맞았다"가 된다.
+    private void SpawnSlash(Vector2 dir)
+    {
+        if (attackHitBox == null) return;
+
+        var slash = PixelVfx.Play("SlashHit", attackHitBox.transform.position);
+        if (slash == null) return;
+
+        float sign = dir.x < 0f ? -1f : 1f;
+        Vector3 s = slash.transform.localScale;
+
+        var box = attackHitBox.GetComponent<BoxCollider2D>();
+        if (box != null)
+        {
+            // 원본이 2x2 유닛이라 판정 높이에 맞춰 키운다
+            Vector3 ls = attackHitBox.transform.lossyScale;
+            float h = box.size.y * Mathf.Abs(ls.y);
+            float k = Mathf.Clamp(h / 2f, 0.4f, 4f);
+            s = new Vector3(k, k, 1f);
+        }
+
+        // 좌우 공격이라 x를 뒤집는 것으로 방향이 맞는다.
+        // 180도 회전을 쓰면 위아래까지 뒤집혀 베는 궤적이 반대로 보인다.
+        slash.transform.localScale = new Vector3(Mathf.Abs(s.x) * sign, s.y, 1f);
+
+        if (!horizontalAttackOnly)
+            slash.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+    }
+
+    // 공격 예고 표식. 히트박스 자리에 히트박스 크기로 띄운다.
+    // 적을 부모로 삼지 않는다 — 예고는 "여기가 맞는다"는 표시라 적을 따라 움직이면 안 된다.
+    private PixelVfx SpawnTelegraph()
+    {
+        if (attackHitBox == null) return null;
+
+        ClearTelegraph();   // 이전 것이 남아 있으면 먼저 치운다
+
+        var vfx = PixelVfx.Play("AttackTelegraph", attackHitBox.transform.position);
+        activeTelegraph = vfx;
+        if (vfx == null) return null;
+
+        // 히트박스는 꺼져 있어 bounds를 못 쓴다. 콜라이더 크기 x 스케일로 직접 잰다.
+        var box = attackHitBox.GetComponent<BoxCollider2D>();
+        if (box != null)
+        {
+            Vector3 ls = attackHitBox.transform.lossyScale;
+            float w = box.size.x * Mathf.Abs(ls.x);
+            float h = box.size.y * Mathf.Abs(ls.y);
+            // 프레임 원본이 2x2 유닛이다. 가로·세로를 따로 늘려 판정 박스 비율을 그대로 따라간다 —
+            // 원형으로 두면 가로로 긴 판정과 표시가 어긋나 어디까지 맞는지 알 수 없다.
+            vfx.transform.localScale = new Vector3(
+                Mathf.Clamp(w / 2f, 0.3f, 5f),
+                Mathf.Clamp(h / 2f, 0.3f, 5f),
+                1f);
+        }
+        return vfx;
+    }
+
     public void ShowRange(bool show)
     {
         attackRangeBox.SetActive(show);
@@ -161,13 +257,30 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             StopMove();
             FaceToPlayer();
 
-            Vector2 dir = ((Vector2)(player.position - transform.position)).normalized;
+            Vector2 dir = AimDirection();
             if (attackRangeSet != null) attackRangeSet.SetDirection(dir);
 
-            // 공격 예고
-            if (attackRangeBox != null) attackRangeBox.SetActive(true);
-            yield return new WaitForSeconds(attackWarningDuration);
+            // 공격 예고 — 표시 여부와 무관하게 시간은 흐른다
+            if (showAttackWarning)
+            {
+                if (attackRangeBox != null) attackRangeBox.SetActive(true);
+                SpawnTelegraph();
+            }
+
+            // 통째로 기다리지 않고 매 프레임 사망을 확인한다.
+            // WaitForSeconds로 묶으면 예고 도중 죽어도 그 시간이 다 흐를 때까지
+            // 표식이 화면에 남고, 죽은 적이 뒤늦게 공격까지 낸다.
+            float warned = 0f;
+            while (warned < attackWarningDuration && !isDead)
+            {
+                warned += Time.deltaTime;
+                yield return null;
+            }
+
             if (attackRangeBox != null) attackRangeBox.SetActive(false);
+            ClearTelegraph();
+
+            if (isDead) yield break;   // 뒷정리는 finally가 한다
 
             // 공격 발동
             animator.SetTrigger("attack");
@@ -181,6 +294,7 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             {
                 hitBox.ResetHit();
                 attackHitBox.SetActive(true);
+                SpawnSlash(dir);
             }
 
             // 공격 활성 동안의 동작 (돌진 / 제자리 / 발사 등) — 파생 구현
@@ -200,6 +314,7 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
         }
         finally
         {
+            ClearTelegraph();
             SetPositionLocked(false);
             OnAttackFinally();
             lastAttackTime = Time.time;
@@ -232,9 +347,18 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
     // 공격 종료 정리 훅 (예: 돌진의 물리 설정 복구)
     protected virtual void OnAttackFinally() { }
 
+    // 오브젝트가 꺼지거나 파괴되면 코루틴이 finally 없이 끊긴다.
+    // 예고 표식은 적의 자식이 아니라서 그대로 화면에 남으므로 여기서 반드시 지운다.
     protected virtual void OnDisable()
     {
         if (attackHitBox != null) attackHitBox.SetActive(false);
         if (attackRangeBox != null) attackRangeBox.SetActive(false);
+        ClearTelegraph();
+    }
+
+    private void ClearTelegraph()
+    {
+        if (activeTelegraph != null) activeTelegraph.Stop();
+        activeTelegraph = null;
     }
 }

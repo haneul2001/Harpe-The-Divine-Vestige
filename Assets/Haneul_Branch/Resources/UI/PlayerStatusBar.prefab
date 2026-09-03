@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7744608066019444317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2722227556369442260}
+  - component: {fileID: 2840711784804225743}
+  m_Layer: 0
+  m_Name: PlayerStatusBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2722227556369442260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744608066019444317}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2840711784804225743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744608066019444317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4740454a4b616134aa7e0de312b57e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpFrame: {fileID: -2240892231121057235, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
+  soulFrame: {fileID: 5303426700869505575, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
+  frameScale: 3
+  barWidth: 620
+  soulWidthRatio: 0.78
+  margin: {x: 28, y: 26}
+  gap: 6
+  hpColor: {r: 0.541, g: 0.153, b: 0.196, a: 1}
+  soulColor: {r: 0.353, g: 0.294, b: 0.639, a: 1}
+  trailColor: {r: 0.788, g: 0.749, b: 0.871, a: 0.85}
+  fallbackTrackColor: {r: 0.098, g: 0.09, b: 0.118, a: 1}
+  font: {fileID: 0}
+  trailDelay: 0.35
+  trailSpeed: 0.55
+  hideLegacyBars: 1
+  legacyBarNames:
+  - Soul bar

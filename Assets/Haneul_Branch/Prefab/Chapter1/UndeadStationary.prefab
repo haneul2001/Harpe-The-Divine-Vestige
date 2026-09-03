@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1495099166625073761}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.211, y: 0, z: 0}
-  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.31666666, y: 0, z: 0}
+  m_LocalScale: {x: 0.59999996, y: 0.6666667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5523003351059058473}
@@ -320,7 +320,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1408591065
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.5091725, b: 0.43867922, a: 1}
@@ -362,8 +362,8 @@ Transform:
   m_GameObject: {fileID: 6794120174358240803}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.211, y: 0, z: 0}
-  m_LocalScale: {x: 0.43, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.31666666, y: 0, z: 0}
+  m_LocalScale: {x: 0.59999996, y: 0.6666667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5523003351059058473}
@@ -729,7 +729,7 @@ MonoBehaviour:
   avoidProbeDistance: 0.6
   avoidMaxAngle: 120
   avoidAngleStep: 30
-  detectRange: 5
+  detectRange: 6
   attackRange: 1.68
   moveSpeed: 2.5
   attackIdleTime: 2
@@ -737,7 +737,8 @@ MonoBehaviour:
   attackDamage: 1
   hitDuration: 0.2
   player: {fileID: 0}
-  maxHp: 250
+  maxHp: 750
+  grade: 0
   enemyInfo: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -747,6 +748,8 @@ MonoBehaviour:
   attackPivot: {fileID: 7019295580986608686}
   waitForAnimationHit: 1
   hitEventTimeout: 0.7
+  horizontalAttackOnly: 1
+  verticalTolerance: 1.2
   groundOnly: 0
   recoverTime: 1
   matchAttackRangeToHitBox: 1

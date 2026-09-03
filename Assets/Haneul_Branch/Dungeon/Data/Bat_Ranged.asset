@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bat_Ranged
   m_EditorClassIdentifier: 
   enemyName: Bat
-  hp: 120
+  hp: 360
   damage: 1
   exp: 12
   speed: 1.76

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Harpe UI 스타일 가이드</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* 어두운 UI를 위한 가이드라 문서 자체도 어둡게 간다.
+     스와치는 실제로 얹힐 바탕 위에서 봐야 판단이 된다. */
+  :root{
+    --ink-0:#141220;   /* 램프 1 — 가장 어두움 */
+    --ink-1:#2A2536;   /* 램프 2 */
+    --ink-2:#4A4358;   /* 램프 3 */
+    --ink-3:#79728C;   /* 램프 4 */
+    --ink-4:#A7A0BC;   /* 램프 5 — 하이라이트 */
+
+    --bg:#0D0B12;
+    --surface:#171420;
+    --surface-2:#201C2C;
+    --line:#312B40;
+    --line-soft:#241F31;
+
+    --text:#DCD7E6;
+    --text-2:#ABA3BE;
+    --muted:#7E7791;
+
+    --accent:#BDAADD;    /* 보스 강조 */
+    --blood:#98282F;     /* 체력 */
+    --soul:#5A4BA3;      /* 소울 */
+    --trail:#C9BFDE;     /* 잔상 */
+    --warn:#C08A4A;
+
+    --f-display:"Gowun Batang","Nanum Myeongjo",serif;
+    --f-body:"IBM Plex Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+    --f-mono:"IBM Plex Mono","D2Coding",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:var(--f-body);font-size:15.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+
+  header.top{border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 100%)}
+  .top .wrap{padding:56px 28px 38px}
+  .eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 14px}
+  h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,4.4vw,46px);
+    line-height:1.22;margin:0 0 14px;letter-spacing:-.01em;text-wrap:balance}
+  .dek{margin:0;max-width:62ch;color:var(--text-2);font-size:16.5px;font-weight:300}
+  .meta{margin-top:24px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+  main{padding-bottom:90px}
+  section{padding-top:52px;scroll-margin-top:20px}
+  .sec-head{border-top:1px solid var(--line);padding-top:20px;margin-bottom:20px}
+  .sec-kicker{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin:0}
+  h2{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,2.6vw,29px);
+    line-height:1.3;margin:8px 0 0;text-wrap:balance}
+  h3{font-size:16px;font-weight:600;margin:30px 0 10px}
+  p{margin:0 0 14px;max-width:70ch}
+  ul{margin:0 0 14px;padding-left:19px;max-width:70ch}
+  li{margin-bottom:6px}
+  li::marker{color:var(--muted)}
+  code{font-family:var(--f-mono);font-size:.875em;background:var(--surface-2);
+    padding:1px 5px;border-radius:2px;color:var(--ink-4);white-space:nowrap}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ── 램프 ─────────────────────────────── */
+  .ramp{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);margin:0 0 12px}
+  .ramp div{padding:34px 12px 12px;font-family:var(--f-mono);font-size:11.5px}
+  .ramp b{display:block;font-weight:500;font-size:13px}
+  .ramp span{opacity:.75}
+
+  /* ── 스와치 표 ────────────────────────── */
+  .tw{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:540px;font-size:13.8px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+  thead th{background:var(--surface-2);font-weight:600;font-size:12px;color:var(--text-2);
+    white-space:nowrap;border-bottom:1px solid var(--line)}
+  tbody tr:last-child td{border-bottom:0}
+  td.hex{font-family:var(--f-mono);font-size:12.6px;white-space:nowrap;color:var(--ink-4)}
+  .sw{display:inline-block;width:44px;height:22px;border:1px solid rgba(255,255,255,.14);
+    vertical-align:middle;margin-right:10px}
+
+  /* ── 실제 막대 재현 ───────────────────── */
+  .demo{background:#1A1526;border:1px solid var(--line);padding:26px 22px;margin:0 0 18px;
+    background-image:radial-gradient(circle at 30% 20%,rgba(90,75,163,.18),transparent 60%)}
+  .bar{position:relative;height:34px;border:2px solid var(--ink-2);
+    background:var(--ink-0);margin-bottom:6px;display:flex;align-items:center}
+  .bar .fill{position:absolute;left:0;top:0;bottom:0}
+  .bar .trail{position:absolute;left:0;top:0;bottom:0;background:var(--trail);opacity:.5}
+  .bar .txt{position:relative;width:100%;text-align:center;font-family:var(--f-mono);
+    font-size:13px;font-weight:500;color:#fff;text-shadow:0 0 3px #000,1px 1px 0 #000}
+  .bar .seg{position:absolute;top:0;bottom:0;width:2px;background:rgba(0,0,0,.5)}
+  .barname{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:14px}
+  .chip{font-family:var(--f-mono);font-size:11.5px;padding:2px 9px;color:#16121C;font-weight:600}
+  .demo-cap{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin:14px 0 4px}
+
+  /* ── 규칙 카드 ────────────────────────── */
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);margin:0 0 18px}
+  .rules>div{background:var(--surface);padding:15px 17px}
+  .rules h4{margin:0 0 6px;font-size:13.5px;font-weight:600;font-family:var(--f-mono)}
+  .rules p{margin:0;font-size:13.5px;color:var(--text-2);max-width:none}
+  .no h4{color:#C4646E}
+  .yes h4{color:var(--accent)}
+
+  .note{border-left:3px solid var(--accent);background:rgba(189,170,221,.08);
+    padding:12px 16px;margin:0 0 18px;max-width:70ch;font-size:14px;color:var(--text-2)}
+  .note b{color:var(--text);font-weight:600}
+
+  ol.flow{list-style:none;margin:0 0 18px;padding:0;counter-reset:s}
+  ol.flow>li{counter-increment:s;position:relative;padding:0 0 18px 42px}
+  ol.flow>li::before{content:counter(s);position:absolute;left:0;top:2px;
+    font-family:var(--f-mono);font-size:12px;color:var(--accent);
+    background:rgba(189,170,221,.12);border:1px solid rgba(189,170,221,.3);
+    width:26px;height:22px;display:flex;align-items:center;justify-content:center}
+  ol.flow b{display:block;font-weight:600;font-size:14.5px}
+  ol.flow p{margin:2px 0 0;font-size:14px;color:var(--text-2)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 44px}
+  footer p{font-size:12.5px;color:var(--muted);margin:0;font-family:var(--f-mono)}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Harpe — The Divine Vestige</p>
+    <h1>UI 스타일 가이드</h1>
+    <p class="dek">사신 컨셉의 어두운 화면에 얹히는 UI. 회색과 진한 보라만 쓰고, 채도는 체력에만 남긴다.</p>
+    <p class="meta">2026-09-03 확정 · 이후 만드는 모든 UI는 이 문서를 따른다</p>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+<section id="direction">
+  <div class="sec-head">
+    <p class="sec-kicker">01</p>
+    <h2>방향</h2>
+  </div>
+  <p>게임 화면이 이미 어둡고 보랏빛이다. 여기에 채도 높은 UI를 얹으면 <strong>UI만 화면에서 떠오른다.</strong> 그래서 UI는 배경보다 한 단계 더 가라앉히고, 시선을 끌어야 하는 정보 — 남은 체력 — 에만 붉은 기운을 남긴다.</p>
+  <p>원본 UI 팩은 금색이다. 그대로 쓰면 컨셉과 정면으로 충돌하므로 <strong>밝기만 남기고 다시 칠해서</strong> 쓴다.</p>
+</section>
+
+<section id="ramp">
+  <div class="sec-head">
+    <p class="sec-kicker">02</p>
+    <h2>프레임 램프</h2>
+  </div>
+  <p>모든 프레임·테두리·패널은 이 다섯 단계 안에서만 만든다. 원본 그림의 밝기를 이 램프에 매핑해 리컬러한다.</p>
+  <div class="ramp">
+    <div style="background:var(--ink-0);color:#9A93AE"><b>#141220</b><span>바닥 · 홈</span></div>
+    <div style="background:var(--ink-1);color:#ABA3BE"><b>#2A2536</b><span>그림자</span></div>
+    <div style="background:var(--ink-2);color:#E0DBEA"><b>#4A4358</b><span>본체</span></div>
+    <div style="background:var(--ink-3);color:#16121C"><b>#79728C</b><span>모서리</span></div>
+    <div style="background:var(--ink-4);color:#16121C"><b>#A7A0BC</b><span>하이라이트</span></div>
+  </div>
+  <p style="font-size:13.5px;color:var(--muted)">현재 적용본: <code>Assets/Haneul_Branch/Art/UI/DynamicBars_Reaper.png</code></p>
+</section>
+
+<section id="palette">
+  <div class="sec-head">
+    <p class="sec-kicker">03</p>
+    <h2>요소별 색</h2>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>용도</th><th>색</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>보스 이름 · 등급칩</td><td class="hex"><i class="sw" style="background:#BDAADD"></i>#BDAADD</td><td>창백한 연보라</td></tr>
+        <tr><td>정예 이름 · 등급칩</td><td class="hex"><i class="sw" style="background:#9280B4"></i>#9280B4</td><td>중간 보라회색</td></tr>
+        <tr><td>일반 이름 · 등급칩</td><td class="hex"><i class="sw" style="background:#9DA2AB"></i>#9DA2AB</td><td>순수 회색</td></tr>
+        <tr><td>보스 체력</td><td class="hex"><i class="sw" style="background:#98282F"></i>#98282F</td><td>짙은 핏빛</td></tr>
+        <tr><td>정예 체력</td><td class="hex"><i class="sw" style="background:#763770"></i>#763770</td><td>진한 자주</td></tr>
+        <tr><td>일반 체력</td><td class="hex"><i class="sw" style="background:#6F3746"></i>#6F3746</td><td>어두운 적자</td></tr>
+        <tr><td>플레이어 체력</td><td class="hex"><i class="sw" style="background:#8A2732"></i>#8A2732</td><td>보스보다 살짝 어둡게</td></tr>
+        <tr><td>소울</td><td class="hex"><i class="sw" style="background:#5A4BA3"></i>#5A4BA3</td><td>진한 보라</td></tr>
+        <tr><td>잔상 (받은 피해)</td><td class="hex"><i class="sw" style="background:#C9BFDE"></i>#C9BFDE</td><td>연보라 회색</td></tr>
+        <tr><td>본문 글자</td><td class="hex"><i class="sw" style="background:#DCD7E6"></i>#DCD7E6</td><td>검은 외곽선 필수</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>등급 색은 한 곳에서만 정의한다.</b> <code>Code/EnemyGrade.cs</code>의 <code>Accent()</code>와 <code>Fill()</code>만 고치면 체력바 전체가 따라온다. 개별 UI에서 색을 직접 박아 두면 다음에 톤을 조정할 때 반드시 하나를 빠뜨린다.
+  </div>
+</section>
+
+<section id="applied">
+  <div class="sec-head">
+    <p class="sec-kicker">04</p>
+    <h2>적용 예</h2>
+  </div>
+  <p class="demo-cap">보스 — 이름 가운데, 4칸 분할, 숫자는 <code>현재 / 최대 (퍼센트)</code></p>
+  <div class="demo">
+    <div class="barname">
+      <span class="chip" style="background:#BDAADD">보스</span>
+      <span style="flex:1;text-align:center;color:#BDAADD;font-weight:600;font-size:17px">Big Undead</span>
+      <span style="width:52px"></span>
+    </div>
+    <div class="bar">
+      <span class="trail" style="width:68%"></span>
+      <span class="fill" style="width:61%;background:#98282F"></span>
+      <span class="seg" style="left:25%"></span><span class="seg" style="left:50%"></span><span class="seg" style="left:75%"></span>
+      <span class="txt">1,450 / 2,400 (61%)</span>
+    </div>
+
+    <p class="demo-cap">정예 — 2칸 분할</p>
+    <div class="barname">
+      <span class="chip" style="background:#9280B4">정예</span>
+      <span style="flex:1;text-align:center;color:#9280B4;font-weight:600;font-size:16px">Elite Undead</span>
+      <span style="width:52px"></span>
+    </div>
+    <div class="bar" style="width:72%">
+      <span class="fill" style="width:84%;background:#763770"></span>
+      <span class="seg" style="left:50%"></span>
+      <span class="txt">1,008 / 1,200 (84%)</span>
+    </div>
+
+    <p class="demo-cap">플레이어 — 화면 왼쪽 아래, 체력 위 · 소울 아래</p>
+    <div class="bar" style="width:56%">
+      <span class="fill" style="width:64%;background:#8A2732"></span>
+      <span class="txt">67 / 105 (64%)</span>
+    </div>
+    <div class="bar" style="width:44%;height:30px">
+      <span class="fill" style="width:43%;background:#5A4BA3"></span>
+      <span class="txt">45 / 105 (43%)</span>
+    </div>
+  </div>
+  <p style="font-size:13.5px;color:var(--muted)">위는 색과 배치를 보여주기 위한 재현이다. 실제 화면은 픽셀아트 프레임이 감싼다.</p>
+</section>
+
+<section id="rules">
+  <div class="sec-head">
+    <p class="sec-kicker">05</p>
+    <h2>규칙</h2>
+  </div>
+  <div class="rules">
+    <div class="no"><h4>채도 높은 색 금지</h4><p>특히 노랑·주황·형광. 잔상이 노란색이던 때가 있었는데, 맞을 때마다 번쩍여서 "UI가 쨍하다"는 인상의 가장 큰 원인이었다.</p></div>
+    <div class="yes"><h4>체력의 붉은 기는 남긴다</h4><p>완전히 회색·보라로 통일하면 막대가 "체력"으로 안 읽힌다. 채도를 낮추되 색상은 유지한다.</p></div>
+    <div class="no"><h4>곱하기 틴트로 색조를 바꾸려 하지 말 것</h4><p>곱하기는 채널 순서를 보존해서 금색은 갈색이 될 뿐이다. 반드시 픽셀을 램프로 다시 칠한다.</p></div>
+    <div class="yes"><h4>픽셀아트는 정수 배율로만</h4><p>1.7배 같은 배율은 픽셀을 뭉갠다. 9-slice를 쓸 땐 <code>pixelsPerUnitMultiplier = 1/배율</code>로 맞춘다.</p></div>
+    <div class="yes"><h4>글자에는 검은 외곽선</h4><p>막대 색 위에 얹히므로 그림자 하나로는 밝은 구간에서 뭉개진다.</p></div>
+    <div class="no"><h4>원본 팩을 직접 수정하지 말 것</h4><p>리컬러본을 <code>Haneul_Branch/Art/UI</code>에 따로 만든다. 팩을 업데이트해도 작업이 날아가지 않는다.</p></div>
+  </div>
+</section>
+
+<section id="howto">
+  <div class="sec-head">
+    <p class="sec-kicker">06</p>
+    <h2>새 UI 그림을 넣을 때</h2>
+  </div>
+  <ol class="flow">
+    <li><b>출처를 정한다</b><p>일반 UI는 <strong>2D Pixel Quest Vol.3</strong>, 상점은 <strong>Honeti PixelArtGUI</strong>. 섞지 않는다.</p></li>
+    <li><b>램프로 리컬러한 사본을 만든다</b><p>밝기(<code>0.30R + 0.59G + 0.11B</code>)를 구해 5단계 램프에 매핑하고 알파는 그대로 둔다. 원본의 슬라이스와 9-slice 테두리 정보를 사본에 그대로 복사한다.</p></li>
+    <li><b>늘어날 부분의 테두리를 잰다</b><p>눈대중 금지. 픽셀을 읽어 프레임의 안쪽 홈 위치를 확인하고 9-slice 테두리를 잡는다. 잘못 잡으면 채움이 테두리를 덮는다.</p></li>
+    <li><b>PixelBar로 조립한다</b><p>막대류는 <code>Code/UI/PixelBar.cs</code>가 프레임·채움·잔상·칸나눔·숫자를 다 만들어 준다. 치수 상수도 거기 모여 있다.</p></li>
+  </ol>
+  <div class="note">
+    <b>확인은 사람이 한다.</b> 색과 치수는 계산으로 맞출 수 있지만 "쨍한지"는 띄워 봐야 안다. 새 UI를 넣으면 반드시 실제 게임 화면에서 한 번 보고 판단할 것.
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Harpe — The Divine Vestige · UI 스타일 가이드 · 2026-09-03</p>
+  </div>
+</footer>
+</body>
+</html>

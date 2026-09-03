@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Bat
   m_EditorClassIdentifier: 
   enemyName: Bat
-  hp: 3
+  hp: 9
   damage: 2
   exp: 2
   speed: 3
   soul: 1
+  attacks: []

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Zombie
   m_EditorClassIdentifier: 
   enemyName: Zombie
-  hp: 5
+  hp: 15
   damage: 1
   exp: 2
   speed: 2

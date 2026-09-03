@@ -17,7 +17,12 @@ public class DungeonGenerator : MonoBehaviour
     [Tooltip("세로 방향 문을 쓸지. 끄면 좌우로만 이어지는 횡스크롤 구조가 됨")]
     [SerializeField] private bool allowVerticalDoors = true;
 
-    [Header("방 크기 (유닛) — 방 프리팹의 실제 크기와 반드시 일치시킬 것")]
+    [Header("방 크기 (유닛)")]
+    [Tooltip("방 프리팹에서 크기를 자동으로 읽는다. 켜 두면 아래 roomSize는 무시된다. "
+           + "생성기와 프리팹의 숫자가 어긋나 방이 겹치는 사고를 막는다.")]
+    [SerializeField] private bool autoRoomSize = true;
+
+    [Tooltip("autoRoomSize를 끈 경우에만 쓰는 값. 방 프리팹의 실제 크기와 일치시킬 것")]
     [SerializeField] private Vector2 roomSize = new Vector2(32f, 18f);
 
     // 미니맵이 방 안에서의 플레이어 상대 위치를 계산할 때 쓴다.
@@ -35,6 +40,15 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private Room shopRoomPrefab;
     [Tooltip("일반 방 후보들. 필요한 문 방향을 가진 프리팹 중에서 랜덤으로 뽑는다")]
     [SerializeField] private List<Room> normalRoomPrefabs = new List<Room>();
+
+    [Header("일반 방 자동 수집")]
+    [Tooltip("Resources 아래 폴더에서 일반 방 프리팹을 전부 불러온다. "
+           + "켜 두면 위 normalRoomPrefabs 목록을 손대지 않아도 방을 추가할 수 있다 — "
+           + "폴더에 프리팹을 넣기만 하면 된다.")]
+    [SerializeField] private bool loadRoomsFromResources = true;
+
+    [Tooltip("Resources 기준 경로. 예: \"Rooms\" → Assets/*/Resources/Rooms")]
+    [SerializeField] private string roomsResourcePath = "Rooms";
 
     [Header("동작")]
     [SerializeField] private bool generateOnStart = true;
@@ -60,7 +74,16 @@ public class DungeonGenerator : MonoBehaviour
 
     public void Generate()
     {
+        LoadRoomsFromResources();
+
         if (!ValidatePrefabs()) return;
+
+        // 방 크기는 프리팹이 정답이다. 생성기 인스펙터 값이 낡아 있으면 방이 겹치거나 벌어진다.
+        if (autoRoomSize && startRoomPrefab != null)
+        {
+            Vector2 fromPrefab = startRoomPrefab.Size;
+            if (fromPrefab.x > 0.1f && fromPrefab.y > 0.1f) roomSize = fromPrefab;
+        }
 
         Random.InitState(useRandomSeed ? System.Environment.TickCount : seed);
 
@@ -74,6 +97,23 @@ public class DungeonGenerator : MonoBehaviour
         roomManager.Initialize(new List<Room>(placed.Values), startRoom);
 
         Debug.Log($"[DungeonGenerator] 방 {placed.Count}개 생성 완료");
+    }
+
+    // 폴더에 프리팹을 넣는 것만으로 방이 늘어나게 한다.
+    // 씬의 인스펙터 목록을 매번 갱신하는 것보다 방을 대량으로 만들 때 훨씬 낫다.
+    private void LoadRoomsFromResources()
+    {
+        if (!loadRoomsFromResources || string.IsNullOrEmpty(roomsResourcePath)) return;
+
+        Room[] found = Resources.LoadAll<Room>(roomsResourcePath);
+        if (found == null || found.Length == 0)
+        {
+            Debug.LogWarning($"[DungeonGenerator] Resources/{roomsResourcePath} 에서 방을 찾지 못함. 인스펙터 목록을 그대로 쓴다");
+            return;
+        }
+
+        normalRoomPrefabs = new List<Room>(found);
+        Debug.Log($"[DungeonGenerator] Resources/{roomsResourcePath} 에서 일반 방 {found.Length}개 로드");
     }
 
     private bool ValidatePrefabs()
@@ -272,6 +312,7 @@ public class DungeonGenerator : MonoBehaviour
     }
 
     // 필요한 문 방향을 모두 가진 프리팹 중에서 랜덤으로 고른다.
+    // 정확히 그 조합만 가진 방이 있으면 그쪽을 먼저 쓴다 — 아래 PickNormal 참고.
     private Room PickPrefab(RoomType type, List<Dir> needed)
     {
         switch (type)
@@ -286,23 +327,37 @@ public class DungeonGenerator : MonoBehaviour
 
     private Room PickNormal(List<Dir> needed)
     {
-        List<Room> candidates = new List<Room>();
+        // exact  : 필요한 문만 정확히 가진 방 (벽이 처음부터 제대로 그려져 있다)
+        // superset: 필요한 문을 포함하되 남는 문은 벽으로 막게 되는 방
+        List<Room> exact = new List<Room>();
+        List<Room> superset = new List<Room>();
 
         for (int i = 0; i < normalRoomPrefabs.Count; i++)
         {
             Room p = normalRoomPrefabs[i];
             if (p == null) continue;
 
-            bool ok = true;
+            bool hasAll = true;
             for (int d = 0; d < needed.Count; d++)
             {
-                if (p.GetDoor(needed[d]) == null) { ok = false; break; }
+                if (p.GetDoor(needed[d]) == null) { hasAll = false; break; }
             }
-            if (ok) candidates.Add(p);
+            if (!hasAll) continue;
+
+            // 프리팹이 가진 문 개수를 세어 정확히 일치하는지 본다
+            int owned = 0;
+            foreach (Dir dd in DirUtil.All)
+                if (p.GetDoor(dd) != null) owned++;
+
+            if (owned == needed.Count) exact.Add(p);
+            else superset.Add(p);
         }
 
-        if (candidates.Count > 0)
-            return candidates[Random.Range(0, candidates.Count)];
+        if (exact.Count > 0)
+            return exact[Random.Range(0, exact.Count)];
+
+        if (superset.Count > 0)
+            return superset[Random.Range(0, superset.Count)];
 
         // 맞는 게 없으면 아무거나 — 문이 없는 방향은 벽으로 막혀 길이 끊긴다.
         Debug.LogWarning($"[DungeonGenerator] 문 방향 {string.Join(",", needed)} 을 모두 가진 일반 방 프리팹이 없음. " +

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bat_Melee
   m_EditorClassIdentifier: 
   enemyName: Blood Bat
-  hp: 150
+  hp: 450
   damage: 1
   exp: 14
   speed: 2.56

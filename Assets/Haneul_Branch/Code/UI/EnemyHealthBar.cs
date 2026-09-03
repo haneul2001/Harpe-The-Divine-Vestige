@@ -6,22 +6,27 @@ using UnityEngine.UI;
 //   · 보스   — 방에 들어가면 뜨고, 죽을 때까지 안 내려간다
 //   · 정예/일반 — 때린 순간 떴다가 잠시 뒤 사라진다
 //
-// UI는 미니맵·능력 패널과 같은 방식으로 런타임에 코드로 조립한다. 씬에 미리 만들어 둘 것이 없다.
-// 어느 씬에서든 알아서 하나 생기므로 씬마다 배치할 필요도 없다.
+// 막대 자체의 조립은 PixelBar가 맡는다. 여기는 "누구를 언제 보여줄지"만 정한다.
+// 씬에 미리 만들어 둘 것이 없고, 어느 씬에서든 재생하면 알아서 하나 생긴다.
 public class EnemyHealthBar : MonoBehaviour
 {
     public static EnemyHealthBar Instance { get; private set; }
 
+    [Header("프레임 그림")]
+    [Tooltip("보스용 프레임. 비우면 단색 막대로 대체된다")]
+    [SerializeField] private Sprite bossFrame;
+    [SerializeField] private Sprite eliteFrame;
+    [SerializeField] private Sprite normalFrame;
+    [Tooltip("원본이 160x32 픽셀아트라 정수 배로만 키운다. 3이면 높이 96px")]
+    [Range(1, 6)]
+    [SerializeField] private int frameScale = 3;
+
     [Header("배치")]
     [Tooltip("화면 위쪽에서 띄우는 거리(px)")]
     [SerializeField] private float topMargin = 76f;
-    [Tooltip("체력바 줄의 높이(px). 등급별 가로 길이는 EnemyGrade에서 정한다")]
-    [SerializeField] private float barHeight = 26f;
-    [Tooltip("초상화 한 변(px). 0이면 초상화를 만들지 않는다")]
-    [SerializeField] private float portraitSize = 66f;
-
-    [Tooltip("체력바가 차지할 수 있는 화면 폭의 최대 비율. 등급별 기본 폭이 화면보다 넓으면 "
-           + "이 비율까지 줄인다. 좁은 화면비에서 바가 화면 밖으로 나가는 걸 막는다.")]
+    [Tooltip("이름·등급이 들어가는 윗줄 높이(px)")]
+    [SerializeField] private float nameRowHeight = 34f;
+    [Tooltip("체력바가 차지할 수 있는 화면 폭의 최대 비율. 좁은 화면비에서 밖으로 나가는 걸 막는다")]
     [Range(0.3f, 1f)]
     [SerializeField] private float maxWidthRatio = 0.94f;
 
@@ -34,23 +39,21 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.18f;
 
     [Header("연출")]
-    [Tooltip("깎인 만큼을 천천히 따라 내려오는 잔상 바. 한 방에 얼마나 들어갔는지 눈에 보인다")]
-    [SerializeField] private Color trailColor = new Color(0.96f, 0.86f, 0.55f, 0.9f);
-    [Tooltip("잔상이 따라붙기 전 멈춰 있는 시간(초)")]
+    [Tooltip("깎인 만큼을 천천히 따라 내려오는 잔상. 한 방에 얼마나 들어갔는지 눈에 보인다")]
+    [SerializeField] private Color trailColor = new Color(0.98f, 0.88f, 0.55f, 0.9f);
     [SerializeField] private float trailDelay = 0.35f;
-    [Tooltip("잔상이 내려오는 속도(초당 비율)")]
     [SerializeField] private float trailSpeed = 0.55f;
 
     [Header("색")]
-    [SerializeField] private Color backdropColor = new Color(0.04f, 0.04f, 0.06f, 0.82f);
-    [SerializeField] private Color trackColor = new Color(0.14f, 0.13f, 0.15f, 1f);
-    [SerializeField] private Color nameColor = new Color(0.96f, 0.96f, 0.93f);
+    [Tooltip("프레임 그림이 없을 때만 쓰는 배경색")]
+    [SerializeField] private Color fallbackTrackColor = new Color(0.14f, 0.13f, 0.15f, 1f);
+    [SerializeField] private Color nameColor = new Color(0.97f, 0.94f, 0.86f);
     [SerializeField] private Font font;
 
     // ── 상태 ────────────────────────────────────────────
     private Enemy target;
     private EnemyGrade shownGrade = EnemyGrade.Normal;
-    private float hideAtTime = -1f;   // 이 시각이 지나면 사라진다. 보스는 -1로 두어 안 사라짐
+    private float hideAtTime = -1f;   // 이 시각이 지나면 사라진다. 보스는 -1이라 안 사라짐
     private float alpha;
     private float trailRatio = 1f;
     private float trailHoldUntil;
@@ -58,26 +61,12 @@ public class EnemyHealthBar : MonoBehaviour
     // ── 조립된 조각들 ───────────────────────────────────
     private CanvasGroup group;
     private RectTransform root;
-    private RectTransform frame;
-    private Image portrait;
-    private RectTransform portraitBox;
-    private Image portraitBorder;
+    private RectTransform nameRow;
+    private PixelBar bar;
     private Text gradeLabel;
     private Image gradeChip;
     private Text nameLabel;
-    private Text percentLabel;
-    private Text hpLabel;
-    private RectTransform barRow;
-    private RectTransform fillRect;
-    private RectTransform trailRect;
-    private Image fillImage;
-    private Image trailImage;
-    private RectTransform segmentsRoot;
-    private RectTransform content;
-    private Image accentBar;
 
-    // 씬마다 배치하지 않아도 되도록 재생 시작 시 스스로 하나 만든다.
-    // Resources에 프리팹을 두면 그걸 쓰고(인스펙터로 조절 가능), 없으면 기본값으로 생성한다.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AutoCreate()
     {
@@ -122,8 +111,7 @@ public class EnemyHealthBar : MonoBehaviour
         bool bossHeld = target != null && !target.isDead && target.Grade == EnemyGrade.Boss;
         if (bossHeld && enemy.Grade != EnemyGrade.Boss) return;
 
-        // 같은 대상이면 다시 조립하지 않고 표시 시간만 늘린다
-        if (enemy == target) { RefreshHold(); return; }
+        if (enemy == target) { RefreshHold(); return; }   // 같은 대상이면 시간만 늘린다
 
         Bind(enemy);
     }
@@ -135,22 +123,14 @@ public class EnemyHealthBar : MonoBehaviour
 
         Layout(shownGrade);
 
-        nameLabel.text = enemy.DisplayName;
+        nameLabel.text  = enemy.DisplayName;
         gradeLabel.text = shownGrade.Label();
         gradeChip.color = shownGrade.Accent();
-        gradeLabel.color = new Color(0.06f, 0.06f, 0.07f);
         nameLabel.color = shownGrade == EnemyGrade.Normal ? nameColor : shownGrade.Accent();
-        portraitBorder.color = shownGrade.Accent();
-        fillImage.color = shownGrade.Fill();
-
-        if (portrait != null)
-        {
-            Sprite s = enemy.spriteRenderer != null ? enemy.spriteRenderer.sprite : null;
-            portrait.sprite = s;
-            portrait.enabled = s != null;
-        }
-
-        BuildSegments(shownGrade.Segments());
+        bar.Fill.color  = shownGrade.Fill();
+        bar.Trail.color = trailColor;
+        bar.SetPortrait(enemy.spriteRenderer != null ? enemy.spriteRenderer.sprite : null);
+        bar.BuildSegments(shownGrade.Segments());
 
         // 새 대상은 잔상도 현재 체력에서 시작한다 — 안 그러면 전 대상의 잔상이 흘러내린다
         trailRatio = Ratio();
@@ -171,11 +151,9 @@ public class EnemyHealthBar : MonoBehaviour
     }
 
     // ─────────────────────────────────────────────
-    // 갱신
+    // 갱신 — 보스 처치 연출이 시간을 늦추므로 전부 실제 시간으로 돈다
     // ─────────────────────────────────────────────
 
-    // 보스 처치 연출이 시간을 늦추므로 전부 실제 시간(unscaled)으로 돈다.
-    // 스케일된 시간을 쓰면 슬로우 동안 체력바만 기어간다.
     private void Update()
     {
         bool visible = target != null;
@@ -200,10 +178,10 @@ public class EnemyHealthBar : MonoBehaviour
         if (target == null) return;
 
         float ratio = Ratio();
-        SetBarRatio(fillRect, ratio);
+        bar.SetRatio(ratio);
 
         // 잔상: 잠깐 멈췄다가 따라 내려온다
-        if (ratio > trailRatio) trailRatio = ratio;                 // 회복하면 즉시 따라 올린다
+        if (ratio > trailRatio) trailRatio = ratio;
         else if (ratio < trailRatio)
         {
             if (trailHoldUntil <= 0f) trailHoldUntil = Time.unscaledTime + trailDelay;
@@ -213,18 +191,9 @@ public class EnemyHealthBar : MonoBehaviour
                 if (Mathf.Approximately(trailRatio, ratio)) trailHoldUntil = 0f;
             }
         }
-        SetBarRatio(trailRect, trailRatio);
+        bar.SetTrail(trailRatio);
 
-        hpLabel.text = target.hp.ToString("N0") + " / " + target.maxHp.ToString("N0");
-        percentLabel.text = Mathf.CeilToInt(ratio * 100f) + "%";
-    }
-
-    private static void SetBarRatio(RectTransform rt, float ratio)
-    {
-        Vector2 max = rt.anchorMax;
-        max.x = Mathf.Clamp01(ratio);
-        rt.anchorMax = max;
-        rt.offsetMax = new Vector2(0f, rt.offsetMax.y);
+        bar.Label.text = PixelBar.Format(target.hp, target.maxHp);
     }
 
     private void SetAlpha(float value)
@@ -234,10 +203,8 @@ public class EnemyHealthBar : MonoBehaviour
     }
 
     // ─────────────────────────────────────────────
-    // 조립 — 미니맵·능력 패널과 같이 런타임에 코드로 만든다
+    // 조립
     // ─────────────────────────────────────────────
-
-    private const float Padding = 10f;
 
     private void BuildUI()
     {
@@ -257,168 +224,67 @@ public class EnemyHealthBar : MonoBehaviour
         group.interactable = false;
         group.blocksRaycasts = false;   // 체력바가 클릭을 가로채면 안 된다
 
-        // 화면 위쪽 가운데에 매단다
         root = UIFactory.Empty("Root", canvasGo.transform);
         root.anchorMin = new Vector2(0.5f, 1f);
         root.anchorMax = new Vector2(0.5f, 1f);
         root.pivot = new Vector2(0.5f, 1f);
 
-        Image back = UIFactory.Panel("Backdrop", root, backdropColor, false);
-        frame = back.rectTransform;
-        UIFactory.SetAnchoredBox(frame, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+        // 이름 줄
+        nameRow = UIFactory.Empty("NameRow", root);
+        nameRow.anchorMin = new Vector2(0f, 1f);
+        nameRow.anchorMax = new Vector2(1f, 1f);
+        nameRow.pivot = new Vector2(0.5f, 1f);
+        nameRow.anchoredPosition = Vector2.zero;
 
-        // 등급 색 띠. 배경만으로는 등급이 안 읽혀서 위쪽에 얇게 하나 깐다.
-        accentBar = UIFactory.Panel("Accent", root, Color.white, false);
-        UIFactory.SetAnchoredBox(accentBar.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
-            new Vector2(0f, -3f), Vector2.zero);
-
-        BuildPortrait();
-
-        content = UIFactory.Empty("Content", root);
-
-        BuildTopRow();
-        BuildBar();
-    }
-
-    private void BuildPortrait()
-    {
-        if (portraitSize <= 0f) return;
-
-        portraitBorder = UIFactory.Panel("PortraitBorder", root, Color.white, false);
-        portraitBox = portraitBorder.rectTransform;
-        portraitBox.anchorMin = new Vector2(0f, 0.5f);
-        portraitBox.anchorMax = new Vector2(0f, 0.5f);
-        portraitBox.pivot = new Vector2(0f, 0.5f);
-        portraitBox.sizeDelta = new Vector2(portraitSize, portraitSize);
-        portraitBox.anchoredPosition = new Vector2(Padding, 0f);
-
-        Image inner = UIFactory.Panel("PortraitFill", portraitBox, new Color(0.09f, 0.09f, 0.11f, 1f), false);
-        UIFactory.SetAnchoredBox(inner.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.one * 2f, -Vector2.one * 2f);
-
-        portrait = UIFactory.Panel("Portrait", inner.transform, Color.white, false);
-        UIFactory.SetAnchoredBox(portrait.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.one * 4f, -Vector2.one * 4f);
-        portrait.preserveAspect = true;
-        portrait.enabled = false;
-    }
-
-    private void BuildTopRow()
-    {
-        RectTransform row = UIFactory.Empty("TopRow", content);
-        row.anchorMin = new Vector2(0f, 1f);
-        row.anchorMax = new Vector2(1f, 1f);
-        row.pivot = new Vector2(0.5f, 1f);
-        row.sizeDelta = new Vector2(0f, 26f);
-        row.anchoredPosition = Vector2.zero;
-
-        // 등급 칩 — 이름 앞에 붙는 작은 태그
-        gradeChip = UIFactory.Panel("GradeChip", row, Color.white, false);
+        gradeChip = UIFactory.Panel("GradeChip", nameRow, Color.white, false);
         RectTransform chip = gradeChip.rectTransform;
         chip.anchorMin = new Vector2(0f, 0.5f);
         chip.anchorMax = new Vector2(0f, 0.5f);
         chip.pivot = new Vector2(0f, 0.5f);
-        chip.sizeDelta = new Vector2(52f, 22f);
-        chip.anchoredPosition = Vector2.zero;
+        chip.sizeDelta = new Vector2(60f, 26f);
 
-        gradeLabel = UIFactory.Label("GradeText", chip, font, 14, Color.black,
+        gradeLabel = UIFactory.Label("GradeText", chip, font, 16, new Color(0.07f, 0.06f, 0.05f),
             TextAnchor.MiddleCenter, FontStyle.Bold);
-        UIFactory.SetAnchoredBox(gradeLabel.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.zero, Vector2.zero);
+        UIFactory.SetAnchoredBox(gradeLabel.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
 
-        nameLabel = UIFactory.Label("Name", row, font, 24, nameColor,
-            TextAnchor.MiddleLeft, FontStyle.Bold);
+        nameLabel = UIFactory.Label("Name", nameRow, font, 28, nameColor,
+            TextAnchor.MiddleCenter, FontStyle.Bold);
         UIFactory.SetAnchoredBox(nameLabel.rectTransform, Vector2.zero, Vector2.one,
-            new Vector2(62f, 0f), new Vector2(-64f, 0f));
-        AddShadow(nameLabel.gameObject);
+            new Vector2(70f, 0f), new Vector2(-70f, 0f));
+        PixelBar.AddOutline(nameLabel.gameObject);
 
-        percentLabel = UIFactory.Label("Percent", row, font, 16,
-            new Color(0.72f, 0.74f, 0.78f), TextAnchor.MiddleRight, FontStyle.Bold);
-        UIFactory.SetAnchoredBox(percentLabel.rectTransform, new Vector2(1f, 0f), new Vector2(1f, 1f),
-            new Vector2(-62f, 0f), Vector2.zero);
+        // 막대
+        bar = PixelBar.Build("Frame", root, font, 22, true);
+        bar.Root.anchorMin = new Vector2(0f, 0f);
+        bar.Root.anchorMax = new Vector2(1f, 0f);
+        bar.Root.pivot = new Vector2(0.5f, 0f);
+        bar.Root.anchoredPosition = Vector2.zero;
     }
 
-    private void BuildBar()
-    {
-        barRow = UIFactory.Empty("BarRow", content);
-        barRow.anchorMin = new Vector2(0f, 0f);
-        barRow.anchorMax = new Vector2(1f, 0f);
-        barRow.pivot = new Vector2(0.5f, 0f);
-        barRow.sizeDelta = new Vector2(0f, barHeight);
-        barRow.anchoredPosition = Vector2.zero;
-
-        Image track = UIFactory.Panel("Track", barRow, trackColor, false);
-        UIFactory.SetAnchoredBox(track.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.zero, Vector2.zero);
-
-        // 잔상이 먼저(뒤에), 실제 체력이 나중에(앞에) 그려져야 겹쳐 보인다
-        trailImage = UIFactory.Panel("Trail", track.transform, trailColor, false);
-        trailRect = trailImage.rectTransform;
-        UIFactory.SetAnchoredBox(trailRect, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-
-        fillImage = UIFactory.Panel("Fill", track.transform, Color.white, false);
-        fillRect = fillImage.rectTransform;
-        UIFactory.SetAnchoredBox(fillRect, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-
-        // 칸 나눔은 체력 위에 얹혀야 남은 칸이 보인다
-        segmentsRoot = UIFactory.Empty("Segments", track.transform);
-        UIFactory.SetAnchoredBox(segmentsRoot, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-
-        hpLabel = UIFactory.Label("Hp", track.transform, font, 15, Color.white,
-            TextAnchor.MiddleCenter, FontStyle.Bold);
-        UIFactory.SetAnchoredBox(hpLabel.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.zero, Vector2.zero);
-        AddShadow(hpLabel.gameObject);
-    }
-
-    // 글자가 체력바 색 위에서도 읽히도록
-    private static void AddShadow(GameObject go)
-    {
-        var shadow = go.AddComponent<Shadow>();
-        shadow.effectColor = new Color(0f, 0f, 0f, 0.85f);
-        shadow.effectDistance = new Vector2(1.5f, -1.5f);
-    }
-
-    // 등급이 바뀌면 전체 크기가 바뀐다. 보스는 넓고 잡몹은 좁다.
     private void Layout(EnemyGrade grade)
     {
         float width = grade.BarWidth();
-
-        // 캔버스가 기준 해상도보다 좁으면(4:3 창 등) 바가 화면 밖으로 나간다. 여기서 잘라 준다.
         RectTransform canvasRect = root.parent as RectTransform;
         if (canvasRect != null && canvasRect.rect.width > 0f)
             width = Mathf.Min(width, canvasRect.rect.width * maxWidthRatio);
-        float height = Padding * 2f + 26f + 6f + barHeight;
-        if (portraitSize > 0f) height = Mathf.Max(height, portraitSize + Padding * 2f);
 
-        root.sizeDelta = new Vector2(width, height);
+        int s = Mathf.Max(1, frameScale);
+        root.sizeDelta = new Vector2(width, PixelBar.SrcHeight * s + nameRowHeight);
         root.anchoredPosition = new Vector2(0f, -topMargin);
+        nameRow.sizeDelta = new Vector2(0f, nameRowHeight);
 
-        float left = portraitSize > 0f ? Padding + portraitSize + 12f : Padding;
-        UIFactory.SetAnchoredBox(content, Vector2.zero, Vector2.one,
-            new Vector2(left, Padding), new Vector2(-Padding, -Padding));
-
-        if (accentBar != null) accentBar.color = grade.Accent();
+        bar.Layout(width, s, FrameFor(grade), fallbackTrackColor);
+        // 폭은 부모를 따라가게 두고(좌우 앵커), 높이만 프레임에서 정한다
+        bar.Root.sizeDelta = new Vector2(0f, PixelBar.SrcHeight * s);
     }
 
-    // 보스 체력을 몇 칸으로 나눌지. 남은 양을 눈으로 세기 쉬워진다.
-    private void BuildSegments(int count)
+    private Sprite FrameFor(EnemyGrade grade)
     {
-        for (int i = segmentsRoot.childCount - 1; i >= 0; i--)
-            Destroy(segmentsRoot.GetChild(i).gameObject);
-
-        if (count <= 1) return;
-
-        for (int i = 1; i < count; i++)
+        switch (grade)
         {
-            float t = (float)i / count;
-            Image line = UIFactory.Panel("Seg" + i, segmentsRoot, new Color(0f, 0f, 0f, 0.55f), false);
-            RectTransform rt = line.rectTransform;
-            rt.anchorMin = new Vector2(t, 0f);
-            rt.anchorMax = new Vector2(t, 1f);
-            rt.pivot = new Vector2(0.5f, 0.5f);
-            rt.sizeDelta = new Vector2(2f, 0f);
-            rt.anchoredPosition = Vector2.zero;
+            case EnemyGrade.Boss:  return bossFrame;
+            case EnemyGrade.Elite: return eliteFrame != null ? eliteFrame : bossFrame;
+            default:               return normalFrame != null ? normalFrame : bossFrame;
         }
     }
 }

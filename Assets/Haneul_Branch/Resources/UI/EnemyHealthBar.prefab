@@ -44,17 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9d281e88638ff41806c081671e297c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossFrame: {fileID: -204365180483549271, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
+  eliteFrame: {fileID: -1135887050426627952, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
+  normalFrame: {fileID: 1865236344887756538, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
+  frameScale: 3
   topMargin: 76
-  barHeight: 26
-  portraitSize: 66
+  nameRowHeight: 34
   maxWidthRatio: 0.94
   normalHoldTime: 3.5
   deathHoldTime: 1.2
   fadeDuration: 0.18
-  trailColor: {r: 0.96, g: 0.86, b: 0.55, a: 0.9}
+  trailColor: {r: 0.788, g: 0.749, b: 0.871, a: 0.85}
   trailDelay: 0.35
   trailSpeed: 0.55
-  backdropColor: {r: 0.04, g: 0.04, b: 0.06, a: 0.82}
-  trackColor: {r: 0.14, g: 0.13, b: 0.15, a: 1}
-  nameColor: {r: 0.96, g: 0.96, b: 0.93, a: 1}
+  fallbackTrackColor: {r: 0.098, g: 0.09, b: 0.118, a: 1}
+  nameColor: {r: 0.851, g: 0.831, b: 0.894, a: 1}
   font: {fileID: 0}

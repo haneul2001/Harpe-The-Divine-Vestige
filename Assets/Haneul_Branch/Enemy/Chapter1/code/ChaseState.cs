@@ -29,8 +29,9 @@ public class ChaseState : IEnemyState
 
         enemy.FaceToPlayer();
 
-        // 공격 범위 안: 전진은 멈추되 분리는 유지해 서로 겹치지 않게 자리를 잡음
-        if (distance <= enemy.attackRange)
+        // 공격 범위 안: 전진은 멈추되 분리는 유지해 서로 겹치지 않게 자리를 잡음.
+        // 단 좌우로만 공격하는 적은 높이가 맞아야 하므로, 안 맞으면 계속 붙어서 줄을 맞춘다.
+        if (distance <= enemy.attackRange && enemy.IsAttackAligned())
         {
             enemy.SettleWithSeparation();
 

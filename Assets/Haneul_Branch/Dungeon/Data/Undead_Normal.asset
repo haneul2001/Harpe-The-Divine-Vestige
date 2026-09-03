@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Undead_Normal
   m_EditorClassIdentifier: 
   enemyName: Undead
-  hp: 250
+  hp: 750
   damage: 1
   exp: 10
   speed: 2
