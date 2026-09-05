@@ -16,7 +16,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   cooldown: 1
   soulCost: 0
-  parryWindow: 0.5
-  perfectWindow: 0.15
+  parryWindow: 0.3
+  perfectWindow: 0.3
   perfectDamageMultiplier: 0
   blockedDamageMultiplier: 0.5
+  counterDamageMultiplier: 1.5
+  iframeDuration: 0.4

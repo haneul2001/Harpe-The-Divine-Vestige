@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Blood Bat
   hp: 450
-  damage: 1
+  damage: 4
   exp: 14
   speed: 2.56
   soul: 7

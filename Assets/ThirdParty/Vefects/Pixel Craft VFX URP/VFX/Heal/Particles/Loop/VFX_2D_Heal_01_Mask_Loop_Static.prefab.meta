@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9b3df59f85b90724ca36825881503f45
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Heal/Particles/Loop/VFX_Heal_01_Mask_Loop_Static.prefab
+  uploadId: 771196

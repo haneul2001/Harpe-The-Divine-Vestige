@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e496f4f61e7696b448eb70aeca9386b8, type: 3}
+  m_Name: Floor_01_OldPrison
+  m_EditorClassIdentifier: 
+  displayName: "\uB0A1\uC740 \uAC10\uC625"
+  subtitle: 
+  roomCount: 10
+  gridSize: {x: 9, y: 8}
+  allowVerticalDoors: 1
+  startRoomPrefab: {fileID: 1399933240449242289, guid: 5b87e4ecacb3a0a4f8f8f99a2df84c27, type: 3}
+  bossRoomPrefab: {fileID: 6526676775906276927, guid: 31d69bebd55274e429162f7eb211b58d, type: 3}
+  treasureRoomPrefab: {fileID: 3960817978416807742, guid: 7179dff2e97953b4d972af155bb462be, type: 3}
+  shopRoomPrefab: {fileID: 0}
+  loadRoomsFromResources: 1
+  roomsResourcePath: Rooms_OldPrison
+  normalRoomPrefabs: []

@@ -39,6 +39,8 @@ public class DungeonIntro : MonoBehaviour
     [SerializeField] private float titleFadeOut = 0.45f;
     [Tooltip("검은 화면이 걷히는 시간. 층 이름이 떠 있는 동안 같이 진행된다")]
     [SerializeField] private float screenFadeOut = 0.8f;
+    [Tooltip("층을 넘어갈 때 화면이 덮이는 시간")]
+    [SerializeField] private float floorFadeIn = 0.5f;
 
     [Header("보스 방 배너")]
     [SerializeField] private bool showBossBanner = true;
@@ -127,6 +129,53 @@ public class DungeonIntro : MonoBehaviour
     private void Start()
     {
         StartCoroutine(PlayIntro());
+    }
+
+    // 생성기가 이번 층 이름을 알려 준다. 연출은 던전이 다 지어진 뒤에 글자를 읽으므로
+    // 생성 전에 넣어 두면 실행 순서를 신경 쓸 필요가 없다.
+    public void SetFloorInfo(string name, string sub)
+    {
+        if (!string.IsNullOrEmpty(name)) floorName = name;
+        if (sub != null) floorSub = sub;
+    }
+
+    // 층 이동. 화면을 덮고, 덮인 동안 던전을 갈아엎고, 새 층 이름으로 다시 연다.
+    // 던전을 부수는 작업(whileBlack)을 화면이 덮인 뒤에 하는 게 핵심이다 —
+    // 방이 사라지고 다시 생기는 걸 그대로 보여 주면 순간이동한 것처럼 보인다.
+    public Coroutine PlayFloorTransition(string name, string sub, System.Action whileBlack)
+    {
+        return StartCoroutine(FloorTransition(name, sub, whileBlack));
+    }
+
+    private IEnumerator FloorTransition(string name, string sub, System.Action whileBlack)
+    {
+        SetPlayerLocked(true);
+        SetHiddenCanvas(true);
+
+        yield return FadeScreen(0f, 1f, floorFadeIn);
+
+        if (whileBlack != null) whileBlack();
+
+        // 새 던전이 다 서고 시작 방에 들어갈 때까지 검은 화면을 유지한다
+        while (RoomManager.Instance == null || RoomManager.Instance.Current == null)
+            yield return null;
+
+        bossBannerShown = false;   // 새 층의 보스에게 배너를 다시 준다
+        SetFloorInfo(name, sub);
+
+        if (holdBlack > 0f) yield return new WaitForSeconds(holdBlack);
+
+        SetTitle(floorName, floorSub);
+        yield return FadeGroup(0f, 1f, titleFadeIn);
+
+        StartCoroutine(FadeScreen(1f, 0f, screenFadeOut));
+
+        if (titleHold > 0f) yield return new WaitForSeconds(titleHold);
+
+        SetHiddenCanvas(false);
+        yield return FadeGroup(1f, 0f, titleFadeOut);
+
+        SetPlayerLocked(false);
     }
 
     private void OnDestroy()

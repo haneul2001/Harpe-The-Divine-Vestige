@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Undead
   hp: 750
-  damage: 1
+  damage: 4
   exp: 10
   speed: 2
-  soul: 5
+  soul: 6
   attacks: []

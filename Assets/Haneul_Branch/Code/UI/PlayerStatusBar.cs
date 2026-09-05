@@ -50,11 +50,20 @@ public class PlayerStatusBar : MonoBehaviour
     private float hpTrail = 1f;
     private float trailHoldUntil;
 
+    // 씬이 열릴 때마다 챙긴다. 재시작(씬 재로드) 후에도 다시 생기게 하기 위해서다 —
+    // RuntimeInitializeOnLoadMethod 하나만으로는 실행 시작에 한 번밖에 안 돈다.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AutoCreate()
     {
+        RuntimeSingletons.EnsureEachScene(Spawn);
+    }
+
+    private static void Spawn()
+    {
         if (Instance != null) return;
         if (FindObjectOfType<PlayerStatusBar>() != null) return;
+        // 플레이어가 없는 씬(타이틀·컷신)에는 표시할 것이 없다
+        if (FindObjectOfType<PlayerStatus>() == null) return;
 
         GameObject prefab = Resources.Load<GameObject>("UI/PlayerStatusBar");
         if (prefab != null) Instantiate(prefab).name = "PlayerStatusBar";

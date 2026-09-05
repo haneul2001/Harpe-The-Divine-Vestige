@@ -38,6 +38,21 @@ public class AbilityCheatPanel : MonoBehaviour
     [SerializeField] private AbilityUISkin skin;
     [SerializeField] private Font font;
 
+    [Header("층 이동 치트")]
+    [SerializeField] private Color floorButtonFill = new Color(0.16f, 0.13f, 0.22f, 1f);
+    [SerializeField] private Color floorButtonBorder = new Color(0.741f, 0.667f, 0.867f, 0.9f);
+
+    [Header("플레이어 스탯 치트")]
+    [SerializeField] private Color statButtonFill = new Color(0.22f, 0.14f, 0.12f, 1f);
+    [SerializeField] private Color statButtonBorder = new Color(0.86f, 0.55f, 0.42f, 0.9f);
+    [Tooltip("적용할 때 원래 이동속도에 곱할 배율")]
+    [SerializeField] private float statCheatSpeedMultiplier = 4f;
+    [Tooltip("적용할 때 공격력(baseAttackPower)에 맞출 값")]
+    [SerializeField] private int statCheatAttackPower = 9999;
+
+    // 두 번 눌러도 이속이 계속 곱해지지 않도록, 처음 눌렀을 때의 원래 이속을 기억해 둔다
+    private float originalPlayerSpeed = -1f;
+
     public bool IsOpen { get; private set; }
 
     private GameObject rootGo;
@@ -201,6 +216,9 @@ public class AbilityCheatPanel : MonoBehaviour
         UIFactory.SetAnchoredBox(line.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
             new Vector2(22f, -68f), new Vector2(-22f, -66f));
 
+        BuildFloorSkipButton(parent);
+        BuildStatCheatButton(parent);
+
         Text hint = UIFactory.Label("Hint", parent, font, 18,
             new Color(0.5f, 0.52f, 0.5f), TextAnchor.MiddleCenter);
         UIFactory.SetAnchoredBox(hint.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 0f),
@@ -208,11 +226,85 @@ public class AbilityCheatPanel : MonoBehaviour
         hint.text = "카드를 클릭해 켜고 끈다 · F1 닫기";
     }
 
+    // 다음 층으로 즉시 이동하는 개발용 버튼.
+    // FloorFlow.Advance()는 원래 보스 방 계단을 밟았을 때 도는 경로라
+    // 여기서도 그 경로를 그대로 태운다 — 층 이동 로직을 두 번 짜지 않기 위해서다.
+    private void BuildFloorSkipButton(RectTransform parent)
+    {
+        Image fillImg;
+        RectTransform btn = UIFactory.BorderedPanel("FloorSkipButton", parent,
+            floorButtonFill, floorButtonBorder, 2f, out fillImg);
+        UIFactory.SetAnchoredBox(btn, new Vector2(0f, 1f), new Vector2(1f, 1f),
+            new Vector2(22f, -102f), new Vector2(-22f, -72f));
+
+        Text label = UIFactory.Label("Label", (RectTransform)btn.GetChild(0), font, 20,
+            floorButtonBorder, TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(label.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+        label.text = "다음 층으로 이동 →";
+
+        ClickRelay relay = btn.gameObject.AddComponent<ClickRelay>();
+        relay.onClick = OnFloorSkip;
+    }
+
+    private void OnFloorSkip()
+    {
+        if (FloorFlow.Instance == null)
+        {
+            Debug.LogWarning("[AbilityCheatPanel] FloorFlow가 없다 — 던전 씬에서만 동작한다", this);
+            return;
+        }
+
+        Close();   // 층 전환 연출은 그 자체로 시간을 멈추지 않으므로, 정지된 채로 넘어가지 않게 먼저 닫는다
+        FloorFlow.Instance.Advance();
+    }
+
+    // 이동속도 4배 · 공격력 9999 개발용 원턴 치트.
+    // 원래 이속을 한 번만 기억해 뒀다가 거기서부터 배율을 곱한다 —
+    // 안 그러면 두 번 누를 때마다 이속이 계속 곱해져 눈덩이처럼 불어난다.
+    private void BuildStatCheatButton(RectTransform parent)
+    {
+        Image fillImg;
+        RectTransform btn = UIFactory.BorderedPanel("StatCheatButton", parent,
+            statButtonFill, statButtonBorder, 2f, out fillImg);
+        UIFactory.SetAnchoredBox(btn, new Vector2(0f, 1f), new Vector2(1f, 1f),
+            new Vector2(22f, -136f), new Vector2(-22f, -106f));
+
+        Text label = UIFactory.Label("Label", (RectTransform)btn.GetChild(0), font, 20,
+            statButtonBorder, TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(label.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+        label.text = "이속 x" + statCheatSpeedMultiplier + " · 공격력 " + statCheatAttackPower;
+
+        ClickRelay relay = btn.gameObject.AddComponent<ClickRelay>();
+        relay.onClick = OnStatCheat;
+    }
+
+    private void OnStatCheat()
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p == null)
+        {
+            Debug.LogWarning("[AbilityCheatPanel] Player를 찾을 수 없다", this);
+            return;
+        }
+
+        PlayerMove move = p.GetComponent<PlayerMove>();
+        if (move != null)
+        {
+            if (originalPlayerSpeed < 0f) originalPlayerSpeed = move.speed;
+            move.speed = originalPlayerSpeed * statCheatSpeedMultiplier;
+        }
+
+        PlayerStatus status = p.GetComponent<PlayerStatus>();
+        if (status != null) status.Stats.baseAttackPower = statCheatAttackPower;
+
+        ToastManager.Show("치트 적용 · 이속 x" + statCheatSpeedMultiplier + " · 공격력 " + statCheatAttackPower);
+    }
+
     private void BuildGrid(RectTransform parent)
     {
         RectTransform viewport = UIFactory.Empty("Viewport", parent);
         UIFactory.SetAnchoredBox(viewport, Vector2.zero, Vector2.one,
-            new Vector2(22f, 34f), new Vector2(-22f, -76f));
+            new Vector2(22f, 34f), new Vector2(-22f, -148f));
         viewport.gameObject.AddComponent<RectMask2D>();
         Image blocker = viewport.gameObject.AddComponent<Image>();
         blocker.color = new Color(0f, 0f, 0f, 0f);

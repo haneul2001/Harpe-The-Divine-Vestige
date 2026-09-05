@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerAnimationEventProxy : MonoBehaviour
 {
     private PlayerCombat combat;
+    private PlayerStatus status;
 
     void Awake()
     {
         combat = GetComponentInParent<PlayerCombat>();
+        status = GetComponentInParent<PlayerStatus>();
     }
 
     public void AttackHit()
@@ -19,5 +21,11 @@ public class PlayerAnimationEventProxy : MonoBehaviour
     public void EndAttack()
     {
         if (combat != null) combat.EndAttack();
+    }
+
+    // 패링 반격 애니메이션(내려찍는 프레임)에서 호출
+    public void ParryCounterHit()
+    {
+        if (status != null) status.ParryCounterHit();
     }
 }

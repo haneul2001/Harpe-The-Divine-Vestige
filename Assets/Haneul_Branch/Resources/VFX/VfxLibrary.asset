@@ -34,6 +34,8 @@ MonoBehaviour:
     - {fileID: -519729946, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
     - {fileID: -1710228901, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
     - {fileID: 1176947116, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
     fps: 24
     loop: 1
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
@@ -56,6 +58,8 @@ MonoBehaviour:
     - {fileID: -1195685221, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
     - {fileID: 956193441, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
     - {fileID: 1532670055, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
     fps: 20
     loop: 1
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
@@ -63,29 +67,13 @@ MonoBehaviour:
     sortingLayer: Map
     sortingOrder: 10
   - id: SlashHit
-    frames:
-    - {fileID: 1915542163, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -1623830615, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 197535858, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -532877022, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 835472892, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 1385629772, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -435624929, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -894517998, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 343348750, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 45707614, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -775390972, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -1654368485, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: 491451823, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -2051769752, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -360166474, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -864500989, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -425756230, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
-    - {fileID: -2126296434, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    frames: []
+    prefab: {fileID: 2296943886832427689, guid: d246259b414fefd4886542039aaa8915, type: 3}
+    lifeTime: 1
     fps: 26
     loop: 0
-    tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
-    scale: 1.2
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.8
     sortingLayer: Skill
     sortingOrder: 1
   - id: EnemyHit
@@ -108,9 +96,31 @@ MonoBehaviour:
     - {fileID: 1937622116, guid: 4fbc3e141711101428b3fc34392784c3, type: 3}
     - {fileID: -206243376, guid: 4fbc3e141711101428b3fc34392784c3, type: 3}
     - {fileID: -546990728, guid: 4fbc3e141711101428b3fc34392784c3, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
     fps: 36
     loop: 0
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
     scale: 0.8
     sortingLayer: Skill
     sortingOrder: 2
+  - id: SlashHitLeft
+    frames: []
+    prefab: {fileID: 3342390054723832257, guid: d51a41c44ca9fca4ca84bf3f1d7270d1, type: 3}
+    lifeTime: 1
+    fps: 36
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.8
+    sortingLayer: Skill
+    sortingOrder: 1
+  - id: ParryClang
+    frames: []
+    prefab: {fileID: 4748681987041982144, guid: 5599fd469bab89b4f83c0170195442d6, type: 3}
+    lifeTime: 1
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1.2
+    sortingLayer: Skill
+    sortingOrder: 50

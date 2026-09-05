@@ -12,8 +12,15 @@ public class VfxClip
     [Tooltip("코드에서 이 이름으로 재생한다. 오타가 나면 조용히 아무것도 안 나오므로 짧고 명확하게")]
     public string id;
 
-    [Tooltip("재생할 프레임. 시트에서 잘라 순서대로 넣는다")]
+    [Tooltip("재생할 프레임. 시트에서 잘라 순서대로 넣는다. prefab을 쓰면 비워 둔다")]
     public Sprite[] frames;
+
+    [Tooltip("스프라이트 프레임 대신 통째로 찍어 낼 프리팹. 파티클 이펙트(Vefects)용이다. "
+           + "이게 채워져 있으면 frames는 무시된다")]
+    public GameObject prefab;
+
+    [Tooltip("프리팹 모드에서 몇 초 뒤에 없앨지. 파티클은 스스로 끝나도 오브젝트는 남는다")]
+    [Min(0.05f)] public float lifeTime = 1f;
 
     [Tooltip("초당 프레임. 원본은 24fps. 올리면 짧고 날카로워진다")]
     [Min(1f)] public float fps = 24f;

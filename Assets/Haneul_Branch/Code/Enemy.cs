@@ -58,6 +58,10 @@ public class Enemy : MonoBehaviour
     [Tooltip("앞을 막는 것으로 취급할 레이어. 비워 두면 Awake에서 Enemy + Wall로 자동 설정.\n" +
              "Wall이 들어 있어야 우회하다 방 밖으로 새지 않는다 (잠긴 문의 Blocker도 Wall 레이어).")]
     [SerializeField] private LayerMask obstacleLayers;
+
+    // 이 적이 장애물로 여기는 레이어. 스폰 자리를 고를 때 같은 기준을 써야
+    // "설 수 있다고 판단해 놓았는데 정작 못 움직이는" 자리가 안 나온다.
+    public LayerMask ObstacleLayers { get { return obstacleLayers; } }
     [Tooltip("진행 방향으로 이만큼 앞을 살펴 막혔는지 판단한다. 몸 크기보다 조금 크게")]
     [SerializeField] private float avoidProbeDistance = 0.6f;
     [Tooltip("막혔을 때 틀어 볼 최대 각도(도). 이 범위에서 플레이어 쪽에 가장 가까운 빈 길을 고른다")]
@@ -127,6 +131,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyInfo enemyInfo;
     public EnemyInfo Info => enemyInfo;
 
+    [Tooltip("체력바에 뜨는 얼굴. 비우면 지금 재생 중인 스프라이트를 그대로 쓴다.\n"
+           + "프레임에 여백이 많은 큰 적(보스)은 그대로 넣으면 작은 칸에서 아무것도 안 보이므로 잘라서 넣을 것")]
+    [SerializeField] private Sprite portrait;
+
+    public Sprite Portrait
+    {
+        get { return portrait != null ? portrait : (spriteRenderer != null ? spriteRenderer.sprite : null); }
+    }
+
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -144,6 +157,10 @@ public class Enemy : MonoBehaviour
     public bool IsFacingRight { get; private set; }
     public bool isDead { get; private set; }
 
+    // 잠깐 피해를 받지 않는 상태. 보스가 페이즈 전환 연출을 내는 동안 켠다 —
+    // 켜 두지 않으면 연출 중에 그대로 녹아 다음 페이즈를 못 보고 끝난다.
+    public bool IsInvulnerable { get; protected set; }
+
     // 죽는 순간 알린다. Room의 클리어 판정은 0.2초 폴링이라 타격 순간을 잡을 수 없어
     // 보스 처치 연출처럼 타이밍이 중요한 곳은 이 이벤트를 쓴다.
     public event System.Action<Enemy> Died;
@@ -152,6 +169,10 @@ public class Enemy : MonoBehaviour
     // 개체마다 구독하면 스폰/파괴 때마다 등록·해제를 챙겨야 하므로 정적 이벤트로 둔다.
     // 구독하는 쪽은 OnDisable에서 반드시 해제할 것.
     public static event System.Action<Enemy> AnyDamaged;
+
+    // 아무 적이나 죽을 때마다 발생. 판 기록(RunStats)의 처치 수 집계에 쓴다.
+    // 개체 이벤트(Died)와 달리 구독자가 스폰 시점을 몰라도 되므로 정적으로 둔다.
+    public static event System.Action<Enemy> AnyDied;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -241,7 +262,7 @@ public class Enemy : MonoBehaviour
         StateMachine.Initialize(IdleState);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         //Debug.Log(player.position); // player가 제대로 할당되었는지 확인하는 로그
         if (player == null || isDead)
@@ -382,15 +403,15 @@ public class Enemy : MonoBehaviour
             && IsAttackAligned();
     }
 
-    public void TakeDamage(int damage, bool isCritical = false)
+    public void TakeDamage(int damage, bool isCritical = false, Color? numberColor = null)
     {
-        if (isDead)
+        if (isDead || IsInvulnerable)
             return;
         Debug.Log("TakeDamage 호출");
 
         // 플로팅 데미지 숫자 표시 (죽는 타격도 보이도록 hp 차감 전에 호출)
         if (DamageNumberSpawner.Instance != null)
-            DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical);
+            DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical, numberColor);
 
         // 피격 이펙트 — 몸통 한가운데쯤에서 터지게 살짝 올린다.
         // 적을 부모로 삼지 않는다. 넉백으로 밀려나도 맞은 자리에 남아야 타격 위치가 읽힌다.
@@ -408,8 +429,13 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        StateMachine.ChangeState(HitState);
+        if (CanBeStaggered) StateMachine.ChangeState(HitState);
     }
+
+    // 맞을 때마다 경직될지. 보스는 공격 도중에 버틴다(슈퍼아머).
+    // 경직이 걸리면 공격 애니메이션이 피격 모션으로 갈아치워져,
+    // 코루틴은 계속 도는데 화면에는 안 휘두르는 상태가 된다.
+    protected virtual bool CanBeStaggered { get { return true; } }
 
     private void Die()
     {
@@ -424,6 +450,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (Died != null) Died(this);
+        if (AnyDied != null) AnyDied(this);
 
         Destroy(gameObject, 1.5f);//사라지는 시간
     }
@@ -634,6 +661,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (Died != null) Died(this);
+        if (AnyDied != null) AnyDied(this);
 
         Destroy(gameObject, destroyDelay);
     }

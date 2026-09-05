@@ -9,6 +9,14 @@ using UnityEngine;
 [RequireComponent(typeof(RoomManager))]
 public class DungeonGenerator : MonoBehaviour
 {
+    [Header("층 데이터")]
+    [Tooltip("층 순서 에셋. 비워 두면 Resources에서 아래 경로로 찾는다.\n"
+           + "끝내 못 찾으면 이 인스펙터에 직접 물린 프리팹들로 한 층짜리 던전을 만든다.")]
+    [SerializeField] private FloorSequence floors;
+
+    [Tooltip("Resources 기준 경로. 예: \"Dungeon/FloorSequence\"")]
+    [SerializeField] private string floorsResourcePath = "Dungeon/FloorSequence";
+
     [Header("생성 규모")]
     [Tooltip("만들 방 개수 (시작 방 포함)")]
     [SerializeField] private int roomCount = 10;
@@ -53,6 +61,21 @@ public class DungeonGenerator : MonoBehaviour
     [Header("동작")]
     [SerializeField] private bool generateOnStart = true;
 
+    // 지금 몇 번째 층인가. 0부터 센다(= 1층).
+    public int CurrentFloorIndex { get; private set; }
+    public FloorData CurrentFloor { get; private set; }
+
+    // 층 에셋이 아예 없으면 인스펙터 설정으로 도는 한 층짜리 던전이다.
+    public int FloorCount
+    {
+        get { return floors != null && floors.Count > 0 ? floors.Count : 1; }
+    }
+
+    public bool IsLastFloor
+    {
+        get { return CurrentFloorIndex >= FloorCount - 1; }
+    }
+
     private RoomManager roomManager;
     private readonly Dictionary<Vector2Int, RoomType> layout = new Dictionary<Vector2Int, RoomType>();
     private readonly Dictionary<Vector2Int, Room> placed = new Dictionary<Vector2Int, Room>();
@@ -65,7 +88,67 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Start()
     {
-        if (generateOnStart) Generate();
+        if (generateOnStart) GenerateFloor(0);
+    }
+
+    // 층 하나를 짓는다. 층 에셋이 있으면 그 내용으로 자기 설정을 갈아끼운 뒤 평소대로 생성한다.
+    // 생성 알고리즘은 층마다 다르지 않으므로 Generate() 아래쪽은 손대지 않는다.
+    public void GenerateFloor(int index)
+    {
+        ResolveFloors();
+
+        CurrentFloorIndex = Mathf.Max(0, index);
+        CurrentFloor = floors != null ? floors.Get(CurrentFloorIndex) : null;
+
+        if (CurrentFloor != null) ApplyFloor(CurrentFloor);
+        else if (floors != null && floors.Count > 0)
+            Debug.LogWarning("[DungeonGenerator] " + (CurrentFloorIndex + 1) + "층 데이터가 비어 있다. 인스펙터 설정으로 만든다");
+
+        if (RunStats.Instance != null) RunStats.Instance.SetFloor(CurrentFloorIndex + 1);
+        ApplyFloorTitle();
+
+        Generate();
+    }
+
+    private void ResolveFloors()
+    {
+        if (floors != null || string.IsNullOrEmpty(floorsResourcePath)) return;
+
+        floors = Resources.Load<FloorSequence>(floorsResourcePath);
+        if (floors == null)
+            Debug.LogWarning("[DungeonGenerator] Resources/" + floorsResourcePath + " 를 찾지 못함. 인스펙터 설정으로 한 층만 만든다");
+    }
+
+    // 에셋 값을 자기 필드로 옮긴다.
+    // 생성 코드가 계속 자기 필드만 보게 두는 편이, 곳곳에서 CurrentFloor를 참조하며
+    // null을 챙기는 것보다 갈래가 적다.
+    private void ApplyFloor(FloorData d)
+    {
+        roomCount = d.roomCount;
+        gridSize = d.gridSize;
+        allowVerticalDoors = d.allowVerticalDoors;
+
+        startRoomPrefab = d.startRoomPrefab;
+        bossRoomPrefab = d.bossRoomPrefab;
+        treasureRoomPrefab = d.treasureRoomPrefab;
+        shopRoomPrefab = d.shopRoomPrefab;
+
+        loadRoomsFromResources = d.loadRoomsFromResources;
+        roomsResourcePath = d.roomsResourcePath;
+
+        if (!d.loadRoomsFromResources && d.normalRoomPrefabs != null && d.normalRoomPrefabs.Count > 0)
+            normalRoomPrefabs = new List<Room>(d.normalRoomPrefabs);
+    }
+
+    // 입장 연출에 이번 층 이름을 넘긴다. 연출은 던전이 다 만들어진 뒤에 글자를 읽으므로
+    // 생성 전에 알려 두면 순서를 신경 쓸 필요가 없다.
+    private void ApplyFloorTitle()
+    {
+        if (CurrentFloor == null) return;
+
+        DungeonIntro intro = FindObjectOfType<DungeonIntro>();
+        if (intro != null)
+            intro.SetFloorInfo(CurrentFloor.displayName, CurrentFloor.ResolveSubtitle(CurrentFloorIndex + 1));
     }
 
     // ─────────────────────────────────────────────

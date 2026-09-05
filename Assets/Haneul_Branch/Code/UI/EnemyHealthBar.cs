@@ -67,11 +67,20 @@ public class EnemyHealthBar : MonoBehaviour
     private Image gradeChip;
     private Text nameLabel;
 
+    // 씬이 열릴 때마다 챙긴다. 재시작(씬 재로드) 후에도 다시 생기게 하기 위해서다 —
+    // RuntimeInitializeOnLoadMethod 하나만으로는 실행 시작에 한 번밖에 안 돈다.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AutoCreate()
     {
+        RuntimeSingletons.EnsureEachScene(Spawn);
+    }
+
+    private static void Spawn()
+    {
         if (Instance != null) return;
         if (FindObjectOfType<EnemyHealthBar>() != null) return;
+        // 플레이어가 없는 씬(타이틀·컷신)에는 보여 줄 적이 없다
+        if (FindObjectOfType<PlayerStatus>() == null) return;
 
         GameObject prefab = Resources.Load<GameObject>("UI/EnemyHealthBar");
         if (prefab != null) Instantiate(prefab).name = "EnemyHealthBar";
@@ -129,8 +138,14 @@ public class EnemyHealthBar : MonoBehaviour
         nameLabel.color = shownGrade == EnemyGrade.Normal ? nameColor : shownGrade.Accent();
         bar.Fill.color  = shownGrade.Fill();
         bar.Trail.color = trailColor;
-        bar.SetPortrait(enemy.spriteRenderer != null ? enemy.spriteRenderer.sprite : null);
-        bar.BuildSegments(shownGrade.Segments());
+        bar.SetPortrait(enemy.Portrait);
+        // 보스는 등급별 기본 칸수 대신 실제 페이즈 경계를 긋는다.
+        // 선이 "여기서 뭔가 바뀐다"는 예고 역할을 하게 된다.
+        BossEnemy boss = enemy as BossEnemy;
+        float[] phases = boss != null ? boss.PhaseBoundaries : null;
+
+        if (phases != null) bar.BuildSegmentsAt(phases);
+        else bar.BuildSegments(shownGrade.Segments());
 
         // 새 대상은 잔상도 현재 체력에서 시작한다 — 안 그러면 전 대상의 잔상이 흘러내린다
         trailRatio = Ratio();

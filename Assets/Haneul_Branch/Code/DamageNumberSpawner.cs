@@ -41,7 +41,8 @@ public class DamageNumberSpawner : MonoBehaviour
     }
 
     // 월드 위치에 데미지 숫자를 띄운다. critical이면 크리티컬 프리팹 사용.
-    public void Show(Vector3 worldPosition, float amount, bool critical = false)
+    // colorOverride를 주면 프리팹 색 대신 그 색을 쓴다 (예: 패링 반격의 노란 숫자).
+    public void Show(Vector3 worldPosition, float amount, bool critical = false, Color? colorOverride = null)
     {
         DamageNumber prefab = (critical && criticalNumberPrefab != null)
             ? criticalNumberPrefab
@@ -50,6 +51,7 @@ public class DamageNumberSpawner : MonoBehaviour
         if (prefab == null) return;
 
         DamageNumber dn = prefab.Spawn(worldPosition + offset, amount);
+        if (colorOverride.HasValue) dn.SetColor(colorOverride.Value);
         ApplySorting(dn);
 
         // 크리티컬은 빨간 숫자 + 카메라 흔들림으로 타격감을 준다.

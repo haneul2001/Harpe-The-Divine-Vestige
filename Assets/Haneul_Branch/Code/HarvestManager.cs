@@ -5,7 +5,9 @@ public class HarvestManager : MonoBehaviour
 {
     public static HarvestManager Instance;
 
-    [SerializeField] private float harvestDuration = 1.5f;
+    [Tooltip("처형 시퀀스(이동잠금)의 1배속 기준 길이(초). Reaper의 Surprise Attack 클립 실제 길이(19프레임/12fps = 1.583초)에\n" +
+             "맞춰 둔 것 — 이거보다 짧으면 애니메이션이 아직 도는데 조작이 먼저 풀린다.")]
+    [SerializeField] private float harvestDuration = 1.583f;
 
     [Tooltip("처형(V) 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
     [SerializeField] private float harvestSpeed = 1f;
@@ -40,6 +42,14 @@ public class HarvestManager : MonoBehaviour
     // 처형의 내려찍기가 실제로 닿은 순간. 능력 카드 효과가 여기에 올라탄다.
     // 이벤트로 둔 이유: 카드가 늘어날 때마다 이 클래스에 if가 쌓이면 안 된다.
     public event System.Action<HarvestImpact> ImpactLanded;
+
+    [Header("공격 장판 (임팩트 지점 표시)")]
+    [Tooltip("임팩트 순간 캐릭터 발 밑(impactPos)에 퍼지는 링을 띄운다. 판정 자체와는 무관한 시각 효과")]
+    [SerializeField] private bool showAttackMarker = true;
+
+    [SerializeField] private float attackMarkerRadius = 1.2f;
+    [SerializeField] private Color attackMarkerColor = new Color(1f, 1f, 1f, 0.9f);
+    [SerializeField] private float attackMarkerDuration = 0.3f;
 
     [Header("카메라 흔들림")]
     [Tooltip("임팩트 순간 카메라를 흔든다 (Main Camera에 CameraShake 컴포넌트 필요)")]
@@ -210,7 +220,10 @@ public class HarvestManager : MonoBehaviour
 
         // 처형으로 준 피해 = 적의 남은 체력. HarvestDie 전에 미리 확보해 둔다.
         int harvestDamage = Mathf.Max(1, enemy.hp);
-        Vector3 impactPos = enemy.transform.position;
+
+        // 판정 기준점은 적이 아니라 캐릭터(플레이어) 위치.
+        // isExecuting으로 처형 내내 플레이어가 못 움직이므로 이 자리가 끝까지 그대로 유지된다.
+        Vector3 impactPos = player.position;
 
         // 기존 동작: 처형 시작과 동시에 문구 표시
         if (!harvestTextOnImpact)
@@ -235,9 +248,8 @@ public class HarvestManager : MonoBehaviour
         if (impactDelay > 0f)
             yield return new WaitForSeconds(impactDelay);
 
-        // 적이 아직 살아 있으면 최신 위치를 쓴다 (넉백 등으로 밀렸을 수 있음)
-        if (enemy != null)
-            impactPos = enemy.transform.position;
+        if (showAttackMarker)
+            ShockwaveRing.Spawn(impactPos, attackMarkerRadius, attackMarkerColor, attackMarkerDuration);
 
         if (showDamageOnImpact && DamageNumberSpawner.Instance != null)
             DamageNumberSpawner.Instance.Show(impactPos, harvestDamage, impactDamageAsCritical);

@@ -183,25 +183,19 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
     {
         if (attackHitBox == null) return;
 
-        var slash = PixelVfx.Play("SlashHit", attackHitBox.transform.position);
+        // 파티클은 음수 배율로 뒤집으면 깨지므로, 좌향은 아예 좌우 반전된 프리팹을 쓴다.
+        bool left = horizontalAttackOnly && dir.x < 0f;
+        var slash = PixelVfx.Play(left ? "SlashHitLeft" : "SlashHit", attackHitBox.transform.position);
         if (slash == null) return;
-
-        float sign = dir.x < 0f ? -1f : 1f;
-        Vector3 s = slash.transform.localScale;
 
         var box = attackHitBox.GetComponent<BoxCollider2D>();
         if (box != null)
         {
-            // 원본이 2x2 유닛이라 판정 높이에 맞춰 키운다
-            Vector3 ls = attackHitBox.transform.lossyScale;
-            float h = box.size.y * Mathf.Abs(ls.y);
-            float k = Mathf.Clamp(h / 2f, 0.4f, 4f);
-            s = new Vector3(k, k, 1f);
+            // 판정 높이에 맞춰 키운다. 라이브러리 기본 배율 위에 곱한다.
+            float h = box.size.y * Mathf.Abs(attackHitBox.transform.lossyScale.y);
+            float k = Mathf.Clamp(h / 2f, 0.4f, 2f);
+            slash.transform.localScale = Vector3.Scale(slash.transform.localScale, new Vector3(k, k, 1f));
         }
-
-        // 좌우 공격이라 x를 뒤집는 것으로 방향이 맞는다.
-        // 180도 회전을 쓰면 위아래까지 뒤집혀 베는 궤적이 반대로 보인다.
-        slash.transform.localScale = new Vector3(Mathf.Abs(s.x) * sign, s.y, 1f);
 
         if (!horizontalAttackOnly)
             slash.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
@@ -282,6 +276,10 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
             if (isDead) yield break;   // 뒷정리는 finally가 한다
 
+            // 애니메이션을 걸기 직전. 이번 공격이 무엇인지 여기서 정해야
+            // 그에 맞는 클립을 재생할 수 있다 (보스의 패턴 선택이 여기 붙는다).
+            OnAttackStart();
+
             // 공격 발동
             animator.SetTrigger("attack");
 
@@ -346,6 +344,10 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
     // 공격 종료 정리 훅 (예: 돌진의 물리 설정 복구)
     protected virtual void OnAttackFinally() { }
+
+    // 공격 애니메이션을 걸기 직전에 불린다.
+    // 이 시점 이후로는 LockPositionDuringActivePhase도 결정돼 있어야 한다.
+    protected virtual void OnAttackStart() { }
 
     // 오브젝트가 꺼지거나 파괴되면 코루틴이 finally 없이 끊긴다.
     // 예고 표식은 적의 자식이 아니라서 그대로 화면에 남으므로 여기서 반드시 지운다.

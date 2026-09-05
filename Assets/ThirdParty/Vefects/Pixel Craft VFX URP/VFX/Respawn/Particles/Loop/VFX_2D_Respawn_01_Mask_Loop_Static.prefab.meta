@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 81c6491548e1fee438e9fc19d42c480a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Respawn/Particles/Loop/VFX_Respawn_01_Mask_Loop_Static.prefab
+  uploadId: 771196

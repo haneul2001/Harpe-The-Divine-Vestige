@@ -4496,12 +4496,12 @@ MonoBehaviour:
   - {fileID: 7860468238211523660}
   - {fileID: 6454244871556378169}
   spawns:
-  - prefab: {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
-    info: {fileID: 11400000, guid: b0692644003e0d34c9529a6f3af71d1f, type: 2}
+  - prefab: {fileID: 1146800402705198529, guid: ce59c8de61739504297fdcf28741dcd6, type: 3}
+    info: {fileID: 11400000, guid: 0fd796387c39e154aa0caacd2025f5eb, type: 2}
     count: 1
     scale: 4
     separationRadius: 0
-    isBoss: 0
+    isBoss: 1
   - prefab: {fileID: 2331721778063490303, guid: 8dec85a7533d9dd4793715ec28b9b781, type: 3}
     info: {fileID: 11400000, guid: 0b12f2f83166adb4f8f3691419f1b559, type: 2}
     count: 2

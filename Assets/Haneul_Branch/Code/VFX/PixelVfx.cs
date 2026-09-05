@@ -23,7 +23,8 @@ public class PixelVfx : MonoBehaviour
     public static PixelVfx Play(string id, Vector3 position, float rotationZ = 0f, Transform parent = null)
     {
         VfxClip c = Lookup(id);
-        if (c == null || c.frames == null || c.frames.Length == 0) return null;
+        if (c == null) return null;
+        if (c.prefab == null && (c.frames == null || c.frames.Length == 0)) return null;
 
         var go = new GameObject("VFX_" + id);
         go.transform.SetParent(parent, false);
@@ -76,17 +77,50 @@ public class PixelVfx : MonoBehaviour
         playing = true;
 
         if (sr == null) sr = GetComponent<SpriteRenderer>();
+
+        if (c.prefab != null) { BeginPrefab(c); return; }
+
         sr.sprite = c.frames[0];
         sr.color = c.tint;
         sr.sortingLayerName = string.IsNullOrEmpty(c.sortingLayer) ? "Default" : c.sortingLayer;
         sr.sortingOrder = c.sortingOrder;
     }
 
+    // 파티클 프리팹을 자식으로 붙인다.
+    // 스프라이트 프레임 방식과 달리 크기·색·정렬이 전부 프리팹 안에 들어 있어
+    // 인스턴스마다 여기서 덮어써 준다.
+    private void BeginPrefab(VfxClip c)
+    {
+        sr.enabled = false;   // 프리팹 모드에선 이 오브젝트가 껍데기 역할만 한다
+
+        var inst = Instantiate(c.prefab, transform);
+        inst.transform.localPosition = Vector3.zero;
+        inst.transform.localRotation = Quaternion.identity;
+        inst.transform.localScale = Vector3.one;
+
+        foreach (var ps in inst.GetComponentsInChildren<ParticleSystem>(true))
+        {
+            // 기본값(Local)은 부모 배율을 무시한다. 껍데기에 준 크기가 먹으려면 Hierarchy여야 한다.
+            var main = ps.main;
+            main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+            if (c.tint != Color.white) main.startColor = c.tint;
+        }
+
+        foreach (var r in inst.GetComponentsInChildren<ParticleSystemRenderer>(true))
+        {
+            r.sortingLayerName = string.IsNullOrEmpty(c.sortingLayer) ? "Default" : c.sortingLayer;
+            r.sortingOrder = c.sortingOrder;
+        }
+
+        // 파티클이 다 꺼져도 오브젝트는 남으므로 수명을 직접 건다.
+        if (!c.loop) Destroy(gameObject, Mathf.Max(0.05f, c.lifeTime));
+    }
+
     // 이펙트는 연출이라 슬로우(보스 처치)에 같이 늘어지는 편이 자연스럽다.
     // 그래서 여기만은 스케일된 시간을 쓴다 — UI 막대와 반대다.
     private void Update()
     {
-        if (!playing || clip == null) return;
+        if (!playing || clip == null || clip.prefab != null) return;
 
         t += Time.deltaTime * clip.fps;
         int i = Mathf.FloorToInt(t);

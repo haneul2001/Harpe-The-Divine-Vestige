@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cf19d1900d3dced4293d7a5ee5b67f5b
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Vapor/Particles/VFX_Vapor_01_Mask_Flip_Static.prefab
+  uploadId: 771196

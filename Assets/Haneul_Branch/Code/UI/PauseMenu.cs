@@ -80,6 +80,10 @@ public class PauseMenu : MonoBehaviour
     // ESC는 "열려 있는 것부터 닫는다". 그래야 어디서 눌러도 예측이 된다.
     private void HandleEscape()
     {
+        // 결과 화면은 닫을 수 없다. 여기서 나가는 길은 재시작과 타이틀뿐이라
+        // ESC로 일시정지가 겹쳐 뜨면 "게임이 계속되는 중"이라는 잘못된 신호를 준다.
+        if (GameOverScreen.IsShowing) return;
+
         if (abilityPanel != null && abilityPanel.IsOpen) { abilityPanel.Close(); return; }
         if (cheatPanel != null && cheatPanel.IsOpen) { cheatPanel.Close(); return; }
 

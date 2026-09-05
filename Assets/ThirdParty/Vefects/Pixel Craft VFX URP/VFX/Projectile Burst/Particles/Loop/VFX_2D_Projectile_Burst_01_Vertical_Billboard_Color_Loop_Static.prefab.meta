@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 08ee3ded1f75f134da9b477247e40a5f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Projectile Burst/Particles/Loop/VFX_Projectile_Burst_01_Vertical_Billboard_Color_Loop_Static.prefab
+  uploadId: 771196

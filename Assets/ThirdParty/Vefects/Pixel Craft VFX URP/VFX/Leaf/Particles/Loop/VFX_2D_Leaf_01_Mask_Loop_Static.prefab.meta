@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c9fa4d3f75ff0b9478bcc10fd0ca5abf
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Leaf/Particles/Loop/VFX_Leaf_01_Mask_Loop_Static.prefab
+  uploadId: 771196

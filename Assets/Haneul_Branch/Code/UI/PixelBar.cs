@@ -134,22 +134,43 @@ public class PixelBar
     // 남은 양을 눈으로 세기 쉽도록 칸을 나눈다. 1이면 나누지 않는다.
     public void BuildSegments(int count)
     {
-        for (int i = Segments.childCount - 1; i >= 0; i--)
-            Object.Destroy(Segments.GetChild(i).gameObject);
-
+        ClearSegments();
         if (count <= 1) return;
 
         for (int i = 1; i < count; i++)
+            AddSegment("Seg" + i, (float)i / count);
+    }
+
+    // 정해진 위치에만 선을 긋는다. 보스의 페이즈 경계처럼 간격이 고르지 않을 때 쓴다 —
+    // 균등 분할로 그리면 선이 실제 전환 지점과 어긋나 오히려 헷갈린다.
+    public void BuildSegmentsAt(float[] ratios)
+    {
+        ClearSegments();
+        if (ratios == null) return;
+
+        for (int i = 0; i < ratios.Length; i++)
         {
-            float t = (float)i / count;
-            Image line = UIFactory.Panel("Seg" + i, Segments, new Color(0f, 0f, 0f, 0.5f), false);
-            RectTransform rt = line.rectTransform;
-            rt.anchorMin = new Vector2(t, 0f);
-            rt.anchorMax = new Vector2(t, 1f);
-            rt.pivot = new Vector2(0.5f, 0.5f);
-            rt.sizeDelta = new Vector2(2f, 0f);
-            rt.anchoredPosition = Vector2.zero;
+            float t = Mathf.Clamp01(ratios[i]);
+            if (t <= 0.001f || t >= 0.999f) continue;   // 양 끝은 테두리와 겹친다
+            AddSegment("Phase" + i, t);
         }
+    }
+
+    private void ClearSegments()
+    {
+        for (int i = Segments.childCount - 1; i >= 0; i--)
+            Object.Destroy(Segments.GetChild(i).gameObject);
+    }
+
+    private void AddSegment(string name, float t)
+    {
+        Image line = UIFactory.Panel(name, Segments, new Color(0f, 0f, 0f, 0.5f), false);
+        RectTransform rt = line.rectTransform;
+        rt.anchorMin = new Vector2(t, 0f);
+        rt.anchorMax = new Vector2(t, 1f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(2f, 0f);
+        rt.anchoredPosition = Vector2.zero;
     }
 
     // 숫자가 어떤 색 위에서도 읽히도록. 그림자 하나로는 밝은 체력색 위에서 뭉개진다.

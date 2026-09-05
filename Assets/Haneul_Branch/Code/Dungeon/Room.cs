@@ -103,6 +103,11 @@ public class Room : MonoBehaviour
 
     public bool IsCleared { get; private set; }
 
+    // 어느 방이든 처음 클리어될 때 한 번 발생. 층 진행(보스 방 → 다음 층 포탈)이 이걸 듣는다.
+    // 방마다 구독하면 던전을 새로 지을 때마다 등록·해제를 챙겨야 하므로 정적 이벤트로 둔다.
+    public static event System.Action<Room> AnyCleared;
+    private bool clearAnnounced;
+
     // 적이 스폰됐고 아직 못 깬 상태. 문이 잠겨 있는 구간과 같다.
     public bool IsInCombat { get { return spawned && !IsCleared; } }
     // 플레이어가 한 번이라도 들어온 방 (미니맵 표시용)
@@ -192,6 +197,7 @@ public class Room : MonoBehaviour
         {
             IsCleared = true;
             SetDoorsLocked(false);
+            AnnounceCleared();
             return;
         }
 
@@ -242,6 +248,16 @@ public class Room : MonoBehaviour
         SetDoorsLocked(false);
         if (clearShake > 0f) CameraShake.Shake(clearShake);
         Debug.Log($"[Room] {name} {GridPos} 클리어");
+        AnnounceCleared();
+    }
+
+    // 이미 깬 방에 다시 들어와도 두 번 알리지 않는다 — 포탈이 두 개 생긴다.
+    private void AnnounceCleared()
+    {
+        if (clearAnnounced) return;
+        clearAnnounced = true;
+
+        if (AnyCleared != null) AnyCleared(this);
     }
 
     private void SetDoorsLocked(bool locked)
@@ -294,7 +310,9 @@ public class Room : MonoBehaviour
 
             for (int n = 0; n < entry.count; n++)
             {
-                Vector3 pos = PickSpawnPos();
+                // 보스는 잡몹보다 몇 배 크다. 잡몹용 스폰 지점에 그대로 놓으면
+                // 묘비 안에 박혀서, 회피 판정이 사방을 막힌 것으로 보고 그 자리에 굳는다.
+                Vector3 pos = entryIsBoss ? PickBossSpawnPos(entry) : PickSpawnPos();
                 GameObject go = Instantiate(entry.prefab, pos, Quaternion.identity, enemyContainer);
 
                 Enemy enemy = go.GetComponent<Enemy>();
@@ -596,6 +614,66 @@ public class Room : MonoBehaviour
         }
 
         spawnCursor = 0;
+    }
+
+    // 보스가 몸을 펼 수 있는 자리를 고른다.
+    // 방 한가운데를 먼저 보고, 막혀 있으면 스폰 지점을 훑는다.
+    private Vector3 PickBossSpawnPos(SpawnEntry entry)
+    {
+        Vector2 size = BossFootprint(entry);
+        LayerMask mask = BossObstacleMask(entry);
+
+        if (IsClearFor(transform.position, size, mask)) return transform.position;
+
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            Transform t = spawnPoints[i];
+            if (t == null) continue;
+            if (IsClearFor(t.position, size, mask)) return t.position;
+        }
+
+        // 다 막혔으면 그래도 한가운데가 낫다 — 구석에 박히는 것보다 빠져나올 여지가 있다.
+        Debug.LogWarning($"[Room] {name}: 보스가 설 빈자리를 못 찾았다. 방 중앙에 놓는다", this);
+        return transform.position;
+    }
+
+    // 프리팹의 몸 콜라이더에 스폰 배율을 곱한 크기. 없으면 넉넉한 기본값.
+    private Vector2 BossFootprint(SpawnEntry entry)
+    {
+        Vector2 size = new Vector2(1.5f, 2f);
+
+        if (entry != null && entry.prefab != null)
+        {
+            CapsuleCollider2D cap = entry.prefab.GetComponent<CapsuleCollider2D>();
+            if (cap != null) size = cap.size;
+
+            size *= Mathf.Max(0.1f, entry.scale);
+        }
+
+        // 벽에 딱 붙어 서는 것도 막는다
+        return size * 1.15f;
+    }
+
+    // 보스 자신이 장애물로 여기는 것과 같은 기준을 쓴다.
+    // 기준이 어긋나면 "설 수 있다"고 놓은 자리에서 정작 한 발도 못 떼는 일이 생긴다.
+    private LayerMask BossObstacleMask(SpawnEntry entry)
+    {
+        if (entry != null && entry.prefab != null)
+        {
+            Enemy e = entry.prefab.GetComponent<Enemy>();
+            if (e != null && e.ObstacleLayers.value != 0) return e.ObstacleLayers;
+        }
+        return LayerMask.GetMask("Wall", "Enemy");
+    }
+
+    private bool IsClearFor(Vector3 pos, Vector2 size, LayerMask mask)
+    {
+        // 트리거는 무시한다 — 문·판정용 콜라이더까지 장애물로 치면 설 자리가 없어진다.
+        var filter = new ContactFilter2D { useTriggers = false };
+        filter.SetLayerMask(mask);
+
+        var hits = new Collider2D[4];
+        return Physics2D.OverlapBox(pos, size, 0f, filter, hits) == 0;
     }
 
     private Vector3 PickSpawnPos()
