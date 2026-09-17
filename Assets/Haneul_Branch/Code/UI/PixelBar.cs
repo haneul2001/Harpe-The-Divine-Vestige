@@ -74,6 +74,8 @@ public class PixelBar
         // 홈이 4픽셀뿐이라 그 안에 넣으면 글자가 잘린다.
         bar.Label = UIFactory.Label("Value", bar.Root, font, labelSize, Color.white,
             TextAnchor.MiddleCenter, FontStyle.Bold);
+        // 막대 숫자는 12 격자로 반올림하면 24가 돼 프레임 밖으로 넘친다 — 받은 크기를 그대로 쓴다
+        bar.Label.fontSize = labelSize;
         UIFactory.SetAnchoredBox(bar.Label.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
         AddOutline(bar.Label.gameObject);
 

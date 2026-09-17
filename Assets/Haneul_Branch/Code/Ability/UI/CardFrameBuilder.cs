@@ -19,6 +19,8 @@ public static class CardFrameBuilder
         public List<Image> glow = new List<Image>();
         public List<Image> accents = new List<Image>();
         public float shimmer;
+        // 카드 그림(아치 창 + 양피지 이름칸)을 쓰는지 — 뷰가 아이콘·이름 자리를 그림에 맞춘다
+        public bool pictureFrame;
     }
 
     // skin이 null이면 전부 단색 사각형으로 그린다 (그림이 없어도 등급 구분은 유지된다).
@@ -28,10 +30,13 @@ public static class CardFrameBuilder
         RarityStyle style = rarity.Style();
 
         var frame = new Frame { shimmer = style.shimmer };
+        Sprite frameSprite = skin.Frame(rarity);
 
         // ── 후광 — 카드보다 큰 사각형을 겹쳐 깐다 ──────────────
         // 자식은 나중에 추가될수록 위에 그려지므로, 큰 것부터 먼저 만들어야 뒤로 간다.
-        for (int i = style.glowLayers; i >= 1; i--)
+        // 픽셀 카드 그림 뒤에 반투명 사각형을 번지게 깔면 픽셀 느낌이 깨지므로, 후광 그림이 없으면 생략.
+        int glowLayers = frameSprite != null && skin.CardGlow() == null ? 0 : style.glowLayers;
+        for (int i = glowLayers; i >= 1; i--)
         {
             float pad = 5f * i;
             float alpha = style.glowAlpha / i;
@@ -44,8 +49,6 @@ public static class CardFrameBuilder
         }
 
         // ── 테두리 ────────────────────────────────────────────
-        Sprite frameSprite = skin.Frame(rarity);
-
         Image border = UIFactory.Panel("Border", root, color, true);
         UIFactory.ApplySprite(border, frameSprite);
         StretchWithPadding(border.rectTransform, 0f);
@@ -61,7 +64,10 @@ public static class CardFrameBuilder
         fill.offsetMax = -Vector2.one * inset;
 
         Image fillImage = fill.gameObject.AddComponent<Image>();
-        fillImage.color = fillColor;
+        // 프레임 그림이 있는데 별도 배경 그림이 없으면, 단색을 깔지 않는다 —
+        // 프레임 그림 위에 불투명한 사각형을 덮으면 그림 전체(아치·보석 장식까지)가 가려진다.
+        bool hideFlatFill = frameSprite != null && skin.CardBackground() == null;
+        fillImage.color = hideFlatFill ? new Color(fillColor.r, fillColor.g, fillColor.b, 0f) : fillColor;
         fillImage.raycastTarget = false;
         UIFactory.ApplySprite(fillImage, skin.CardBackground());
 
@@ -100,6 +106,7 @@ public static class CardFrameBuilder
         }
 
         frame.content = fill;
+        frame.pictureFrame = frameSprite != null;
         return frame;
     }
 

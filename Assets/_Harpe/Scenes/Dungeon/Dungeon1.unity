@@ -988,12 +988,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 65378f308d5a3fc428e7292ee3d8095b, type: 3}
-    m_FontSize: 44
+    m_Font: {fileID: 12800000, guid: 2da8fa69e590d554a9f1ea30f1468eaf, type: 3}
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 44
+    m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1745,13 +1745,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellSize: 24
   cellGap: 4
-  linkThickness: 5
-  panelPadding: 10
+  linkThickness: 4
+  panelPadding: 12
   panelColor: {r: 0.05, g: 0.05, b: 0.08, a: 0.82}
   panelBorderColor: {r: 0.62, g: 0.58, b: 0.5, a: 0.85}
   panelBorderWidth: 2
+  panelSprite: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}
+  cellSprite: {fileID: 1213479468, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
+  currentCellSprite: {fileID: 1656189245, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
+  bossIcon: {fileID: -1126419981, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  shopIcon: {fileID: 1999212009, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  treasureIcon: {fileID: -1880099858, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  displayScale: 2
+  opacity: 0.7
+  cornerMargin: 8
   toggleKey: 9
-  expandedScale: 3.2
+  expandedScale: 4
   expandDuration: 0.16
   backdropAlpha: 0.72
   currentColor: {r: 1, g: 1, b: 1, a: 0.95}
@@ -1759,8 +1768,9 @@ MonoBehaviour:
   visitedColor: {r: 0.35, g: 0.37, b: 0.45, a: 0.8}
   unknownColor: {r: 0.18, g: 0.18, b: 0.22, a: 0.55}
   bossColor: {r: 0.78, g: 0.25, b: 0.28, a: 0.9}
-  treasureColor: {r: 0.92, g: 0.76, b: 0.3, a: 0.9}
-  linkColor: {r: 0.45, g: 0.47, b: 0.55, a: 0.9}
+  treasureColor: {r: 0.45, g: 0.85, b: 0.62, a: 1}
+  shopColor: {r: 0.96, g: 0.78, b: 0.28, a: 1}
+  linkColor: {r: 0.62, g: 0.5, b: 0.32, a: 1}
   playerColor: {r: 0.35, g: 1, b: 0.95, a: 1}
   playerMarkerSize: 6
   playerPulseSpeed: 5
@@ -3089,7 +3099,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 65378f308d5a3fc428e7292ee3d8095b, type: 3}
+    m_Font: {fileID: 12800000, guid: 2da8fa69e590d554a9f1ea30f1468eaf, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -3644,7 +3654,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 65378f308d5a3fc428e7292ee3d8095b, type: 3}
+    m_Font: {fileID: 12800000, guid: 2da8fa69e590d554a9f1ea30f1468eaf, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -3807,12 +3817,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 65378f308d5a3fc428e7292ee3d8095b, type: 3}
-    m_FontSize: 90
-    m_FontStyle: 1
+    m_Font: {fileID: 12800000, guid: b69097f2cf69bc24b9b4a10fb5209f9e, type: 3}
+    m_FontSize: 96
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 90
+    m_MaxSize: 96
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3883,17 +3893,19 @@ MonoBehaviour:
   toggleKey: 105
   pauseWhileOpen: 1
   columns: 4
-  cardSize: {x: 210, y: 280}
-  cardSpacing: {x: 24, y: 24}
+  minSlots: 8
+  cardSize: {x: 200, y: 310}
+  cardSpacing: {x: 20, y: 24}
   cardHoverLift: 10
-  setColumnWidth: 132
-  setIconSize: 74
+  setColumnWidth: 150
+  setIconSize: 80
   backdropColor: {r: 0, g: 0, b: 0, a: 0.78}
   panelFill: {r: 0.07, g: 0.07, b: 0.1, a: 0.98}
   panelBorder: {r: 0.62, g: 0.55, b: 0.4, a: 0.9}
   slotFill: {r: 0.12, g: 0.12, b: 0.16, a: 1}
   headerColor: {r: 0.92, g: 0.86, b: 0.7, a: 1}
-  skin: {fileID: 0}
+  dimText: {r: 0.55, g: 0.56, b: 0.62, a: 1}
+  skin: {fileID: 11400000, guid: 2d625fe841f4a224cabbf91803dc46fc, type: 2}
   font: {fileID: 0}
 --- !u!4 &1942894691
 Transform:

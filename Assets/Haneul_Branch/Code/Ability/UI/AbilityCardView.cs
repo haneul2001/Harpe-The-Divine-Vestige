@@ -46,14 +46,34 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         this.lift = UIFactory.Stretch("Lift", transform);
         frame = CardFrameBuilder.Build(this.lift, card.Rarity, panelFill, skin);
+
+        // 카드 그림은 이미 등급 색으로 칠해져 있다 — 등급 색을 곱하거나 반투명으로 두면 탁해진다
+        if (frame.pictureFrame)
+        {
+            idleBorder = Color.white;
+            hoverBorder = new Color(1f, 1f, 0.92f, 1f);
+        }
         frame.border.color = idleBorder;
 
         BuildIcon(rarity, font);
         BuildName(rarity, font);
     }
 
+    // 픽셀 카드 그림(100x155)의 아치 창 · 양피지 이름칸 위치를 비율로 잰 값
+    private static readonly Vector2 PicIconMin = new Vector2(0.22f, 0.42f);
+    private static readonly Vector2 PicIconMax = new Vector2(0.78f, 0.86f);
+    private static readonly Vector2 PicNameMin = new Vector2(0.14f, 0.08f);
+    private static readonly Vector2 PicNameMax = new Vector2(0.86f, 0.29f);
+    private const float PicIconScale = 4f;   // 22px → 88 (카드 200x310 기준 아치 창 안쪽)
+
     private void BuildIcon(Color rarity, Font font)
     {
+        if (frame.pictureFrame)
+        {
+            BuildPictureIcon(rarity, font);
+            return;
+        }
+
         RectTransform iconRect = UIFactory.Empty("Icon", frame.content);
         UIFactory.SetAnchoredBox(iconRect, new Vector2(0f, 0.26f), new Vector2(1f, 1f),
             new Vector2(20f, 6f), new Vector2(-20f, -22f));
@@ -80,8 +100,45 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
         mark.text = card.DisplayName.Length > 0 ? card.DisplayName.Substring(0, 1) : "?";
     }
 
+    // 카드 그림 모드: 아치 창 안에 아이콘, 없으면 첫 글자만 (마름모 장식은 그림과 겹쳐 생략)
+    private void BuildPictureIcon(Color rarity, Font font)
+    {
+        if (card.Icon != null)
+        {
+            // 아치 창 가운데에 아이콘 원본(22px)의 정수배로 — 창을 꽉 채우면 아치 장식을 덮는다
+            Image icon = UIFactory.Panel("Icon", frame.content, Color.white, false);
+            icon.sprite = card.Icon;
+            icon.preserveAspect = true;
+            Vector2 center = (PicIconMin + PicIconMax) * 0.5f;
+            icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = center;
+            icon.rectTransform.sizeDelta = new Vector2(card.Icon.rect.width, card.Icon.rect.height) * PicIconScale;
+            icon.rectTransform.anchoredPosition = Vector2.zero;
+            return;
+        }
+
+        Text mark = UIFactory.Label("Mark", frame.content, font, 44,
+            Color.Lerp(rarity, Color.white, 0.25f), TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(mark.rectTransform, PicIconMin, PicIconMax, Vector2.zero, Vector2.zero);
+        mark.text = card.DisplayName.Length > 0 ? card.DisplayName.Substring(0, 1) : "?";
+        var sh = mark.gameObject.AddComponent<Shadow>();
+        sh.effectColor = new Color(0f, 0f, 0f, 0.8f);
+        sh.effectDistance = new Vector2(2f, -2f);
+    }
+
     private void BuildName(Color rarity, Font font)
     {
+        if (frame.pictureFrame)
+        {
+            // 이름칸이 밝은 양피지라 어두운 갈색 글씨여야 읽힌다
+            // 갈무리 12px — 24px면 다섯 글자 이름이 양피지 가장자리에 닿는다
+            nameText = UIFactory.Label("Name", frame.content, font, 12,
+                new Color(0.24f, 0.16f, 0.10f, 1f), TextAnchor.MiddleCenter, FontStyle.Bold);
+            UIFactory.SetAnchoredBox(nameText.rectTransform, PicNameMin, PicNameMax, Vector2.zero, Vector2.zero);
+            nameText.verticalOverflow = VerticalWrapMode.Truncate;
+            nameText.text = card.DisplayName;
+            return;
+        }
+
         // 이름 뒤에 어두운 띠를 깔아 그림 위에서도 읽히게 한다
         Image plate = UIFactory.Panel("NamePlate", frame.content, new Color(0f, 0f, 0f, 0.45f), false);
         UIFactory.ApplySprite(plate, skin.NamePlate());

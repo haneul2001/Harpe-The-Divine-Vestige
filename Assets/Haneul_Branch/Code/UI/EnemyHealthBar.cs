@@ -260,6 +260,7 @@ public class EnemyHealthBar : MonoBehaviour
 
         gradeLabel = UIFactory.Label("GradeText", chip, font, 16, new Color(0.07f, 0.06f, 0.05f),
             TextAnchor.MiddleCenter, FontStyle.Bold);
+        gradeLabel.fontSize = 18;   // 높이 26 칩 — 격자 반올림(24)이면 꽉 차서 넘친다
         UIFactory.SetAnchoredBox(gradeLabel.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
 
         nameLabel = UIFactory.Label("Name", nameRow, font, 28, nameColor,
@@ -269,7 +270,7 @@ public class EnemyHealthBar : MonoBehaviour
         PixelBar.AddOutline(nameLabel.gameObject);
 
         // 막대
-        bar = PixelBar.Build("Frame", root, font, 22, true);
+        bar = PixelBar.Build("Frame", root, font, 18, true);
         bar.Root.anchorMin = new Vector2(0f, 0f);
         bar.Root.anchorMax = new Vector2(1f, 0f);
         bar.Root.pivot = new Vector2(0.5f, 0f);

@@ -24,10 +24,30 @@ public class DungeonMinimap : MonoBehaviour
     [SerializeField] private Color panelBorderColor = new Color(0.62f, 0.58f, 0.50f, 0.85f);
     [SerializeField] private float panelBorderWidth = 2f;
 
+    [Header("픽셀 스킨 (2D Pixel Quest Vol.3) — 비우면 아래 색 사각형으로 그린다")]
+    [SerializeField] private Sprite panelSprite;
+    [Tooltip("일반 방 칸")]
+    [SerializeField] private Sprite cellSprite;
+    [Tooltip("지금 있는 방 칸")]
+    [SerializeField] private Sprite currentCellSprite;
+    [Tooltip("특수 방 아이콘은 방문 전이라도 옆방까지 오면 바로 보인다 (아이작 방식)")]
+    [SerializeField] private Sprite bossIcon;
+    [SerializeField] private Sprite shopIcon;
+    [SerializeField] private Sprite treasureIcon;
+
+    [Header("표시")]
+    [Tooltip("접힌 상태의 표시 배율. 2면 칸·테두리 픽셀이 다른 UI(2배)와 같은 굵기가 된다")]
+    [SerializeField] private float displayScale = 2f;
+    [Tooltip("접힌 상태의 불투명도 (펼치면 1로 올라간다)")]
+    [Range(0f, 1f)]
+    [SerializeField] private float opacity = 0.7f;
+    [Tooltip("화면 우상단 모서리와 패널 사이 여백 (UI 단위, 0이면 완전히 붙는다)")]
+    [SerializeField] private float cornerMargin = 8f;
+
     [Header("펼치기 (Tab)")]
     [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
-    [Tooltip("펼쳤을 때 확대 배율")]
-    [SerializeField] private float expandedScale = 3.2f;
+    [Tooltip("펼쳤을 때의 표시 배율 (절대값 — displayScale에 곱하지 않는다)")]
+    [SerializeField] private float expandedScale = 4f;
     [Tooltip("펼치고 접히는 데 걸리는 시간(초)")]
     [SerializeField] private float expandDuration = 0.16f;
     [Tooltip("펼쳤을 때 뒤에 깔리는 어두운 막의 진하기. 0이면 막 없음")]
@@ -39,7 +59,10 @@ public class DungeonMinimap : MonoBehaviour
     [SerializeField] private Color visitedColor  = new Color(0.66f, 0.70f, 0.80f, 0.95f);
     [SerializeField] private Color unknownColor  = new Color(0.20f, 0.21f, 0.26f, 0.9f);
     [SerializeField] private Color bossColor     = new Color(0.85f, 0.22f, 0.25f, 1f);
-    [SerializeField] private Color treasureColor = new Color(0.96f, 0.78f, 0.28f, 1f);
+    [Tooltip("보물방 표시색. 상점과 겹치지 않도록 노란색 계열에서 살짝 비켜 둔다")]
+    [SerializeField] private Color treasureColor = new Color(0.45f, 0.85f, 0.62f, 1f);
+    [Tooltip("상점 표시색 — 노란색")]
+    [SerializeField] private Color shopColor     = new Color(0.96f, 0.78f, 0.28f, 1f);
     [SerializeField] private Color linkColor     = new Color(0.45f, 0.47f, 0.55f, 0.9f);
 
     [Header("플레이어 마커")]
@@ -50,8 +73,6 @@ public class DungeonMinimap : MonoBehaviour
 
     private RoomManager manager;
     private RectTransform rect;
-    private Transform player;
-    private Vector2 roomWorldSize = new Vector2(18f, 10f);
 
     private readonly Dictionary<Room, Image> cells = new Dictionary<Room, Image>();
 
@@ -76,11 +97,26 @@ public class DungeonMinimap : MonoBehaviour
     private bool expanded;
     private float expandT;   // 0=접힘, 1=펼침
 
+    private CanvasGroup group;
+    private Vector2 contentShift;
+
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
-        collapsedPos = rect.anchoredPosition;
-        collapsedScale = rect.localScale;
+
+        // 화면 우상단 모서리에 붙인다
+        rect.anchorMin = rect.anchorMax = Vector2.one;
+        rect.pivot = Vector2.one;
+        collapsedPos = new Vector2(-cornerMargin, -cornerMargin);
+        rect.anchoredPosition = collapsedPos;
+        collapsedScale = Vector3.one * displayScale;
+        rect.localScale = collapsedScale;
+
+        group = GetComponent<CanvasGroup>();
+        if (group == null) group = gameObject.AddComponent<CanvasGroup>();
+        group.alpha = opacity;
+        group.blocksRaycasts = false;
+        group.interactable = false;
     }
 
     private void Start()
@@ -92,12 +128,6 @@ public class DungeonMinimap : MonoBehaviour
             enabled = false;
             return;
         }
-
-        GameObject p = GameObject.FindGameObjectWithTag("Player");
-        if (p != null) player = p.transform;
-
-        DungeonGenerator gen = FindObjectOfType<DungeonGenerator>();
-        if (gen != null) roomWorldSize = gen.RoomSize;
 
         CreateBackdrop();
 
@@ -196,10 +226,29 @@ public class DungeonMinimap : MonoBehaviour
             ((min.x + max.x) * 0.5f - origin.x) * step,
             ((min.y + max.y) * 0.5f - origin.y) * step);
 
-        Image border = NewImage("PanelBorder", rect,
-            panelSize + Vector2.one * (panelBorderWidth * 2f), contentCenter, panelBorderColor);
-        panel = NewImage("Panel", rect, panelSize, contentCenter, panelColor).rectTransform;
-        border.transform.SetAsFirstSibling();
+        // 내용 중심을 이 RectTransform의 중심으로 옮기고, 사각형 크기를 패널에 딱 맞춘다.
+        // 그래야 우상단 피벗 기준으로 놓았을 때 패널 모서리가 화면 모서리에 정확히 붙는다
+        // (던전 모양마다 패널 크기가 달라서 고정 크기 사각형으로는 여백이 들쭉날쭉해진다).
+        contentShift = -contentCenter;
+        Vector2 outerSize = panelSprite != null ? panelSize : panelSize + Vector2.one * (panelBorderWidth * 2f);
+        rect.sizeDelta = outerSize;
+        contentCenter = Vector2.zero;
+
+        if (panelSprite != null)
+        {
+            // 픽셀 패널은 그림에 테두리가 들어 있으므로 한 장으로 끝난다
+            Image bg = NewImage("Panel", rect, panelSize, contentCenter, Color.white);
+            bg.sprite = panelSprite;
+            bg.type = panelSprite.border != Vector4.zero ? Image.Type.Sliced : Image.Type.Simple;
+            panel = bg.rectTransform;
+        }
+        else
+        {
+            Image border = NewImage("PanelBorder", rect,
+                panelSize + Vector2.one * (panelBorderWidth * 2f), contentCenter, panelBorderColor);
+            panel = NewImage("Panel", rect, panelSize, contentCenter, panelColor).rectTransform;
+            border.transform.SetAsFirstSibling();
+        }
 
         // 문 연결선 — 칸보다 뒤에 깔려야 깔끔하다
         BuildLinks(rooms, step);
@@ -257,7 +306,7 @@ public class DungeonMinimap : MonoBehaviour
 
     private Vector2 CellPos(Vector2Int grid, float step)
     {
-        return new Vector2((grid.x - origin.x) * step, (grid.y - origin.y) * step);
+        return new Vector2((grid.x - origin.x) * step, (grid.y - origin.y) * step) + contentShift;
     }
 
     // ─────────────────────────────────────────────
@@ -272,14 +321,22 @@ public class DungeonMinimap : MonoBehaviour
             Image img = kv.Value;
             if (r == null || img == null) continue;
 
-            bool known = r.Visited || IsNextToVisited(r);
+            // 보스방은 못 가봤어도 랜드마크로 미리 보여준다 (탐색 여부와 무관하게)
+            bool known = r.Visited || IsNextToVisited(r) || r.type == RoomType.Boss;
             img.enabled = known;
             if (!known) continue;
 
+            if (cellSprite != null)
+            {
+                ApplySkinnedCell(r, img);
+                continue;
+            }
+
             if (r == manager.Current)             img.color = currentColor;
-            else if (!r.Visited)                  img.color = unknownColor;
             else if (r.type == RoomType.Boss)     img.color = bossColor;
+            else if (!r.Visited)                  img.color = unknownColor;
             else if (r.type == RoomType.Treasure) img.color = treasureColor;
+            else if (r.type == RoomType.Shop)     img.color = shopColor;
             else if (r.IsCleared)                 img.color = clearedColor;
             else                                  img.color = visitedColor;
         }
@@ -291,6 +348,56 @@ public class DungeonMinimap : MonoBehaviour
             if (link.image == null) continue;
 
             link.image.enabled = IsCellVisible(link.a) && IsCellVisible(link.b);
+        }
+    }
+
+    // 픽셀 스킨: 특수 방은 아이콘 그림 자체가 칸이 되고(방문 전에도 보임), 일반 방은 슬롯 그림에 명암만 준다
+    private void ApplySkinnedCell(Room r, Image img)
+    {
+        Sprite icon = IconFor(r.type);
+        bool isCurrent = r == manager.Current;
+
+        Sprite want;
+        Color tint;
+        if (icon != null)
+        {
+            want = icon;
+            // 가 본 적 없는 특수 방은 살짝 어둡게 — 위치는 알지만 아직 안 가봤다는 표시
+            tint = r.Visited || isCurrent ? Color.white : new Color(0.72f, 0.72f, 0.72f, 1f);
+        }
+        else if (isCurrent)
+        {
+            want = currentCellSprite != null ? currentCellSprite : cellSprite;
+            tint = Color.white;
+        }
+        else if (!r.Visited)
+        {
+            want = cellSprite;
+            tint = new Color(0.42f, 0.42f, 0.48f, 0.85f);
+        }
+        else
+        {
+            want = cellSprite;
+            // 들어가 봤지만 아직 못 깬 방은 붉은 기
+            tint = r.IsCleared ? Color.white : new Color(1f, 0.62f, 0.58f, 1f);
+        }
+
+        if (img.sprite != want)
+        {
+            img.sprite = want;
+            img.type = want.border != Vector4.zero ? Image.Type.Sliced : Image.Type.Simple;
+        }
+        img.color = tint;
+    }
+
+    private Sprite IconFor(RoomType type)
+    {
+        switch (type)
+        {
+            case RoomType.Boss:     return bossIcon;
+            case RoomType.Shop:     return shopIcon;
+            case RoomType.Treasure: return treasureIcon;
+            default:                return null;
         }
     }
 
@@ -358,7 +465,8 @@ public class DungeonMinimap : MonoBehaviour
         float e = Mathf.SmoothStep(0f, 1f, expandT);
 
         rect.anchoredPosition = Vector2.Lerp(collapsedPos, expandedPos, e);
-        rect.localScale = Vector3.Lerp(collapsedScale, collapsedScale * expandedScale, e);
+        rect.localScale = Vector3.Lerp(collapsedScale, Vector3.one * expandedScale, e);
+        if (group != null) group.alpha = Mathf.Lerp(opacity, 1f, e);
 
         if (backdrop != null)
         {
@@ -381,19 +489,9 @@ public class DungeonMinimap : MonoBehaviour
 
         marker.gameObject.SetActive(true);
 
+        // 방 안 세부 위치는 따라가지 않고, 지금 있는 방 칸의 한가운데에만 찍는다
         float step = cellSize + cellGap;
-        Vector2 pos = CellPos(cur.GridPos, step);
-
-        // 방 안에서의 상대 위치를 칸 안쪽 좌표로 옮긴다 — 방 어디쯤인지까지 보인다
-        if (player != null && roomWorldSize.x > 0.01f && roomWorldSize.y > 0.01f)
-        {
-            Vector3 d = player.position - cur.transform.position;
-            pos += new Vector2(
-                Mathf.Clamp(d.x / roomWorldSize.x, -0.45f, 0.45f) * cellSize,
-                Mathf.Clamp(d.y / roomWorldSize.y, -0.45f, 0.45f) * cellSize);
-        }
-
-        marker.anchoredPosition = pos;
+        marker.anchoredPosition = CellPos(cur.GridPos, step);
 
         // 흰 칸 위의 흰 점은 안 보이므로 깜빡여서 눈에 띄게 한다
         if (playerPulseSpeed > 0f)

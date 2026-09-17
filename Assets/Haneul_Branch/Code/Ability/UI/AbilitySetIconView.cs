@@ -29,9 +29,19 @@ public class AbilitySetIconView : MonoBehaviour, IPointerEnterHandler, IPointerE
         Color accent = progress.IsActive ? ActiveColor : InactiveColor;
 
         border = gameObject.AddComponent<Image>();
-        border.color = new Color(accent.r, accent.g, accent.b, progress.IsActive ? 0.9f : 0.4f);
+        Sprite slotSprite = skin.SetSlotBackground();
+        UIFactory.ApplySprite(border, slotSprite);
 
-        UIFactory.ApplySprite(border, skin.SetSlotBackground());
+        if (slotSprite != null)
+        {
+            // 픽셀 슬롯 그림은 원래 색 그대로 — 못 연 세트만 어둡게
+            border.pixelsPerUnitMultiplier = 1f / Mathf.Max(skin.PixelScale(), 0.01f);
+            border.color = progress.IsActive ? Color.white : new Color(0.6f, 0.6f, 0.65f, 1f);
+        }
+        else
+        {
+            border.color = new Color(accent.r, accent.g, accent.b, progress.IsActive ? 0.9f : 0.4f);
+        }
 
         RectTransform inner = UIFactory.Stretch("Fill", transform);
         inner.offsetMin = Vector2.one * 2f;
@@ -40,36 +50,54 @@ public class AbilitySetIconView : MonoBehaviour, IPointerEnterHandler, IPointerE
         fill.color = panelFill;
         fill.raycastTarget = false;
         // 슬롯 그림이 있으면 안쪽 단색 판은 필요 없다
-        fill.enabled = skin.SetSlotBackground() == null;
+        fill.enabled = slotSprite == null;
 
+        // 22px 아이콘을 2배(44)로 — 64 슬롯에서 사방 10씩
         RectTransform iconRect = UIFactory.Stretch("Icon", inner);
-        iconRect.offsetMin = Vector2.one * 7f;
-        iconRect.offsetMax = -Vector2.one * 7f;
+        iconRect.offsetMin = Vector2.one * 8f;
+        iconRect.offsetMax = -Vector2.one * 8f;
         iconImage = iconRect.gameObject.AddComponent<Image>();
         iconImage.raycastTarget = false;
         iconImage.preserveAspect = true;
 
         if (progress.set.Icon != null)
         {
+            // 슬롯 안에 들어가는 가장 큰 정수배로 가운데 정렬 — 늘려 채우면 픽셀이 뭉개진다
+            Sprite s = progress.set.Icon;
+            float slot = ((RectTransform)transform).sizeDelta.x;
+            float room = Mathf.Max(1f, slot - 12f);   // 슬롯 테두리 안쪽
+            float spriteSize = Mathf.Max(s.rect.width, s.rect.height);
+            float k = spriteSize <= room ? Mathf.Floor(room / spriteSize) : room / spriteSize;
+            iconRect.anchorMin = iconRect.anchorMax = new Vector2(0.5f, 0.5f);
+            iconRect.sizeDelta = new Vector2(s.rect.width, s.rect.height) * k;
+            iconRect.anchoredPosition = Vector2.zero;
+
             iconImage.sprite = progress.set.Icon;
             iconImage.color = progress.IsActive ? Color.white : new Color(0.6f, 0.6f, 0.6f);
         }
         else
         {
-            iconImage.color = new Color(accent.r, accent.g, accent.b, 0.3f);
+            // 아이콘 그림이 아직 없으면 세트 이름 첫 글자로 구분한다
+            iconImage.enabled = false;
+            Text mark = UIFactory.Label("Mark", inner, font, 26, accent, TextAnchor.MiddleCenter, FontStyle.Bold);
+            UIFactory.SetAnchoredBox(mark.rectTransform, Vector2.zero, Vector2.one, new Vector2(0f, 4f), Vector2.zero);
+            string setName = progress.set.DisplayName;
+            mark.text = string.IsNullOrEmpty(setName) ? "?" : setName.Substring(0, 1);
         }
 
         // 우하단에 보유 장수 배지
         RectTransform countRect = UIFactory.Empty("Count", inner);
         UIFactory.SetAnchoredBox(countRect, new Vector2(0f, 0f), new Vector2(1f, 0f),
-            new Vector2(0f, 2f), new Vector2(-4f, 22f));
+            new Vector2(0f, 7f), new Vector2(-10f, 27f));   // 슬롯 테두리(7px×2) 안쪽
         countText = countRect.gameObject.AddComponent<Text>();
-        countText.font = UIFactory.ResolveFont(font);
-        countText.fontSize = 18;
+        UIFactory.ApplyPixelFont(countText, font, 12, FontStyle.Bold);
         countText.alignment = TextAnchor.LowerRight;
         countText.color = accent;
         countText.raycastTarget = false;
         countText.text = progress.owned.ToString();
+        var sh = countRect.gameObject.AddComponent<Shadow>();
+        sh.effectColor = new Color(0f, 0f, 0f, 0.9f);
+        sh.effectDistance = new Vector2(1f, -1f);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Set_Shadow
   m_EditorClassIdentifier: 
   displayName: "\uADF8\uB9BC\uC790 \uC7A5\uB9C9"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2e731a1613fb0704f9a33451c0e85c49, type: 3}
   flavor: "\uBCF4\uC774\uC9C0 \uC54A\uB294 \uC790\uB294 \uBCA0\uC774\uC9C0 \uC54A\uB294\uB2E4."
   tiers:
   - required: 2

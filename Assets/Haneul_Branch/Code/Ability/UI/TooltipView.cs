@@ -13,7 +13,7 @@ public class TooltipView : MonoBehaviour
     private Text titleText;
     private Text bodyText;
     private Text footerText;
-    private ContentSizeFitter fitter;
+    private RectTransform innerRect;
 
     private float maxWidth;
     private Vector2 cursorOffset;
@@ -38,29 +38,34 @@ public class TooltipView : MonoBehaviour
         Image frameImage = root.GetComponent<Image>();
         frameImage.raycastTarget = false;
         UIFactory.ApplySprite(frameImage, skin.TooltipBackground());
-        // 배경 그림이 들어오면 안쪽 단색 판은 겹치므로 끈다
-        if (skin.TooltipBackground() != null) fillImage.enabled = false;
+        bool pictured = skin.TooltipBackground() != null;
+        if (pictured)
+        {
+            // 배경 그림이 들어오면 안쪽 단색 판은 겹치므로 끄고, 테두리 두께를 패널과 같은 배율로
+            fillImage.enabled = false;
+            frameImage.color = Color.white;
+            frameImage.pixelsPerUnitMultiplier = 1f / Mathf.Max(skin.PixelScale(), 0.01f);
+        }
 
         RectTransform inner = (RectTransform)root.GetChild(0);
         var layout = inner.gameObject.AddComponent<VerticalLayoutGroup>();
-        layout.padding = new RectOffset(14, 14, 12, 12);
+        // 픽셀 테두리(8px × 배율) 안으로 글자가 들어가게 여백을 넉넉히
+        layout.padding = pictured ? new RectOffset(24, 24, 20, 22) : new RectOffset(14, 14, 12, 12);
         layout.spacing = 6f;
         layout.childControlWidth = true;
         layout.childControlHeight = true;
         layout.childForceExpandWidth = true;
         layout.childForceExpandHeight = false;
 
-        titleText  = UIFactory.Label("Title", inner, font, 30, Color.white, TextAnchor.UpperLeft, FontStyle.Bold);
+        // 픽셀 폰트(12px 격자) 기준: 제목·본문 24, 한 줄 설명 12
+        titleText  = UIFactory.Label("Title", inner, font, 24, Color.white, TextAnchor.UpperLeft, FontStyle.Bold);
         bodyText   = UIFactory.Label("Body", inner, font, 22, new Color(0.86f, 0.87f, 0.90f));
-        footerText = UIFactory.Label("Footer", inner, font, 20, new Color(0.55f, 0.56f, 0.62f), TextAnchor.UpperLeft, FontStyle.Italic);
+        footerText = UIFactory.Label("Footer", inner, font, 12, new Color(0.55f, 0.56f, 0.62f), TextAnchor.UpperLeft, FontStyle.Italic);
 
-        // 내용 길이에 따라 세로로 늘어난다
-        fitter = root.gameObject.AddComponent<ContentSizeFitter>();
-        fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
-        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        var innerFitter = inner.gameObject.AddComponent<ContentSizeFitter>();
-        innerFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        // 높이는 Show에서 내용물 기준으로 직접 잡는다.
+        // 바깥에 ContentSizeFitter를 달면 자식 레이아웃이 아니라 배경 Image의 크기(9-slice 최소 크기)를 따라가
+        // 툴팁이 16px로 쪼그라들고 글자가 배경 밖으로 흘러나온다.
+        innerRect = inner;
 
         Hide();
     }
@@ -82,6 +87,9 @@ public class TooltipView : MonoBehaviour
         IsShowing = true;
 
         // 켠 직후 한 프레임은 크기가 갱신되기 전이라 위치가 튄다. 즉시 강제 계산.
+        LayoutRebuilder.ForceRebuildLayoutImmediate(innerRect);
+        float inset = -innerRect.offsetMax.y + innerRect.offsetMin.y;   // 테두리 두께(위+아래)
+        root.sizeDelta = new Vector2(maxWidth, LayoutUtility.GetPreferredHeight(innerRect) + inset);
         LayoutRebuilder.ForceRebuildLayoutImmediate(root);
         Follow(Input.mousePosition);
     }
@@ -119,6 +127,10 @@ public class TooltipView : MonoBehaviour
 
         if (pos.x + size.x > canvasSize.x) pos.x -= size.x + cursorOffset.x * 2f;
         if (pos.y - size.y < 0f) pos.y = size.y;
+
+        // 커서가 화면 구석이거나 창 밖이어도 툴팁 전체가 화면 안에 남게 최종 고정
+        pos.x = Mathf.Clamp(pos.x, 0f, Mathf.Max(0f, canvasSize.x - size.x));
+        pos.y = Mathf.Clamp(pos.y, Mathf.Min(size.y, canvasSize.y), canvasSize.y);
 
         root.anchoredPosition = pos;
     }

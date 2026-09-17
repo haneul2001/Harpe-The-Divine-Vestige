@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Set_Blood
   m_EditorClassIdentifier: 
   displayName: "\uD53C\uC758 \uAC01\uC778"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5559f7a56a6e77847aec7551b22d42f6, type: 3}
   flavor: 
   tiers:
   - required: 2

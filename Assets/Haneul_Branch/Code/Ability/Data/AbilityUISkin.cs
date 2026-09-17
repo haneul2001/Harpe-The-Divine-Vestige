@@ -33,6 +33,15 @@ public class AbilityUISkin : ScriptableObject
     public Sprite tooltipBackground;
     public Sprite setSlotBackground;
     public Sprite setColumnBackground;
+    [Tooltip("아직 카드가 없는 인벤토리 칸")]
+    public Sprite emptyCardSlot;
+    [Tooltip("창 윗변에 걸치는 제목 띠")]
+    public Sprite titlePlate;
+
+    [Header("픽셀 배율")]
+    [Tooltip("패널·슬롯 그림 1픽셀을 UI 몇 칸으로 그릴지. 카드(100x155 → 200x310)와 같은 2배로 맞춘다")]
+    [Min(0.1f)]
+    public float pixelScale = 2f;
 
     // 등급에 맞는 프레임. 없으면 공용 프레임, 그것도 없으면 null(=단색 폴백)
     public Sprite FrameFor(AbilityRarity rarity)
@@ -58,6 +67,9 @@ public static class AbilityUISkinUtil
     public static Sprite TooltipBackground(this AbilityUISkin skin) => skin != null ? skin.tooltipBackground : null;
     public static Sprite SetSlotBackground(this AbilityUISkin skin) => skin != null ? skin.setSlotBackground : null;
     public static Sprite SetColumnBackground(this AbilityUISkin skin) => skin != null ? skin.setColumnBackground : null;
+    public static Sprite EmptyCardSlot(this AbilityUISkin skin) => skin != null ? skin.emptyCardSlot : null;
+    public static Sprite TitlePlate(this AbilityUISkin skin) => skin != null ? skin.titlePlate : null;
+    public static float PixelScale(this AbilityUISkin skin) => skin != null ? skin.pixelScale : 1f;
 
     public static Sprite Frame(this AbilityUISkin skin, AbilityRarity rarity)
         => skin != null ? skin.FrameFor(rarity) : null;

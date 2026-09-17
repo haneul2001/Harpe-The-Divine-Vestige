@@ -20,7 +20,7 @@ MonoBehaviour:
   startRoomPrefab: {fileID: 1399933240449242289, guid: 081a477e062b1e244836820b5f97c5bb, type: 3}
   bossRoomPrefab: {fileID: 6526676775906276927, guid: 623d61cd4de7d3543a67ec26950a13f8, type: 3}
   treasureRoomPrefab: {fileID: 3960817978416807742, guid: 19d3a792cd1923446bca7b8c75a16c65, type: 3}
-  shopRoomPrefab: {fileID: 0}
+  shopRoomPrefab: {fileID: 3960817978416807742, guid: b1a52bab694d3204aab68086d094ff5c, type: 3}
   loadRoomsFromResources: 1
   roomsResourcePath: Rooms_Crypt
   normalRoomPrefabs: []

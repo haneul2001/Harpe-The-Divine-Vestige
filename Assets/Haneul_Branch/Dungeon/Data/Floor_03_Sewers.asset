@@ -20,7 +20,7 @@ MonoBehaviour:
   startRoomPrefab: {fileID: 1399933240449242289, guid: 59357a9a7fa3b5f41a58e8b7f2b471b2, type: 3}
   bossRoomPrefab: {fileID: 6526676775906276927, guid: 04f53ed9caa79d543b1f21041c57260a, type: 3}
   treasureRoomPrefab: {fileID: 3960817978416807742, guid: 56e7f9d0c5a758442a102ed43b840490, type: 3}
-  shopRoomPrefab: {fileID: 0}
+  shopRoomPrefab: {fileID: 3960817978416807742, guid: 4f0a22613a401b0419f14a557ba49710, type: 3}
   loadRoomsFromResources: 1
   roomsResourcePath: Rooms_Sewers
   normalRoomPrefabs: []

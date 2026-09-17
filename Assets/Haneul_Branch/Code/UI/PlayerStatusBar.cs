@@ -185,7 +185,7 @@ public class PlayerStatusBar : MonoBehaviour
         root.sizeDelta = new Vector2(barWidth, barH * 2f + gap);
 
         // 소울이 아래, 체력이 위 — 체력이 눈높이에 가깝다
-        soulBar = PixelBar.Build("SoulBar", root, font, 16, false);
+        soulBar = PixelBar.Build("SoulBar", root, font, 18, false);   // 1440p에서 18×1.33=24px — 갈무리 격자 2배라 선명
         soulBar.Root.anchorMin = Vector2.zero;
         soulBar.Root.anchorMax = Vector2.zero;
         soulBar.Root.pivot = Vector2.zero;
@@ -194,7 +194,7 @@ public class PlayerStatusBar : MonoBehaviour
         soulBar.Fill.color = soulColor;
         soulBar.Trail.color = new Color(soulColor.r, soulColor.g, soulColor.b, 0f);
 
-        hpBar = PixelBar.Build("HpBar", root, font, 20, false);
+        hpBar = PixelBar.Build("HpBar", root, font, 18, false);
         hpBar.Root.anchorMin = Vector2.zero;
         hpBar.Root.anchorMax = Vector2.zero;
         hpBar.Root.pivot = Vector2.zero;

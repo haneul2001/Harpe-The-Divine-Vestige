@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 능력 카드 패널. ESC로 열고 닫는다.
+// 능력 카드 패널(인벤토리). I로 열고 닫는다.
 //
 // 역할은 "조립과 입력"까지만이다.
 //  · 무슨 카드를 갖고 있는지  → AbilityInventory
@@ -24,15 +24,18 @@ public class AbilityPanel : MonoBehaviour
     [Tooltip("한 줄에 놓을 카드 수")]
     [Min(1)]
     [SerializeField] private int columns = 4;
-    [Tooltip("카드 크기. 가로:세로 = 3:4 비율")]
-    [SerializeField] private Vector2 cardSize = new Vector2(210f, 280f);
-    [Tooltip("후광이 카드 밖으로 번지므로 간격을 너무 좁히면 서로 겹친다")]
-    [SerializeField] private Vector2 cardSpacing = new Vector2(24f, 24f);
+    [Tooltip("항상 깔아 두는 최소 칸 수. 카드는 첫 칸부터 얻은 순서대로 채워진다")]
+    [Min(1)]
+    [SerializeField] private int minSlots = 8;
+    [Tooltip("카드 크기. 픽셀 카드 그림(100x155)의 정수배여야 픽셀이 안 뭉개진다")]
+    [SerializeField] private Vector2 cardSize = new Vector2(200f, 310f);
+    [SerializeField] private Vector2 cardSpacing = new Vector2(20f, 24f);
     [Tooltip("마우스를 올렸을 때 카드가 떠오르는 높이(px)")]
     [SerializeField] private float cardHoverLift = 10f;
     [Tooltip("왼쪽 세트 칸의 너비(px)")]
-    [SerializeField] private float setColumnWidth = 132f;
-    [SerializeField] private float setIconSize = 74f;
+    [SerializeField] private float setColumnWidth = 150f;
+    [Tooltip("세트 슬롯 크기. 세트 아이콘(64px)이 1배로 들어가는 크기")]
+    [SerializeField] private float setIconSize = 80f;
 
     [Header("색")]
     [SerializeField] private Color backdropColor = new Color(0f, 0f, 0f, 0.78f);
@@ -40,6 +43,7 @@ public class AbilityPanel : MonoBehaviour
     [SerializeField] private Color panelBorder = new Color(0.62f, 0.55f, 0.40f, 0.9f);
     [SerializeField] private Color slotFill = new Color(0.12f, 0.12f, 0.16f, 1f);
     [SerializeField] private Color headerColor = new Color(0.92f, 0.86f, 0.70f);
+    [SerializeField] private Color dimText = new Color(0.55f, 0.56f, 0.62f);
 
     [Header("그림 (비우면 전부 단색으로 그림)")]
     [Tooltip("카드 프레임·패널 배경 등을 그림으로 갈아끼우는 묶음.\n" +
@@ -51,13 +55,18 @@ public class AbilityPanel : MonoBehaviour
 
     public bool IsOpen { get; private set; }
 
+    // 픽셀 패널 테두리(8px × 2배) 안쪽 여백
+    private const float Pad = 32f;
+    private const float HeaderHeight = 92f;
+
     private Canvas canvas;
     private RectTransform canvasRect;
     private GameObject rootGo;
     private RectTransform cardContent;
     private RectTransform setContent;
     private TooltipView tooltip;
-    private Text emptyText;
+    private Text countText;
+    private Text noSetText;
 
     private readonly List<AbilityCardView> cardViews = new List<AbilityCardView>();
     private bool dirty = true;
@@ -166,20 +175,30 @@ public class AbilityPanel : MonoBehaviour
         UIFactory.Panel("Backdrop", rootGo.transform, backdropColor).rectTransform
             .CopyStretchFrom(rootGo.GetComponent<RectTransform>());
 
-        // 본체 창
-        Image frameFill;
-        RectTransform frame = UIFactory.BorderedPanel("Frame", rootGo.transform,
-            panelFill, panelBorder, 3f, out frameFill);
-
-        UIFactory.ApplySprite(frame.GetComponent<Image>(), skin.PanelBorder());
-        UIFactory.ApplySprite(frameFill, skin.PanelBackground());
+        // 본체 창 — 픽셀 패널 그림이 있으면 한 장으로, 없으면 테두리+본체 단색
+        RectTransform frame;
+        RectTransform inner;
+        Sprite panelSprite = skin.PanelBackground();
+        if (panelSprite != null)
+        {
+            frame = UIFactory.PixelImage("Frame", rootGo.transform, panelSprite, skin.PixelScale(), true).rectTransform;
+            inner = frame;
+        }
+        else
+        {
+            Image frameFill;
+            frame = UIFactory.BorderedPanel("Frame", rootGo.transform, panelFill, panelBorder, 3f, out frameFill);
+            inner = (RectTransform)frame.GetChild(0);
+        }
         UIFactory.SetAnchoredBox(frame, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
             Vector2.zero, Vector2.zero);
-        frame.sizeDelta = new Vector2(
-            setColumnWidth + columns * cardSize.x + (columns - 1) * cardSpacing.x + 110f,
-            820f);
 
-        RectTransform inner = (RectTransform)frame.GetChild(0);
+        // 카드 두 줄이 스크롤 없이 보이는 높이
+        float gridWidth = columns * cardSize.x + (columns - 1) * cardSpacing.x;
+        float gridHeight = 2f * cardSize.y + cardSpacing.y + GridPadTop + GridPadBottom;
+        frame.sizeDelta = new Vector2(
+            Pad + setColumnWidth + ColumnGap + gridWidth + Pad,
+            HeaderHeight + gridHeight + Pad);
 
         BuildHeader(inner);
         BuildSetColumn(inner);
@@ -194,46 +213,76 @@ public class AbilityPanel : MonoBehaviour
         tipGo.transform.SetAsLastSibling();
     }
 
+    private const float ColumnGap = 20f;
+    private const float GridPadTop = 14f;     // 호버로 떠오른 첫 줄이 잘리지 않게
+    private const float GridPadBottom = 6f;
+
     private void BuildHeader(RectTransform parent)
     {
-        Text title = UIFactory.Label("Header", parent, font, 36, headerColor,
-            TextAnchor.MiddleLeft, FontStyle.Bold);
-        UIFactory.SetAnchoredBox(title.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
-            new Vector2(28f, -66f), new Vector2(-28f, -18f));
+        // 제목 — 픽셀 제목 띠를 윗변에 걸친다
+        RectTransform titleBox;
+        if (skin.TitlePlate() != null)
+        {
+            titleBox = UIFactory.PixelImage("TitlePlate", parent, skin.TitlePlate(), skin.PixelScale()).rectTransform;
+            UIFactory.SetAnchoredBox(titleBox, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
+                new Vector2(-130f, -26f), new Vector2(130f, 22f));
+        }
+        else
+        {
+            titleBox = UIFactory.Empty("TitlePlate", parent);
+            UIFactory.SetAnchoredBox(titleBox, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
+                new Vector2(-130f, -56f), new Vector2(130f, -16f));
+        }
+
+        Text title = UIFactory.Label("Header", titleBox, font, 28, headerColor,
+            TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(title.rectTransform, Vector2.zero, Vector2.one, new Vector2(0f, 2f), Vector2.zero);
         title.text = "능력";
+        AddShadow(title);
 
-        Text hint = UIFactory.Label("Hint", parent, font, 20,
-            new Color(0.55f, 0.56f, 0.62f), TextAnchor.MiddleRight);
-        UIFactory.SetAnchoredBox(hint.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
-            new Vector2(28f, -66f), new Vector2(-28f, -18f));
-        hint.text = "ESC 닫기 · 휠 스크롤";
+        // 왼쪽: 보유 장수 / 오른쪽: 조작 안내 — 제목 띠와 안 겹치게 아래 줄에 둔다
+        countText = UIFactory.Label("Count", parent, font, 18, dimText, TextAnchor.MiddleLeft);
+        UIFactory.SetAnchoredBox(countText.rectTransform, new Vector2(0f, 1f), new Vector2(0.5f, 1f),
+            new Vector2(Pad, -HeaderHeight + 12f), new Vector2(0f, -HeaderHeight + 44f));
 
-        Image line = UIFactory.Panel("Divider", parent, new Color(1f, 1f, 1f, 0.09f), false);
-        UIFactory.SetAnchoredBox(line.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
-            new Vector2(24f, -70f), new Vector2(-24f, -68f));
+        Text hint = UIFactory.Label("Hint", parent, font, 18, dimText, TextAnchor.MiddleRight);
+        UIFactory.SetAnchoredBox(hint.rectTransform, new Vector2(0.5f, 1f), new Vector2(1f, 1f),
+            new Vector2(0f, -HeaderHeight + 12f), new Vector2(-Pad, -HeaderHeight + 44f));
+        hint.text = toggleKey + " 닫기  ·  휠 스크롤";
+    }
+
+    private static void AddShadow(Text t)
+    {
+        var sh = t.gameObject.AddComponent<Shadow>();
+        sh.effectColor = new Color(0f, 0f, 0f, 0.85f);
+        sh.effectDistance = new Vector2(2f, -2f);
     }
 
     private void BuildSetColumn(RectTransform parent)
     {
-        Text label = UIFactory.Label("SetHeader", parent, font, 22,
-            new Color(0.70f, 0.72f, 0.78f), TextAnchor.MiddleCenter);
-        UIFactory.SetAnchoredBox(label.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f),
-            new Vector2(24f, -108f), new Vector2(24f + setColumnWidth, -80f));
+        RectTransform column;
+        if (skin.SetColumnBackground() != null)
+        {
+            column = UIFactory.PixelImage("SetColumn", parent, skin.SetColumnBackground(), skin.PixelScale()).rectTransform;
+        }
+        else
+        {
+            column = UIFactory.Empty("SetColumn", parent);
+            Image bg = column.gameObject.AddComponent<Image>();
+            bg.color = new Color(1f, 1f, 1f, 0.035f);
+            bg.raycastTarget = false;
+        }
+        UIFactory.SetAnchoredBox(column, new Vector2(0f, 0f), new Vector2(0f, 1f),
+            new Vector2(Pad, Pad), new Vector2(Pad + setColumnWidth, -HeaderHeight));
+
+        Text label = UIFactory.Label("SetHeader", column, font, 18, headerColor, TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(label.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
+            new Vector2(16f, -50f), new Vector2(-16f, -18f));   // 기둥 테두리(8px×2) 안쪽
         label.text = "세트 효과";
 
-        RectTransform column = UIFactory.Empty("SetColumn", parent);
-        UIFactory.SetAnchoredBox(column, new Vector2(0f, 0f), new Vector2(0f, 1f),
-            new Vector2(24f, 24f), new Vector2(24f + setColumnWidth, -112f));
-
-        Image bg = column.gameObject.AddComponent<Image>();
-        bg.color = new Color(1f, 1f, 1f, 0.035f);
-        bg.raycastTarget = false;
-        UIFactory.ApplySprite(bg, skin.SetColumnBackground());
-        if (skin.SetColumnBackground() != null) bg.color = Color.white;
-
         setContent = UIFactory.Stretch("Content", column);
-        setContent.offsetMin = new Vector2(0f, 10f);
-        setContent.offsetMax = new Vector2(0f, -10f);
+        setContent.offsetMin = new Vector2(0f, 16f);
+        setContent.offsetMax = new Vector2(0f, -56f);
 
         var layout = setContent.gameObject.AddComponent<VerticalLayoutGroup>();
         layout.spacing = 12f;
@@ -242,6 +291,11 @@ public class AbilityPanel : MonoBehaviour
         layout.childControlHeight = false;
         layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = false;
+
+        noSetText = UIFactory.Label("NoSet", column, font, 15, dimText, TextAnchor.UpperCenter);
+        UIFactory.SetAnchoredBox(noSetText.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
+            new Vector2(10f, -110f), new Vector2(-10f, -60f));
+        noSetText.text = "없음";
     }
 
     private void BuildCardArea(RectTransform parent)
@@ -249,7 +303,7 @@ public class AbilityPanel : MonoBehaviour
         // 뷰포트 — 여기를 벗어난 카드는 잘린다
         RectTransform viewport = UIFactory.Empty("Viewport", parent);
         UIFactory.SetAnchoredBox(viewport, new Vector2(0f, 0f), new Vector2(1f, 1f),
-            new Vector2(24f + setColumnWidth + 18f, 24f), new Vector2(-24f, -80f));
+            new Vector2(Pad + setColumnWidth + ColumnGap, Pad), new Vector2(-Pad, -HeaderHeight));
 
         viewport.gameObject.AddComponent<RectMask2D>();
         // ScrollRect가 드래그/휠을 받으려면 레이캐스트 대상이 필요하다 (투명해도 됨)
@@ -268,8 +322,11 @@ public class AbilityPanel : MonoBehaviour
         grid.spacing = cardSpacing;
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         grid.constraintCount = columns;
-        grid.childAlignment = TextAnchor.UpperCenter;
-        grid.padding = new RectOffset(0, 0, 6, 6);
+        // 왼쪽 위부터 채운다 — 가운데 정렬이면 카드가 1~3장일 때 첫 칸이 아니라 가운데에 뜬다
+        grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
+        grid.startAxis = GridLayoutGroup.Axis.Horizontal;
+        grid.childAlignment = TextAnchor.UpperLeft;
+        grid.padding = new RectOffset(0, 0, (int)GridPadTop, (int)GridPadBottom);
 
         var fitter = cardContent.gameObject.AddComponent<ContentSizeFitter>();
         fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -282,12 +339,6 @@ public class AbilityPanel : MonoBehaviour
         scroll.movementType = ScrollRect.MovementType.Clamped;
         scroll.scrollSensitivity = 42f;
         scroll.inertia = false;   // 픽셀아트 UI에서 관성은 미끄러워 보인다
-
-        emptyText = UIFactory.Label("Empty", viewport, font, 24,
-            new Color(0.45f, 0.46f, 0.52f), TextAnchor.MiddleCenter);
-        UIFactory.SetAnchoredBox(emptyText.rectTransform, Vector2.zero, Vector2.one,
-            Vector2.zero, Vector2.zero);
-        emptyText.text = "아직 얻은 능력이 없습니다";
     }
 
     // ─────────────────────────────────────────────
@@ -308,23 +359,57 @@ public class AbilityPanel : MonoBehaviour
     private void RebuildCards(IReadOnlyList<AbilityCard> owned)
     {
         for (int i = cardContent.childCount - 1; i >= 0; i--)
-            Destroy(cardContent.GetChild(i).gameObject);
+        {
+            // Destroy는 프레임 끝에 지워지므로, 그 전에 레이아웃에서 먼저 빼 둔다
+            GameObject old = cardContent.GetChild(i).gameObject;
+            old.transform.SetParent(null, false);
+            Destroy(old);
+        }
         cardViews.Clear();
 
-        emptyText.gameObject.SetActive(owned.Count == 0);
+        int cardCount = 0;
+        for (int i = 0; i < owned.Count; i++) if (owned[i] != null) cardCount++;
 
+        // 칸 수: 최소 칸 수 이상, 줄 단위로 맞춘다. 얻은 순서(AbilityInventory 목록 순서) 그대로 첫 칸부터.
+        int rows = Mathf.CeilToInt(Mathf.Max(cardCount, minSlots) / (float)columns);
+        int slotCount = rows * columns;
+
+        int filled = 0;
         for (int i = 0; i < owned.Count; i++)
         {
             if (owned[i] == null) continue;
 
-            RectTransform slot = UIFactory.Empty("Card_" + i, cardContent);
+            RectTransform slot = UIFactory.Empty("Slot_" + filled, cardContent);
             AbilityCardView view = slot.gameObject.AddComponent<AbilityCardView>();
             view.Build(owned[i], tooltip, font, slotFill, cardHoverLift, skin);
             cardViews.Add(view);
+            filled++;
         }
+
+        for (int i = filled; i < slotCount; i++)
+            BuildEmptySlot(i);
+
+        countText.text = "보유 " + cardCount + "장";
 
         // 카드가 늘어난 만큼 스크롤 영역 높이를 즉시 반영한다
         LayoutRebuilder.ForceRebuildLayoutImmediate(cardContent);
+    }
+
+    private void BuildEmptySlot(int index)
+    {
+        RectTransform slot = UIFactory.Empty("Slot_" + index, cardContent);
+
+        Image img;
+        if (skin.EmptyCardSlot() != null)
+        {
+            img = UIFactory.PixelImage("Empty", slot, skin.EmptyCardSlot(), skin.PixelScale());
+            img.color = new Color(1f, 1f, 1f, 0.55f);
+        }
+        else
+        {
+            img = UIFactory.Panel("Empty", slot, new Color(1f, 1f, 1f, 0.04f), false);
+        }
+        UIFactory.SetAnchoredBox(img.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
     }
 
     private void RebuildSets(IReadOnlyList<AbilityCard> owned)
@@ -333,6 +418,7 @@ public class AbilityPanel : MonoBehaviour
             Destroy(setContent.GetChild(i).gameObject);
 
         List<AbilitySetProgress> sets = AbilitySetCalculator.Collect(owned);
+        noSetText.gameObject.SetActive(sets.Count == 0);
 
         for (int i = 0; i < sets.Count; i++)
         {

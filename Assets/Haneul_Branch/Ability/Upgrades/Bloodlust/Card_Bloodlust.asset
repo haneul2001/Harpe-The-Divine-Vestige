@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uD53C\uC758 \uAC08\uC99D"
   description: "\uCE58\uBA85\uD0C0 \uC2DC \uCCB4\uB825\uC744 1 \uD68C\uBCF5\uD55C\uB2E4."
-  icon: {fileID: 0}
+  icon: {fileID: -1266605807, guid: 42eca34bb05eb054a97d4bf4eebcbed1, type: 3}
   rarity: 2
   set: {fileID: 11400000, guid: 8f7ec933b5683c94590761c7616850f7, type: 2}
   flavor: 
+  effects: []

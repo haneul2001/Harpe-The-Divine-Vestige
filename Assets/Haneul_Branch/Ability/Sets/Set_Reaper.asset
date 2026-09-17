@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Set_Reaper
   m_EditorClassIdentifier: 
   displayName: "\uC0AC\uC2E0\uC758 \uACC4\uC57D"
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 88c719df4fe6daf45853a1aa09fa7bf3, type: 3}
   flavor: "\uBCA0\uC5B4\uB0B8 \uB9CC\uD07C \uB3CC\uC544\uC628\uB2E4."
   tiers:
   - required: 2

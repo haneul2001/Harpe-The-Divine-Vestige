@@ -9,11 +9,23 @@ using UnityEngine.UI;
 public static class UIFactory
 {
     private static Font cachedFont;
+    private static Font cachedBoldFont;
+    private static bool boldLookedUp;
 
-    // 프로젝트가 쓰는 폰트를 그대로 빌려온다. 씬에 Text가 하나도 없으면 내장 폰트로 떨어진다.
+    // 기본 UI 폰트: 갈무리11 (한글 픽셀 폰트, SIL OFL — Fonts/Galmuri-LICENSE.txt).
+    // Resources에 두어 빌드에서도 인스펙터 연결 없이 로드된다.
+    public const string PixelFontName = "Galmuri11";
+    public const string PixelBoldFontName = "Galmuri11-Bold";
+    // 갈무리11은 12px 격자로 그려진 폰트라 12의 배수 크기에서만 픽셀이 반듯하다
+    public const int PixelFontGrid = 12;
+
+    // 인스펙터에서 폰트를 직접 넣었으면 그걸, 아니면 갈무리11을 쓴다.
     public static Font ResolveFont(Font preferred)
     {
         if (preferred != null) return preferred;
+        if (cachedFont != null) return cachedFont;
+
+        cachedFont = Resources.Load<Font>(PixelFontName);
         if (cachedFont != null) return cachedFont;
 
         Text any = Object.FindObjectOfType<Text>();
@@ -26,6 +38,48 @@ public static class UIFactory
         cachedFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         if (cachedFont == null) cachedFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
         return cachedFont;
+    }
+
+    // 굵은 글씨용. 픽셀 폰트에 합성 볼드를 걸면 획이 번져서, 따로 그려진 굵은 폰트 파일을 쓴다.
+    public static Font ResolveBoldFont()
+    {
+        if (!boldLookedUp)
+        {
+            cachedBoldFont = Resources.Load<Font>(PixelBoldFontName);
+            boldLookedUp = true;
+        }
+        return cachedBoldFont;
+    }
+
+    // 픽셀 폰트는 격자 배수 크기로 반올림한다 (14 → 12, 16~29 → 24, 30~41 → 36 …).
+    // 살짝 올려 반올림해서 16~17 같은 본문 크기가 12로 쪼그라들지 않게 했다.
+    public static int PixelFontSize(int size)
+    {
+        int n = Mathf.Max(1, Mathf.RoundToInt((size + 2f) / PixelFontGrid));
+        return n * PixelFontGrid;
+    }
+
+    // 폰트·크기·스타일을 한 번에 픽셀 규칙대로 맞춘다. 씬에 미리 놓인 Text에도 쓸 수 있다.
+    public static void ApplyPixelFont(Text txt, Font preferred, int size, FontStyle style)
+    {
+        Font regular = ResolveFont(preferred);
+        bool isPixelFont = preferred == null && regular != null && regular.name == PixelFontName;
+
+        if (!isPixelFont)
+        {
+            txt.font = regular;
+            txt.fontSize = size;
+            txt.fontStyle = style;
+            return;
+        }
+
+        Font bold = ResolveBoldFont();
+        bool wantBold = style == FontStyle.Bold || style == FontStyle.BoldAndItalic;
+
+        txt.font = wantBold && bold != null ? bold : regular;
+        txt.fontSize = PixelFontSize(size);
+        // 기울임도 합성이라 픽셀 폰트에선 계단이 깨진다 — 색으로만 구분한다
+        txt.fontStyle = wantBold && bold == null ? FontStyle.Bold : FontStyle.Normal;
     }
 
     public static RectTransform Empty(string name, Transform parent)
@@ -78,11 +132,9 @@ public static class UIFactory
     {
         RectTransform rt = Empty(name, parent);
         Text txt = rt.gameObject.AddComponent<Text>();
-        txt.font = ResolveFont(font);
-        txt.fontSize = size;
+        ApplyPixelFont(txt, font, size, style);
         txt.color = color;
         txt.alignment = anchor;
-        txt.fontStyle = style;
         txt.raycastTarget = false;
         txt.horizontalOverflow = HorizontalWrapMode.Wrap;
         txt.verticalOverflow = VerticalWrapMode.Overflow;
@@ -99,6 +151,16 @@ public static class UIFactory
 
         image.sprite = sprite;
         image.type = sprite.border == Vector4.zero ? Image.Type.Simple : Image.Type.Sliced;
+    }
+
+    // 픽셀아트 그림을 pixelScale배로 그리는 이미지. 9-slice 테두리 두께도 같이 커진다 —
+    // 배율을 안 맞추면 카드는 2배인데 패널 테두리만 1배라 가늘고 어색해진다.
+    public static Image PixelImage(string name, Transform parent, Sprite sprite, float pixelScale, bool raycast = false)
+    {
+        Image img = Panel(name, parent, Color.white, raycast);
+        ApplySprite(img, sprite);
+        img.pixelsPerUnitMultiplier = 1f / Mathf.Max(pixelScale, 0.01f);
+        return img;
     }
 
     private static Sprite cachedGradient;
