@@ -30,6 +30,34 @@ public class PlayerStatusBar : MonoBehaviour
     [SerializeField] private Color fallbackTrackColor = new Color(0.14f, 0.13f, 0.15f, 1f);
     [SerializeField] private Font font;
 
+    [Header("상태 아이콘 (체력바 위)")]
+    [Tooltip("물약 소켓을 떠 온 26x26 칸 그림 (Art/UI/StatusSlot.png)")]
+    [SerializeField] private Sprite statusSlot;
+    [Tooltip("48x48 대시 아이콘 (Art/UI/StatusIcons)")]
+    [SerializeField] private Sprite dashIcon;
+    [Tooltip("48x48 대시 공격 아이콘")]
+    [SerializeField] private Sprite dashAttackIcon;
+    [Tooltip("48x48 처형 버프 아이콘. [0]=1단계 [1]=2단계 [2]=3단계. 한 장만 넣으면 전 단계 공용")]
+    [SerializeField] private Sprite[] harvestBuffIcons = new Sprite[3];
+    [SerializeField] private float statusIconGap = 6f;
+
+    [Header("스킬 쿨타임 (화면 아래 가운데)")]
+    [Tooltip("발동 키 표시용 14x14 키캡 (Art/UI/KeyCap.png, 9-slice)")]
+    [SerializeField] private Sprite keyCapSprite;
+    [Tooltip("키캡 확대 배율 (원본 픽셀 정수 배)")]
+    [Range(1, 4)]
+    [SerializeField] private int keyCapScale = 2;
+    [Tooltip("화면 아래 끝에서 스킬 칸까지 거리")]
+    [SerializeField] private float skillBarBottom = 24f;
+    [SerializeField] private float skillSlotGap = 18f;
+    [Tooltip("48x48 처형 스킬 아이콘")]
+    [SerializeField] private Sprite harvestSkillIcon;
+    [Tooltip("처형 가능할 때 아이콘 뒤에서 타오르는 불꽃 프레임 (Art/UI/StatusIcons/HarvestFlame_0~7)")]
+    [SerializeField] private Sprite[] harvestReadyFlame = new Sprite[0];
+    [SerializeField] private float harvestFlameFps = 12f;
+    [Tooltip("불꽃 위치 (1080p 기준 픽셀, 아이콘 중심에서)")]
+    [SerializeField] private Vector2 harvestFlameOffset = new Vector2(0f, 6f);
+
     [Header("연출")]
     [Tooltip("맞은 뒤 잔상이 따라 내려오기 전 멈춰 있는 시간(초)")]
     [SerializeField] private float trailDelay = 0.35f;
@@ -47,6 +75,18 @@ public class PlayerStatusBar : MonoBehaviour
     private SpriteRenderer playerSprite;
     private PixelBar hpBar;
     private PixelBar soulBar;
+    // 체력바 프레임 원본에서 물약 소켓 칸이 시작하는 x (StatusSlot.png를 떠 온 자리)
+    private const float StatusSlotFrameX = 24f;
+
+    private PlayerMove playerMove;
+    private PlayerDashAttack dashAttack;
+    private HarvestBuff harvestBuff;
+    private StatusIconSlot dashSlot;
+    private bool dashAttackKeyPending;
+    private StatusIconSlot dashAttackSlot;
+    private StatusIconSlot harvestSkillSlot;
+    private PlayerCombat combat;
+    private StatusIconSlot harvestSlot;
     private float hpTrail = 1f;
     private float trailHoldUntil;
 
@@ -95,6 +135,18 @@ public class PlayerStatusBar : MonoBehaviour
         status = p.GetComponentInParent<PlayerStatus>();
         if (status == null) status = p.GetComponentInChildren<PlayerStatus>();
         playerSprite = p.GetComponentInChildren<SpriteRenderer>();
+
+        Transform body = status != null ? status.transform : p.transform;
+        playerMove = body.GetComponent<PlayerMove>();
+        dashAttack = body.GetComponent<PlayerDashAttack>();
+        harvestBuff = body.GetComponent<HarvestBuff>();
+        combat = body.GetComponent<PlayerCombat>();
+
+        if (dashAttackKeyPending && dashAttackSlot != null && dashAttack != null)
+        {
+            dashAttackSlot.SetKeyLabel(StatusIconSlot.KeyName(dashAttack.Key), keyCapSprite, font, keyCapScale);
+            dashAttackKeyPending = false;
+        }
     }
 
     // 씬에 있는 예전 체력바(슬라이더)를 끈다. 새 바와 겹쳐 두 개가 보이는 걸 막는다.
@@ -152,6 +204,60 @@ public class PlayerStatusBar : MonoBehaviour
         soulBar.Label.text = PixelBar.Format(status.CurrentSoul, status.MaxSoul);
 
         if (playerSprite != null) hpBar.SetPortrait(playerSprite.sprite);
+
+        RefreshStatusIcons();
+    }
+
+    // 쿨타임은 남은 비율만큼 위에서부터 가리고 남은 초를 적는다. 준비되면 깨끗한 아이콘만 남는다.
+    // 처형 버프는 단계가 있을 때만 보이고, 흐른 시간만큼 가리며 오른쪽 아래에 단계 숫자를 단다.
+    private void RefreshStatusIcons()
+    {
+        if (dashSlot != null)
+        {
+            float remain = playerMove != null ? playerMove.DashCooldownRemaining : 0f;
+            float total = playerMove != null ? playerMove.DashCooldown : 1f;
+            dashSlot.SetShade(total > 0f ? remain / total : 0f);
+            dashSlot.SetTimer(remain);
+        }
+
+        if (dashAttackSlot != null)
+        {
+            dashAttackSlot.SetVisible(dashAttack != null);
+            float remain = dashAttack != null ? dashAttack.CooldownRemaining : 0f;
+            float total = dashAttack != null ? dashAttack.Cooldown : 1f;
+            dashAttackSlot.SetShade(total > 0f ? remain / total : 0f);
+            dashAttackSlot.SetTimer(remain);
+        }
+
+        // 처형 스킬: 쿨타임이 없고, 주변에 처형할 수 있는 몬스터가 있을 때만 뒤에서 불꽃이 타오른다
+        if (harvestSkillSlot != null)
+        {
+            bool ready = combat != null && combat.CanHarvestNow;
+            harvestSkillSlot.SetDimmed(!ready);
+            harvestSkillSlot.SetBackFlame(ready, harvestReadyFlame, harvestFlameFps, harvestFlameOffset);
+        }
+
+        if (harvestSlot != null)
+        {
+            int stage = harvestBuff != null ? harvestBuff.Stage : 0;
+            harvestSlot.SetVisible(stage > 0);
+            if (stage > 0)
+            {
+                float remain = harvestBuff.Remaining;
+                float total = harvestBuff.Duration;
+                harvestSlot.SetIcon(HarvestIconFor(stage));
+                harvestSlot.SetShade(total > 0f ? 1f - remain / total : 0f);
+                harvestSlot.SetTimer(remain);
+                harvestSlot.SetBadge(stage.ToString());
+            }
+        }
+    }
+
+    private Sprite HarvestIconFor(int stage)
+    {
+        if (harvestBuffIcons == null || harvestBuffIcons.Length == 0) return null;
+        int i = Mathf.Clamp(stage - 1, 0, harvestBuffIcons.Length - 1);
+        return harvestBuffIcons[i] != null ? harvestBuffIcons[i] : harvestBuffIcons[0];
     }
 
     private void BuildUI()
@@ -202,5 +308,33 @@ public class PlayerStatusBar : MonoBehaviour
         hpBar.Layout(barWidth, s, hpFrame, fallbackTrackColor);
         hpBar.Fill.color = hpColor;
         hpBar.Trail.color = trailColor;
+
+        // 버프 줄: 체력바 바로 위. 첫 칸은 체력바 물약 소켓(프레임 x24~49)과 세로로 줄을 맞춘다
+        float rowY = barH * 2f + gap + statusIconGap;
+        float rowX = StatusSlotFrameX * s;
+        harvestSlot = StatusIconSlot.Build("Status_HarvestBuff", root, statusSlot, HarvestIconFor(1), "처형", s, font);
+        harvestSlot.Root.anchoredPosition = new Vector2(rowX, rowY);
+        harvestSlot.SetVisible(false);
+
+        // 스킬 쿨타임 줄: 화면 아래 가운데. 칸 위에 발동 키를 키캡으로 띄운다
+        RectTransform skillRow = UIFactory.Empty("SkillRow", canvasGo.transform);
+        skillRow.anchorMin = skillRow.anchorMax = new Vector2(0.5f, 0f);
+        skillRow.pivot = new Vector2(0.5f, 0f);
+        skillRow.anchoredPosition = new Vector2(0f, skillBarBottom);
+        float slotW = StatusIconSlot.SlotPixels * s;
+        skillRow.sizeDelta = new Vector2(slotW * 3f + skillSlotGap * 2f, slotW);
+
+        dashSlot = StatusIconSlot.Build("Skill_Dash", skillRow, statusSlot, dashIcon, "대시", s, font);
+        dashSlot.Root.anchoredPosition = Vector2.zero;
+        dashSlot.SetKeyLabel(StatusIconSlot.KeyName(PlayerMove.DashKey), keyCapSprite, font, keyCapScale);
+
+        dashAttackSlot = StatusIconSlot.Build("Skill_DashAttack", skillRow, statusSlot, dashAttackIcon, "돌진", s, font);
+        dashAttackSlot.Root.anchoredPosition = new Vector2(slotW + skillSlotGap, 0f);
+        // 대시 공격 키는 플레이어에 설정돼 있어 플레이어를 찾은 뒤(Start) 단다
+        dashAttackKeyPending = true;
+
+        harvestSkillSlot = StatusIconSlot.Build("Skill_Harvest", skillRow, statusSlot, harvestSkillIcon, "처형", s, font);
+        harvestSkillSlot.Root.anchoredPosition = new Vector2((slotW + skillSlotGap) * 2f, 0f);
+        harvestSkillSlot.SetKeyLabel(StatusIconSlot.KeyName(PlayerCombat.HarvestKey), keyCapSprite, font, keyCapScale);
     }
 }

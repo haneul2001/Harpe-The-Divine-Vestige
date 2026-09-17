@@ -26,6 +26,18 @@ public class PlayerStealth : MonoBehaviour
     [Tooltip("투명해지고 돌아오는 데 걸리는 시간(초). 0이면 즉시 바뀐다")]
     [SerializeField] private float fadeDuration = 0.12f;
 
+    [Header("연막 (100PixelVFX/VFX_smoke)")]
+    [Tooltip("VFX_smoke 프리팹. 애니메이터 안에 연기 20종이 상태로 들어 있고 이름으로 골라 재생한다")]
+    [SerializeField] private GameObject smokePrefab;
+    [Tooltip("은신할 때 — 11번: 크게 피어오르는 연기 뭉치")]
+    [SerializeField] private string cloakSmokeState = "VFX_smoke11";
+    [Tooltip("은신이 풀릴 때 — 8번: 작게 퍼지는 연기 고리. 비우면 안 나온다")]
+    [SerializeField] private string revealSmokeState = "VFX_smoke08";
+    [Tooltip("연기 크기(월드 배율). 64px 시트라 3이면 캐릭터와 픽셀 밀도가 맞는다")]
+    [SerializeField] private float smokeScale = 3f;
+    [Tooltip("발밑 기준 연기 위치")]
+    [SerializeField] private Vector2 smokeOffset = new Vector2(0f, 0.6f);
+
     [Header("해제 조건")]
     [Tooltip("대시도 은신을 푸는지. 끄면 대시를 그냥 이동으로 취급한다")]
     [SerializeField] private bool breakOnDash = true;
@@ -133,6 +145,38 @@ public class PlayerStealth : MonoBehaviour
 
         hidden = true;
         ApplyPhysics();
+        PlaySmoke(cloakSmokeState);
+    }
+
+    // 연기는 캐릭터에 붙이지 않고 그 자리에 남긴다 — 연막 속으로 사라지는 느낌이 나야 한다
+    private void PlaySmoke(string state)
+    {
+        if (smokePrefab == null || string.IsNullOrEmpty(state)) return;
+
+        Vector3 pos = transform.position + (Vector3)smokeOffset;
+        GameObject go = Instantiate(smokePrefab, pos, Quaternion.identity);
+        go.transform.localScale = Vector3.one * smokeScale;
+
+        // 캐릭터 바로 앞에 그린다 (반투명해진 몸 위로 연기가 덮여야 자연스럽다)
+        var sr = go.GetComponent<SpriteRenderer>();
+        if (sr != null && renderers.Length > 0 && renderers[0] != null)
+        {
+            sr.sortingLayerID = renderers[0].sortingLayerID;
+            sr.sortingOrder = renderers[0].sortingOrder + 5;
+        }
+
+        // 애니메이션은 전부 루프로 만들어져 있어서 한 바퀴 길이만큼만 살려 둔다
+        float life = 1f;
+        var anim = go.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.Play(state, 0, 0f);
+            var ctrl = anim.runtimeAnimatorController;
+            if (ctrl != null)
+                foreach (var clip in ctrl.animationClips)
+                    if (clip != null && clip.name == state) { life = clip.length; break; }
+        }
+        Destroy(go, life);
     }
 
     // 은신 중에는 몬스터 발밑 콜라이더와의 충돌을 끈다.
@@ -160,6 +204,7 @@ public class PlayerStealth : MonoBehaviour
         hidden = false;
         nextCloakTime = Time.time + recloakDelay;
         ApplyPhysics();
+        PlaySmoke(revealSmokeState);
     }
 
     // 컴포넌트가 꺼지거나 파괴돼도 통과 상태로 굳지 않게 되돌린다

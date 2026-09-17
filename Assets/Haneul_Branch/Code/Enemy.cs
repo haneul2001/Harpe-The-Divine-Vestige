@@ -413,9 +413,7 @@ public class Enemy : MonoBehaviour
         if (DamageNumberSpawner.Instance != null)
             DamageNumberSpawner.Instance.Show(transform.position, damage, isCritical, numberColor);
 
-        // 피격 이펙트 — 몸통 한가운데쯤에서 터지게 살짝 올린다.
-        // 적을 부모로 삼지 않는다. 넉백으로 밀려나도 맞은 자리에 남아야 타격 위치가 읽힌다.
-        PixelVfx.Play("EnemyHit", transform.position + Vector3.up * 0.6f);
+        // 공통 피격 이펙트(EnemyHit)는 끔 — 일반 공격은 방향이 있는 PlayerHitSparkVfx가 대신 띄운다.
 
         hp -= damage;
 

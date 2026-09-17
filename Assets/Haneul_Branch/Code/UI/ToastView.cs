@@ -76,9 +76,16 @@ public class ToastView : MonoBehaviour
     // 같은 알림이 또 오면 새로 쌓지 않고 이걸 부른다 (연타 시 화면 도배 방지)
     public void Bump()
     {
+        if (slide != null) slide.localScale = Vector3.one * 1.06f;
+
+        // 아직 들어오는 중이면 그대로 마저 들어오게 둔다 — 여기서 Hold로 건너뛰면 투명도가 0에 멈춘 채 남아 안 보인다
+        if (phase == Phase.In) return;
+
+        // 사라지는 중·접히는 중이었어도 제자리·제 높이로 되돌려 다시 보여 준다
         phase = Phase.Hold;
         timer = 0f;
-        if (slide != null) slide.localScale = Vector3.one * 1.06f;
+        Apply(1f);
+        if (layout != null) layout.preferredHeight = height;
     }
 
     private void Update()

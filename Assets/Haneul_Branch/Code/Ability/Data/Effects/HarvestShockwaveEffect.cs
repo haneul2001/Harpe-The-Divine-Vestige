@@ -72,6 +72,11 @@ public class HarvestShockwaveEffect : AbilityEffect
             if (enemy.isDead) continue;
 
             enemy.TakeDamage(damage, asCritical);
+
+            // 분홍 피격 이펙트 — 충격파 중심에서 바깥으로 튕겨 나가는 방향
+            var spark = PlayerHitSparkVfx.On(ctx.playerTransform);
+            if (spark != null) spark.Play(col.bounds, impact.position, enemy);
+
             last = enemy;
             hits++;
         }

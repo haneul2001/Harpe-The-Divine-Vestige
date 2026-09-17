@@ -16,9 +16,12 @@ public class SkillInputController : MonoBehaviour
     private Player player;
     private SkillContext ctx;
 
+    private PlayerMove move;
+
     void Awake()
     {
         player = GetComponent<Player>();
+        move = GetComponent<PlayerMove>();
     }
 
     void Start()
@@ -29,6 +32,7 @@ public class SkillInputController : MonoBehaviour
     void Update()
     {
         if (slots == null) return;
+        if (move != null && move.IsControlLocked) return;   // 패링 직후 등 조작 불가 구간
 
         for (int i = 0; i < slots.Length; i++)
         {

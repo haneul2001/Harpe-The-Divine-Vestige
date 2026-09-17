@@ -128,15 +128,35 @@ public class CharacterStats
     // 대미지 계산
     // ─────────────────────────────────────────
 
+    // 일시 버프가 곱하는 대미지 배율 (처형 단계 버프 등). 저장하지 않는 런타임 값
+    [System.NonSerialized] public float damageMult = 1f;
+    // 일시 버프: 켜져 있으면 모든 치명타 판정이 성공한다 (처형 3단계 등)
+    [System.NonSerialized] public bool forceCrit = false;
+
     /// <summary>
     /// 물리 공격 1회의 대미지를 굴림 (마비노기식: 범위 + 밸런스 + 치명타)
     /// </summary>
     /// <param name="isCrit">치명타 발동 여부 (이펙트/사운드 분기용)</param>
     public int RollPhysicalDamage(out bool isCrit)
     {
-        float dmg = RollWithBalance(MinAttack, MaxAttack);
-        isCrit = RollCrit(ref dmg);
+        isCrit = RollCritChance();
+        return RollPhysicalDamage(isCrit);
+    }
+
+    /// <summary>
+    /// 치명타 여부를 미리 정해 둔 물리 대미지 (평타는 공격 버튼을 누른 순간 치명타를 굴려 이펙트 색을 정한다)
+    /// </summary>
+    public int RollPhysicalDamage(bool isCrit)
+    {
+        float dmg = RollWithBalance(MinAttack, MaxAttack) * damageMult;
+        if (isCrit) dmg *= CritDamage / 100f;
         return Mathf.Max(1, Mathf.RoundToInt(dmg));
+    }
+
+    /// <summary>치명타 판정만 굴린다 (forceCrit이면 무조건 치명타)</summary>
+    public bool RollCritChance()
+    {
+        return forceCrit || Random.value * 100f < CritRate;
     }
 
     /// <summary>
@@ -148,7 +168,7 @@ public class CharacterStats
         float dmg = skillBaseDamage + SkillPower * coefficient;
         // 스킬도 밸런스의 영향을 절반만 받게 — 스킬은 물리보다 안정적인 대미지
         float balanceRoll = Mathf.Lerp(0.85f, 1f, RollBalance01());
-        dmg *= balanceRoll;
+        dmg *= balanceRoll * damageMult;
         isCrit = RollCrit(ref dmg);
         return Mathf.Max(1, Mathf.RoundToInt(dmg));
     }
@@ -207,7 +227,7 @@ public class CharacterStats
     /// <summary>치명타 판정 후 dmg에 배율 적용. 발동 여부 반환</summary>
     private bool RollCrit(ref float dmg)
     {
-        if (Random.value * 100f < CritRate)
+        if (RollCritChance())
         {
             dmg *= CritDamage / 100f;
             return true;

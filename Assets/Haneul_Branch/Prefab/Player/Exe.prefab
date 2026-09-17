@@ -20,6 +20,11 @@ GameObject:
   - component: {fileID: 4539739479256873142}
   - component: {fileID: 1983008821764083162}
   - component: {fileID: 1903061372961969743}
+  - component: {fileID: 71823570273267177}
+  - component: {fileID: 2249502569762846776}
+  - component: {fileID: 449027847304855214}
+  - component: {fileID: 8165488478996217990}
+  - component: {fileID: 2663178445965332913}
   m_Layer: 8
   m_Name: Exe
   m_TagString: Player
@@ -122,7 +127,7 @@ MonoBehaviour:
   speed: 5
   dashSpeed: 15
   dashDuration: 0.2
-  dashCooldown: 0.75
+  dashCooldown: 2
   knockBackPower: 2.67
   hitDuration: 0.3
   isExecuting: 0
@@ -151,15 +156,21 @@ MonoBehaviour:
   attackNum: 0
   attackBufferWindow: 0.25
   attackFailSafeTime: 1.2
-  comboCount: 2
+  lungeDistance: 0.35
+  lungeDuration: 0.08
+  comboCount: 3
+  reverseSlashByHit: 000100
+  finisherRecovery: 0.35
+  minHitDelay: 0.1
   comboResetTime: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   AttackBoxPos: {fileID: 6138113602369118721}
-  boxSize: {x: 3.2, y: 1.1}
+  boxSize: {x: 3.2, y: 2}
   chargeFill: {fileID: 3993607935517162739}
   chargeCanvas: {fileID: 6986242262167334654}
+  critSlashMaterial: {fileID: 2100000, guid: 8d4aef1f32296014abcef4df5adcf01e, type: 2}
 --- !u!114 &5562068882946302869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +217,13 @@ MonoBehaviour:
   deathTimeScale: 0.25
   deathShake: 0.55
   parryCounterClip: {fileID: 7400000, guid: 9b9b8ec43057f634daf502ac856c6598, type: 2}
+  counterMoveEarlier: 0.2
+  parryCounterSpeed: 2
+  parryHitVfxId: ParryBurst
+  counterAreaRadius: 1.8
+  counterAreaEnemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &667097894837244086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +293,11 @@ MonoBehaviour:
   unlocked: 1
   hiddenAlpha: 0.5
   fadeDuration: 0.12
+  smokePrefab: {fileID: 7576172759247056744, guid: 169f073e8f65fcd4dbe09d021af37c21, type: 3}
+  cloakSmokeState: VFX_smoke11
+  revealSmokeState: VFX_smoke08
+  smokeScale: 3
+  smokeOffset: {x: 0, y: 0.6}
   breakOnDash: 1
   breakOnDamage: 1
   recloakDelay: 0.5
@@ -297,6 +320,150 @@ MonoBehaviour:
   attackColor: {r: 1, g: 0.85, b: 0.3, a: 0.85}
   showHarvestRange: 1
   harvestColor: {r: 0.45, g: 0.9, b: 1, a: 0.55}
+--- !u!114 &71823570273267177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8c3d15b14e74b4d90059cc3491636d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showIndicator: 1
+  ringDiameter: 0.8
+  ringYScale: 0.7
+  ringColor: {r: 0.85, g: 0.9, b: 1, a: 0.35}
+  ringOffset: {x: 0.14, y: 0}
+  pointerPixels: 11
+  pointerColor: {r: 1, g: 0.93, b: 0.7, a: 0.95}
+  pointerOutline: {r: 0.12, g: 0.1, b: 0.14, a: 0.9}
+  turnTime: 0.06
+  pixelsPerUnit: 32
+  sortingOrderOffset: -5
+--- !u!114 &2249502569762846776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183475be41e9dd64797f56f0522e23ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal:
+  - {fileID: 4748681987041982144, guid: e809e5b4976bbf1449090dbc9b30f183, type: 3}
+  - {fileID: 4748681987041982144, guid: 4eeefbd3ebad83f408ca6e7c36e24b46, type: 3}
+  - {fileID: 4748681987041982144, guid: 895528dcd8d93204a866e2005d4430dc, type: 3}
+  - {fileID: 4748681987041982144, guid: 47454a746fa6ebb4bb0a920799069d2a, type: 3}
+  flipped:
+  - {fileID: 4748681987041982144, guid: c6201e484422b8447ba19576e272cca4, type: 3}
+  - {fileID: 4748681987041982144, guid: f0fa0c5a0aff763469d68af19c1dba59, type: 3}
+  - {fileID: 4748681987041982144, guid: 128a980222d29804485c804e1f8957e5, type: 3}
+  - {fileID: 4748681987041982144, guid: fee90331cb793dd45bb6c52e380f734b, type: 3}
+  scale: 1
+  pullTowardPlayer: 0.2
+  lifeTime: 0.5
+  sortingOrderOffset: 10
+--- !u!114 &449027847304855214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d9ea7d6625c4f43ad17cb344e7770f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normal:
+  - {fileID: 4748681987041982144, guid: 02ba5661bb753104f8543ba0810c10f8, type: 3}
+  - {fileID: 4748681987041982144, guid: 519914548711ec34fb6509d758546c5d, type: 3}
+  - {fileID: 4748681987041982144, guid: fd8f6231e5ab19144869bd3555310c44, type: 3}
+  - {fileID: 4748681987041982144, guid: ba0d5fac1ecdb7d4ea91d0ddd1754ed9, type: 3}
+  flipped:
+  - {fileID: 4748681987041982144, guid: 18af53d7ec4e5e54b826ba0b2b713cd8, type: 3}
+  - {fileID: 4748681987041982144, guid: 126343e17457a22419e69914abce6fb0, type: 3}
+  - {fileID: 4748681987041982144, guid: 36867915d570e114d99909979ae1df54, type: 3}
+  - {fileID: 4748681987041982144, guid: ba2e6a3663b60434c824e5390a941342, type: 3}
+  scale: 1.56
+  edgePush: 0
+  edgeGap: 0.7
+  lifeTime: 0.45
+  alternateFlip: 1
+  sortingOrderOffset: 20
+  colorMaterial: {fileID: 2100000, guid: 64e75db759d2e754db307356b81e5c36, type: 2}
+--- !u!114 &8165488478996217990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d848bab676e5ee547a20ea368965b89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 120
+  cooldown: 3
+  distance: 3.5
+  duration: 0.14
+  wallSkin: 0.05
+  totalTime: 0.5
+  invincibleTime: 0.22
+  damageMultiplier: 1.5
+  hitRadius: 0.85
+  slashMaterial: {fileID: 2100000, guid: 8d4aef1f32296014abcef4df5adcf01e, type: 2}
+  trailPrefab: {fileID: 5502599424471498008, guid: cf851cb8e66172f418eb38eff46e7b55, type: 3}
+  trailState: VFX_energy13
+  trailColor: {r: 1, g: 0.28, b: 0.25, a: 1}
+  trailAnimSpeed: 2
+  trailThickness: 0.35
+  trailBeamPixels: 55
+  trailRootPixels: 27.5
+  trailBeamWidthPixels: 17
+  bodyHeight: 0.3
+--- !u!114 &2663178445965332913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a91ba308aa1b6947b388929e6a84c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffDuration: 5
+  damageBonus:
+  - 0.3
+  - 0.6
+  - 0.6
+  moveSpeedBonus:
+  - 0.2
+  - 0.4
+  - 0.6
+  guaranteedCrit: 000001
+  auraPrefab: {fileID: 4748681987041982144, guid: dd61de51d53a7d9408a018a201b7f16e, type: 3}
+  backMaterials:
+  - {fileID: 2100000, guid: 6de323b0041aeff46bfc2d92f53ab17e, type: 2}
+  - {fileID: 2100000, guid: 70b24eddc97e109419fbfb9686e42dcb, type: 2}
+  - {fileID: 2100000, guid: dbf0584b62a8be54d80b54cea590fa1a, type: 2}
+  frontMaterials:
+  - {fileID: 2100000, guid: a33554a1294c22346babc482084145bc, type: 2}
+  - {fileID: 2100000, guid: a4b269b9a10fea44db0aa5c3d6bc352d, type: 2}
+  - {fileID: 2100000, guid: 6c3824044d4552d49b3084d6f4f97c47, type: 2}
+  auraScale: {x: 1.4, y: 0.7}
+  auraOffset: {x: 0, y: -0.2}
+  backSortingOffset: -1
+  frontSortingOffset: 1
 --- !u!1 &1300492352161192977
 GameObject:
   m_ObjectHideFlags: 0

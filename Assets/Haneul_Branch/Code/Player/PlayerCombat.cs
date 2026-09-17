@@ -56,11 +56,26 @@ public class PlayerCombat : MonoBehaviour
     // 이 시각을 넘기면 강제 종료. 0 이하면 감시하지 않음.
     private float attackFailSafeDeadline = -1f;
 
+    [Header("공격 전진")]
+    [Tooltip("공격할 때마다 공격 방향으로 밀려 나가는 거리(월드 단위). 0이면 제자리")]
+    [SerializeField] private float lungeDistance = 0.35f;
+    [Tooltip("전진에 걸리는 시간(초). 짧을수록 툭 튀어 나간다")]
+    [SerializeField] private float lungeDuration = 0.08f;
+
     [Header("콤보")]
     [Tooltip("콤보 타수. 애니메이터의 Attack Blend 트리에 등록된 모션 수와 반드시 같아야 한다. "
-           + "Reaper는 Slash(단타) + Double Slash(2연타 마무리)로 2타.")]
+           + "Reaper는 Slash + Attack2(Double Slash 앞 절반) + Attack3(뒤 절반)로 3타.")]
     [Min(1)]
-    [SerializeField] private int comboCount = 2;
+    [SerializeField] private int comboCount = 3;
+
+    [Tooltip("타수별 베기 이펙트 방향. 체크 = 반대(올려베기). [0]=1타 [1]=2타 [2]=3타")]
+    [SerializeField] private bool[] reverseSlashByHit = { false, true, false };
+
+    [Tooltip("막타(마지막 타)가 끝난 뒤 다음 1타가 나가기까지의 텀(초). 그 사이 누른 입력은 텀이 끝나면 나간다")]
+    [SerializeField] private float finisherRecovery = 0.35f;
+
+    [Tooltip("공격 시작 후 이 시간(초) 안에 오는 판정 이벤트는 이전 타의 잔재로 보고 무시한다")]
+    [SerializeField] private float minHitDelay = 0.1f;
 
     [Tooltip("이전 공격 후 이 시간(초) 안에 다시 공격하지 않으면 콤보가 0타로 리셋됨.")]
     [SerializeField] private float comboResetTime = 1f;
@@ -77,46 +92,95 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private GameObject chargeCanvas;
     private bool fullCharged = false;
 
+    // 8방향 공격
+    private PlayerAim aim;
+    private PlayerSlashVfx slashVfx;
+
+    [Tooltip("치명타일 때 베기 이펙트 재질 (M_Slash_Red). 치명타가 아니면 원래 흰색")]
+    [SerializeField] private Material critSlashMaterial;
+
+    // 공격 버튼을 누른 순간(Attack) 굴린 이번 타의 치명타 여부. 판정(AttackHit)과 베기 이펙트 색이 이 값을 같이 쓴다
+    private bool pendingCrit;
+    private PlayerHitSparkVfx hitSparkVfx;
+    private PlayerMove move;
+    private float attackReach;     // 몸 중심에서 판정 박스 중심까지 (처음 배치된 AttackBox의 x)
+    private float attackPivotY;    // 몸 중심 높이 (처음 배치된 AttackBox의 y)
+    private int currentHit;        // 지금 휘두르는 타수 (0 = 1타)
+    private bool hitConsumed;      // 이번 타의 판정이 이미 나갔는지
+    private float attackStartTime;
+    private float nextAttackTime = -1f;   // 막타 뒤 텀 — 이 시각 전에는 다음 공격이 안 나간다
+
+    // 판정 박스 회전 각도(도). 박스의 가로(boxSize.x)가 공격 방향을 따라 눕는다.
+    public float AttackAngle => aim != null ? aim.Angle : (sr != null && sr.flipX ? 180f : 0f);
+
     void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         outline = GetComponent<PlayerOutline>();
         status = GetComponent<PlayerStatus>();
+        aim = GetComponent<PlayerAim>();
+        slashVfx = GetComponent<PlayerSlashVfx>();
+        hitSparkVfx = GetComponent<PlayerHitSparkVfx>();
+        move = GetComponent<PlayerMove>();
+
+        if (AttackBoxPos != null)
+        {
+            attackReach = Mathf.Abs(AttackBoxPos.localPosition.x);
+            attackPivotY = AttackBoxPos.localPosition.y;
+        }
     }
 
     void Update()
     {
-        
-       
+        // 패링 직후 같은 조작 불가 구간, 처형·대시 공격 같은 연출 중에는 공격·처형 입력을 받지 않는다
+        if (move != null && (move.IsControlLocked || move.isExecuting))
+        {
+            UpdateChargeUI();
+            CheckAttackFailSafe();
+            return;
+        }
+
         NormalAttack(); // Z입력
         UpdateChargeUI();
         CheckAttackFailSafe();
 
+        // 막타 뒤 텀이 막 끝났고, 텀 끝나기 직전에 눌러 둔 입력이 있으면 1타로 이어 준다
+        if (!isAttacking && !isCharging && nextAttackTime > 0f && Time.time >= nextAttackTime)
+        {
+            nextAttackTime = -1f;
+            if (Time.time - bufferedAttackTime <= attackBufferWindow)
+                ConsumeBufferedAttack();
+        }
+
         // ===== 처형 =====
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(HarvestKey))
         {
             TryHarvest();
         }
     }
 
+    // 판정 박스를 공격 방향(8방향)으로 옮긴다. 몸 중심(attackPivotY 높이)을 축으로 돈다.
     void LateUpdate()
     {
-        if (sr.flipX)
+        float rad = AttackAngle * Mathf.Deg2Rad;
+        AttackBoxPos.localPosition = new Vector3(
+            Mathf.Cos(rad) * attackReach,
+            attackPivotY + Mathf.Sin(rad) * attackReach,
+            0f);
+    }
+
+    public const KeyCode HarvestKey = KeyCode.V;
+
+    // 지금 처형 키를 누르면 처형이 나가는가 (상태 UI의 처형 칸을 빛내는 데 쓴다)
+    public bool CanHarvestNow
+    {
+        get
         {
-            AttackBoxPos.localPosition = new Vector3(
-                -Mathf.Abs(AttackBoxPos.localPosition.x),
-                AttackBoxPos.localPosition.y,
-                0
-            );
-        }
-        else
-        {
-            AttackBoxPos.localPosition = new Vector3(
-                Mathf.Abs(AttackBoxPos.localPosition.x),
-                AttackBoxPos.localPosition.y,
-                0
-            );
+            if (HarvestManager.Instance == null || HarvestManager.Instance.IsHarvesting) return false;
+            if (move != null && (move.isExecuting || move.inputLocked)) return false;
+            Enemy enemy = FindClosestHarvestEnemy();
+            return enemy != null && enemy.BackPosition != null;   // TryHarvest와 같은 조건
         }
     }
 
@@ -127,6 +191,7 @@ public class PlayerCombat : MonoBehaviour
         if (enemy == null)
         {
             Debug.Log("[Harvest] 처형 가능한 몹이 범위 안에 없음");
+            ToastManager.Show("처형시킬 대상이 없다");   // 같은 문구 연타는 ToastManager가 하나로 합친다
             return;
         }
 
@@ -186,8 +251,12 @@ public class PlayerCombat : MonoBehaviour
         if (isAttacking && Input.GetKeyDown(KeyCode.Z))
             bufferedAttackTime = Time.time;
 
+        // 막타 뒤 텀에는 차징도 시작하지 않는다
+        if (!isAttacking && Time.time < nextAttackTime && Input.GetKeyDown(KeyCode.Z))
+            bufferedAttackTime = Time.time;
+
         // 차징 시작
-        if (!isAttacking && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && Time.time >= nextAttackTime && Input.GetKeyDown(KeyCode.Z))
         {
             isCharging = true;
             chargeTime = 0f;
@@ -238,6 +307,18 @@ public class PlayerCombat : MonoBehaviour
         if (Time.time - lastAttackTime > comboResetTime)
             attackNum = 0;
 
+        // 누르고 있던 방향으로 몸을 돌리고 박스도 즉시 그쪽으로 (LateUpdate를 기다리면 첫 프레임이 어긋난다)
+        if (aim != null) aim.FaceBody();
+        LateUpdate();
+
+        // 공격 방향으로 살짝 전진 — 이동키를 누르고 있을 때만 (제자리 공격은 제자리에서)
+        bool holdingMove = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f || Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.01f;
+        if (move != null && lungeDistance > 0f && holdingMove)
+        {
+            float rad = AttackAngle * Mathf.Deg2Rad;
+            move.Lunge(new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)), lungeDistance, lungeDuration);
+        }
+
         // 공격 애니메이션
         Attack(attackNum);
 
@@ -251,8 +332,8 @@ public class PlayerCombat : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.Z))
             return;
 
-        // 공격 중 입력은 버리지 않고 예약해 둔다
-        if (isAttacking)
+        // 공격 중이거나 막타 뒤 텀이면 버리지 않고 예약해 둔다
+        if (isAttacking || Time.time < nextAttackTime)
         {
             bufferedAttackTime = Time.time;
             return;
@@ -264,6 +345,31 @@ public class PlayerCombat : MonoBehaviour
         fullCharged = false;
 
         DoComboAttack();
+    }
+
+    // ── 다른 기술(대시 공격 등)이 공격 애니메이션만 빌려 쓸 때 ──
+    // 애니메이션의 AttackHit/EndAttack 이벤트가 평타 판정을 내지 않게 막아 둔다.
+    private float suppressAnimEventsUntil = -1f;
+
+    public float AttackReachWorld => attackReach * Mathf.Abs(transform.lossyScale.x);
+    public float AttackPivotYWorld => attackPivotY * Mathf.Abs(transform.lossyScale.y);
+
+    public void PlayExternalAttackAnimation(int comboIndex, float suppressSeconds)
+    {
+        CancelAttack();
+        float effectiveAttackSpeed = attackSpeed * (status != null ? status.Stats.AttackSpeedMult : 1f);
+        anim.SetBool("Charged", false);
+        anim.SetFloat("AttackSpeed", effectiveAttackSpeed);
+        anim.SetFloat("Blend", comboIndex);
+        anim.SetTrigger("Attack");
+
+        hitConsumed = true;   // 이 애니메이션으로는 평타 판정이 안 나간다
+        suppressAnimEventsUntil = Time.time + suppressSeconds;
+    }
+
+    public void EndExternalAttack()
+    {
+        suppressAnimEventsUntil = -1f;
     }
 
     public void Attack(int attackNum)
@@ -281,6 +387,12 @@ public class PlayerCombat : MonoBehaviour
         anim.SetFloat("Blend", attackNum);
         anim.SetTrigger("Attack");
 
+        // 이번 타의 정보 — 판정·이펙트는 "몇 번째로 불렸나"가 아니라 이 타수로 정한다
+        currentHit = attackNum;
+        hitConsumed = false;
+        pendingCrit = status != null && status.Stats != null && status.Stats.RollCritChance();
+        attackStartTime = Time.time;
+
         // 애니메이션이 빨라지면 이벤트가 씹힐 확률도 올라가므로 마감도 같이 당긴다
         attackFailSafeDeadline = Time.time + attackFailSafeTime / Mathf.Max(0.01f, effectiveAttackSpeed);
     }
@@ -288,6 +400,14 @@ public class PlayerCombat : MonoBehaviour
     // 공격 판정 (애니메이션 이벤트)
     public void AttackHit()
     {
+        // 한 타에 판정은 한 번만.
+        // 1·2·3타가 같은 블렌드 트리를 쓰기 때문에, 빠르게 이어 누르면 넘어가는 중인 이전 타가
+        // 새 타의 클립으로 바뀐 채 이벤트를 한 번 더 쏜다. 그걸 두 번째 판정으로 세면 데미지가 두 번 들어가고
+        // 베기 방향도 한 칸씩 밀린다. 공격 시작 직후에 오는 이벤트도 이전 타의 잔재라 무시한다.
+        if (Time.time < suppressAnimEventsUntil) return;
+        if (hitConsumed || Time.time - attackStartTime < minHitDelay) return;
+        hitConsumed = true;
+
         bool isCharged = chargeTime >= chargedThreshold;
 
         // 스탯 기반 데미지 계산 (치명타는 한 번의 스윙당 1회 판정)
@@ -299,9 +419,17 @@ public class PlayerCombat : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapBoxAll(
             AttackBoxPos.position,
             boxSize,
-            0,
+            AttackAngle,
             enemyLayer
         );
+
+        // 베기 이펙트 — 타수마다 정해진 방향 (기본: 1타 내려베기, 2타 올려베기, 3타 내려베기)
+        if (slashVfx != null)
+        {
+            bool reverse = reverseSlashByHit != null && reverseSlashByHit.Length > 0
+                && reverseSlashByHit[Mathf.Clamp(currentHit, 0, reverseSlashByHit.Length - 1)];
+            slashVfx.Play(AttackBoxPos.position, AttackAngle, reverse, isCritical ? critSlashMaterial : null);
+        }
 
         Debug.Log("맞은 개수 : " + hits.Length);
 
@@ -316,6 +444,10 @@ public class PlayerCombat : MonoBehaviour
                 Debug.Log("Enemy 찾음");
 
                 enemy.TakeDamage(damage, isCritical);
+
+                // 가시가 플레이어 → 몬스터 방향(몬스터 너머)으로 뻗는 피격 이펙트
+                if (hitSparkVfx != null)
+                    hitSparkVfx.Play(hit.bounds, transform.position + Vector3.up * attackPivotY * transform.lossyScale.y, enemy);
             }
         }
     }
@@ -334,8 +466,9 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        // 민댐~맥댐 사이에서 밸런스로 굴리고, 치명타까지 내부에서 판정
-        int rolled = stats.RollPhysicalDamage(out isCritical);
+        // 민댐~맥댐 사이에서 밸런스로 굴린다. 치명타는 공격 버튼을 누를 때(Attack) 이미 정해 뒀다
+        isCritical = pendingCrit;
+        int rolled = stats.RollPhysicalDamage(isCritical);
 
         if (isCharged)
             rolled = Mathf.RoundToInt(rolled * chargedDamageMultiplier); // 차징 배율
@@ -362,10 +495,19 @@ public class PlayerCombat : MonoBehaviour
 
     public void EndAttack()
     {
+        if (Time.time < suppressAnimEventsUntil) return;   // 다른 기술이 빌려 쓴 애니메이션의 이벤트
+
         isAttacking = false;
         attackFailSafeDeadline = -1f;
 
         if (outline != null) outline.EndAttackOutline();
+
+        // 막타였으면 텀을 둔다. 예약된 입력은 텀이 끝나는 순간 Update에서 이어 준다
+        if (currentHit >= Mathf.Max(1, comboCount) - 1 && finisherRecovery > 0f)
+        {
+            nextAttackTime = Time.time + finisherRecovery;
+            return;
+        }
 
         ConsumeBufferedAttack();
     }
@@ -416,7 +558,9 @@ public class PlayerCombat : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(AttackBoxPos.position, boxSize);
+        Gizmos.matrix = Matrix4x4.TRS(AttackBoxPos.position, Quaternion.Euler(0f, 0f, AttackAngle), Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
+        Gizmos.matrix = Matrix4x4.identity;
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, 2f);

@@ -38,6 +38,10 @@ public class BeamSkill : PlayerSkill
 
             int dmg = stats.RollSkillDamage(skillBaseDamage, coefficient, out bool crit);
             enemy.TakeDamage(dmg, crit);
+
+            // 분홍 피격 이펙트 — 플레이어 → 몬스터 방향으로 몬스터 외곽에
+            var spark = PlayerHitSparkVfx.On(ctx.Transform);
+            if (spark != null) spark.Play(hit.bounds, ctx.Transform.position + Vector3.up * 0.3f, enemy);
         }
     }
 }

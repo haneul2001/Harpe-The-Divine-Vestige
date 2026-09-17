@@ -5,6 +5,9 @@ public class PlayerMove : MonoBehaviour
     [Header("이동 설정")]
     public float speed = 5f;
 
+    // 일시 버프가 곱하는 이동속도 배율 (처형 단계 버프 등). 저장하지 않는 런타임 값
+    [System.NonSerialized] public float speedMult = 1f;
+
     [Header("대쉬 설정")]
     public float dashSpeed = 10f;
     public float dashDuration = 0.25f;
@@ -41,17 +44,40 @@ public class PlayerMove : MonoBehaviour
     private float dashTimeLeft = 0f;
     private float lastDashTime = -100f;
 
+    // 상태 아이콘(대시 쿨타임) 표시용
+    public float DashCooldown => dashCooldown;
+    public const KeyCode DashKey = KeyCode.LeftShift;
+    public float DashCooldownRemaining => Mathf.Max(0f, lastDashTime + dashCooldown - Time.time);
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         spriter = GetComponentInChildren<SpriteRenderer>();
         combat = GetComponent<PlayerCombat>();
+        aim = GetComponent<PlayerAim>();
+    }
+
+    private PlayerAim aim;
+
+    // 스킬 사용 직후 같은 짧은 조작 불가 (이동·대시·공격·스킬 전부). UI용 inputLocked와 따로 둔다 —
+    // 둘이 한 플래그를 쓰면 한쪽이 풀 때 다른 쪽 잠금까지 같이 풀린다.
+    private float controlLockUntil = -1f;
+    public bool IsControlLocked => Time.time < controlLockUntil;
+
+    public void LockControl(float seconds)
+    {
+        controlLockUntil = Mathf.Max(controlLockUntil, Time.time + Mathf.Max(0f, seconds));
+    }
+
+    public void ClearControlLock()
+    {
+        controlLockUntil = -1f;
     }
 
     void Update()
     {
-        if (isExecuting || inputLocked)
+        if (isExecuting || inputLocked || IsControlLocked)
         {
             moveInput = Vector2.zero;
             return;
@@ -70,7 +96,7 @@ public class PlayerMove : MonoBehaviour
         
 
         // 대쉬 입력
-        if (Input.GetKeyDown(KeyCode.LeftShift) &&
+        if (Input.GetKeyDown(DashKey) &&
             !isDashing && 
             Time.time >= lastDashTime + dashCooldown&&
             !combat.isAttacking &&
@@ -123,22 +149,28 @@ public class PlayerMove : MonoBehaviour
         lastDashTime = Time.time;
 
         anim.SetTrigger("Dash");
-        float yScale = (moveInput.y != 0) ? 0.7f : 1f;
-        Vector2 dashInput = new Vector2(moveInput.x, moveInput.y * yScale);
 
-        if (moveInput != Vector2.zero)
+        // 8방향 대시: 누르고 있는 방향키, 안 누르고 있으면 조준(마지막 방향) 쪽으로.
+        // 세로 성분은 걷기와 같은 0.7 보정을 줘서 위아래 대시가 옆보다 길어 보이지 않게 한다.
+        Vector2 raw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 dir;
+        if (raw.sqrMagnitude > 0.01f)
         {
-            dashDirection = dashInput.normalized;
+            float a = Mathf.Atan2(raw.y, raw.x) * Mathf.Rad2Deg;
+            int index = ((Mathf.RoundToInt(a / 45f) % 8) + 8) % 8;
+            dir = PlayerAim.Directions8[index];
+        }
+        else if (aim != null)
+        {
+            dir = aim.Direction;
         }
         else
         {
-            dashDirection = spriter.flipX ? Vector2.left : Vector2.right;
-        }// ★★★ 핵심 수정: 스프라이트가 바라보는 방향으로 대쉬 방향 결정 ★★★
+            dir = spriter.flipX ? Vector2.left : Vector2.right;
+        }
 
-        
-
-        // 만약 위/아래도 대쉬하고 싶다면 아래처럼 y값도 고려할 수 있지만,
-        // 당신이 요청한 대로 좌우만 바라보는 방향으로 고정합니다.
+        dashDirection = new Vector2(dir.x, dir.y * 0.7f);
+        if (Mathf.Abs(dir.x) > 0.01f) spriter.flipX = dir.x < 0f;
     }
 
     // ====================== 대쉬 중 처리 ======================
@@ -157,17 +189,32 @@ public class PlayerMove : MonoBehaviour
             isDashing = false;
     }
 
+    // ====================== 공격 전진 ======================
+    private Vector2 lungeVelocity;
+    private float lungeEndTime = -1f;
+
+    // 공격 방향으로 짧게 미끄러져 나간다. 속도로 밀기 때문에 벽·몬스터 콜라이더에는 막힌다.
+    public void Lunge(Vector2 direction, float distance, float duration)
+    {
+        if (direction.sqrMagnitude < 0.0001f || distance <= 0f || duration <= 0f) return;
+        Vector2 d = direction.normalized;
+        d.y *= 0.7f;   // 걷기와 같은 세로 보정 — 위아래 전진이 옆보다 멀어 보이지 않게
+        lungeVelocity = d * (distance / duration);
+        lungeEndTime = Time.time + duration;
+    }
+
     // ====================== 일반 이동 ======================
     private void HandleNormalMovement()
     {
         if (combat.isAttacking)
         {
-            rb.velocity = Vector2.zero;
+            // 전진 구간이면 그만큼만 밀고, 끝나면 멈춘다
+            rb.velocity = Time.time < lungeEndTime ? lungeVelocity : Vector2.zero;
             anim.SetBool("isRun", false);
             return;
         }
 
-        rb.velocity = moveInput * speed;
+        rb.velocity = moveInput * speed * speedMult;
 
         // 스프라이트 좌우 반전 (이 부분이 대쉬 방향의 기준이 됩니다)
         if (moveInput.x != 0)

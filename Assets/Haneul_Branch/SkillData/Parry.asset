@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: "\uD328\uB9C1"
   icon: {fileID: 0}
-  cooldown: 1
+  cooldown: 1.5
   soulCost: 0
-  parryWindow: 0.3
-  perfectWindow: 0.3
+  parryWindow: 1
+  perfectWindow: 1
+  shieldVfxId: ParryShield
+  shieldOffset: {x: 0.14, y: 0.28}
+  controlLockDuration: 0.5
   perfectDamageMultiplier: 0
   blockedDamageMultiplier: 0.5
   counterDamageMultiplier: 1.5

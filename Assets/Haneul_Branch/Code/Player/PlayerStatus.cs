@@ -53,6 +53,13 @@ public class PlayerStatus : MonoBehaviour
     [Tooltip("퍼펙트 패링 성공 시 재생할 반격 클립. 길이만큼 무적이 유지된다 " +
              "(애니메이터의 ParryCounter 트리거가 같은 클립을 재생하도록 맞춰 둘 것)")]
     [SerializeField] private AnimationClip parryCounterClip;
+    [Tooltip("퍼펙트 패링 성공 후 반격 애니메이션이 끝나기 이만큼 전에 움직일 수 있게 한다. 무적은 애니 끝까지 유지")]
+    [SerializeField] private float counterMoveEarlier = 0.2f;
+    [Tooltip("반격 애니메이션 재생 배율. Reaper.controller의 ParryCounter 상태가 ParryCounterSpeed 파라미터로 속도를 받는다.\n" +
+             "무적·이동 잠금 시간도 이 배율로 나눠 계산하므로 애니와 항상 맞는다")]
+    [SerializeField] private float parryCounterSpeed = 2f;
+    [Tooltip("반격이 맞은 몬스터 몸에 띄울 VfxLibrary 이펙트 id")]
+    [SerializeField] private string parryHitVfxId = "ParryBurst";
 
     [Header("패링 반격 범위")]
     [Tooltip("반격이 실제로 맞은 지점(공격자 위치) 기준 범위 피해 반경. 0이면 원래 대상만 맞는다.\n" +
@@ -71,6 +78,9 @@ public class PlayerStatus : MonoBehaviour
     // 패링 상태 (Parry 스킬이 BeginParry로 설정)
     private float parryPerfectEndTime = -1f;
     private float parryEndTime = -1f;
+
+    // 패링 판정 시간(방패)이 아직 떠 있는지 — 연타 방지에 쓴다
+    public bool IsParrying => Time.time <= Mathf.Max(parryEndTime, parryPerfectEndTime);
     private float parryPerfectMult = 0f;
     private float parryBlockedMult = 1f;
     private float parryCounterMultiplier = 0f;
@@ -145,7 +155,7 @@ public class PlayerStatus : MonoBehaviour
     // 실제로 들어간다. 그래야 판정이 눈에 보이는 타이밍과 맞는다.
     private void OnPerfectParry(Enemy attacker)
     {
-        PixelVfx.Play("ParryClang", transform.position + Vector3.up * 0.6f);
+        // 기존 성공 이펙트(ParryClang)는 제거 — 방패 이펙트가 발동 시점부터 판정 시간 내내 떠 있다
 
         bool canCounter = attacker != null && !attacker.isDead && parryCounterMultiplier > 0f
                         && anim != null && parryCounterClip != null;
@@ -154,8 +164,17 @@ public class PlayerStatus : MonoBehaviour
         {
             Debug.Log("[Parry] PERFECT! 반격 애니메이션 재생");
             pendingCounterTarget = attacker;
+            float counterSpeed = Mathf.Max(0.01f, parryCounterSpeed);
+            anim.SetFloat("ParryCounterSpeed", counterSpeed);
             anim.SetTrigger("ParryCounter");
-            StartCoroutine(ParryCounterLock(parryCounterClip.length)); // 반격 애니가 도는 동안 무적 + 이동 불가
+
+            // 성공하면 패링 발동 때 건 조작 잠금(방패 1초 + 0.5초)은 버리고 반격 기준으로만 잠근다 —
+            // 둘 중 긴 쪽에 묶이면 "성공 후 움직일 수 있는 시점"을 조절할 수가 없다.
+            if (move != null) move.ClearControlLock();
+
+            // 반격 애니 동안 무적은 끝까지, 이동은 counterMoveEarlier만큼 먼저 풀어 준다
+            float len = parryCounterClip.length / counterSpeed;
+            StartCoroutine(ParryCounterLock(len, Mathf.Max(0f, len - counterMoveEarlier)));
         }
         else
         {
@@ -168,10 +187,11 @@ public class PlayerStatus : MonoBehaviour
     // 반격 스윙 중엔 캐릭터가 미끄러지듯 움직이면 안 되므로, 무적과 함께 이동도 같이 잠근다.
     // 처형의 isExecuting과 같은 잠금이라 서로 겹쳐도 안전하다(둘 다 끝나야 풀리는 게 아니라
     // 각자 자기 구간이 끝나면 그냥 false로 되돌리는 방식 — 패링 반격 중엔 처형이 불가능해 겹칠 일이 없다).
-    private IEnumerator ParryCounterLock(float duration)
+    private IEnumerator ParryCounterLock(float invincibleDuration, float moveLockDuration)
     {
         if (move != null) move.isExecuting = true;
-        yield return InvincibleFor(duration);
+        StartCoroutine(InvincibleFor(invincibleDuration));
+        yield return new WaitForSeconds(moveLockDuration);
         if (move != null) move.isExecuting = false;
     }
 
@@ -187,6 +207,11 @@ public class PlayerStatus : MonoBehaviour
         bool isCrit;
         int counter = Mathf.Max(1, Mathf.RoundToInt(stats.RollPhysicalDamage(out isCrit) * parryCounterMultiplier));
         target.TakeDamage(counter, true, Color.yellow); // 반격 (+HitState 경직, 노란 데미지 숫자)
+
+        // 패링 이펙트 — 맞은 몬스터 몸통 한가운데에서 터진다
+        if (!string.IsNullOrEmpty(parryHitVfxId))
+            PixelVfx.Play(parryHitVfxId, PlayerHitSparkVfx.BodyBounds(target).center);
+
 
         if (counterAreaRadius > 0f) HitNearbyEnemies(target, counter);
     }
@@ -239,6 +264,12 @@ public class PlayerStatus : MonoBehaviour
         if (now <= parryPerfectEndTime) return ParryResult.Perfect;
         if (now <= parryEndTime) return ParryResult.Normal;
         return ParryResult.None;
+    }
+
+    // 외부(대시 공격 등)에서 잠깐 무적을 줄 때. 무적 중 깜빡임도 같이 나온다.
+    public void GrantInvincibility(float duration)
+    {
+        if (duration > 0f && !isDead) StartCoroutine(InvincibleFor(duration));
     }
 
     private IEnumerator InvincibleFor(float duration)

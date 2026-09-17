@@ -56,6 +56,30 @@ MonoBehaviour:
   trailColor: {r: 0.788, g: 0.749, b: 0.871, a: 0.85}
   fallbackTrackColor: {r: 0.098, g: 0.09, b: 0.118, a: 1}
   font: {fileID: 0}
+  statusSlot: {fileID: 21300000, guid: f69725ba5f5393f44a0b554c1936a51c, type: 3}
+  dashIcon: {fileID: 21300000, guid: 8fa7871ff2b951b42a50f479858c2020, type: 3}
+  dashAttackIcon: {fileID: 21300000, guid: 1e06f46e40a8490448c147993ccde52b, type: 3}
+  harvestBuffIcons:
+  - {fileID: 21300000, guid: ab19e8ed7194646489e23844b48c2f97, type: 3}
+  - {fileID: 21300000, guid: 39a904f5605ab194cbd07dc17985b117, type: 3}
+  - {fileID: 21300000, guid: ead5fe647d7004b43b1ead8dac800009, type: 3}
+  statusIconGap: 6
+  keyCapSprite: {fileID: 21300000, guid: ad3115988dc38144797e7a7841ba836e, type: 3}
+  keyCapScale: 2
+  skillBarBottom: 24
+  skillSlotGap: 18
+  harvestSkillIcon: {fileID: 21300000, guid: 50c8e04fb2badf143ae8f1f19101dfd4, type: 3}
+  harvestReadyFlame:
+  - {fileID: 21300000, guid: 97a995bb22862444f960c587b70c8983, type: 3}
+  - {fileID: 21300000, guid: 097dea20c74c398409f4d74604098521, type: 3}
+  - {fileID: 21300000, guid: 2298f5f7690492f4b9af6e009c7d867a, type: 3}
+  - {fileID: 21300000, guid: 591f322198225ac4f80009ba6d294139, type: 3}
+  - {fileID: 21300000, guid: ea82fbded9e77d344811d8709ea4bfe6, type: 3}
+  - {fileID: 21300000, guid: bb90159559774d64999a8648eb12546c, type: 3}
+  - {fileID: 21300000, guid: 9187d210cd964b14b96ea91b416aade1, type: 3}
+  - {fileID: 21300000, guid: f1d6da3bc69b5e04d80b005564fbbaf2, type: 3}
+  harvestFlameFps: 12
+  harvestFlameOffset: {x: 0, y: 6}
   trailDelay: 0.35
   trailSpeed: 0.55
   hideLegacyBars: 1

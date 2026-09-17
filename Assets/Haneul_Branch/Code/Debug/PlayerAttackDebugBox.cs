@@ -68,7 +68,7 @@ public class PlayerAttackDebugBox : DebugVisual
         if (combat.AttackBoxPos != null)
         {
             boxTransform.position = combat.AttackBoxPos.position;
-            boxTransform.rotation = Quaternion.identity;   // 부모가 뒤집혀도 박스는 그대로
+            boxTransform.rotation = Quaternion.Euler(0f, 0f, combat.AttackAngle);   // 8방향 판정과 같은 각도
             boxRenderer.size = combat.boxSize;
         }
 

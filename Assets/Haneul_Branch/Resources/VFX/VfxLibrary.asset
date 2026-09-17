@@ -114,13 +114,23 @@ MonoBehaviour:
     scale: 0.8
     sortingLayer: Skill
     sortingOrder: 1
-  - id: ParryClang
+  - id: ParryShield
     frames: []
-    prefab: {fileID: 4748681987041982144, guid: 5599fd469bab89b4f83c0170195442d6, type: 3}
-    lifeTime: 1
+    prefab: {fileID: 4748681987041982144, guid: c12db86e2ce510f45b9543cb51fddc26, type: 3}
+    lifeTime: 1.1
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 0.548}
+    scale: 1
+    sortingLayer: Skill
+    sortingOrder: 50
+  - id: ParryBurst
+    frames: []
+    prefab: {fileID: 4748681987041982144, guid: 4c19c34bdaf2241448b8553ed5a3390c, type: 3}
+    lifeTime: 0.6
     fps: 24
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 1}
-    scale: 1.2
+    scale: 1.5
     sortingLayer: Skill
     sortingOrder: 50
