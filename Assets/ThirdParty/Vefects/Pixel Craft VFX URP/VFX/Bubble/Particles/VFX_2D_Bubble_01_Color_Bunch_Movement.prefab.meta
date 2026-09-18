@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d0d5d02d10a9e61418b0e6ce66cad110
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Bubble/Particles/VFX_Bubble_01_Color_Bunch_Movement.prefab
+  uploadId: 771196

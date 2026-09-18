@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dc541990d9ccc8f4c9ddcc45c35748dd
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Leaf/Particles/VFX_Leaf_01_Mask_Static.prefab
+  uploadId: 771196

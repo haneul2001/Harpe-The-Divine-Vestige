@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Haneul_Branch 시스템 해부</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#EFEEE7;
+    --surface:#F8F7F2;
+    --surface-2:#E6E5DC;
+    --ink:#191D1A;
+    --ink-2:#333A35;
+    --muted:#5A625B;
+    --line:#D3D3C7;
+    --line-soft:#E2E1D7;
+    --accent:#0E7A5F;
+    --accent-ink:#0A5643;
+    --accent-soft:rgba(14,122,95,.09);
+    --amber:#8A6716;
+    --amber-soft:rgba(138,103,22,.10);
+    --crit:#A3402E;
+
+    --f-display:"Gowun Batang","Nanum Myeongjo",serif;
+    --f-body:"IBM Plex Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+    --f-mono:"IBM Plex Mono","D2Coding",ui-monospace,monospace;
+
+    --w:1140px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#121614;
+      --surface:#1A1F1C;
+      --surface-2:#232A26;
+      --ink:#E9EBE5;
+      --ink-2:#CBD1C9;
+      --muted:#95A099;
+      --line:#2F3733;
+      --line-soft:#242B27;
+      --accent:#57D6AC;
+      --accent-ink:#8FE9CB;
+      --accent-soft:rgba(87,214,172,.11);
+      --amber:#D5AE63;
+      --amber-soft:rgba(213,174,99,.12);
+      --crit:#E0866F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121614;
+    --surface:#1A1F1C;
+    --surface-2:#232A26;
+    --ink:#E9EBE5;
+    --ink-2:#CBD1C9;
+    --muted:#95A099;
+    --line:#2F3733;
+    --line-soft:#242B27;
+    --accent:#57D6AC;
+    --accent-ink:#8FE9CB;
+    --accent-soft:rgba(87,214,172,.11);
+    --amber:#D5AE63;
+    --amber-soft:rgba(213,174,99,.12);
+    --crit:#E0866F;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--f-body);font-weight:400;font-size:15.5px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+
+  /* ── masthead ─────────────────────────────── */
+  header.top{border-bottom:1px solid var(--line);background:var(--surface)}
+  .top .wrap{padding-top:56px;padding-bottom:38px}
+  .eyebrow{
+    font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent-ink);margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--f-display);font-weight:700;
+    font-size:clamp(30px,4.4vw,46px);line-height:1.22;margin:0 0 14px;
+    letter-spacing:-.01em;text-wrap:balance;
+  }
+  .dek{margin:0;max-width:62ch;color:var(--ink-2);font-size:16.5px;font-weight:300}
+  .meta{
+    margin-top:26px;display:flex;flex-wrap:wrap;gap:10px 30px;
+    font-family:var(--f-mono);font-size:12px;color:var(--muted);
+  }
+
+  /* ── stats ────────────────────────────────── */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);margin-top:34px}
+  .stat{background:var(--surface);padding:16px 18px}
+  .stat b{display:block;font-family:var(--f-mono);font-size:25px;font-weight:500;
+    color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+  .stat span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  /* ── layout ───────────────────────────────── */
+  .cols{display:block}
+  @media(min-width:1000px){
+    .cols{display:grid;grid-template-columns:198px 1fr;gap:56px;align-items:start}
+    nav.toc{position:sticky;top:26px;padding-top:54px}
+  }
+  nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+  nav.toc a{
+    display:block;padding:5px 0 5px 12px;border-left:2px solid var(--line-soft);
+    color:var(--muted);text-decoration:none;font-size:13.5px;transition:color .15s,border-color .15s;
+  }
+  nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent-ink);border-left-color:var(--accent)}
+  nav.toc .grp{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--muted);opacity:.7;padding:16px 0 5px 12px}
+
+  main{padding-bottom:90px}
+  section{padding-top:54px;scroll-margin-top:20px}
+
+  .sec-head{border-top:1px solid var(--line);padding-top:20px;margin-bottom:22px}
+  .sec-path{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);
+    letter-spacing:.02em;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+  .sec-path .sz{color:var(--accent-ink)}
+  h2{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,2.6vw,29px);
+    line-height:1.3;margin:8px 0 0;letter-spacing:-.005em;text-wrap:balance}
+  h3{font-size:16px;font-weight:600;margin:34px 0 10px;letter-spacing:-.005em}
+  h4{font-size:14px;font-weight:600;margin:22px 0 8px;color:var(--ink-2)}
+  p{margin:0 0 14px;max-width:70ch}
+  ul{margin:0 0 14px;padding-left:19px;max-width:70ch}
+  li{margin-bottom:6px}
+  li::marker{color:var(--muted)}
+  strong{font-weight:600}
+  a{color:var(--accent-ink)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  code{font-family:var(--f-mono);font-size:.875em;background:var(--surface-2);
+    padding:1px 5px;border-radius:2px;color:var(--ink-2);white-space:nowrap}
+
+  /* ── tables ───────────────────────────────── */
+  .tw{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.8px}
+  th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  thead th{background:var(--surface-2);font-weight:600;font-size:12px;letter-spacing:.03em;
+    color:var(--ink-2);white-space:nowrap;border-bottom:1px solid var(--line)}
+  tbody tr:last-child td{border-bottom:0}
+  td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink-2)}
+  td.m{font-family:var(--f-mono);font-size:12.6px;white-space:nowrap}
+
+  /* ── numbered pipeline (order is real) ────── */
+  ol.flow{list-style:none;margin:0 0 18px;padding:0;counter-reset:s}
+  ol.flow>li{counter-increment:s;position:relative;padding:0 0 20px 44px;margin:0}
+  ol.flow>li::before{
+    content:counter(s,decimal-leading-zero);position:absolute;left:0;top:1px;
+    font-family:var(--f-mono);font-size:12px;color:var(--accent-ink);
+    background:var(--accent-soft);border:1px solid var(--accent-soft);
+    width:30px;height:24px;display:flex;align-items:center;justify-content:center;
+  }
+  ol.flow>li::after{content:"";position:absolute;left:15px;top:29px;bottom:2px;width:1px;background:var(--line)}
+  ol.flow>li:last-child::after{display:none}
+  ol.flow b{display:block;font-weight:600;font-size:14.5px}
+  ol.flow p{margin:2px 0 0;font-size:14px;color:var(--ink-2)}
+
+  /* ── timeline ─────────────────────────────── */
+  .tl{border-left:2px solid var(--line);padding-left:0;margin:0 0 18px;list-style:none}
+  .tl li{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:0 0 14px 16px;position:relative}
+  .tl li::before{content:"";position:absolute;left:-5px;top:9px;width:8px;height:8px;
+    background:var(--bg);border:2px solid var(--accent);border-radius:50%}
+  .tl .t{font-family:var(--f-mono);font-size:12px;color:var(--accent-ink);
+    font-variant-numeric:tabular-nums;padding-top:2px}
+  .tl .d{font-size:14px}
+  .tl .d b{display:block;font-weight:600}
+  .tl .d span{color:var(--muted);font-size:13.3px}
+
+  /* ── note callout ─────────────────────────── */
+  .note{border-left:3px solid var(--accent);background:var(--accent-soft);
+    padding:12px 16px;margin:0 0 18px;max-width:70ch;font-size:14px;color:var(--ink-2)}
+  .note b{color:var(--ink);font-weight:600}
+  .note.warn{border-left-color:var(--amber);background:var(--amber-soft)}
+
+  /* ── chips ────────────────────────────────── */
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+  .chip{font-family:var(--f-mono);font-size:11.5px;padding:3px 9px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+
+  /* ── key/value grid ───────────────────────── */
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);margin:0 0 18px}
+  .kv>div{background:var(--surface);padding:13px 15px}
+  .kv h5{margin:0 0 5px;font-size:13.5px;font-weight:600;font-family:var(--f-mono);color:var(--accent-ink)}
+  .kv p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:none}
+
+  footer{border-top:1px solid var(--line);background:var(--surface);padding:26px 0 44px}
+  footer p{font-size:12.5px;color:var(--muted);margin:0;font-family:var(--f-mono)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Harpe — The Divine Vestige / 코드 리뷰</p>
+    <h1>Haneul_Branch 시스템 해부</h1>
+    <p class="dek">2D 탑다운 로그라이트의 던전 생성부터 처형 연출까지, 브랜치에 구현된 여덟 개 시스템의 구조와 그렇게 만든 이유를 정리한다.</p>
+    <div class="meta">
+      <span>Assets/Haneul_Branch</span>
+      <span>Unity 2022.3.62f3 · URP</span>
+      <span>branch: Haneul</span>
+      <span>2026-09-02 기준</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>78</b><span>C# 스크립트</span></div>
+      <div class="stat"><b>9,429</b><span>코드 라인</span></div>
+      <div class="stat"><b>8</b><span>독립 시스템</span></div>
+      <div class="stat"><b>2</b><span>플레이어블 캐릭터</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap cols">
+  <nav class="toc" aria-label="목차">
+    <ol>
+      <li class="grp">개요</li>
+      <li><a href="#overview">코드 구성</a></li>
+      <li class="grp">월드</li>
+      <li><a href="#dungeon">던전 생성</a></li>
+      <li><a href="#room">방 · 전환 · 연출</a></li>
+      <li class="grp">플레이어</li>
+      <li><a href="#stats">스탯 · 데미지 공식</a></li>
+      <li><a href="#player">이동 · 전투 · 은신</a></li>
+      <li><a href="#harvest">처형 (Harvest)</a></li>
+      <li class="grp">성장</li>
+      <li><a href="#ability">능력 카드</a></li>
+      <li class="grp">적</li>
+      <li><a href="#enemy">AI 상태머신</a></li>
+      <li><a href="#steering">군집 · 공격 파이프라인</a></li>
+      <li class="grp">지원</li>
+      <li><a href="#feedback">연출 · 디버그</a></li>
+      <li><a href="#patterns">설계 패턴 정리</a></li>
+      <li><a href="#gaps">미완 · 확장 지점</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- ══════════ 개요 ══════════ -->
+  <section id="overview">
+    <div class="sec-head">
+      <div class="sec-path"><span>Assets/Haneul_Branch</span><span class="sz">78 files · 9,429 lines</span></div>
+      <h2>코드 구성</h2>
+    </div>
+
+    <p>브랜치는 크게 두 덩어리다. <code>Code/</code>는 이번 프로젝트에서 새로 설계한 시스템들이고, <code>Enemy/Chapter1/code/</code>는 Chapter1에서 만들어 계속 쓰고 있는 적 AI 코드다. 던전·능력·플레이어 세 축이 전체 코드의 약 60%를 차지한다.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>경로</th><th>파일</th><th>라인</th><th>담당</th></tr></thead>
+        <tbody>
+          <tr><td class="m">Code/Ability</td><td class="n">19</td><td class="n">2,265</td><td>능력 카드 데이터 · 런타임 · 전용 UI</td></tr>
+          <tr><td class="m">Code/Dungeon</td><td class="n">7</td><td class="n">2,066</td><td>절차적 던전 생성, 방 관리, 미니맵, 입장 연출</td></tr>
+          <tr><td class="m">Code/Player</td><td class="n">10</td><td class="n">1,403</td><td>스탯, 이동, 전투, 은신, 스킬 입력</td></tr>
+          <tr><td class="m">Code/ (루트)</td><td class="n">7</td><td class="n">1,339</td><td>Enemy 본체, 처형 매니저, 카메라, 데미지 숫자</td></tr>
+          <tr><td class="m">Enemy/Chapter1/code</td><td class="n">19</td><td class="n">1,128</td><td>적 상태머신과 공격 타입별 파생</td></tr>
+          <tr><td class="m">Code/UI</td><td class="n">5</td><td class="n">666</td><td>일시정지 메뉴, 토스트, HP 바</td></tr>
+          <tr><td class="m">Code/Debug</td><td class="n">6</td><td class="n">403</td><td>인게임 디버그 표시 중앙 제어</td></tr>
+          <tr><td class="m">Code/Skill</td><td class="n">4</td><td class="n">159</td><td>ScriptableObject 스킬 3종</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>일관된 원칙 하나.</b> UI를 씬에 미리 만들어 두지 않고 런타임에 코드로 조립한다. 미니맵·능력 패널·일시정지 메뉴·토스트가 모두 빈 오브젝트 하나에 스크립트만 붙이면 동작한다. 씬 파일 충돌이 줄고, 프리팹을 안 건드려도 배치를 코드에서 바꿀 수 있다.
+    </div>
+  </section>
+
+  <!-- ══════════ 던전 ══════════ -->
+  <section id="dungeon">
+    <div class="sec-head">
+      <div class="sec-path"><span>Code/Dungeon/DungeonGenerator.cs</span><span class="sz">382 lines</span></div>
+      <h2>절차적 던전 생성</h2>
+    </div>
+
+    <p><em>Binding of Isaac</em> 방식이다. 방 하나가 화면 하나에 딱 들어오고, 씬을 나누지 않은 채 그리드 위에 방 프리팹을 배치한 뒤 맞닿은 문끼리 이어 붙인다. 생성은 네 단계를 순서대로 밟는 파이프라인이다.</p>
+
+    <ol class="flow">
+      <li>
+        <b>레이아웃 — 그리드에서 방 좌표 결정</b>
+        <p>중앙에서 시작해 BFS로 사방에 뻗는다. 후보 칸의 <strong>이웃이 2개 이상이면 건너뛰어</strong> 고리 없는 나무 구조를 강제하고, 각 방향마다 50% 확률로 스킵해 매번 다른 모양이 나오게 한다. 무한 루프 방지용 guard 10,000회.</p>
+      </li>
+      <li>
+        <b>특수 방 배치</b>
+        <p>시작 방에서 BFS 거리를 재고, 이웃이 1개뿐인 <strong>막다른 방</strong>을 먼 순서로 정렬한다. 가장 먼 곳이 보스, 그다음이 보물, 그다음이 상점. 나무 구조를 강제한 1단계 덕분에 막다른 방이 반드시 생긴다.</p>
+      </li>
+      <li>
+        <b>프리팹 인스턴스화</b>
+        <p>칸마다 필요한 문 방향을 계산하고, 그 방향을 <strong>모두 가진 프리팹</strong>만 후보로 추려 랜덤 선택한다. 월드 좌표는 <code>(cell − startCell) × roomSize</code>. 맞는 후보가 없으면 경고를 남기고 아무거나 쓴다 — 길이 끊기지만 생성 자체는 실패하지 않는다.</p>
+      </li>
+      <li>
+        <b>문 연결</b>
+        <p>모든 방의 4방향을 돌며 이웃 방의 반대편 문과 짝짓는다. 이웃이 없거나 반대편에 문이 없으면 <code>DisableAsWall()</code>로 벽 처리하고, 이때 <code>IsWalledOff</code>가 서는 문은 이후 전투 클리어로도 열리지 않는다.</p>
+      </li>
+    </ol>
+
+    <div class="kv">
+      <div><h5>roomCount 10</h5><p>시작 방 포함 생성할 방 수</p></div>
+      <div><h5>gridSize 9 × 8</h5><p>방이 퍼질 수 있는 최대 범위</p></div>
+      <div><h5>roomSize 18 × 10</h5><p>월드 유닛. 프리팹 실제 크기와 일치해야 함</p></div>
+      <div><h5>useRandomSeed</h5><p>끄면 고정 시드로 같은 던전 재현 (디버깅)</p></div>
+    </div>
+
+    <p><code>allowVerticalDoors</code>를 끄면 좌우로만 이어지는 횡스크롤 구조가 되도록 <code>NeighborCount</code>와 확장 루프 양쪽에 조건이 들어가 있다. <code>OnDrawGizmosSelected</code>로 씬 뷰에 그리드가 그려져 방 프리팹 크기를 눈으로 맞출 수 있다.</p>
+  </section>
+
+  <section id="room">
+    <div class="sec-head">
+      <div class="sec-path"><span>Room.cs · RoomManager.cs · Door.cs</span><span class="sz">975 lines</span></div>
+      <h2>방 관리와 전환 연출</h2>
+    </div>
+
+    <h3>한 번에 한 방만 켠다</h3>
+    <p><code>RoomManager.Initialize()</code>는 생성된 방을 전부 끈 뒤 시작 방만 켠다. 전부 켜 두면 모든 방의 적 AI가 동시에 돌면서 플레이어에게 몰려오기 때문이다. 방 이동은 <code>Door</code>의 트리거가 <code>TravelThrough()</code>를 부르는 것으로 시작된다.</p>
+
+    <h4>아이작식 슬라이드 전환 (<code>TravelRoutine</code>)</h4>
+    <ul>
+      <li>목적지 방을 <strong>먼저</strong> 켠다 — 안 켜면 <code>EntryPoint</code>의 월드 좌표가 유효하지 않다.</li>
+      <li>슬라이드 동안 <strong>두 방을 동시에 켜 둔다.</strong> 둘 다 보여야 "넘어가는" 그림이 나온다.</li>
+      <li>카메라 경계만 갈아끼우고 스냅은 하지 않는다. 스냅하면 한 프레임 만에 도착해 버린다.</li>
+      <li><code>CameraFollow.Suspended</code> + <code>OverridePosition</code>으로 카메라를 직접 몰고, <code>SmoothStep</code>으로 0.38초 이동.</li>
+      <li>도착 후 <code>PushPlayerIn()</code>이 0.14초간 방 안쪽으로 밀어 넣는다 — 순간이동이 아니라 걸어 들어온 느낌을 주고, 방금 지나온 문 트리거를 다시 밟는 사고도 줄인다.</li>
+    </ul>
+
+    <h3>전투 · 클리어 판정</h3>
+    <p>입장하면 <code>Room.OnPlayerEnter()</code>가 적을 스폰하고 문을 잠근다. 클리어 판정은 <strong>이벤트가 아니라 0.2초 폴링</strong>이다 — <code>Enemy</code> 쪽에 사망 이벤트를 강제로 넣지 않고 파괴 여부와 <code>isDead</code>만 확인하는 선택이었고, 타이밍이 중요한 보스 연출만 별도의 <code>Enemy.Died</code> 이벤트를 쓴다.</p>
+
+    <h4>등장 연출</h4>
+    <p>문이 쾅 닫히고(카메라 흔들림 0.25) → 0.15초 뜸 → 0.08초 간격으로 한 마리씩 크기 0에서 <strong>1.18배까지 부풀었다 제 크기로</strong> 돌아온다. 연출 중에는 <code>Enemy</code> 컴포넌트를 꺼 두므로 상태머신이 멈추고, Unity가 비활성 컴포넌트의 <code>Start</code>를 첫 활성화까지 미루는 성질 덕분에 사거리 자동 계산이 <strong>최종 크기가 정해진 뒤</strong>에 돌아 오히려 정확해진다.</p>
+
+    <div class="note warn">
+      <b>안전장치가 눈에 띈다.</b> 방을 나가면 오브젝트가 꺼지면서 코루틴이 죽는다. <code>OnDisable</code>에서 등장 도중이던 적(<code>pendingPops</code>)을 즉시 제 크기·AI 활성으로 마무리하지 않으면 <strong>크기 0에 AI가 꺼진 몹</strong>이 방에 남는다. 같은 이유로 보스 피니시 연출도 <code>OnDisable</code>에서 <code>Time.timeScale</code>을 반드시 되돌린다.
+    </div>
+
+    <h3>보스 처치 피니시</h3>
+    <p>던파식 슬로우 + 줌인. <code>timeScale</code> 0.25, 카메라 시야 0.7배, 보스 쪽으로 0.6만큼 포커스 이동. 세 가지 디테일이 들어가 있다.</p>
+    <ul>
+      <li>연출 전체가 <code>unscaledDeltaTime</code>으로 돈다. 슬로우가 걸린 상태에서 스케일된 시간을 쓰면 연출 자체가 같이 느려져 끝나지 않는다.</li>
+      <li><code>timeScale</code>과 함께 <code>fixedDeltaTime</code>도 같은 비율로 줄인다. 안 그러면 물리가 뚝뚝 끊긴다.</li>
+      <li>어느 엔트리가 보스인지는 <code>isBoss</code> 체크로 명시하되, 아무것도 체크 안 하면 <strong>보스 방에서 가장 크게 스폰되는 적</strong>을 보스로 추론한다.</li>
+    </ul>
+
+    <h3>미니맵과 입장 연출</h3>
+    <div class="kv">
+      <div><h5>DungeonMinimap</h5><p>방문한 방과 그 이웃만 표시. 패널·칸·문 연결선·플레이어 마커를 전부 런타임 생성. Tab으로 화면 중앙에 3.2배 확대.</p></div>
+      <div><h5>DungeonIntro</h5><p>검은 화면 → 층 이름 부상 → 화면 밝아짐 → 이름 걷힘. <code>RoomManager.Current</code>가 생길 때까지 검은 화면을 유지해 스크립트 실행 순서에 의존하지 않는다.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 스탯 ══════════ -->
+  <section id="stats">
+    <div class="sec-head">
+      <div class="sec-path"><span>Code/Player/CharacterStats.cs</span><span class="sz">216 lines</span></div>
+      <h2>스탯과 데미지 공식</h2>
+    </div>
+
+    <p><strong>마비노기의 전투 공식을 차용</strong>했다. 핵심은 세 가지다. ① 공격력이 단일 값이 아니라 최소~최대 <strong>범위</strong>이고 그 안에서 굴린다. ② 어디쯤 굴려질지는 <strong>밸런스</strong>가 정한다. ③ 스킬 데미지는 별도 공식(기본 데미지 + 스킬공격력 × 계수)을 쓴다.</p>
+
+    <p>구조적으로는 <strong>기본 스탯과 파생 스탯을 분리</strong>했다. 인스펙터·성장·장비가 올리는 것은 <code>baseHp</code>, <code>baseAttackPower</code>, <code>str/dex/intel</code> 같은 원본 값뿐이고, 다른 시스템이 참조하는 <code>MaxHp</code>·<code>MaxAttack</code>·<code>CritRate</code> 등은 전부 읽기 전용 프로퍼티로 매번 계산된다.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>능력치</th><th>영향</th><th>계수</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="m">STR</td><td>최대 공격력</td><td class="n">+0.4 / pt</td><td>마비노기 "힘 2.5당 1"</td></tr>
+          <tr><td class="m">STR</td><td>최소 공격력</td><td class="n">+0.33 / pt</td><td>최대치를 넘지 못하도록 클램프</td></tr>
+          <tr><td class="m">STR</td><td>방어력 · 체력</td><td class="n">+0.1 / +0.5</td><td>부수 효과라 아주 적게</td></tr>
+          <tr><td class="m">DEX</td><td>밸런스</td><td class="n">+0.25%p / pt</td><td>기본 50%, 상한 80%</td></tr>
+          <tr><td class="m">DEX</td><td>치명타 확률</td><td class="n">+0.1%p / pt</td><td>기본 9%, 상한 50%</td></tr>
+          <tr><td class="m">DEX</td><td>치명타 피해</td><td class="n">+0.2%p / pt</td><td>기본 150%</td></tr>
+          <tr><td class="m">DEX</td><td>공격 속도</td><td class="n">+0.05% / pt</td><td>200 찍어야 +10%. 의도적으로 미미하게</td></tr>
+          <tr><td class="m">INT</td><td>스킬 공격력</td><td class="n">+0.2 / pt</td><td>마비노기 마법공격력 포지션</td></tr>
+          <tr><td class="m">INT</td><td>최대 소울</td><td class="n">+0.5 / pt</td><td>소울 = 스킬 자원</td></tr>
+          <tr><td class="m">INT</td><td>소울 소모 감소</td><td class="n">수확체감</td><td>100 → 0.87배, 400 → 0.63배. 0이 되지 않음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>밸런스 굴림이 실제로 하는 일</h3>
+    <p><code>RollBalance01()</code>은 0~1을 두 번 굴려 <strong>큰 쪽으로 얼마나 치우칠지</strong>를 밸런스로 보간한다. 밸런스 50%면 균등분포, 80%면 대부분 최대치 근처가 나온다. 스킬 데미지는 이 영향을 절반만 받게 0.85~1.0 구간으로 눌러 물리 공격보다 안정적으로 만들었다.</p>
+
+    <h3>방어는 고정 감산이 아니라 비율 감산</h3>
+    <p><code>피해 = 원본 × 100 / (100 + 방어)</code>. 방어 100이면 50% 감소, 300이면 75% 감소이고 최소 1은 항상 들어간다. 코드 주석에 이유가 명시돼 있다 — <strong>고정 감산은 잡몹 다수의 약한 공격을 전부 0으로 만들어 로그라이트에 부적합</strong>하다.</p>
+  </section>
+
+  <!-- ══════════ 플레이어 ══════════ -->
+  <section id="player">
+    <div class="sec-head">
+      <div class="sec-path"><span>PlayerMove · PlayerCombat · PlayerStatus · PlayerStealth</span><span class="sz">967 lines</span></div>
+      <h2>이동 · 전투 · 은신</h2>
+    </div>
+
+    <h3>이동</h3>
+    <ul>
+      <li>8방향 탑다운. 세로 입력에 <strong>0.7배</strong>를 곱해 쿼터뷰 원근을 흉내 낸다.</li>
+      <li>대시는 입력 방향, 입력이 없으면 스프라이트가 바라보는 쪽. 공격·차징 중에는 못 쓴다.</li>
+      <li>넉백이 <strong>선형 감쇠</strong>한다. 등속으로 밀면 같은 거리라도 "밀렸다"가 아니라 "날아갔다"로 느껴진다는 판단.</li>
+      <li>정지 플래그가 두 개다. <code>isExecuting</code>은 속도를 0으로 만들고, <code>inputLocked</code>는 입력만 막는다. 방 전환의 밀어 넣기가 속도를 직접 몰아야 하기 때문에 구분이 필요했다.</li>
+    </ul>
+
+    <h3>전투</h3>
+    <p>Z 키 3타 콤보(1초 안에 이어지지 않으면 0타로 리셋). <code>HasChargingAttackSkill</code> 스위치가 켜지면 같은 키가 홀드 차징으로 바뀌고, 1.4초를 넘기면 풀차징으로 아웃라인이 번쩍이며 데미지 2배가 된다. 실제 판정은 애니메이션 이벤트 <code>AttackHit()</code>에서 <code>OverlapBoxAll</code>로 한 번 굴리고, <strong>치명타 판정은 스윙당 1회</strong>라 한 번에 여러 마리를 때려도 결과가 갈리지 않는다.</p>
+
+    <h3>피격과 패링</h3>
+    <p><code>PlayerStatus.TakeDamage</code>가 무적 → 패링 판정 → 방어 감산 순으로 처리한다. 패링은 <code>Parry</code> 스킬이 <code>BeginParry()</code>로 두 개의 시간 창을 열어 두는 방식이다.</p>
+    <div class="kv">
+      <div><h5>퍼펙트 (0.15s)</h5><p>피해 완전 무효 + 받을 뻔한 피해의 2배 반사 + 적 경직 + 0.4초 무적</p></div>
+      <div><h5>일반 (0.5s)</h5><p>피해 50% 감소. 넉백은 그대로 들어감</p></div>
+    </div>
+    <p>무적 표시는 색이 아니라 <strong>렌더러 on/off 토글</strong>로 깜빡인다. 은신이 알파를 쓰기 때문에 둘이 충돌하지 않도록 한 선택이다.</p>
+
+    <h3>은신</h3>
+    <p>C 키 토글. <code>PlayerStealth.IsHidden</code>이 정적 프로퍼티라 적이 매 프레임 싸게 참조할 수 있고, <code>Enemy.CanSeePlayer()</code>가 이 값을 보기 때문에 <strong>거리와 무관하게</strong> 인식이 끊긴다.</p>
+    <ul>
+      <li>해제 조건: 공격 · 차징 · 대시 · 처형 · 스킬 사용 · 피해. 이동만 예외.</li>
+      <li>스킬은 <strong>실제로 발동한 순간에만</strong> 은신을 끊는다. 쿨타임·자원 부족으로 불발된 키 입력까지 풀면 억울하다는 판단.</li>
+      <li>은신 중 몬스터와 물리 충돌하지 않는다. 전역 <code>Physics2D.IgnoreLayerCollision</code> 대신 <strong>콜라이더 단위 <code>excludeLayers</code></strong>를 쓴다 — 전역 설정은 플레이 종료 후에도 프로젝트에 남을 수 있다.</li>
+    </ul>
+
+    <h3>스킬 구조</h3>
+    <p><code>PlayerSkill</code>이 <code>ScriptableObject</code> 추상 클래스다. 공통 필드(이름·아이콘·쿨타임·소울 비용)와 <code>CanActivate</code>/<code>Activate</code>만 정의하고, <code>SkillContext</code>가 플레이어의 컴포넌트 묶음을 한 번에 넘겨준다. <code>SkillInputController</code>는 키와 스킬을 짝지은 슬롯 배열을 돌며 쿨타임만 관리한다. 현재 구현: <strong>Parry · BeamSkill · ChargedAttackSkill</strong>.</p>
+  </section>
+
+  <!-- ══════════ 처형 ══════════ -->
+  <section id="harvest">
+    <div class="sec-head">
+      <div class="sec-path"><span>Code/HarvestManager.cs</span><span class="sz">435 lines</span></div>
+      <h2>처형 — 이 게임의 시그니처</h2>
+    </div>
+
+    <p>체력이 <strong>30% 이하</strong>로 떨어진 적에게 V를 누르면 순간이동해 내려찍는다. 소울(스킬 자원)을 얻는 유일한 수단이자, 능력 카드 효과가 올라타는 지점이다. 전체가 하나의 코루틴으로 되어 있고 시간 축이 명확하다.</p>
+
+    <ul class="tl">
+      <li><span class="t">0.00s</span><span class="d"><b>대상 탐색</b><span>반경 5 안에서 <code>CanHarvest</code>인 가장 가까운 적. 공격·차징 상태를 먼저 정리한다</span></span></li>
+      <li><span class="t">0.00s</span><span class="d"><b>순간이동</b><span>캐릭터별로 적 <em>뒤</em> 또는 적 <em>좌표 위</em>(Reaper 내려찍기). 경로에 LineRenderer 빔 잔상 생성</span></span></li>
+      <li><span class="t">0.00s</span><span class="d"><b>소울 지급 · 적 사망 예약</b><span>적 <code>EnemyInfo.Soul</code> 값 우선, 없으면 기본 10. 처형 피해 = 적의 남은 체력</span></span></li>
+      <li><span class="t">0.83s</span><span class="d"><b>임팩트</b><span>12fps 클립의 10번째 프레임 = 0.833초. 데미지 숫자 · "HARVEST!" 문구 · 카메라 흔들림 0.6</span></span></li>
+      <li><span class="t">0.83s</span><span class="d"><b><code>ImpactLanded</code> 발행</b><span>능력 카드 효과가 여기에 올라탄다</span></span></li>
+      <li><span class="t">1.50s</span><span class="d"><b>조작 복귀</b><span><code>harvestSpeed</code> 배율이 애니메이션과 모든 타이밍에 함께 적용된다</span></span></li>
+    </ul>
+
+    <div class="note">
+      <b>이 시스템의 설계 핵심.</b> <code>HarvestManager</code>는 <strong>어떤 카드가 무슨 일을 하는지 전혀 모른다.</strong> "처형이 닿았다"는 사실만 <code>ImpactLanded</code> 이벤트로 알린다. 카드가 늘어날 때마다 이 클래스에 <code>if</code>가 쌓이는 것을 막기 위한 선택이고, 실제로 충격파 카드를 추가할 때 이 파일은 한 줄도 바뀌지 않았다.
+    </div>
+
+    <p>연출 옵션이 상당히 세분화되어 있다. 순간이동 궤적은 <strong>SingleStretched</strong>(이펙트 하나를 거리에 맞춰 늘림) / <strong>RepeatedAlongPath</strong>(경로에 잔상 여러 개) / <strong>LineBeam</strong>(LineRenderer 직선 빔, 프리팹 불필요) 세 모드가 있고, LineBeam은 다시 네모·양끝 뾰족·한쪽만 뾰족 네 가지 폭 곡선을 <code>AnimationCurve</code>로 만들어 쓴다.</p>
+  </section>
+
+  <!-- ══════════ 능력 ══════════ -->
+  <section id="ability">
+    <div class="sec-head">
+      <div class="sec-path"><span>Code/Ability</span><span class="sz">19 files · 2,265 lines</span></div>
+      <h2>능력 카드 시스템</h2>
+    </div>
+
+    <p>로그라이트의 빌드업 축이다. 데이터(ScriptableObject) · 런타임 · UI 세 층이 분리돼 있고, <strong>새 카드를 추가할 때 기존 코드를 한 줄도 고치지 않는 것</strong>이 목표였다.</p>
+
+    <h3>데이터 층</h3>
+    <div class="kv">
+      <div><h5>AbilityCard</h5><p>획득 단위. 이름·설명·아이콘·등급·소속 세트·<code>AbilityEffect[]</code>. 카드 한 장에 효과 여러 개를 넣을 수 있다.</p></div>
+      <div><h5>AbilityEffect</h5><p>"실제로 하는 일" 하나. <code>OnAcquire</code> / <code>OnRemove</code> / <code>OnHarvestImpact</code> 훅.</p></div>
+      <div><h5>AbilitySet</h5><p>세트 정의. "몇 장 모으면 무엇이 열리는지"를 Tier 배열로 담는다.</p></div>
+      <div><h5>AbilityRarity</h5><p>등급 색과 프레임 표현(<code>RarityStyle</code>)을 한 곳에서 정의. 색을 바꾸려면 여기만 고친다.</p></div>
+    </div>
+
+    <div class="note warn">
+      <b>효과 에셋은 무상태여야 한다.</b> <code>AbilityEffect</code>는 모든 플레이어·세션이 공유하는 <strong>단 하나의 인스턴스</strong>다. 쿨타임이나 스택 수를 필드에 저장하면 에디터에까지 남는다. 상태가 필요하면 <code>AbilityContext</code>나 러너 쪽에 둔다 — 코드 주석에 경고로 박혀 있다.
+    </div>
+
+    <h3>런타임 층</h3>
+    <ul>
+      <li><strong><code>AbilityInventory</code></strong> — "무엇을 갖고 있는가"만 안다. 변경 시 <code>Changed</code> 이벤트 하나만 쏜다.</li>
+      <li><strong><code>AbilitySetCalculator</code></strong> — MonoBehaviour가 아닌 <strong>순수 함수</strong>. 가상의 카드 목록을 넘길 수 있어서 보상 화면에서 "이 카드를 먹으면 세트가 열리는가"를 미리 계산해 보여줄 수 있다.</li>
+      <li><strong><code>AbilityEffectRunner</code></strong> — 게임 이벤트를 구독하는 <strong>유일한 지점</strong>. 개별 카드를 하나도 모른다.</li>
+    </ul>
+
+    <p>러너의 두 가지 판단이 눈여겨볼 만하다. 첫째, <strong>카드를 2장 가지면 효과도 2번 호출</strong>된다 — 중첩이 특별한 코드 없이 공짜로 동작한다. 둘째, 카드가 바뀌면 증분 갱신이 아니라 <strong>통째로 다시 만든다</strong>. 증분은 빨라 보이지만 상시 효과 중복 적용과 해제 누락 버그를 반드시 만들고, 카드 수십 장 규모에서는 전체 갱신으로 충분하다는 판단이다.</p>
+
+    <p>초기화를 <code>Awake</code>/<code>OnEnable</code>이 아니라 <code>Start</code>에서 하는 이유도 주석으로 남아 있다. <code>HarvestManager.Instance</code>와 <code>AbilityInventory.owned</code>가 모두 상대의 <code>Awake</code>에서 채워지는데 컴포넌트 간 <code>Awake</code> 순서는 보장되지 않아, 더 이르게 잡으면 <strong>조용히 구독에 실패하거나 빈 목록을 읽는다.</strong></p>
+
+    <h3>UI 층</h3>
+    <p>전부 코드로 조립한다. <code>UIFactory</code>가 RectTransform·Image·Text 생성을 맡고, <code>CardFrameBuilder</code>가 등급별 프레임(테두리 두께·후광 겹수·모서리 장식·반짝임·안쪽 그라데이션)을 <strong>그림 에셋 없이 사각형 조합만으로</strong> 만든다. 카드 아트가 없어도 등급이 한눈에 구분된다.</p>
+    <div class="chips">
+      <span class="chip">AbilityPanel — I 키</span>
+      <span class="chip">AbilityCheatPanel — F1</span>
+      <span class="chip">TooltipView</span>
+      <span class="chip">AbilitySetIconView</span>
+    </div>
+    <p>치트 패널은 프로젝트의 모든 카드를 에디터에서 자동 수집해 나열하고, 클릭 한 번으로 켜고 끈다. 인벤토리만 건드리면 <code>Changed</code> → 러너 재적용 → 패널 갱신이 알아서 연쇄되므로 치트 패널 자신은 그 연쇄를 전혀 모른다.</p>
+  </section>
+
+  <!-- ══════════ 적 ══════════ -->
+  <section id="enemy">
+    <div class="sec-head">
+      <div class="sec-path"><span>Enemy/Chapter1/code</span><span class="sz">19 files · 1,128 lines</span></div>
+      <h2>적 AI 상태머신</h2>
+    </div>
+
+    <p>고전적인 상태 패턴이다. <code>IEnemyState</code>가 <code>Enter/Update/Exit</code> 셋을 정의하고, <code>EnemyStateMachine</code>이 전환할 때 이전 상태의 <code>Exit</code>과 새 상태의 <code>Enter</code>를 보장한다.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>상태</th><th>하는 일</th><th>나가는 조건</th></tr></thead>
+        <tbody>
+          <tr><td class="m">IdleState</td><td>정지</td><td><code>CanSeePlayer()</code> → Chase</td></tr>
+          <tr><td class="m">ChaseState</td><td>추격 · 사거리 안이면 자리잡기</td><td>시야 상실 → Idle / <code>CanAttack()</code> → Attack</td></tr>
+          <tr><td class="m">AttackState</td><td>위치 잠금 후 <code>IEnemyAttack.Execute()</code></td><td>공격 종료 → Chase</td></tr>
+          <tr><td class="m">HitState</td><td>경직 · hit 애니메이션</td><td><code>hitDuration</code> 경과 → Idle</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>공격 <em>행동</em>은 상태에서 분리해 <code>IEnemyAttack</code> 인터페이스로 뺐다. <code>AttackState</code>는 무슨 공격인지 모른 채 <code>Execute()</code>만 부르고, 실제 구현은 <code>AttackEnemyBase</code> 계열이 맡는다.</p>
+
+    <h3>감정 표현</h3>
+    <p><code>EnemyEmotion</code>이 적 머리 위에 인식 상태를 한 글자로 띄운다. 탐지 범위 밖이면 아무것도, 범위 안에서 플레이어가 보이면 <strong>느낌표</strong>, 은신 중이면 <strong>물음표</strong>다. 느낌표용·물음표용 오브젝트를 따로 두지 않고 <strong>하나에서 스프라이트만 교체</strong>한다 — 따로 두면 상태가 겹치는 순간 둘 다 떠서 겹쳐 보인다.</p>
+  </section>
+
+  <section id="steering">
+    <div class="sec-head">
+      <div class="sec-path"><span>Code/Enemy.cs · AttackEnemyBase.cs</span><span class="sz">841 lines</span></div>
+      <h2>군집 이동과 공격 파이프라인</h2>
+    </div>
+
+    <h3>겹치지 않게 만드는 네 겹의 장치</h3>
+    <p>여러 마리가 한 플레이어에게 몰려드는 로그라이트 특성상, 몹이 서로 겹치는 문제에 코드의 상당 부분이 쓰였다.</p>
+    <div class="kv">
+      <div><h5>분리 (Separation)</h5><p>반경 안 다른 적에게서 밀려난다. 가까울수록 강하고 경계에서 정확히 0인 <strong>선형 감쇠</strong> — <code>1/d</code>는 폭주한다. 무할당 버퍼(<code>Collider2D[16]</code>)로 조회.</p></div>
+      <div><h5>산개 (Scatter)</h5><p>대칭 상쇄로 분리 힘이 0이 되는 뭉침을 강제로 푼다. 개체마다 <strong>황금비 해시로 고정된 방향</strong>이라 프레임마다 흔들리지 않고 서로 다른 쪽으로 퍼진다.</p></div>
+      <div><h5>우회 (Avoid)</h5><p>A*/NavMesh가 아니라 원하는 방향을 ±120°까지 30° 단위로 틀어 보고 <strong>비어 있는 첫 방향</strong>으로 간다. 직전 우회 방향을 기억해 좌우로 떨지 않게 한다.</p></div>
+      <div><h5>자리잡기 (Settle)</h5><p>사거리 안에서 쿨타임을 기다릴 때는 반경 0.5배 · 저속으로만 비켜준다. <strong>데드존 히스테리시스</strong>가 있어 경계에서 덜덜 떨지 않는다.</p></div>
+    </div>
+
+    <div class="note">
+      <b>위치 잠금은 Kinematic이 아니라 constraints로.</b> 공격 예고 중 다른 적에게 밀려 끌려오지 않도록 위치를 고정하는데, <code>Kinematic</code> 전환을 쓰면 <strong>벽 콜라이더까지 무시해 몹이 벽을 통과한다.</strong> Dynamic을 유지한 채 <code>RigidbodyConstraints2D</code>만 켜고, 프리팹의 원래 제약값을 기억했다가 해제 시 되돌린다.
+    </div>
+
+    <h3>공격 파이프라인 (<code>AttackEnemyBase</code>)</h3>
+    <p>템플릿 메서드 패턴이다. 공통 흐름을 베이스가 코루틴으로 고정하고, <strong>"공격 중 실제 동작"만</strong> 파생 클래스가 <code>AttackActivePhase()</code>로 구현한다.</p>
+    <ol class="flow">
+      <li><b>정지 · 방향 전환</b><p>플레이어 방향으로 히트박스 피벗을 회전</p></li>
+      <li><b>공격 예고</b><p>범위 표시를 켜고 <code>attackWarningDuration</code>만큼 대기 — 플레이어가 읽고 피할 시간</p></li>
+      <li><b>애니메이션 이벤트 대기</b><p>휘두르기 중간 프레임에 걸린 <code>AnimAttackHit</code>을 기다렸다 히트박스를 켠다. 이벤트가 안 오면 0.7초 타임아웃으로 넘어간다 — <strong>공격이 영영 안 나가는 것보다 조금 어긋나는 편이 낫다</strong></p></li>
+      <li><b>발동 구간 (파생 구현)</b><p>돌진 / 제자리 / 발사. 이 구간만 상태머신의 분리 정렬을 끄고, 스스로 이동하는 공격은 위치 잠금도 푼다</p></li>
+      <li><b>회복</b><p>다시 잠그고 <code>recoverTime</code> 경직. 전체가 <code>try/finally</code>라 중간에 죽거나 끊겨도 잠금이 남지 않는다</p></li>
+    </ol>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>파생</th><th>발동 구간 동작</th><th>특이사항</th></tr></thead>
+        <tbody>
+          <tr><td class="m">ZombieEnemy</td><td>플레이어 방향으로 돌진</td><td>터널링 방지로 <code>Continuous</code> 전환, 벽 캐스트에 걸리면 즉시 중단</td></tr>
+          <tr><td class="m">StationaryZombie</td><td>제자리에서 히트박스만 유지</td><td>넉백에 밀리지 않게 매 프레임 속도 0</td></tr>
+          <tr><td class="m">RangedEnemy</td><td>부채꼴로 n발 발사</td><td>각도 균등 분배, 총구를 앞으로 밀어냄</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn">
+      <b>스폰 크기 배율이 만드는 함정 두 개.</b> 방에서 적을 3배 크기로 스폰하면 히트박스 콜라이더는 같이 커지지만 <code>attackRange</code>는 <strong>숫자라 따라가지 않는다.</strong> 그래서 <code>MatchAttackRangeToHitBox()</code>가 꺼진 히트박스의 로컬 끝점을 직접 계산해 사거리를 자동 보정한다. 같은 이유로 <strong>분리 반경은 배율을 따르지 않는다</strong> — 곱하면 반경이 방 폭의 절반이 되어 온 방의 적이 서로 밀어낸다.
+    </div>
+
+    <h3>판정과 사망</h3>
+    <ul>
+      <li><code>EnemyHitBox</code>는 <code>OnTriggerEnter2D</code>뿐 아니라 <strong><code>OnEnable</code>에서도 겹침 검사</strong>를 한다. 이미 겹친 채로 히트박스가 켜지는 제자리 공격은 Enter가 터지지 않는다.</li>
+      <li>죽으면 <code>DetachFromPhysics()</code>로 물리에서 완전히 빠진다. 시체가 밀려 미끄러지지도, 남의 길을 막지도 않고 그 자리에서 사망 애니메이션만 재생된다.</li>
+      <li><code>Died</code> 이벤트는 폴링으로 못 잡는 타이밍(보스 피니시)을 위해 존재한다.</li>
+    </ul>
+  </section>
+
+  <!-- ══════════ 지원 ══════════ -->
+  <section id="feedback">
+    <div class="sec-head">
+      <div class="sec-path"><span>CameraShake · DamageNumberSpawner · ToastManager · Debug</span><span class="sz">~900 lines</span></div>
+      <h2>연출과 디버그 인프라</h2>
+    </div>
+
+    <div class="kv">
+      <div><h5>CameraShake</h5><p>"트라우마" 값을 쌓고 감소시키되 흔들림 세기는 <strong>트라우마의 제곱</strong>을 쓴다 — 끝날 때 뚝 끊기지 않고 자연스럽게 잦아든다. 회전 흔들림은 기본 0(픽셀아트가 지글거림).</p></div>
+      <div><h5>CameraFollow</h5><p>방 경계 안으로 클램프. <code>Suspended</code> + <code>OverridePosition</code>으로 외부 연출이 카메라를 직접 몰 수 있게 열어 뒀다.</p></div>
+      <div><h5>DamageNumberSpawner</h5><p>Damage Numbers Pro 래핑. 일반 / 크리티컬 / HARVEST 프리팹 분리, 소팅 레이어 <code>Skill</code> 100으로 항상 앞에 표시.</p></div>
+      <div><h5>ToastManager</h5><p>화면 우하단에서 위로 쌓이는 알림. 최신 것이 항상 눈높이에 온다. 동시 4개 제한.</p></div>
+    </div>
+
+    <p>흔들림 세기가 사건마다 다르게 지정돼 있다는 점이 눈에 띈다 — 피격 0.25 / 문 슬램 0.25 / 방 클리어 0.15 / 방 도착 0.12 / 처형 0.6 / 보스 처치 0.5. 타격감의 등급이 숫자로 설계돼 있다.</p>
+
+    <h3>디버그 표시 규약</h3>
+    <p><code>DebugBoxManager</code>가 인게임 디버그 표시(공격 범위·히트박스·감지 원)의 중앙 스위치다. 규칙이 명확하다 — <strong>매니저가 씬에 없거나 꺼져 있으면 어떤 디버그 표시도 보이지 않는다.</strong> 빌드에 실수로 남더라도 매니저 오브젝트만 빼면 전부 사라진다. F2로 토글한다.</p>
+    <p>표시하는 쪽은 <code>DebugVisual</code>을 상속해 등록만 하면 되고, <code>DebugVisual.Owns()</code>로 <strong>연출 코드가 디버그 렌더러를 건드리는 것을 차단</strong>한다. 무적 깜빡임이나 은신 반투명이 자식 SpriteRenderer를 싹 훑을 때 꺼 둔 디버그 박스를 되살리는 사고를 막기 위한 장치다.</p>
+  </section>
+
+  <section id="patterns">
+    <div class="sec-head">
+      <div class="sec-path"><span>설계 요약</span></div>
+      <h2>반복되는 설계 판단</h2>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>패턴</th><th>적용처</th><th>얻은 것</th></tr></thead>
+        <tbody>
+          <tr><td>상태 패턴</td><td class="m">EnemyStateMachine</td><td>상태별 진입·이탈 처리가 보장돼 잠금·트리거가 남지 않음</td></tr>
+          <tr><td>템플릿 메서드</td><td class="m">AttackEnemyBase</td><td>새 공격 타입 추가 시 코루틴 하나만 구현</td></tr>
+          <tr><td>ScriptableObject 데이터</td><td class="m">PlayerSkill · AbilityCard · EnemyInfo</td><td>코드 수정 없이 에셋으로 콘텐츠 추가</td></tr>
+          <tr><td>이벤트 기반 분리</td><td class="m">ImpactLanded · Inventory.Changed · Died</td><td>발행자가 구독자를 모름 → 카드가 늘어도 매니저 불변</td></tr>
+          <tr><td>순수 계산 분리</td><td class="m">AbilitySetCalculator · CharacterStats</td><td>UI 미리보기와 밸런싱을 같은 코드로 처리</td></tr>
+          <tr><td>런타임 UI 조립</td><td class="m">UIFactory · CardFrameBuilder · Minimap</td><td>씬 파일 충돌 감소, 아트 에셋 없이도 완성된 화면</td></tr>
+          <tr><td>단일 스위치 규약</td><td class="m">DebugBoxManager</td><td>디버그 표시가 빌드에 새어 나갈 경로를 하나로 좁힘</td></tr>
+          <tr><td>폴링과 이벤트의 선택</td><td class="m">Room 클리어 판정</td><td>느슨한 결합(폴링) + 타이밍이 필요한 곳만 이벤트</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>전체를 관통하는 태도는 <strong>"실패해도 게임이 멈추지 않게"</strong>다. 애니메이션 이벤트가 안 오면 타임아웃으로 넘어가고, 맞는 방 프리팹이 없으면 경고 후 아무거나 쓰고, 연출 중 오브젝트가 꺼지면 <code>OnDisable</code>이 상태를 되돌린다. 대부분의 방어 코드에 <strong>왜 그렇게 했는지</strong>가 주석으로 붙어 있는 것도 이 브랜치의 특징이다.</p>
+  </section>
+
+  <section id="gaps">
+    <div class="sec-head">
+      <div class="sec-path"><span>현황</span></div>
+      <h2>미완 · 확장 지점</h2>
+    </div>
+
+    <p>보고서에 "다음 단계"로 쓸 만한 지점들이다.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>항목</th><th>현재 상태</th></tr></thead>
+        <tbody>
+          <tr><td>게임 오버</td><td><code>PlayerStatus.Die()</code>가 로그만 남기고 비어 있다. 사망 처리·재시작 흐름 없음</td></tr>
+          <tr><td>카드 보상 흐름</td><td><code>AbilityInventory.Add()</code>는 있지만 <strong>방 클리어 → 카드 선택</strong> 연결이 없다. 현재는 F1 치트 패널로만 획득</td></tr>
+          <tr><td>세트 효과 적용</td><td><code>AbilitySetCalculator</code>가 진행도를 계산하고 UI에 표시하지만, 실제 스탯 반영은 아직 붙지 않았다</td></tr>
+          <tr><td>상점 방</td><td><code>RoomType.Shop</code>과 배치 로직은 있으나 <code>shopRoomPrefab</code>이 비어 있어 생성되지 않는다</td></tr>
+          <tr><td>레벨 · 경험치</td><td><code>PlayerStatus</code>에 <code>currentExp</code>/<code>level</code> 필드만 있고 성장 로직 없음</td></tr>
+          <tr><td>Spawner.cs</td><td>Chapter1의 시간 기반 스폰. 방 기반 <code>Room.SpawnEntry</code>로 대체됐으므로 정리 대상</td></tr>
+          <tr><td>Exe 캐릭터</td><td>씬에 비활성으로 존재. Reaper와 달리 은신·능력 컴포넌트가 붙어 있지 않다</td></tr>
+          <tr><td>픽셀 밀도</td><td>타일 30 / 플레이어 25 / 적 33.3 texel-per-unit으로 제각각. 32로 통일하면 1080p에서 정확히 3배 정수 스케일</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Harpe — The Divine Vestige · Assets/Haneul_Branch 정적 분석 · 2026-09-02</p>
+  </div>
+</footer>
+</body>
+</html>

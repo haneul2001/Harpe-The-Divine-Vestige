@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73450ea276707df49a4f2f2bd2def413, type: 3}
+  m_Name: PixelQuestSkin
+  m_EditorClassIdentifier: 
+  cardBackground: {fileID: 0}
+  cardFrame: {fileID: 0}
+  cardGlow: {fileID: 0}
+  rarityStrip: {fileID: 0}
+  namePlate: {fileID: 0}
+  frameByRarity:
+  - {fileID: 21300000, guid: 155b554d871a7484b83c432c4c16cb48, type: 3}
+  - {fileID: 21300000, guid: b8574f113e11db44288e58840f1bede4, type: 3}
+  - {fileID: 21300000, guid: 3866fffd4d1384147a25d1c2d7837614, type: 3}
+  - {fileID: 21300000, guid: f093d1cb28c23f9469640270800dba51, type: 3}
+  panelBackground: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}
+  panelBorder: {fileID: 0}
+  tooltipBackground: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}
+  setSlotBackground: {fileID: 1213479468, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
+  setColumnBackground: {fileID: 67046429, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
+  emptyCardSlot: {fileID: -186292250, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
+  titlePlate: {fileID: -426856790, guid: 1d324a1828c0ebc42b6eb5a1d01cd1bd, type: 3}
+  pixelScale: 2

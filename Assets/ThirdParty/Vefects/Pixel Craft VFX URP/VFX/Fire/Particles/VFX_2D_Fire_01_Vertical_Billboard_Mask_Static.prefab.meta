@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d570c27e3c7569e42a43daf06b06f95c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Fire/Particles/VFX_Fire_01_Vertical_Billboard_Mask_Static.prefab
+  uploadId: 771196

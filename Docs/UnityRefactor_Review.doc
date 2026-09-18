@@ -1,0 +1,454 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 15">
+<meta name="Originator" content="Microsoft Word 15">
+<title>Harpe 프로젝트 유니티 코드 리뷰 &amp; 리팩터 정리</title>
+<style>
+@page { size: A4; margin: 2cm; }
+body { font-family: '맑은 고딕', 'Malgun Gothic', sans-serif; font-size: 11pt; line-height: 1.6; color: #222; }
+h1 { color: #1a3d7c; border-bottom: 3px solid #1a3d7c; padding-bottom: 6pt; margin-top: 24pt; font-size: 20pt; }
+h2 { color: #1a3d7c; border-left: 5px solid #1a3d7c; padding-left: 10pt; margin-top: 20pt; font-size: 15pt; background: #eaf1fb; padding-top: 4pt; padding-bottom: 4pt; }
+h3 { color: #333; margin-top: 16pt; font-size: 13pt; }
+h4 { color: #444; margin-top: 12pt; font-size: 11.5pt; }
+code, .code-inline { font-family: Consolas, 'D2Coding', monospace; background: #f4f4f4; padding: 1pt 4pt; border-radius: 3pt; color: #b6376c; font-size: 10pt; }
+pre { background: #1e1e2e; color: #f0f0f0; padding: 10pt; border-radius: 4pt; font-family: Consolas, 'D2Coding', monospace; font-size: 9.5pt; line-height: 1.4; overflow-x: auto; white-space: pre-wrap; }
+pre .kw { color: #c586c0; }
+pre .type { color: #4ec9b0; }
+pre .str { color: #ce9178; }
+pre .cmt { color: #6a9955; font-style: italic; }
+pre .num { color: #b5cea8; }
+.callout { border-left: 4pt solid; padding: 8pt 12pt; margin: 8pt 0; border-radius: 3pt; }
+.critical { border-color: #d13438; background: #fdecea; }
+.warn { border-color: #d19b00; background: #fff8e1; }
+.info { border-color: #0078d4; background: #eaf3fc; }
+.tip { border-color: #107c10; background: #e8f5e9; }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; }
+th, td { border: 1pt solid #bbb; padding: 6pt 8pt; text-align: left; vertical-align: top; font-size: 10.5pt; }
+th { background: #1a3d7c; color: white; }
+tr:nth-child(even) { background: #f7f9fc; }
+ul, ol { margin: 4pt 0; padding-left: 22pt; }
+li { margin-bottom: 3pt; }
+.tag { display: inline-block; padding: 1pt 6pt; border-radius: 3pt; font-size: 9pt; margin-right: 4pt; font-weight: bold; color: white; }
+.tag-crit { background: #d13438; }
+.tag-warn { background: #d19b00; }
+.tag-info { background: #0078d4; }
+.tag-tip { background: #107c10; }
+.file-path { font-family: Consolas, monospace; font-size: 10pt; color: #4a4a4a; background: #eef1f4; padding: 1pt 5pt; border-radius: 3pt; }
+hr { border: none; border-top: 1pt solid #ccc; margin: 20pt 0; }
+.emoji { font-family: 'Segoe UI Emoji', sans-serif; }
+.section-lead { color: #555; font-style: italic; margin-bottom: 12pt; }
+</style>
+</head>
+<body>
+
+<h1>Harpe: The Divine Vestige — 코드 리뷰 &amp; 리팩터 학습 노트</h1>
+<p class="section-lead">2D 로그라이크 프로젝트의 플레이어/몬스터 코드 실무 관점 리뷰 + 리팩터 결과 정리. 유니티 학습용.</p>
+
+<hr/>
+
+<h1>Part 1. 리뷰에서 발견된 문제와 이유</h1>
+
+<h2>🔴 크리티컬 이슈</h2>
+
+<h3>1. 스킬 시스템이 아예 연결 안 되어 있었다</h3>
+<div class="callout critical">
+<b>발견:</b> <code>Player.cs</code>의 <code>List&lt;PlayerSkill&gt; skills</code> 필드가 선언만 되어있고, 어디서도 <code>Activate</code>가 호출되지 않았음. <br/>
+<b>결과:</b> <code>Parry.Activate(player) → player.StartParry() → PlayerCombat.StartParry()</code> = 그냥 <code>Debug.Log("패링 시작")</code>만 실행되고 실제 로직 0줄.
+</div>
+<p><b>왜 이게 나쁜가:</b> "스킬을 함수만 갈아끼우고 싶다"는 목표와 정반대 구조. 스킬을 하나 추가할 때마다 <code>Player</code>에 새 메서드를 만들어야 하고, <code>PlayerCombat</code>에도 실제 로직을 하드코딩해야 했음. 스킬이 자체 로직을 소유하지 못하는 구조.</p>
+
+<h3>2. <code>PlayerOutLine.cs</code> — 죽은 파일</h3>
+<div class="callout critical">
+같은 프로젝트에 두 개의 클래스가 있었음:
+<ul>
+<li><span class="file-path">Assets/Haneul_Branch/Code/Player/PlayerOutLine.cs</span> — 대문자 <code>L</code>, 빈 껍데기</li>
+<li><span class="file-path">Assets/SpriteOutline/Shaders/PlayerOutline.cs</span> — 소문자 <code>l</code>, 실제 동작</li>
+</ul>
+</div>
+<p><b>왜 나쁜가:</b> C#은 대소문자 구분(case-sensitive). <code>PlayerCombat</code>은 실제로는 소문자 <code>PlayerOutline</code>을 참조했지만, 이름이 비슷한 두 파일이 있어서 앞으로 실수 유발 가능성 높음. 죽은 파일은 즉시 삭제.</p>
+
+<h3>3. 몬스터 데이터 이원화</h3>
+<div class="callout critical">
+<b>발견:</b>
+<ul>
+<li><code>EnemyInfo</code> (ScriptableObject): hp, damage, speed, exp, soul 등 다 정의됨</li>
+<li><code>Enemy.cs</code>: <code>maxHp</code>, <code>moveSpeed</code>, <code>attackDamage</code> 등을 인스펙터 필드로 <b>중복</b> 정의</li>
+<li><code>Spawner</code>: EnemyInfo를 <code>EnemyDataFuntion</code>에 세팅하지만…</li>
+<li><code>Enemy.cs</code>: 이 값을 <b>안 읽음</b> → EnemyInfo는 사실상 죽은 데이터</li>
+</ul>
+</div>
+<p><b>왜 나쁜가:</b> "데이터의 진리 원천(Single Source of Truth)"이 두 곳에 있으면 어느 쪽이 실제인지 개발자가 매번 헷갈림. 로그라이크는 몬스터 종류가 많아지는 장르라 이건 확장 시 필연적으로 버그 발생.</p>
+
+<h3>4. <code>ZombieEnemy</code>의 bodyType 원복 안전 문제</h3>
+<div class="callout critical">
+<pre><span class="kw">rb</span>.bodyType = RigidbodyType2D.<span class="type">Kinematic</span>;  <span class="cmt">// 공격 시작 시</span>
+<span class="cmt">// ... 코루틴 진행 중 몬스터가 죽거나 파괴되면?</span>
+<span class="kw">rb</span>.bodyType = RigidbodyType2D.<span class="type">Dynamic</span>;   <span class="cmt">// 원복이 실행 안 될 수 있음</span></pre>
+</div>
+<p><b>왜 나쁜가:</b> 코루틴 도중 예외/파괴가 발생하면 원복 코드가 실행 안 됨. <code>try/finally</code>로 감싸야 안전.</p>
+
+<hr/>
+
+<h2>🟡 실무 관점 설계 지적</h2>
+
+<h3>A. <code>PlayerCombat</code>이 너무 많은 일을 함</h3>
+<table>
+<tr><th>현재 <code>PlayerCombat</code>이 하는 일</th><th>실무에서 분리해야 하는 이유</th></tr>
+<tr><td>차징 상태 관리</td><td rowspan="5">단일 책임 원칙(SRP) 위반.<br/>각각 독립적으로 테스트/변경/재사용 불가.<br/>파일 하나가 300줄 넘어가면 이미 위험 신호.</td></tr>
+<tr><td>Z 입력 처리</td></tr>
+<tr><td>공격 판정(OverlapBoxAll)</td></tr>
+<tr><td>차징 UI 제어</td></tr>
+<tr><td>Harvest 입력 &amp; 트리거</td></tr>
+</table>
+
+<h3>B. 몬스터 상속 구조 — 지금은 괜찮지만 3~4종 넘으면 깨진다</h3>
+<div class="callout warn">
+<b>현재 구조:</b> <code>Enemy</code> 부모에 4개 상태(<code>IdleState</code>, <code>ChaseState</code>, <code>AttackState</code>, <code>HitState</code>)를 하드코딩. 파생 클래스는 <code>Attack()</code>만 override.
+</div>
+<p><b>미래 시나리오:</b></p>
+<ul>
+<li><b>원거리 몹</b> → <code>CombatIdleState</code> 필요, 공격 거리도 다름</li>
+<li><b>순찰형(patrol)</b> → 새 상태 필요</li>
+<li><b>소환수/터렛</b> → Idle→Chase 자체가 불필요</li>
+</ul>
+<p><b>실무 지적:</b></p>
+<ol>
+<li><code>Enemy.cs</code>에서 상태를 <code>new</code>로 미리 생성 → 파생 클래스가 대체하기 어려움. 최소한 <code>virtual InitializeStates()</code> 확장 포인트를 열어야 함.</li>
+<li><code>Enemy.Attack()</code>, <code>ShowAttackRange()</code>가 <code>virtual</code>로 빈 몸통 → 부모가 자식 세부를 몰라도 되도록 <b>컴포지션</b>이 더 낫다.</li>
+<li><code>AttackState</code>가 파생 클래스의 <code>isAttacking</code>을 폴링 → 결합도 높음. 이벤트로 뒤집는 게 정석.</li>
+</ol>
+
+<h3>C. <code>FaceToPlayer</code>의 rotation 뒤집기</h3>
+<div class="callout warn">
+<code>transform.rotation = Quaternion.Euler(0f, 180f, 0f)</code>로 몬스터를 뒤집으면 <b>자식 오브젝트들도 다 뒤집힘</b>. 실제로 <code>AttackRangeSet.cs</code>에서 <code>enemy.eulerAngles.y &gt; 90f</code>로 이걸 우회하는 hack이 이미 존재 = 설계 냄새.
+</div>
+<p><b>더 나은 방법:</b> <code>spriteRenderer.flipX</code> 사용하거나, 스프라이트만 담긴 자식 오브젝트("SpriteRoot")를 뒤집기.</p>
+
+<h3>D. <code>Spawner</code>의 병렬 리스트 인덱스 결합</h3>
+<pre><span class="cmt">// 잘못된 패턴</span>
+[<span class="type">SerializeField</span>] <span class="kw">private</span> <span class="type">List&lt;EnemyInfo&gt;</span> enemyInfos;
+[<span class="type">SerializeField</span>] <span class="kw">private</span> <span class="type">List&lt;GameObject&gt;</span> enemyPrefabs;
+SpawnEnemy((<span class="type">EnemyType</span>)randomIndex);  <span class="cmt">// 두 리스트의 인덱스가 어긋나면 침묵의 버그</span></pre>
+<div class="callout warn">
+<b>더 나은 방법:</b> 하나의 <code>EnemyEntry</code> 클래스로 <code>type</code>, <code>info</code>, <code>prefab</code>을 묶기.
+</div>
+
+<h3>E. 자잘한 실무 냄새들</h3>
+<ul>
+<li><code>Enemy.Start()</code>에서 <code>FindGameObjectWithTag("Player")</code> — 스폰마다 씬 서치. <code>PlayerLocator</code> 정적 참조가 낫다.</li>
+<li><code>PlayerHpUI.Update</code>에서 매 프레임 UI 갱신 → <code>OnHpChanged</code> 이벤트 기반이 정석.</li>
+<li><code>HarvestManager</code>가 싱글톤이지만 <code>DontDestroyOnLoad</code> 없음 → <code>GameManager.ReloadScene</code> 후 Instance null 위험.</li>
+<li>매 프레임 <code>Debug.Log</code> 남발 → 프로덕션 코드에선 프레임 드랍의 주범.</li>
+</ul>
+
+<hr/>
+
+<h1>Part 2. 리팩터 실제 코드 변화</h1>
+
+<h2>🟢 Phase 2. 스킬 시스템 리팩터</h2>
+
+<h3>핵심 아이디어</h3>
+<div class="callout tip">
+<b>"스킬이 자체 로직을 소유한다"</b><br/>
+Player는 스킬이 뭘 하는지 몰라도 되고, 스킬을 실행할 컨텍스트(<code>SkillContext</code>)만 제공.
+</div>
+
+<h4>1) SkillContext — 참조 홀더</h4>
+<pre><span class="kw">public class</span> <span class="type">SkillContext</span>
+{
+    <span class="kw">public</span> <span class="type">Player</span> Player { <span class="kw">get</span>; }
+    <span class="kw">public</span> <span class="type">PlayerCombat</span> Combat { <span class="kw">get</span>; }
+    <span class="kw">public</span> <span class="type">PlayerMove</span> Move { <span class="kw">get</span>; }
+    <span class="kw">public</span> <span class="type">Animator</span> Animator { <span class="kw">get</span>; }
+    <span class="kw">public</span> <span class="type">MonoBehaviour</span> CoroutineRunner { <span class="kw">get</span>; }
+    <span class="cmt">// 스킬이 필요한 모든 참조를 이 하나로 통합</span>
+}</pre>
+
+<h4>2) PlayerSkill — 추상 SO</h4>
+<pre><span class="kw">public abstract class</span> <span class="type">PlayerSkill</span> : <span class="type">ScriptableObject</span>
+{
+    <span class="kw">public string</span> skillName;
+    <span class="kw">public</span> <span class="type">Sprite</span> icon;
+    <span class="kw">public float</span> cooldown = <span class="num">0f</span>;
+    <span class="kw">public int</span> soulCost = <span class="num">0</span>;
+
+    <span class="kw">public virtual bool</span> CanActivate(<span class="type">SkillContext</span> ctx) =&gt; <span class="kw">true</span>;
+    <span class="kw">public abstract void</span> Activate(<span class="type">SkillContext</span> ctx);
+}</pre>
+
+<h4>3) Parry — 자체 로직 소유</h4>
+<pre>[<span class="type">CreateAssetMenu</span>(menuName = <span class="str">"PlayerSkill/Parry"</span>)]
+<span class="kw">public class</span> <span class="type">Parry</span> : <span class="type">PlayerSkill</span>
+{
+    [<span class="type">SerializeField</span>] <span class="kw">private float</span> duration = <span class="num">0.5f</span>;
+
+    <span class="kw">public override void</span> Activate(<span class="type">SkillContext</span> ctx)
+    {
+        ctx.CoroutineRunner.StartCoroutine(ParryRoutine(ctx));
+    }
+
+    <span class="kw">private</span> <span class="type">IEnumerator</span> ParryRoutine(<span class="type">SkillContext</span> ctx)
+    {
+        <span class="cmt">// 실제 무적/반사 로직이 여기 존재</span>
+        <span class="kw">yield return new</span> <span class="type">WaitForSeconds</span>(duration);
+    }
+}</pre>
+
+<h4>4) SkillInputController — 키↔스킬 매핑</h4>
+<pre><span class="kw">public class</span> <span class="type">SkillInputController</span> : <span class="type">MonoBehaviour</span>
+{
+    [<span class="type">Serializable</span>]
+    <span class="kw">public class</span> <span class="type">SkillSlot</span>
+    {
+        <span class="kw">public</span> <span class="type">KeyCode</span> key = <span class="type">KeyCode</span>.Q;
+        <span class="kw">public</span> <span class="type">PlayerSkill</span> skill;
+        [<span class="type">HideInInspector</span>] <span class="kw">public float</span> lastUsedTime = -<span class="num">999f</span>;
+    }
+    [<span class="type">SerializeField</span>] <span class="kw">private</span> <span class="type">SkillSlot</span>[] slots;
+    <span class="cmt">// Update에서 키 입력 → 쿨타임 체크 → skill.Activate(ctx)</span>
+}</pre>
+
+<div class="callout tip">
+<b>📌 학습 포인트:</b> "행동을 데이터로" — 스킬 하나 = SO 파일 하나. 새 스킬 추가 시 Player 코드 변경 <b>0</b>.
+</div>
+
+<hr/>
+
+<h2>🟢 Phase 3. Enemy 컴포지션화 (IEnemyAttack)</h2>
+
+<h3>Before vs After</h3>
+<table>
+<tr><th>Before (상속만)</th><th>After (부분 컴포지션)</th></tr>
+<tr>
+<td><pre><span class="kw">public class</span> <span class="type">Enemy</span> {
+  <span class="kw">public virtual void</span> Attack() { }
+  <span class="kw">public virtual void</span> ShowAttackRange(<span class="kw">bool</span>) { }
+}
+<span class="cmt">// 자식이 override</span>
+<span class="kw">public class</span> <span class="type">ZombieEnemy</span> : <span class="type">Enemy</span> {
+  <span class="kw">public override void</span> Attack() { ... }
+}</pre></td>
+<td><pre><span class="kw">public interface</span> <span class="type">IEnemyAttack</span> {
+  <span class="kw">bool</span> IsRunning { <span class="kw">get</span>; }
+  <span class="kw">void</span> Execute();
+  <span class="kw">void</span> ShowRange(<span class="kw">bool</span> show);
+}
+
+<span class="kw">public class</span> <span class="type">Enemy</span> {
+  <span class="kw">public</span> <span class="type">IEnemyAttack</span> AttackBehavior { <span class="kw">get</span>; }
+  <span class="cmt">// Awake에서 GetComponent&lt;IEnemyAttack&gt;()</span>
+}
+
+<span class="kw">public class</span> <span class="type">ZombieEnemy</span> : <span class="type">Enemy</span>, <span class="type">IEnemyAttack</span> {
+  <span class="kw">public void</span> Execute() { ... }
+}</pre></td>
+</tr>
+</table>
+
+<h3>실무 관점 지적: 왜 순수 상속이 문제였나</h3>
+<div class="callout warn">
+<b>상속의 함정:</b> 부모 클래스가 자식 클래스의 세부 동작을 "알고 있어야 하는" 구조가 되면 유지보수가 어려워짐.<br/>
+예: <code>Enemy.Attack()</code>이 <code>virtual</code>로 빈 몸통을 가지고 있다 = "이 클래스에는 원래 공격이 있어야 하는데 상세는 자식에게 맡긴다"는 냄새. <br/>
+→ <b>인터페이스로 계약을 명시</b>하면 "공격 로직은 별도 계약을 준수하는 컴포넌트가 담당"이 명확해짐.
+</div>
+
+<h3>추가 개선: try/finally로 안전한 원복</h3>
+<pre><span class="kw">private</span> <span class="type">IEnumerator</span> DashAttackCoroutine()
+{
+    <span class="type">RigidbodyType2D</span> originalBodyType = rb.bodyType;
+
+    <span class="kw">try</span>
+    {
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        <span class="cmt">// ... 공격 로직 ...</span>
+        <span class="kw">yield return new</span> <span class="type">WaitForSeconds</span>(<span class="num">1f</span>);
+    }
+    <span class="kw">finally</span>
+    {
+        <span class="cmt">// 예외/파괴 발생해도 반드시 원복</span>
+        <span class="kw">if</span> (rb != <span class="kw">null</span>) rb.bodyType = originalBodyType;
+        lastAttackTime = <span class="type">Time</span>.time;
+        isAttacking = <span class="kw">false</span>;
+    }
+}</pre>
+<div class="callout info">
+<b>💡 C# 코루틴 팁:</b> Iterator 메서드(<code>yield return</code>이 있는 메서드)는 <code>try/finally</code>는 지원하지만 <code>try/catch</code>는 <b>지원 안 함</b>. 예외 처리는 코루틴 외부에서.
+</div>
+
+<hr/>
+
+<h2>🟢 Phase 4. EnemyInfo와 Enemy 데이터 통합</h2>
+
+<h3>Before</h3>
+<pre><span class="cmt">// Enemy.cs</span>
+<span class="kw">public int</span> maxHp = <span class="num">5</span>;
+<span class="kw">public float</span> moveSpeed = <span class="num">2.5f</span>;
+[<span class="type">SerializeField</span>] <span class="kw">protected int</span> attackDamage = <span class="num">1</span>;
+<span class="cmt">// EnemyInfo와 완전히 별개</span>
+
+<span class="cmt">// Spawner.cs (병렬 리스트)</span>
+[<span class="type">SerializeField</span>] <span class="type">List&lt;EnemyInfo&gt;</span> enemyInfos;
+[<span class="type">SerializeField</span>] <span class="type">List&lt;GameObject&gt;</span> enemyPrefabs;
+newEnemy.enemyInfo = enemyInfos[(<span class="kw">int</span>)type];  <span class="cmt">// 실제로는 반영 안 됨</span></pre>
+
+<h3>After</h3>
+<pre><span class="cmt">// Enemy.cs</span>
+[<span class="type">SerializeField</span>] <span class="kw">private</span> <span class="type">EnemyInfo</span> enemyInfo;  <span class="cmt">// 선택적, fallback 인스펙터 값 유지</span>
+
+<span class="kw">public void</span> Initialize(<span class="type">EnemyInfo</span> info)
+{
+    enemyInfo = info;
+    ApplyEnemyInfo();
+}
+
+<span class="kw">private void</span> ApplyEnemyInfo()
+{
+    <span class="kw">if</span> (enemyInfo == <span class="kw">null</span>) <span class="kw">return</span>;
+    maxHp = enemyInfo.HP;
+    moveSpeed = enemyInfo.Speed;
+    attackDamage = enemyInfo.Damage;
+}
+
+<span class="cmt">// Spawner.cs (통합 EnemyEntry)</span>
+[<span class="type">Serializable</span>]
+<span class="kw">public class</span> <span class="type">EnemyEntry</span> {
+    <span class="kw">public</span> <span class="type">EnemyType</span> type;
+    <span class="kw">public</span> <span class="type">EnemyInfo</span> info;
+    <span class="kw">public</span> <span class="type">GameObject</span> prefab;
+}
+[<span class="type">SerializeField</span>] <span class="type">List&lt;EnemyEntry&gt;</span> entries;
+
+<span class="cmt">// 스폰 시</span>
+Enemy enemy = go.GetComponent&lt;Enemy&gt;();
+enemy.Initialize(entry.info);</pre>
+
+<div class="callout tip">
+<b>📌 학습 포인트:</b> "인덱스로 병렬 리스트를 묶는 건 안티패턴이다." 두 개 이상의 리스트를 인덱스로 매칭하면 인스펙터에서 순서가 어긋나는 순간 침묵의 버그. 항상 <b>하나의 엔트리 클래스</b>로 묶어야 함.
+</div>
+
+<hr/>
+
+<h2>🟢 Phase 1. 죽은 코드 정리</h2>
+
+<h3>삭제한 파일</h3>
+<ul>
+<li><span class="file-path">Assets/Haneul_Branch/Code/Player/PlayerOutLine.cs</span> — 빈 껍데기</li>
+<li><span class="file-path">Assets/Haneul_Branch/Enemy/Chapter1/code/EnemyDataFuntion.cs</span> — 오타 + 미사용</li>
+</ul>
+
+<h3>매 프레임 Debug.Log 제거</h3>
+<table>
+<tr><th>파일</th><th>제거된 로그</th></tr>
+<tr><td><code>PlayerCombat.cs</code></td><td><code>Debug.Log(chargeTime)</code> — 차징 매 프레임</td></tr>
+<tr><td><code>Enemy.cs</code></td><td><code>MoveToPlayer</code>, <code>StopMove</code> 호출 로그</td></tr>
+<tr><td><code>ChaseState.cs</code></td><td><code>"ChaseState Update"</code>, <code>"Chase -&gt; Attack"</code></td></tr>
+<tr><td><code>AttackState.cs</code></td><td><code>"AttackState Update"</code>, <code>"Attack -&gt; Chase"</code></td></tr>
+</table>
+
+<div class="callout warn">
+<b>왜 매 프레임 <code>Debug.Log</code>가 위험한가:</b><br/>
+Unity의 <code>Debug.Log</code>는 Editor에서 매 호출마다 스택 트레이스를 캡처하고 Console에 문자열을 렌더링. 60fps에서 매 프레임 로그 = 초당 60번 스택 캡처 = 프레임 드랍의 주범. 프로덕션 전 반드시 정리하거나 <code>#if UNITY_EDITOR</code>로 감싸기.
+</div>
+
+<hr/>
+
+<h1>Part 3. 유니티 학습 포인트 요약</h1>
+
+<h2>1. ScriptableObject를 활용한 데이터 주도 설계</h2>
+<ul>
+<li>스킬 = <code>ScriptableObject</code> = "행동을 데이터로"</li>
+<li>몬스터 스탯 = <code>ScriptableObject</code> = "밸런싱을 코드 재컴파일 없이"</li>
+<li>기획자/디자이너가 코드 없이 인스펙터로 편집 가능</li>
+</ul>
+
+<h2>2. 인터페이스로 계약 명시</h2>
+<div class="callout info">
+<code>abstract class</code>는 "너는 나의 자손이다" 를 강제 → 상속 트리 하나에 묶임<br/>
+<code>interface</code>는 "너는 이 계약을 지킨다" 만 강제 → 상속 트리 자유
+</div>
+<p>몬스터가 늘어나는 게임에서 <code>IEnemyAttack</code>, <code>IEnemyMove</code>, <code>IEnemyDeath</code> 같은 인터페이스로 분리하면 조합의 자유도가 폭발적으로 증가.</p>
+
+<h2>3. 상속 vs 컴포지션 판단 기준</h2>
+<table>
+<tr><th>상속이 맞을 때</th><th>컴포지션이 맞을 때</th></tr>
+<tr>
+<td>
+<ul>
+<li>정말 "is-a" 관계일 때</li>
+<li>공통 상태/필드가 많고 자주 안 변할 때</li>
+<li>기반 클래스 소유권이 있을 때</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>"has-a" 관계 (Enemy has an Attack)</li>
+<li>런타임에 갈아끼우고 싶을 때</li>
+<li>여러 조합을 만들고 싶을 때 (원거리+비행 몹, 근거리+지상 몹...)</li>
+<li>테스트에서 mock 넣고 싶을 때</li>
+</ul>
+</td>
+</tr>
+</table>
+
+<h2>4. 상태 머신 패턴</h2>
+<p>지금 <code>EnemyStateMachine</code>은 정석적인 구조:</p>
+<ul>
+<li><code>IEnemyState</code> — <code>Enter</code> / <code>Update</code> / <code>Exit</code> 3-메서드 계약</li>
+<li><code>EnemyStateMachine</code> — <code>ChangeState()</code>에서 이전 상태 <code>Exit</code> → 새 상태 <code>Enter</code></li>
+<li>각 상태가 자기 책임만 가짐 (Idle은 감지, Chase는 추적, Attack은 공격 발동)</li>
+</ul>
+<div class="callout tip">
+<b>다음 단계:</b> 상태를 <code>ScriptableObject</code>로 만들어 인스펙터에서 "이 몬스터의 상태 목록"을 조립하는 <b>SO 상태 머신</b>이 실무에서 자주 쓰임.
+</div>
+
+<h2>5. Iterator (yield) 안에서 예외 처리</h2>
+<pre><span class="cmt">// ✅ 허용</span>
+<span class="kw">try</span> { <span class="kw">yield return</span> ...; } <span class="kw">finally</span> { ... }
+
+<span class="cmt">// ❌ 컴파일 에러</span>
+<span class="kw">try</span> { <span class="kw">yield return</span> ...; } <span class="kw">catch</span> { ... }</pre>
+
+<h2>6. Unity 라이프사이클과 주의점</h2>
+<ul>
+<li><code>Awake</code>: 컴포넌트 참조 캐싱. 다른 컴포넌트의 상태에 의존 X.</li>
+<li><code>Start</code>: 다른 <code>Awake</code>가 모두 끝난 후 호출. 씬 서치 안전.</li>
+<li>싱글톤 + <code>DontDestroyOnLoad</code>: 씬 리로드 시 Instance 유지하려면 필수.</li>
+<li>이벤트 기반 UI: 매 프레임 폴링보다 <code>event Action&lt;int&gt; OnHpChanged</code> 발행 방식이 훨씬 효율적.</li>
+</ul>
+
+<hr/>
+
+<h1>Part 4. 아직 남은 개선 항목 (추후 학습용)</h1>
+
+<h3>여유 있을 때 진행할 리팩터</h3>
+<ol>
+<li><b><code>PlayerCombat</code> 3-way 분리</b>: <code>PlayerAttack</code> / <code>PlayerCharge</code> / <code>PlayerHarvest</code></li>
+<li><b><code>FaceToPlayer</code></b>: <code>transform.rotation</code> → <code>spriteRenderer.flipX</code>로 교체 (자식 오브젝트 뒤집힘 방지)</li>
+<li><b><code>PlayerHpUI</code></b>: 이벤트 기반으로 (<code>PlayerStatus.OnHpChanged</code>)</li>
+<li><b><code>HarvestManager</code></b>: <code>DontDestroyOnLoad</code> 추가 or GameManager 통합</li>
+<li><b><code>PlayerLocator</code></b> 정적 참조 도입: 매번 <code>FindGameObjectWithTag</code> 대신</li>
+<li><b>SO 기반 상태 머신</b>: 몬스터마다 상태 목록을 조립할 수 있게</li>
+<li><b>AttackState 이벤트 구독</b>: <code>isAttacking</code> 폴링 → <code>OnAttackFinished</code> 이벤트로</li>
+</ol>
+
+<h3>Unity 후속 조치 (지금 필요)</h3>
+<div class="callout warn">
+<ol>
+<li><b>Spawner (Chapter1-2 씬)</b>: 기존 두 리스트가 <code>Entries</code>로 통합됨. 인스펙터에서 새로 세팅.</li>
+<li><b>좀비 프리팹</b>: <code>EnemyDataFuntion</code> 컴포넌트가 붙어있었다면 "Missing Script" 표시 → 수동 제거.</li>
+<li><b>Player 오브젝트</b>: <code>SkillInputController</code> 컴포넌트 추가.</li>
+<li><b>Parry SO 생성</b>: Project 창 우클릭 → Create → PlayerSkill → Parry.</li>
+</ol>
+</div>
+
+<hr/>
+
+<p style="text-align:center; color:#888; font-size:9pt; margin-top:20pt;">
+Harpe: The Divine Vestige 프로젝트 리팩터 학습 노트<br/>
+2026-07-15 작성
+</p>
+
+</body>
+</html>

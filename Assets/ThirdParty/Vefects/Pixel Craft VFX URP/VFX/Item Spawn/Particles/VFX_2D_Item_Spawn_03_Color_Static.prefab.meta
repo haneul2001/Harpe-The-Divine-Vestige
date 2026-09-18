@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 95e9ea15c0ca3624c9c0c706fcd7dab6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308259
+  packageName: Pixel Craft VFX - URP
+  packageVersion: 1.0.02
+  assetPath: Assets/Vefects/Pixel Craft VFX URP/VFX/Item Spawn/Particles/VFX_Item_Spawn_03_Color_Static.prefab
+  uploadId: 771196
