@@ -1,5 +1,38 @@
 using UnityEngine;
 
+// 특성 분류. 순서를 바꾸면 이미 만든 카드의 값이 어긋나므로 뒤에만 추가할 것
+public enum AbilityCategory
+{
+    Stat = 0,       // 스탯
+    Ranged = 1,     // 원거리
+    Harvest = 2,    // 처형
+    Kill = 3,       // 처치 / 연쇄
+    Parry = 4,      // 패링
+    Stealth = 5,    // 은신
+    Dash = 6,       // 대시
+    Soul = 7,       // 소울
+    Special = 8,    // 특수
+}
+
+public static class AbilityCategoryUtil
+{
+    public static string Label(this AbilityCategory c)
+    {
+        switch (c)
+        {
+            case AbilityCategory.Ranged:  return "원거리";
+            case AbilityCategory.Harvest: return "처형";
+            case AbilityCategory.Kill:    return "처치 / 연쇄";
+            case AbilityCategory.Parry:   return "패링";
+            case AbilityCategory.Stealth: return "은신";
+            case AbilityCategory.Dash:    return "대시";
+            case AbilityCategory.Soul:    return "소울";
+            case AbilityCategory.Special: return "특수";
+            default:                      return "스탯";
+        }
+    }
+}
+
 // 능력 카드 한 장의 정의. 보상으로 획득하는 단위.
 //
 // 순수 데이터만 담는다. "이 카드가 실제로 무슨 일을 하는가"는
@@ -18,6 +51,9 @@ public class AbilityCard : ScriptableObject
 
     [SerializeField] private AbilityRarity rarity = AbilityRarity.Common;
 
+    [Tooltip("특성 분류 (스탯·원거리·처형 …). 툴팁에 표시된다")]
+    [SerializeField] private AbilityCategory category = AbilityCategory.Stat;
+
     [Tooltip("소속 세트. 없으면 세트 효과에 잡히지 않는다")]
     [SerializeField] private AbilitySet set;
 
@@ -33,6 +69,7 @@ public class AbilityCard : ScriptableObject
     public string Description => description;
     public Sprite Icon => icon;
     public AbilityRarity Rarity => rarity;
+    public AbilityCategory Category => category;
     public AbilitySet Set => set;
     public string Flavor => flavor;
     public AbilityEffect[] Effects => effects;

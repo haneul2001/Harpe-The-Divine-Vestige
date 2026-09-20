@@ -280,9 +280,31 @@ public class AbilityPanel : MonoBehaviour
             new Vector2(16f, -50f), new Vector2(-16f, -18f));   // 기둥 테두리(8px×2) 안쪽
         label.text = "세트 효과";
 
-        setContent = UIFactory.Stretch("Content", column);
-        setContent.offsetMin = new Vector2(0f, 16f);
-        setContent.offsetMax = new Vector2(0f, -56f);
+        // 세트는 최대 8개라 칸 높이(80px × 6개 정도)를 넘친다 — 아이콘을 줄이면 픽셀이 뭉개지므로 휠 스크롤로 넘긴다
+        RectTransform setViewport = UIFactory.Stretch("SetViewport", column);
+        setViewport.offsetMin = new Vector2(0f, 16f);
+        setViewport.offsetMax = new Vector2(0f, -56f);
+        setViewport.gameObject.AddComponent<RectMask2D>();
+        Image setBlocker = setViewport.gameObject.AddComponent<Image>();   // 휠 입력을 받을 레이캐스트 대상
+        setBlocker.color = new Color(0f, 0f, 0f, 0f);
+
+        setContent = UIFactory.Empty("Content", setViewport);
+        setContent.anchorMin = new Vector2(0f, 1f);
+        setContent.anchorMax = new Vector2(1f, 1f);
+        setContent.pivot = new Vector2(0.5f, 1f);
+        setContent.offsetMin = Vector2.zero;
+        setContent.offsetMax = Vector2.zero;
+
+        var setFitter = setContent.gameObject.AddComponent<ContentSizeFitter>();
+        setFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        var setScroll = setViewport.gameObject.AddComponent<ScrollRect>();
+        setScroll.content = setContent;
+        setScroll.viewport = setViewport;
+        setScroll.horizontal = false;
+        setScroll.vertical = true;
+        setScroll.movementType = ScrollRect.MovementType.Clamped;
+        setScroll.scrollSensitivity = 30f;
 
         var layout = setContent.gameObject.AddComponent<VerticalLayoutGroup>();
         layout.spacing = 12f;

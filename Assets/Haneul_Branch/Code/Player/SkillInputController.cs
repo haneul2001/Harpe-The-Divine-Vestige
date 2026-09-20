@@ -39,7 +39,7 @@ public class SkillInputController : MonoBehaviour
             var s = slots[i];
             if (s.skill == null) continue;
             if (!Input.GetKeyDown(s.key)) continue;
-            if (Time.time - s.lastUsedTime < s.skill.cooldown) continue;
+            if (Time.time - s.lastUsedTime < Cooldown(s.skill)) continue;
             if (!s.skill.CanActivate(ctx)) continue;
 
             s.skill.Activate(ctx);
@@ -51,12 +51,18 @@ public class SkillInputController : MonoBehaviour
         }
     }
 
+    // 세트 시너지(철벽 등)가 줄인 최종 쿨타임
+    private static float Cooldown(PlayerSkill skill)
+    {
+        return Mathf.Max(0f, skill.cooldown - AbilityHooks.SkillCooldownReduction(skill));
+    }
+
     public bool TryUseSkill(int index)
     {
         if (slots == null || index < 0 || index >= slots.Length) return false;
         var s = slots[index];
         if (s.skill == null) return false;
-        if (Time.time - s.lastUsedTime < s.skill.cooldown) return false;
+        if (Time.time - s.lastUsedTime < Cooldown(s.skill)) return false;
         if (!s.skill.CanActivate(ctx)) return false;
 
         s.skill.Activate(ctx);

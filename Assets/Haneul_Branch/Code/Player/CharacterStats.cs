@@ -81,10 +81,10 @@ public class CharacterStats
     // ─────────────────────────────────────────
 
     /// <summary>최종 최대 체력</summary>
-    public int MaxHp => baseHp + Mathf.FloorToInt(str * Coef.StrToHp);
+    public int MaxHp => baseHp + Mathf.FloorToInt(str * Coef.StrToHp) + AbilityHooks.MaxHpBonus();   // 특성 보너스 포함
 
     /// <summary>최종 방어력</summary>
-    public int Defense => baseDefense + Mathf.FloorToInt(str * Coef.StrToDefense);
+    public int Defense => baseDefense + Mathf.FloorToInt(str * Coef.StrToDefense) + AbilityHooks.DefenseBonus();
 
     /// <summary>물리 최대 공격력 (마비노기: 힘 2.5당 1)</summary>
     public int MaxAttack => baseAttackPower + Mathf.FloorToInt(str * Coef.StrToMaxAtk);
@@ -104,13 +104,14 @@ public class CharacterStats
     public float Balance => Mathf.Min(Coef.BaseBalance + dex * Coef.DexToBalance, Coef.MaxBalance);
 
     /// <summary>치명타 확률(%)</summary>
-    public float CritRate => Mathf.Min(Coef.BaseCritRate + dex * Coef.DexToCritRate, Coef.MaxCritRate);
+    // 스탯 쪽은 캡(50%)을 두고, 특성 보너스는 그 위에 얹는다 (100%까지)
+    public float CritRate => Mathf.Min(Mathf.Min(Coef.BaseCritRate + dex * Coef.DexToCritRate, Coef.MaxCritRate) + AbilityHooks.CritRateBonus(), 100f);
 
     /// <summary>치명타 피해 배율(%) — 150 = 1.5배</summary>
-    public float CritDamage => Coef.BaseCritDmg + dex * Coef.DexToCritDmg;
+    public float CritDamage => Coef.BaseCritDmg + dex * Coef.DexToCritDmg + AbilityHooks.CritDamageBonus();
 
     /// <summary>공격속도 배율 — 1.0 기준, 애니메이션/쿨다운에 곱해서 사용</summary>
-    public float AttackSpeedMult => 1f + dex * Coef.DexToAtkSpeed;
+    public float AttackSpeedMult => 1f + dex * Coef.DexToAtkSpeed + AbilityHooks.AttackSpeedBonus();
 
     /// <summary>스킬 공격력 (마비노기 마법공격력 포지션: 지능 5당 1)</summary>
     public int SkillPower => Mathf.FloorToInt(intel * Coef.IntToSkillPower);

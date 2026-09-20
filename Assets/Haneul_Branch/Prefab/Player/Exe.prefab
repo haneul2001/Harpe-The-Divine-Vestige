@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   harvestRange: 6
   harvestTeleportOntoTarget: 0
-  attackSpeed: 1.2
+  attackSpeed: 1.4
   chargedDamageMultiplier: 2
   isAttacking: 0
   isCharging: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   lungeDuration: 0.08
   comboCount: 3
   reverseSlashByHit: 000100
-  finisherRecovery: 0.35
+  finisherRecovery: 0.25
   minHitDelay: 0.1
   comboResetTime: 1
   enemyLayer:

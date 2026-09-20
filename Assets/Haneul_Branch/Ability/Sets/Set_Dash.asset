@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4931fc32a3b1f4f860176cdfea5818, type: 3}
+  m_Name: Set_Dash
+  m_EditorClassIdentifier: 
+  displayName: "\uB300\uC2DC"
+  icon: {fileID: 21300000, guid: d371c3fba86624649b35d2aa59330c77, type: 3}
+  flavor: "\uBC1C\uAC78\uC74C\uC774 \uCE7C\uB0A0\uBCF4\uB2E4 \uBE60\uB974\uB2E4"
+  tiers:
+  - required: 2
+    effect: "\uB300\uC2DC \uCFE8\uD0C0\uC784 2\uCD08 \u2192 1.6\uCD08"
+    title: "\uB0A0\uB835\uD568"
+    effects:
+    - {fileID: 11400000, guid: e9326e563e8eac24a9af6fa3ce50fcc8, type: 2}
+  - required: 3
+    effect: "\uB300\uC2DC(Shift)\uB97C \uC4F8 \uB54C\uB9C8\uB2E4 \uB300\uC2DC \uACF5\uACA9(X)
+      \uCFE8\uD0C0\uC784 1\uCD08 \uAC10\uC18C"
+    title: "\uC794\uC601"
+    effects:
+    - {fileID: 11400000, guid: dddd36376b004464c8efd1c3e3181e4c, type: 2}

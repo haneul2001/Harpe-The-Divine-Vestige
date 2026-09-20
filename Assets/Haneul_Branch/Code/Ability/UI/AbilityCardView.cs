@@ -111,7 +111,11 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
             icon.preserveAspect = true;
             Vector2 center = (PicIconMin + PicIconMax) * 0.5f;
             icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = center;
-            icon.rectTransform.sizeDelta = new Vector2(card.Icon.rect.width, card.Icon.rect.height) * PicIconScale;
+            // 아치 창 크기(22px × 4 = 88)에 들어가는 가장 큰 정수배 — 22px 타일은 ×4, 44px AI 아이콘은 ×2
+            float target = 22f * PicIconScale;
+            float spriteSize = Mathf.Max(card.Icon.rect.width, card.Icon.rect.height);
+            float k = spriteSize <= target ? Mathf.Floor(target / spriteSize) : target / spriteSize;
+            icon.rectTransform.sizeDelta = new Vector2(card.Icon.rect.width, card.Icon.rect.height) * k;
             icon.rectTransform.anchoredPosition = Vector2.zero;
             return;
         }
@@ -171,7 +175,7 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
             ? "\n<color=#8FD6A0>세트 · " + card.Set.DisplayName + "</color>"
             : "";
 
-        return "<color=#9AA0AE>" + card.Rarity.Label() + "</color>\n" + card.Description + setLine;
+        return "<color=#9AA0AE>" + card.Rarity.Label() + " · " + card.Category.Label() + "</color>\n" + card.Description + setLine;
     }
 
     private void Update()

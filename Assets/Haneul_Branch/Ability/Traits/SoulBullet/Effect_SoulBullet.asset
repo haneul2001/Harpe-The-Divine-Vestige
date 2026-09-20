@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21843bc31c2dfe4187c8b07219c4fdb, type: 3}
+  m_Name: Effect_SoulBullet
+  m_EditorClassIdentifier: 
+  summary: 
+  coefficient: 0.6
+  soulPerExtraBullet: 10
+  maxBullets: 3
+  searchRange: 10
+  speed: 9
+  visual: {fileID: 4748681987041982144, guid: abd185c57225d4748975ac8ceb7d0544, type: 3}
+  visualScale: 0.7

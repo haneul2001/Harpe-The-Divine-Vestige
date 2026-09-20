@@ -17,6 +17,12 @@ public class AbilitySet : ScriptableObject
 
         [Tooltip("효과 설명. 툴팁에 그대로 나온다")]
         [TextArea(1, 3)] public string effect = "";
+
+        [Tooltip("시너지 이름 (예: 스탯 증폭 I)")]
+        public string title = "";
+
+        [Tooltip("이 단계가 열리면 실제로 붙는 효과. 단계는 누적된다 (3장이면 2장 단계 효과도 같이 붙는다)")]
+        public AbilityEffect[] effects = new AbilityEffect[0];
     }
 
     [SerializeField] private string displayName = "이름 없는 세트";

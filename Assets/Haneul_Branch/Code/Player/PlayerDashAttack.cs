@@ -68,6 +68,12 @@ public class PlayerDashAttack : MonoBehaviour
         nextUseTime = 0f;
     }
 
+    // 세트(잔영): 남은 쿨타임을 줄인다
+    public void ReduceCooldown(float seconds)
+    {
+        nextUseTime -= seconds;
+    }
+
     private Rigidbody2D rb;
     private Collider2D body;
     private PlayerMove move;
@@ -331,15 +337,20 @@ public class PlayerDashAttack : MonoBehaviour
         var enemy = col.GetComponentInParent<Enemy>();
         if (enemy == null || enemy.isDead || !struck.Add(enemy)) return;
 
-        bool crit = false;
-        int dmg = 1;
-        if (status != null && status.Stats != null)
-            dmg = Mathf.Max(1, Mathf.RoundToInt(status.Stats.RollPhysicalDamage(out crit) * damageMultiplier));
+        bool crit;
+        int dmg = AbilityHooks.RollDamage(status, damageMultiplier, DamageKind.DashAttack, enemy, out crit);
 
         enemy.TakeDamage(dmg, crit);
 
         // 대시 시작점 → 몬스터 방향으로 몬스터 외곽에 분홍 피격 이펙트
-        if (hitSpark != null) hitSpark.Play(col.bounds, (Vector3)from + new Vector3(0f, bodyHeight, 0f), enemy);
+        Vector3 fromBody = (Vector3)from + new Vector3(0f, bodyHeight, 0f);
+        if (hitSpark != null) hitSpark.Play(col.bounds, fromBody, enemy);
+
+        AbilityHooks.NotifyHit(new HitInfo
+        {
+            kind = DamageKind.DashAttack, enemy = enemy, damage = dmg, critical = crit,
+            point = col.bounds.center, from = fromBody,
+        });
     }
 
     // energy13 기둥을 대시 방향으로 눕혀, 뿌리는 시작점에 두고 도착 지점까지 늘린다.

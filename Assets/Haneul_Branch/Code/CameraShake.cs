@@ -25,6 +25,8 @@ public class CameraShake : MonoBehaviour
 
     private float trauma;
     private float seed;
+    private int lastFrame = -1;
+    private float frameMax;
 
     // CameraFollow가 매 LateUpdate에 읽어간다
     public Vector3 Offset { get; private set; }
@@ -42,9 +44,23 @@ public class CameraShake : MonoBehaviour
     }
 
     // 흔들림 추가. amount 0~1 (0.2 가벼운 타격 / 0.6 처형 임팩트 / 1.0 최대)
+    //
+    // 그냥 더하면 한 프레임에 치명타가 여러 번 터질 때(파편·검기·광역) 곧바로 최대치가 되어 화면이 요동친다.
+    // 그래서 ① 같은 프레임에 들어온 요청은 가장 큰 것만 세고 ② 이미 흔들리는 중이면 조금만 더한다.
+    [Tooltip("이미 흔들리는 중일 때 새 흔들림이 더해지는 비율. 0이면 더 세지지 않고, 1이면 그대로 합쳐진다")]
+    [Range(0f, 1f)]
+    [SerializeField] private float stackRatio = 0.25f;
+
     public void AddTrauma(float amount)
     {
-        trauma = Mathf.Clamp01(trauma + amount);
+        if (amount <= 0f) return;
+
+        if (Time.frameCount != lastFrame) { lastFrame = Time.frameCount; frameMax = 0f; }
+        if (amount <= frameMax) return;          // 같은 프레임의 더 약한 흔들림은 무시
+        float add = amount - frameMax;           // 이미 센 만큼은 빼고
+        frameMax = amount;
+
+        trauma = Mathf.Clamp01(Mathf.Max(trauma, add) + Mathf.Min(trauma, add) * stackRatio);
     }
 
     // 어디서든 부르기 쉽게 (카메라에 컴포넌트가 없으면 조용히 무시)

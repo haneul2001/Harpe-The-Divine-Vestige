@@ -73,17 +73,22 @@ public class PlayerAim : MonoBehaviour
         bool locked = (combat != null && (combat.isAttacking || combat.isCharging))
                       || (move != null && (move.isExecuting || move.inputLocked));
 
-        if (!locked)
-        {
-            Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (input.sqrMagnitude > 0.01f)
-            {
-                float a = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
-                index = ((Mathf.RoundToInt(a / 45f) % 8) + 8) % 8;
-            }
-        }
+        if (!locked) RefreshFromInput();
 
         UpdateIndicator();
+    }
+
+    // 지금 누르고 있는 방향키로 조준을 다시 잡는다. 안 누르고 있으면 방향을 유지한다.
+    //
+    // 콤보 중에는 한 타가 끝나는 순간 다음 타가 바로 시작돼 isAttacking이 한 프레임도 안 풀린다.
+    // 그래서 Update의 잠금 해제만으로는 콤보 내내 첫 타 방향에 묶인다 — 새 타가 나갈 때 여기서 다시 잡는다.
+    public void RefreshFromInput()
+    {
+        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (input.sqrMagnitude <= 0.01f) return;
+
+        float a = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+        index = ((Mathf.RoundToInt(a / 45f) % 8) + 8) % 8;
     }
 
     // 공격이 시작될 때 몸도 그 방향으로 돌린다 (위·아래는 좌우를 그대로 둔다)

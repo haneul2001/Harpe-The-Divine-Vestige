@@ -149,8 +149,7 @@ public class PlayerCombat : MonoBehaviour
         if (!isAttacking && !isCharging && nextAttackTime > 0f && Time.time >= nextAttackTime)
         {
             nextAttackTime = -1f;
-            if (Time.time - bufferedAttackTime <= attackBufferWindow)
-                ConsumeBufferedAttack();
+            ConsumeBufferedAttack();
         }
 
         // ===== 처형 =====
@@ -307,16 +306,24 @@ public class PlayerCombat : MonoBehaviour
         if (Time.time - lastAttackTime > comboResetTime)
             attackNum = 0;
 
-        // 누르고 있던 방향으로 몸을 돌리고 박스도 즉시 그쪽으로 (LateUpdate를 기다리면 첫 프레임이 어긋난다)
-        if (aim != null) aim.FaceBody();
+        // 이번 타의 방향을 지금 누르고 있는 방향키로 다시 잡는다 —
+        // 콤보 중에는 조준이 잠겨 있어(isAttacking) 이 호출이 없으면 첫 타 방향으로 계속 때린다.
+        // 그 뒤 몸을 돌리고 판정 박스도 즉시 옮긴다 (LateUpdate를 기다리면 첫 프레임이 어긋난다)
+        if (aim != null)
+        {
+            aim.RefreshFromInput();
+            aim.FaceBody();
+        }
         LateUpdate();
 
         // 공격 방향으로 살짝 전진 — 이동키를 누르고 있을 때만 (제자리 공격은 제자리에서)
         bool holdingMove = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f || Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.01f;
-        if (move != null && lungeDistance > 0f && holdingMove)
+        // 특성(피의 돌진)이 전진 거리를 더해 주면 이동키 없이도 전진한다
+        float lungeBonus = AbilityHooks.LungeBonus(true);
+        if (move != null && (lungeDistance > 0f && holdingMove || lungeBonus > 0f))
         {
             float rad = AttackAngle * Mathf.Deg2Rad;
-            move.Lunge(new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)), lungeDistance, lungeDuration);
+            move.Lunge(new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)), (holdingMove ? lungeDistance : 0f) + lungeBonus, lungeDuration);
         }
 
         // 공격 애니메이션
@@ -391,6 +398,7 @@ public class PlayerCombat : MonoBehaviour
         currentHit = attackNum;
         hitConsumed = false;
         pendingCrit = status != null && status.Stats != null && status.Stats.RollCritChance();
+        if (AbilityHooks.ForcesCrit(SwingKind(isCharged))) pendingCrit = true;   // 특성: 그림자 칼날 등
         attackStartTime = Time.time;
 
         // 애니메이션이 빨라지면 이벤트가 씹힐 확률도 올라가므로 마감도 같이 당긴다
@@ -415,6 +423,12 @@ public class PlayerCombat : MonoBehaviour
         bool isCritical;
         CalculateAttackDamage(isCharged, out damage, out isCritical);
 
+        // 특성 피해 배율 — 한 번 휘두를 때 한 번만 묻는다 ("다음 공격 1회" 효과가 여기서 소모된다)
+        DamageKind kind = SwingKind(isCharged);
+        damage = Mathf.Max(1, Mathf.RoundToInt(damage * AbilityHooks.DamageMultiplier(kind, null, true)));
+        Vector3 swingFrom = transform.position + Vector3.up * attackPivotY * transform.lossyScale.y;
+        AbilityHooks.NotifySwing(new SwingInfo { kind = kind, origin = swingFrom, angle = AttackAngle });
+
         // 공격 판정
         Collider2D[] hits = Physics2D.OverlapBoxAll(
             AttackBoxPos.position,
@@ -433,23 +447,34 @@ public class PlayerCombat : MonoBehaviour
 
         Debug.Log("맞은 개수 : " + hits.Length);
 
+        var struck = new System.Collections.Generic.HashSet<Enemy>();
         foreach (Collider2D hit in hits)
         {
-            Debug.Log("충돌한 오브젝트 : " + hit.name);
-
             Enemy enemy = hit.GetComponentInParent<Enemy>();
 
-            if (enemy != null)
+            // 콜라이더가 여러 개인 적도 한 번만 맞는다
+            if (enemy != null && !enemy.isDead && struck.Add(enemy))
             {
-                Debug.Log("Enemy 찾음");
-
                 enemy.TakeDamage(damage, isCritical);
 
                 // 가시가 플레이어 → 몬스터 방향(몬스터 너머)으로 뻗는 피격 이펙트
                 if (hitSparkVfx != null)
-                    hitSparkVfx.Play(hit.bounds, transform.position + Vector3.up * attackPivotY * transform.lossyScale.y, enemy);
+                    hitSparkVfx.Play(hit.bounds, swingFrom, enemy);
+
+                AbilityHooks.NotifyHit(new HitInfo
+                {
+                    kind = kind, enemy = enemy, damage = damage, critical = isCritical,
+                    point = hit.bounds.center, from = swingFrom,
+                });
             }
         }
+    }
+
+    // 이번 타가 어떤 공격인가 (특성이 막타·차징에만 붙는 경우를 가른다)
+    private DamageKind SwingKind(bool isCharged)
+    {
+        if (isCharged) return DamageKind.Charged;
+        return currentHit >= Mathf.Max(1, comboCount) - 1 ? DamageKind.Finisher : DamageKind.Basic;
     }
 
     // 스탯 기반 공격 데미지 계산.
@@ -515,9 +540,21 @@ public class PlayerCombat : MonoBehaviour
     // 공격이 끝나는 순간, 직전에 눌러 둔 입력이 아직 살아 있으면 다음 타로 이어 준다.
     // 애니메이션의 EndAttack 이벤트가 클립 끝보다 앞에 있으므로, 남은 회복 동작을
     // 다음 타가 끊고 들어가면서 콤보가 매끄럽게 연결된다.
+    // 예약된 입력이 아직 살아 있는가.
+    //
+    // "누른 지 attackBufferWindow 이내"만 보면, 한 타가 그 창보다 길 때(1타 0.5초 vs 창 0.25초)
+    // 타격 앞부분에 누른 입력이 스윙이 끝나기도 전에 만료돼 그대로 씹힌다. 빠르게 두 번 누르면
+    // 두 번째가 안 나가던 원인이 이것이다. 그래서 "이번 스윙 도중에 누른 입력"은 언제 눌렀든 이어 준다.
+    private bool HasBufferedAttack()
+    {
+        if (bufferedAttackTime < 0f) return false;
+        if (bufferedAttackTime >= attackStartTime) return true;          // 이번 스윙 중에 누름
+        return Time.time - bufferedAttackTime <= attackBufferWindow;      // 스윙 전에 눌렀다면 창 안일 때만
+    }
+
     private void ConsumeBufferedAttack()
     {
-        if (Time.time - bufferedAttackTime > attackBufferWindow) return;
+        if (!HasBufferedAttack()) return;
         bufferedAttackTime = -999f;
 
         chargeTime = 0f;

@@ -275,6 +275,13 @@ public class HarvestManager : MonoBehaviour
             Debug.Log($"[Harvest] 연속 {chainCount + 1}번째 — 처형 시간 {baseDuration:0.00}s → {chainedDuration:0.00}s");
         float scaledDuration = harvestDuration / speed;
 
+        // 세트(절대 집행): 처형 내내 + 끝난 뒤 0.5초 무적
+        if (AbilityHooks.HarvestInvincible())
+        {
+            PlayerStatus ps = player.GetComponent<PlayerStatus>();
+            if (ps != null) ps.GrantInvincibility(scaledDuration + 0.5f);
+        }
+
         // 플레이어 처형 애니메이션
         playerAnimator.SetFloat("HarvestSpeed", speed);
         playerAnimator.SetTrigger("Harvest");
@@ -300,6 +307,7 @@ public class HarvestManager : MonoBehaviour
         if (playerStatus != null)
         {
             int soulGain = (enemy.Info != null && enemy.Info.Soul > 0) ? enemy.Info.Soul : defaultSoulGain;
+            soulGain = Mathf.RoundToInt(soulGain * (1f + AbilityHooks.HarvestSoulBonus()));   // 특성: 영혼 수확
             playerStatus.AddSoul(soulGain);
         }
 

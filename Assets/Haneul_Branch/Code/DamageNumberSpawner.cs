@@ -33,7 +33,7 @@ public class DamageNumberSpawner : MonoBehaviour
     [Tooltip("크리티컬 흔들림 세기 0~1. 처형과 같은 0.6이 기본.\n" +
              "흔들림은 세기의 제곱에 비례하므로 0.3 이하로 내리면 거의 안 보인다.")]
     [Range(0f, 1f)]
-    [SerializeField] private float criticalShake = 0.6f;
+    [SerializeField] private float criticalShake = 0.25f;
 
     private void Awake()
     {

@@ -624,6 +624,10 @@ public class Enemy : MonoBehaviour
         return new Vector2(v.x * cos - v.y * sin, v.x * sin + v.y * cos);
     }
 
+    // 처형 가능 체력 비율. 기본 30%, 특성(사형집행인의 눈)이 올려 준다
+    public const float BaseHarvestThreshold = 0.3f;
+    public static float HarvestThreshold => Mathf.Clamp01(BaseHarvestThreshold + AbilityHooks.HarvestThresholdBonus());
+
     public bool CanHarvest
     {
         get
@@ -635,7 +639,7 @@ public class Enemy : MonoBehaviour
             // 체력이 채워지기 전에도 hp가 0이라 같은 문제가 생긴다 (스폰 순간 번쩍임)
             if (!statsReady || maxHp <= 0) return false;
 
-            return (float)hp / maxHp <= 0.3f;
+            return (float)hp / maxHp <= HarvestThreshold;
         }
     }
     // 패링 등으로 인한 경직 (기존 피격 상태 재사용)

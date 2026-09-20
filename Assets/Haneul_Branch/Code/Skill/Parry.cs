@@ -63,7 +63,7 @@ public class Parry : PlayerSkill
 
         // 조작 불가: 방패 애니메이션(판정 시간)이 끝나고 나서 0.5초 더
         var move = ctx.Transform != null ? ctx.Transform.GetComponent<PlayerMove>() : null;
-        if (move != null) move.LockControl(perfectWindow + controlLockDuration);
+        if (move != null) move.LockControl(perfectWindow + Mathf.Max(0f, controlLockDuration - AbilityHooks.ParryLockReduction()));   // 세트: 반격의 기회
 
         ctx.Status.BeginParry(perfectWindow, parryWindow,
             perfectDamageMultiplier, blockedDamageMultiplier,

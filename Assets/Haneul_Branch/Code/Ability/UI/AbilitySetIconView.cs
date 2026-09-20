@@ -128,7 +128,9 @@ public class AbilitySetIconView : MonoBehaviour, IPointerEnterHandler, IPointerE
             string color = open ? "#8FD6A0" : "#6B6E78";
 
             sb.Append("\n<color=").Append(color).Append(">(")
-              .Append(tier.required).Append("종) ").Append(tier.effect).Append("</color>");
+              .Append(tier.required).Append("장) ");
+            if (!string.IsNullOrEmpty(tier.title)) sb.Append(tier.title).Append(" — ");
+            sb.Append(tier.effect).Append("</color>");
         }
 
         if (progress.nextRequirement > 0)

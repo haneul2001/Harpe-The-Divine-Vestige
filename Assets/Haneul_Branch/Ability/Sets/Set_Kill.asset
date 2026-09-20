@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4931fc32a3b1f4f860176cdfea5818, type: 3}
+  m_Name: Set_Kill
+  m_EditorClassIdentifier: 
+  displayName: "\uCC98\uCE58 / \uC5F0\uC1C4"
+  icon: {fileID: 21300000, guid: e38923adcb675e048847537004cb7542, type: 3}
+  flavor: "\uC0AC\uB0E5\uC740 \uBA48\uCD94\uB294 \uC21C\uAC04 \uB05D\uB09C\uB2E4"
+  tiers:
+  - required: 2
+    effect: "\uCC98\uCE58 \uC2DC 2\uCD08\uAC04 \uC774\uB3D9\uC18D\uB3C4 +15%"
+    title: "\uC0AC\uB0E5\uC758 \uB9AC\uB4EC"
+    effects:
+    - {fileID: 11400000, guid: 32578f6daa91e81439e02b64f679a483, type: 2}
+  - required: 3
+    effect: "\uCC98\uCE58\uAC00 3\uCD08 \uAC04\uACA9 \uC548\uC5D0 \uC774\uC5B4\uC9C0\uB294
+      \uB3D9\uC548 \uACF5\uACA9\uC18D\uB3C4 +15%"
+    title: "\uC5F0\uC1C4 \uBCF8\uB2A5"
+    effects:
+    - {fileID: 11400000, guid: 8789953c80f27ea479097d038b27086e, type: 2}
+  - required: 4
+    effect: "\uCC98\uCE58\uD55C \uC801 \uC790\uB9AC\uC5D0\uC11C \uBC18\uACBD 2 \uD3ED\uBC1C,
+      40% \uD53C\uD574"
+    title: "\uC2DC\uCCB4 \uD3ED\uBC1C"
+    effects:
+    - {fileID: 11400000, guid: 19dc58972737f614f95e6246b4ff62dc, type: 2}

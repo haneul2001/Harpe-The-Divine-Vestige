@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_BrutalExecution
+  m_EditorClassIdentifier: 
+  displayName: "\uC794\uD639\uD55C \uC9D1\uD589"
+  description: "\uCC98\uD615 \uC2DC \uC8FC\uBCC0 \uC801\uC5D0\uAC8C \uAD11\uC5ED
+    \uD3ED\uBC1C (\uBC18\uACBD 3, 150% \uD53C\uD574)"
+  icon: {fileID: 21300000, guid: d2dbfa22a2bda404e9f1f2d4eb4dea8a, type: 3}
+  rarity: 3
+  category: 2
+  set: {fileID: 11400000, guid: 5c3ff4af02cdf064084fa74b5f91043f, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: 0112add7d88b7cc4689e7f0f885e2ed2, type: 2}

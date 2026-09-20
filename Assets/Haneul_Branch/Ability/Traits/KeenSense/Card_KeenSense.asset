@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_KeenSense
+  m_EditorClassIdentifier: 
+  displayName: "\uB0A0\uCE74\uB85C\uC6B4 \uAC10\uAC01"
+  description: "\uCE58\uBA85\uD0C0 \uD655\uB960 +10%, \uCE58\uBA85\uD0C0 \uD53C\uD574
+    +30%"
+  icon: {fileID: 21300000, guid: 62d18fea0077f2c44bd58984545fe505, type: 3}
+  rarity: 1
+  category: 0
+  set: {fileID: 11400000, guid: c53aa8b8ce47acf459f21f1f4b9d300c, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: 7d6bccec0ae170d4dabcb8488aed15b2, type: 2}

@@ -8,6 +8,9 @@ public class PlayerMove : MonoBehaviour
     // 일시 버프가 곱하는 이동속도 배율 (처형 단계 버프 등). 저장하지 않는 런타임 값
     [System.NonSerialized] public float speedMult = 1f;
 
+    // 최종 이동속도 = 기본 × 버프 × (1 + 특성 보너스)
+    public float CurrentSpeed => speed * speedMult * (1f + AbilityHooks.MoveSpeedBonus());
+
     [Header("대쉬 설정")]
     public float dashSpeed = 10f;
     public float dashDuration = 0.25f;
@@ -45,9 +48,18 @@ public class PlayerMove : MonoBehaviour
     private float lastDashTime = -100f;
 
     // 상태 아이콘(대시 쿨타임) 표시용
-    public float DashCooldown => dashCooldown;
+    // 세트(날렵함)가 줄여 준 최종 대시 쿨타임
+    public float DashCooldown => dashCooldown * AbilityHooks.DashCooldownMult();
     public const KeyCode DashKey = KeyCode.LeftShift;
-    public float DashCooldownRemaining => Mathf.Max(0f, lastDashTime + dashCooldown - Time.time);
+    public float DashCooldownRemaining => Mathf.Max(0f, lastDashTime + DashCooldown - Time.time);
+
+    // 특성(끝없는 사냥)이 대시 쿨타임을 초기화한다
+    public void ResetDashCooldown()
+    {
+        lastDashTime = -100f;
+    }
+
+    private Vector2 dashStartPos;
 
     void Awake()
     {
@@ -98,7 +110,7 @@ public class PlayerMove : MonoBehaviour
         // 대쉬 입력
         if (Input.GetKeyDown(DashKey) &&
             !isDashing && 
-            Time.time >= lastDashTime + dashCooldown&&
+            Time.time >= lastDashTime + DashCooldown &&
             !combat.isAttacking &&
             !combat.isCharging
             ) //대시는 공격이나 차징 중에는 사용할 수 없도록 조건 추가
@@ -171,6 +183,9 @@ public class PlayerMove : MonoBehaviour
 
         dashDirection = new Vector2(dir.x, dir.y * 0.7f);
         if (Mathf.Abs(dir.x) > 0.01f) spriter.flipX = dir.x < 0f;
+
+        dashStartPos = rb.position;
+        AbilityHooks.NotifyDashStart(dashStartPos, dashDirection.normalized);
     }
 
     // ====================== 대쉬 중 처리 ======================
@@ -180,13 +195,11 @@ public class PlayerMove : MonoBehaviour
 
         rb.velocity = dashDirection * dashSpeed;
 
-        if (dashTimeLeft <= 0f)
+        if (dashTimeLeft <= 0f || combat.isAttacking)
         {
             isDashing = false;
+            AbilityHooks.NotifyDashEnd(dashStartPos, rb.position);
         }
-
-        if (combat.isAttacking)
-            isDashing = false;
     }
 
     // ====================== 공격 전진 ======================
@@ -214,7 +227,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        rb.velocity = moveInput * speed * speedMult;
+        rb.velocity = moveInput * CurrentSpeed;
 
         // 스프라이트 좌우 반전 (이 부분이 대쉬 방향의 기준이 됩니다)
         if (moveInput.x != 0)

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_DeathCounter
+  m_EditorClassIdentifier: 
+  displayName: "\uC8FD\uC74C\uC758 \uBC18\uACA9"
+  description: "\uD328\uB9C1 \uC131\uACF5 \uD6C4 3\uCD08 \uC548\uC758 \uB2E4\uC74C
+    \uCC28\uC9D5 \uACF5\uACA9 \uB610\uB294 \uB9C9\uD0C0(3\uD0C0): \uACF5\uACA9\uC18D\uB3C4
+    +50%, \uD53C\uD574 +200%"
+  icon: {fileID: 21300000, guid: 0e6ec84af70fb6349b5820b137a2e2a3, type: 3}
+  rarity: 3
+  category: 4
+  set: {fileID: 11400000, guid: ac1fb51d95cc7074e9d1d96907eea729, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: df72dac519ee1084686f8ae5f8eff1fe, type: 2}

@@ -124,6 +124,9 @@ public class PlayerStealth : MonoBehaviour
         if (hidden && ShouldBreak())
             Break();
 
+        if (hidden && autoRevealTime > 0f && Time.time >= autoRevealTime)
+            Break();
+
         if (status != null) lastHp = status.CurrentHp;
 
         UpdateAlpha();
@@ -143,9 +146,32 @@ public class PlayerStealth : MonoBehaviour
         // 공격 중이거나 처형 중이면 애초에 못 들어간다
         if (ShouldBreak()) return;
 
+        Cloak();
+    }
+
+    private void Cloak()
+    {
         hidden = true;
+        autoRevealTime = -1f;
         ApplyPhysics();
         PlaySmoke(cloakSmokeState);
+        AbilityHooks.NotifyStealthEnter();
+    }
+
+    // 특성(유령의 발걸음): 잠깐 은신했다가 시간이 지나면 저절로 풀린다. 해금·재은신 대기와 상관없이 들어간다
+    private float autoRevealTime = -1f;
+
+    public void CloakFor(float seconds)
+    {
+        if (hidden) { autoRevealTime = Mathf.Max(autoRevealTime, Time.time + seconds); return; }
+        Cloak();
+        autoRevealTime = Time.time + seconds;
+    }
+
+    // 특성(암살자의 흔적): 재은신 대기를 없앤다
+    public void ResetCooldown()
+    {
+        nextCloakTime = 0f;
     }
 
     // 연기는 캐릭터에 붙이지 않고 그 자리에 남긴다 — 연막 속으로 사라지는 느낌이 나야 한다
@@ -202,9 +228,11 @@ public class PlayerStealth : MonoBehaviour
         if (!hidden) return;
 
         hidden = false;
+        autoRevealTime = -1f;
         nextCloakTime = Time.time + recloakDelay;
         ApplyPhysics();
         PlaySmoke(revealSmokeState);
+        AbilityHooks.NotifyStealthExit();
     }
 
     // 컴포넌트가 꺼지거나 파괴돼도 통과 상태로 굳지 않게 되돌린다

@@ -29,7 +29,7 @@ public static class AbilityRarityUtil
     {
         switch (rarity)
         {
-            case AbilityRarity.Rare:      return "레어";
+            case AbilityRarity.Rare:      return "희귀";
             case AbilityRarity.Epic:      return "에픽";
             case AbilityRarity.Legendary: return "전설";
             default:                      return "일반";

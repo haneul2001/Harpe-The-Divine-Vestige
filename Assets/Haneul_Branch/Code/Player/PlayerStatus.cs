@@ -112,6 +112,25 @@ public class PlayerStatus : MonoBehaviour
     private void Start()
     {
         currentHp = MaxHp;
+        lastMaxHp = MaxHp;
+    }
+
+    // 최대 체력이 특성으로 늘면 늘어난 만큼 현재 체력도 채운다. 줄면 넘치는 만큼만 깎는다
+    private int lastMaxHp;
+
+    private void LateUpdate()
+    {
+        int max = MaxHp;
+        if (max == lastMaxHp || isDead) { lastMaxHp = max; return; }
+        if (max > lastMaxHp) currentHp += max - lastMaxHp;
+        currentHp = Mathf.Min(currentHp, max);
+        lastMaxHp = max;
+    }
+
+    public void Heal(int amount)
+    {
+        if (isDead || amount <= 0) return;
+        currentHp = Mathf.Min(MaxHp, currentHp + amount);
     }
 
     // 피해를 받는다. 반환값: 실제로 피해가 적중했는지(넉백 여부 판단용). 퍼펙트 패링/무적이면 false.
@@ -204,9 +223,17 @@ public class PlayerStatus : MonoBehaviour
         pendingCounterTarget = null;
         if (target.isDead) return;
 
-        bool isCrit;
-        int counter = Mathf.Max(1, Mathf.RoundToInt(stats.RollPhysicalDamage(out isCrit) * parryCounterMultiplier));
+        bool isCrit = stats.RollCritChance() || AbilityHooks.ForcesCrit(DamageKind.Parry);
+        int counter = Mathf.Max(1, Mathf.RoundToInt(stats.RollPhysicalDamage(isCrit) * parryCounterMultiplier
+            * AbilityHooks.DamageMultiplier(DamageKind.Parry, target, true)));
         target.TakeDamage(counter, true, Color.yellow); // 반격 (+HitState 경직, 노란 데미지 숫자)
+
+        AbilityHooks.NotifyHit(new HitInfo
+        {
+            kind = DamageKind.Parry, enemy = target, damage = counter, critical = isCrit,
+            point = PlayerHitSparkVfx.BodyBounds(target).center, from = transform.position,
+        });
+        AbilityHooks.NotifyParrySuccess(target);
 
         // 패링 이펙트 — 맞은 몬스터 몸통 한가운데에서 터진다
         if (!string.IsNullOrEmpty(parryHitVfxId))
@@ -314,8 +341,10 @@ public class PlayerStatus : MonoBehaviour
     public void AddSoul(int amount)
     {
         if (amount <= 0) return;
+        amount = Mathf.RoundToInt(amount * AbilityHooks.SoulGainMult());   // 세트: 영혼의 끌림
         stats.GainSoul(amount);
         Debug.Log($"소울 획득: +{amount} → {stats.soul}/{MaxSoul}");
+        AbilityHooks.NotifySoulGained(amount);
     }
 
     private IEnumerator InvincibleCoroutine()

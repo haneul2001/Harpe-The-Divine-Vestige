@@ -1543,7 +1543,7 @@ MonoBehaviour:
   sortingLayer: Skill
   sortingOrder: 100
   shakeOnCritical: 1
-  criticalShake: 0.6
+  criticalShake: 0.25
 --- !u!4 &941936605
 Transform:
   m_ObjectHideFlags: 0
@@ -1919,6 +1919,7 @@ MonoBehaviour:
   maxRoll: 0
   decay: 1.8
   frequency: 22
+  stackRatio: 0.25
 --- !u!114 &1032787163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2733,7 +2734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   harvestRange: 6
   harvestTeleportOntoTarget: 1
-  attackSpeed: 1.2
+  attackSpeed: 1.4
   chargedDamageMultiplier: 2
   isAttacking: 0
   isCharging: 0
@@ -2747,7 +2748,7 @@ MonoBehaviour:
   lungeDuration: 0.08
   comboCount: 3
   reverseSlashByHit: 000100
-  finisherRecovery: 0.35
+  finisherRecovery: 0.25
   minHitDelay: 0.1
   comboResetTime: 1
   enemyLayer:

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5253e1776530a24b96bdc078fdc2e01, type: 3}
+  m_Name: AbilityFxLibrary
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 091b335632459f14b9a7fd836f1919b4, type: 3}
+  - {fileID: 21300000, guid: d6624bfbd67d81e4581140e831a847a6, type: 3}
+  - {fileID: 21300000, guid: 125102eeff5194c46a6d777084d79d44, type: 3}
+  - {fileID: 21300000, guid: 98d3cf1e07d30544db468d5f32ceff8b, type: 3}
+  - {fileID: 21300000, guid: c1139b7a5dfff4043ad205109d09fe03, type: 3}
+  - {fileID: 21300000, guid: 587e5db8d3d790241aab65809b03b8d6, type: 3}
+  - {fileID: 21300000, guid: 5c681c8ee342bab4fa39d87cee3f714f, type: 3}
+  - {fileID: 21300000, guid: 56219afe3a34e6941b3b83a45d1e1c5b, type: 3}
+  - {fileID: 21300000, guid: 3f34e6325b6a4c7419a86f8fa6c07c7e, type: 3}

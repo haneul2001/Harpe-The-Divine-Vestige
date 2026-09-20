@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_SoulVessel
+  m_EditorClassIdentifier: 
+  displayName: "\uC601\uD63C\uC758 \uADF8\uB987"
+  description: "\uBCF4\uC720 \uC18C\uC6B8\uC774 \uB9CE\uC744\uC218\uB85D \uD53C\uD574
+    \uC99D\uAC00 (\uAC00\uB4DD \uCC28\uBA74 +40%)"
+  icon: {fileID: 21300000, guid: f2e49f3588b34e34c92c21fa53477b82, type: 3}
+  rarity: 1
+  category: 7
+  set: {fileID: 11400000, guid: eeb81c1e1e523e3409fb447eaccf6492, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: f3708b5697c231a419c18a4dec96366e, type: 2}

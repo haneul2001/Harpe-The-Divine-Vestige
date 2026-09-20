@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_SoulExplosion
+  m_EditorClassIdentifier: 
+  displayName: "\uC601\uD63C \uD3ED\uBC1C"
+  description: "\uC18C\uC6B8\uC744 50 \uBAA8\uC744 \uB54C\uB9C8\uB2E4 \uC8FC\uBCC0\uC5D0
+    \uC601\uD63C \uD3ED\uBC1C (\uBC18\uACBD 5, 250% \uD53C\uD574)"
+  icon: {fileID: 21300000, guid: e79322bff02e6ec47a0a8c60ac6f51d1, type: 3}
+  rarity: 3
+  category: 7
+  set: {fileID: 11400000, guid: eeb81c1e1e523e3409fb447eaccf6492, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: e06784e0cdaa53c459e1f39958289a41, type: 2}

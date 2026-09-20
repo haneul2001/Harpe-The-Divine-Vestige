@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28f9c2fc8e80840a3667bfe7b7b0de, type: 3}
+  m_Name: Card_ChainExecution
+  m_EditorClassIdentifier: 
+  displayName: "\uC5F0\uC1C4 \uC9D1\uD589"
+  description: "\uCC98\uD615 \uC2DC \uD3ED\uBC1C(100% \uD53C\uD574)\uD558\uACE0,
+    \uD3ED\uBC1C\uB85C \uCC98\uD615 \uCCB4\uB825\uC5D0 \uB4E4\uC5B4\uC628 \uC801\uC744
+    \uC774\uC5B4\uC11C \uCC98\uD615\uD55C\uB2E4 (\uCD5C\uB300 4\uC5F0\uC1C4)"
+  icon: {fileID: 21300000, guid: 2c1b909c9e6c1dd468bd439fa302f23c, type: 3}
+  rarity: 3
+  category: 2
+  set: {fileID: 11400000, guid: 5c3ff4af02cdf064084fa74b5f91043f, type: 2}
+  flavor: 
+  effects:
+  - {fileID: 11400000, guid: 0b809b39d13cc274680f7d897a2418d6, type: 2}

@@ -75,9 +75,72 @@ public class AbilityEffectRunner : MonoBehaviour
     [Tooltip("구독/발동 상황을 콘솔에 남긴다. 효과가 안 터질 때 원인 찾기용")]
     [SerializeField] private bool debugLog = false;
 
+    public AbilityContext Context => context;
+
+    // ─── AbilityHooks가 쓰는 조회·배포 ───
+
+    public void Dispatch(System.Action<AbilityEffect> call)
+    {
+        // 효과 안에서 카드가 바뀌어도(드물다) 안전하게 — 복사본을 돈다
+        var snapshot = active.ToArray();
+        for (int i = 0; i < snapshot.Length; i++)
+        {
+            if (snapshot[i] == null) continue;
+            try { call(snapshot[i]); }
+            catch (System.Exception ex) { Debug.LogException(ex, snapshot[i]); }
+        }
+    }
+
+    public float Sum(System.Func<AbilityEffect, float> f)
+    {
+        float sum = 0f;
+        for (int i = 0; i < active.Count; i++)
+            if (active[i] != null) sum += f(active[i]);
+        return sum;
+    }
+
+    public bool Any(System.Func<AbilityEffect, bool> f)
+    {
+        for (int i = 0; i < active.Count; i++)
+            if (active[i] != null && f(active[i])) return true;
+        return false;
+    }
+
+    public float DamageMultiplier(DamageQuery q)
+    {
+        float mult = 1f;
+        for (int i = 0; i < active.Count; i++)
+            if (active[i] != null) mult *= Mathf.Max(0f, active[i].DamageMultiplier(context, q));
+        return mult;
+    }
+
+    public bool ForcesCrit(DamageKind kind)
+    {
+        for (int i = 0; i < active.Count; i++)
+            if (active[i] != null && active[i].ForcesCrit(context, kind)) return true;
+        return false;
+    }
+
+    private void Update()
+    {
+        if (active.Count == 0) return;
+        float dt = Time.deltaTime;
+        for (int i = 0; i < active.Count; i++)
+            if (active[i] != null) active[i].OnTick(context, dt);
+    }
+
+    private void OnEnemyDied(Enemy enemy)
+    {
+        Dispatch(e => e.OnEnemyKilled(context, enemy));
+    }
+
     private void SubscribeGameEvents()
     {
         if (harvest != null) return;   // 중복 구독 방지
+
+        AbilityHooks.Runner = this;
+        Enemy.AnyDied -= OnEnemyDied;
+        Enemy.AnyDied += OnEnemyDied;
 
         harvest = HarvestManager.Instance;
 
@@ -96,6 +159,9 @@ public class AbilityEffectRunner : MonoBehaviour
     {
         if (harvest != null) harvest.ImpactLanded -= OnHarvestImpact;
         harvest = null;
+
+        Enemy.AnyDied -= OnEnemyDied;
+        if (AbilityHooks.Runner == this) AbilityHooks.Runner = null;
     }
 
     private void OnHarvestImpact(HarvestImpact impact)
@@ -134,6 +200,22 @@ public class AbilityEffectRunner : MonoBehaviour
 
                 active.Add(effect);
                 effect.OnAcquire(context);
+            }
+        }
+
+        // 세트 시너지: 열린 단계의 효과를 전부 붙인다 (단계는 누적)
+        foreach (AbilitySetProgress p in AbilitySetCalculator.Collect(owned))
+        {
+            var tiers = p.set.Tiers;
+            for (int t = 0; t < tiers.Length; t++)
+            {
+                if (tiers[t] == null || p.owned < tiers[t].required || tiers[t].effects == null) continue;
+                foreach (AbilityEffect effect in tiers[t].effects)
+                {
+                    if (effect == null) continue;
+                    active.Add(effect);
+                    effect.OnAcquire(context);
+                }
             }
         }
     }
