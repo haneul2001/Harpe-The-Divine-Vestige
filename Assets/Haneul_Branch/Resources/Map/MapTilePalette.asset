@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d9480fdc7c18d4aaf97f6478dba538, type: 3}
+  m_Name: MapTilePalette
+  m_EditorClassIdentifier: 
+  themes:
+  - name: "\uB0A1\uC740 \uAC10\uC625"
+    sourceFolder: ERW - Old Prison
+    entries:
+    - tile: {fileID: 11400000, guid: 6be5c88d6b5d686489c71c4d3a3e53db, type: 2}
+      role: 1
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 5e25e7127887296429ea62c99b85afc8, type: 2}
+      role: 16
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: ab2ebde0fb890e2418f5a1e9f283ad92, type: 2}
+      role: 17
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: cc1f510bd74f6454c8ea13bbb6da9f8f, type: 2}
+      role: 13
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 20f7decf02acb4c4fb9608e560996ff0, type: 2}
+      role: 14
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 8bfab288dd0dca2488ef873323d78e18, type: 2}
+      role: 15
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 49699179217215341aa13cf2f09e51c3, type: 2}
+      role: 12
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 56e2bd7520b99614f97cdd017029adc0, type: 2}
+      role: 10
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 30bcdd797fbc4914bb1db3156423eb7b, type: 2}
+      role: 11
+      weight: 1
+      note: 
+  - name: "\uC9C0\uD558 \uBB18\uC2E4"
+    sourceFolder: ERW-Crypt
+    entries:
+    - tile: {fileID: 11400000, guid: 0f440fbd47a53324ca9b61b4d3aa5458, type: 2}
+      role: 13
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: febc949e596f7cf4f986957f63723a9a, type: 2}
+      role: 12
+      weight: 1
+      note: 
+    - tile: {fileID: 11400000, guid: 7d57ac7e41e7ac14ab614b3fc0f169e7, type: 2}
+      role: 14
+      weight: 1
+      note: 
+  - name: "\uC9C0\uD558 \uD558\uC218\uB3C4"
+    sourceFolder: ERW - Sewers
+    entries: []
