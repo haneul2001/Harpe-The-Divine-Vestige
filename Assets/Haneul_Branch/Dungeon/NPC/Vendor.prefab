@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 2951679531280877079}
   - component: {fileID: 6282692556138939928}
   - component: {fileID: 6996580326004438936}
-  m_Layer: 0
+  - component: {fileID: 4830743796617054167}
+  - component: {fileID: 5213847369004781530}
+  m_Layer: 7
   m_Name: Vendor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1023852839524013972}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3049326997854112827
@@ -124,19 +127,44 @@ MonoBehaviour:
   interactKey: 118
   promptHeight: 1.8
   promptSize: 0.5
-  pool: []
-  pullCost: 50
-  commonWeight: 60
-  rareWeight: 27
-  epicWeight: 10
-  legendaryWeight: 3
-  cardSize: {x: 200, y: 310}
+  potionPrice: 20
+  potionHealPercent: 35
+  potionIcon: {fileID: 783841269, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  statPool:
+  - kind: 0
+    amount: 5
+    price: 40
+    icon: {fileID: -1512266952, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  - kind: 1
+    amount: 2
+    price: 45
+    icon: {fileID: -972141960, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  - kind: 2
+    amount: 5
+    price: 35
+    icon: {fileID: -1944351425, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  - kind: 3
+    amount: 10
+    price: 30
+    icon: {fileID: -41470681, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  statSlots: 2
+  traitOfferChance: 0.35
+  traitPrices: 320000006400000096000000c8000000
+  traitRarityWeights:
+  - 55
+  - 28
+  - 12
+  - 5
+  gambleStake: 30
+  failChance: 60
+  x15Chance: 20
+  x2Chance: 10
+  traitChance: 10
+  gambleIcon: {fileID: -1126419981, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
   pixelScale: 2
-  pullButtonSprite: {fileID: 21300000, guid: 91b533f7d9cc32b498b197a31317fcda, type: 3}
   titlePlateSprite: {fileID: -426856790, guid: 1d324a1828c0ebc42b6eb5a1d01cd1bd, type: 3}
   badgePlateSprite: {fileID: 853502768, guid: 1d324a1828c0ebc42b6eb5a1d01cd1bd, type: 3}
-  soulIcon: {fileID: 444843525, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
-  cardBackSprite: {fileID: 21300000, guid: 2a0a9af0c8b00474d8dff459c26fc143, type: 3}
+  goldIcon: {fileID: -8171958947958391838, guid: 67b241f733b96734bbf0c4bc1214e83e, type: 3}
   promptKeySprite: {fileID: 1213479468, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
   backdropColor: {r: 0, g: 0, b: 0, a: 0.8}
   panelFill: {r: 0.07, g: 0.07, b: 0.1, a: 0.98}
@@ -144,7 +172,6 @@ MonoBehaviour:
   slotFill: {r: 0.11, g: 0.11, b: 0.14, a: 1}
   goldText: {r: 0.93, g: 0.83, b: 0.56, a: 1}
   dimText: {r: 0.49, g: 0.51, b: 0.55, a: 1}
-  soulColor: {r: 0.56, g: 0.48, b: 0.94, a: 1}
   font: {fileID: 0}
   skin: {fileID: 11400000, guid: 2d625fe841f4a224cabbf91803dc46fc, type: 2}
 --- !u!61 &6996580326004438936
@@ -191,4 +218,151 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.58, y: 0.2}
+  m_EdgeRadius: 0
+--- !u!50 &4830743796617054167
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3640756424257183115}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!114 &5213847369004781530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3640756424257183115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af17b6239e95fac45a09c31279f831ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  backPosition: {fileID: 0}
+  separationRadius: 0.8
+  separationWeight: 0.6
+  crowdPressureThreshold: 1.5
+  settleDeadzone: 0.25
+  settleSpeedFactor: 0
+  settleRadiusFactor: 0.5
+  lockPositionWhileAttacking: 1
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  avoidProbeDistance: 0.6
+  avoidMaxAngle: 120
+  avoidAngleStep: 30
+  detectRange: 0
+  attackRange: 0
+  moveSpeed: 0
+  attackIdleTime: 2
+  attackWarningDuration: 2
+  attackDamage: 0
+  hitDuration: 0.35
+  player: {fileID: 0}
+  maxHp: 500
+  grade: 1
+  enemyInfo: {fileID: 0}
+  portrait: {fileID: 0}
+  animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  lastAttackTime: 0
+  harvestable: 0
+--- !u!1 &5991384678290056472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1023852839524013972}
+  - component: {fileID: 6675907073024860725}
+  m_Layer: 13
+  m_Name: BlockBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1023852839524013972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991384678290056472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9005356755316935776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6675907073024860725
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991384678290056472}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.26666668}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.58, y: 0.53333336}
   m_EdgeRadius: 0

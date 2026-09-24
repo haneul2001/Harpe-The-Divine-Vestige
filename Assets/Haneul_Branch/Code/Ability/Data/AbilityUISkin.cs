@@ -27,6 +27,22 @@ public class AbilityUISkin : ScriptableObject
     [Tooltip("채워 두면 해당 등급은 cardFrame 대신 이걸 쓴다. 일부만 채워도 된다")]
     public Sprite[] frameByRarity = new Sprite[0];
 
+    [System.Serializable]
+    public class FlipSet
+    {
+        [Tooltip("01(정면) → 04(옆면) 순서")]
+        public Sprite[] frames = new Sprite[0];
+    }
+
+    [Tooltip("발동 키 표시용 14x14 키캡 (Art/UI/KeyCap.png) — 상태바 키캡과 같은 그림")]
+    public Sprite keyCap;
+
+    [Header("뒤집기 연출 (Skill Cards- Flip Animations)")]
+    [Tooltip("뒷면이 넘어가는 4프레임")]
+    public Sprite[] cardBackFlip = new Sprite[0];
+    [Tooltip("등급별 앞면이 드러나는 4프레임 (Common/Rare/Epic/Legendary 순서)")]
+    public FlipSet[] faceFlipByRarity = new FlipSet[0];
+
     [Header("패널")]
     public Sprite panelBackground;
     public Sprite panelBorder;
@@ -42,6 +58,16 @@ public class AbilityUISkin : ScriptableObject
     [Tooltip("패널·슬롯 그림 1픽셀을 UI 몇 칸으로 그릴지. 카드(100x155 → 200x310)와 같은 2배로 맞춘다")]
     [Min(0.1f)]
     public float pixelScale = 2f;
+
+    // 등급에 맞는 앞면 뒤집기 4프레임. 없으면 null (연출을 건너뛰라는 뜻)
+    public Sprite[] FaceFlipFor(AbilityRarity rarity)
+    {
+        int i = (int)rarity;
+        if (faceFlipByRarity == null || i < 0 || i >= faceFlipByRarity.Length || faceFlipByRarity[i] == null) return null;
+
+        Sprite[] f = faceFlipByRarity[i].frames;
+        return f != null && f.Length > 0 ? f : null;
+    }
 
     // 등급에 맞는 프레임. 없으면 공용 프레임, 그것도 없으면 null(=단색 폴백)
     public Sprite FrameFor(AbilityRarity rarity)
@@ -70,6 +96,11 @@ public static class AbilityUISkinUtil
     public static Sprite EmptyCardSlot(this AbilityUISkin skin) => skin != null ? skin.emptyCardSlot : null;
     public static Sprite TitlePlate(this AbilityUISkin skin) => skin != null ? skin.titlePlate : null;
     public static float PixelScale(this AbilityUISkin skin) => skin != null ? skin.pixelScale : 1f;
+    public static Sprite KeyCap(this AbilityUISkin skin) => skin != null ? skin.keyCap : null;
+    public static Sprite[] CardBackFlip(this AbilityUISkin skin)
+        => skin != null && skin.cardBackFlip != null && skin.cardBackFlip.Length > 0 ? skin.cardBackFlip : null;
+    public static Sprite[] FaceFlip(this AbilityUISkin skin, AbilityRarity rarity)
+        => skin != null ? skin.FaceFlipFor(rarity) : null;
 
     public static Sprite Frame(this AbilityUISkin skin, AbilityRarity rarity)
         => skin != null ? skin.FrameFor(rarity) : null;

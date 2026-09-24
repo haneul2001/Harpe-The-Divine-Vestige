@@ -134,3 +134,77 @@ MonoBehaviour:
     scale: 1.5
     sortingLayer: Skill
     sortingOrder: 50
+  - id: BossSlash
+    frames: []
+    prefab: {fileID: 4748681987041982144, guid: fd4091e4f6545b042b8d8536296c96c5, type: 3}
+    lifeTime: 0.9
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1.4
+    sortingLayer: Skill
+    sortingOrder: 2
+  - id: BossCrack
+    frames:
+    - {fileID: 2000679869, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1301386594, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 263788822, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -632030099, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 535862021, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -905834196, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1629550848, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 603564322, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -496953248, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1739174442, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1818073672, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1376755867, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1767690690, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 999988984, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -2055098433, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 155985073, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -483751773, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -2128278911, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1704946449, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 119338595, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 901825219, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1521256869, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 0.9
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1.6
+    sortingLayer: Skill
+    sortingOrder: 2
+  - id: BossSpear
+    frames:
+    - {fileID: 2000679869, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1301386594, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 263788822, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -632030099, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 535862021, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -905834196, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1629550848, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 603564322, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -496953248, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1739174442, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1818073672, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1376755867, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1767690690, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 999988984, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -2055098433, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 155985073, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -483751773, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -2128278911, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1704946449, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 119338595, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 901825219, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1521256869, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 5
+    fps: 20
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.8
+    sortingLayer: Skill
+    sortingOrder: 1

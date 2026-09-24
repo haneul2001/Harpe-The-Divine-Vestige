@@ -337,12 +337,46 @@ public class PlayerStatus : MonoBehaviour
             if (renderers[i] != null) renderers[i].enabled = value;
     }
 
+    public int CurrentGold => stats.gold;
+
+    // 골드가 늘거나 줄 때마다 발생 — HUD·상점이 이것만 보면 된다
+    public static event System.Action<int> GoldChanged;
+
+    public void AddGold(int amount)
+    {
+        if (amount <= 0) return;
+        stats.GainGold(amount);
+        if (GoldChanged != null) GoldChanged(stats.gold);
+    }
+
+    // 상점에서 쓴다. 모자라면 false
+    // 판이 끝나면 0부터 다시 (RunSession이 부른다)
+    public void ResetGold()
+    {
+        if (stats.gold == 0) return;
+        stats.gold = 0;
+        if (GoldChanged != null) GoldChanged(0);
+    }
+
+    public bool SpendGold(int cost)
+    {
+        if (!stats.TrySpendGold(cost)) return false;
+        if (GoldChanged != null) GoldChanged(stats.gold);
+        return true;
+    }
+
+    // 소울을 벌 때마다 발생 (보정이 끝난 실제 획득량).
+    // 성장(TraitLevelUp)은 "지금 들고 있는 소울"이 아니라 "번 소울"을 세야 해서 따로 알린다 —
+    // 스킬로 쓴다고 성장이 되돌아가면 안 된다.
+    public static event System.Action<int> SoulGained;
+
     // 소울 획득 (처형 시). CharacterStats.GainSoul이 최대치로 클램프.
     public void AddSoul(int amount)
     {
         if (amount <= 0) return;
         amount = Mathf.RoundToInt(amount * AbilityHooks.SoulGainMult());   // 세트: 영혼의 끌림
         stats.GainSoul(amount);
+        if (SoulGained != null) SoulGained(amount);
         Debug.Log($"소울 획득: +{amount} → {stats.soul}/{MaxSoul}");
         AbilityHooks.NotifySoulGained(amount);
     }

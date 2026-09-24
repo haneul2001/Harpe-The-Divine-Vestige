@@ -64,6 +64,13 @@ public class VfxBrowserWindow : EditorWindow
 
     private const int MaxLiveInstances = 60;   // 화면에 보이는 칸만 인스턴스를 들고 있는다
 
+    // 칸마다 3D 미리보기를 매 프레임 그리면(30fps × 수십 칸) URP가 프레임마다 잡는 메모리가
+    // 쌓여 에디터가 몇십 GB까지 부풀다 죽는다. 그래서 움직이는 건 마우스를 올린 칸 하나뿐이고
+    // 나머지는 한 번 찍어 둔 그림을 다시 그린다.
+    private readonly Dictionary<string, Texture2D> stills = new Dictionary<string, Texture2D>();
+    private float stillsCellSize = -1f;
+    private string hoverKey = "";
+
     [MenuItem("Harpe/VFX 브라우저")]
     public static void Open()
     {
@@ -82,6 +89,7 @@ public class VfxBrowserWindow : EditorWindow
     private void OnDisable()
     {
         EditorApplication.update -= Tick;
+        ClearStills();
         ClearLive();
         if (preview != null) { preview.Cleanup(); preview = null; }
     }
@@ -210,6 +218,7 @@ public class VfxBrowserWindow : EditorWindow
 
         var visibleKeys = new HashSet<string>();
         float t = Now();
+        capturedThisFrame = 0;
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -265,8 +274,14 @@ public class VfxBrowserWindow : EditorWindow
         Rect label = new Rect(cell.x, img.yMax + 2f, cell.width, 18f);
 
         EditorGUI.DrawRect(img, new Color(0.13f, 0.13f, 0.15f));
+
+        if (img.Contains(Event.current.mousePosition)) hoverKey = e.Key;
+
         if (Event.current.type == EventType.Repaint)
-            RenderPreview(img, e, time + phase);
+        {
+            if (e.Key == hoverKey) RenderPreview(img, e, time + phase);    // 올려 둔 칸만 움직인다
+            else DrawStill(img, e);
+        }
 
         bool selected = Selection.activeObject != null && AssetDatabase.GetAssetPath(Selection.activeObject) == e.path;
         if (selected) DrawOutline(img, new Color(0.95f, 0.75f, 0.3f));
@@ -334,29 +349,100 @@ public class VfxBrowserWindow : EditorWindow
         cam.transform.rotation = Quaternion.identity;
     }
 
+    // 한 번 찍어 둔 그림을 그린다. 없으면 이번 프레임에 한 칸만 찍는다 —
+    // 한꺼번에 다 찍으면 창을 열자마자 예전과 같은 양을 렌더링하게 된다.
+    private void DrawStill(Rect rect, Entry e)
+    {
+        if (stillsCellSize != cellSize) { ClearStills(); stillsCellSize = cellSize; }
+
+        Texture2D tex;
+        if (stills.TryGetValue(e.Key, out tex) && tex != null)
+        {
+            GUI.DrawTexture(rect, tex);
+            return;
+        }
+
+        if (capturedThisFrame >= 1) return;   // 프레임당 한 칸
+        capturedThisFrame++;
+
+        tex = CapturePreview(rect, e);
+        if (tex != null)
+        {
+            stills[e.Key] = tex;
+            GUI.DrawTexture(rect, tex);
+        }
+    }
+
+    private int capturedThisFrame;
+
+    private Texture2D CapturePreview(Rect rect, Entry e)
+    {
+        EnsurePreview();
+        Live l = GetLive(e);
+        if (l == null || l.go == null) return null;
+
+        SetupScene(l, e, StillTime(e, l));
+
+        preview.BeginPreview(rect, GUIStyle.none);
+        preview.Render(true);
+        Texture rt = preview.EndPreview();
+        if (rt == null) return null;
+
+        int w = Mathf.Max(8, Mathf.RoundToInt(rect.width));
+        int h = Mathf.Max(8, Mathf.RoundToInt(rect.height));
+
+        var copy = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        copy.hideFlags = HideFlags.HideAndDontSave;
+
+        RenderTexture prev = RenderTexture.active;
+        RenderTexture.active = rt as RenderTexture;
+        copy.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+        copy.Apply();
+        RenderTexture.active = prev;
+        return copy;
+    }
+
+    // 정지 그림으로 쓸 시점 — 이펙트가 가장 잘 보이는 중간쯤
+    private static float StillTime(Entry e, Live l)
+    {
+        float len = e.clip != null ? e.clip.length : l.duration;
+        return len * 0.45f;
+    }
+
+    private void ClearStills()
+    {
+        foreach (var t in stills.Values) if (t != null) DestroyImmediate(t);
+        stills.Clear();
+    }
+
     private void RenderPreview(Rect rect, Entry e, float time)
     {
         EnsurePreview();
         Live l = GetLive(e);
         if (l == null || l.go == null) return;
 
+        SetupScene(l, e, time);
+
+        preview.BeginPreview(rect, GUIStyle.none);
+        preview.Render(true);
+        preview.EndAndDrawPreview(rect);
+    }
+
+    // 프리뷰 씬을 이 항목 상태로 맞춘다 (실시간·정지 캡처가 같은 경로를 쓴다)
+    private void SetupScene(Live l, Entry e, float time)
+    {
         // 같은 프리뷰 씬을 칸마다 돌려 쓰므로 지금 그릴 것만 켠다
         foreach (var other in live.Values)
             if (other.go != null && other != l && other.go.activeSelf) other.go.SetActive(false);
         l.go.SetActive(true);
 
         Sample(e, l, time);
-
         if (!l.framed) Frame(e, l);
 
         var cam = preview.camera;
         Vector3 c = l.bounds.center;
         cam.transform.position = new Vector3(c.x, c.y, c.z - 50f);
         cam.orthographicSize = Mathf.Max(0.3f, Mathf.Max(l.bounds.extents.x, l.bounds.extents.y) * 1.15f);
-
-        preview.BeginPreview(rect, GUIStyle.none);
-        preview.Render(true);
-        preview.EndAndDrawPreview(rect);
     }
 
     private void Sample(Entry e, Live l, float time)

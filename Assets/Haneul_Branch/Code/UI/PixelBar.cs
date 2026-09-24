@@ -166,12 +166,20 @@ public class PixelBar
 
     private void AddSegment(string name, float t)
     {
-        Image line = UIFactory.Panel(name, Segments, new Color(0f, 0f, 0f, 0.5f), false);
+        // 어두운 빈 칸 위에서도 보여야 한다 — 검은 선은 아직 안 깎인 구간에서 묻힌다.
+        // 밝은 선 + 뒤에 깐 어두운 선으로 붉은 체력 위에서도, 빈 칸에서도 읽히게 한다.
+        AddLine(name + "_Shadow", t, 4f, new Color(0f, 0f, 0f, 0.55f));
+        AddLine(name, t, 2f, new Color(0.93f, 0.88f, 0.76f, 0.75f));
+    }
+
+    private void AddLine(string name, float t, float width, Color color)
+    {
+        Image line = UIFactory.Panel(name, Segments, color, false);
         RectTransform rt = line.rectTransform;
         rt.anchorMin = new Vector2(t, 0f);
         rt.anchorMax = new Vector2(t, 1f);
         rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(2f, 0f);
+        rt.sizeDelta = new Vector2(width, 0f);
         rt.anchoredPosition = Vector2.zero;
     }
 

@@ -9,7 +9,18 @@ public class PlayerMove : MonoBehaviour
     [System.NonSerialized] public float speedMult = 1f;
 
     // 최종 이동속도 = 기본 × 버프 × (1 + 특성 보너스)
-    public float CurrentSpeed => speed * speedMult * (1f + AbilityHooks.MoveSpeedBonus());
+    // 상점 능력치 카드로 올린 이동속도까지 포함한다
+    public float CurrentSpeed => speed * speedMult * (1f + AbilityHooks.MoveSpeedBonus() + StatBonusMoveSpeed);
+
+    private PlayerStatus statusForSpeed;
+    private float StatBonusMoveSpeed
+    {
+        get
+        {
+            if (statusForSpeed == null) statusForSpeed = GetComponent<PlayerStatus>();
+            return statusForSpeed != null ? statusForSpeed.Stats.bonusMoveSpeed : 0f;
+        }
+    }
 
     [Header("대쉬 설정")]
     public float dashSpeed = 10f;

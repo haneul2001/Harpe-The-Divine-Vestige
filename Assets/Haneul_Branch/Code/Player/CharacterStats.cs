@@ -62,6 +62,16 @@ public class CharacterStats
     [Tooltip("기본 최대 소울 (INT 보너스 제외)")]
     public int baseMaxSoul = 100;
 
+    [Header("골드")]
+    [Tooltip("현재 골드 — 몬스터가 떨어뜨리고 상점에서 쓴다")]
+    public int gold = 0;
+
+    [Header("성장 (상점 능력치 카드)")]
+    [Tooltip("능력치 카드로 올린 치명타 확률(%p). 스탯 캡(50%) 위에 얹힌다")]
+    public float bonusCritRate = 0f;
+    [Tooltip("능력치 카드로 올린 이동속도 배율(0.05 = +5%)")]
+    public float bonusMoveSpeed = 0f;
+
     [Header("전투")]
     [Tooltip("기본 공격력 — 무기/장비에서 오는 값 (STR 보너스 제외)")]
     public int baseAttackPower = 100;
@@ -105,7 +115,7 @@ public class CharacterStats
 
     /// <summary>치명타 확률(%)</summary>
     // 스탯 쪽은 캡(50%)을 두고, 특성 보너스는 그 위에 얹는다 (100%까지)
-    public float CritRate => Mathf.Min(Mathf.Min(Coef.BaseCritRate + dex * Coef.DexToCritRate, Coef.MaxCritRate) + AbilityHooks.CritRateBonus(), 100f);
+    public float CritRate => Mathf.Min(Mathf.Min(Coef.BaseCritRate + dex * Coef.DexToCritRate, Coef.MaxCritRate) + bonusCritRate + AbilityHooks.CritRateBonus(), 100f);
 
     /// <summary>치명타 피해 배율(%) — 150 = 1.5배</summary>
     public float CritDamage => Coef.BaseCritDmg + dex * Coef.DexToCritDmg + AbilityHooks.CritDamageBonus();
@@ -192,6 +202,21 @@ public class CharacterStats
         if (soul < actualCost) return false;
         soul -= actualCost;
         return true;
+    }
+
+    /// <summary>상점에서 쓸 때 — 충분하면 차감하고 true</summary>
+    public bool TrySpendGold(int cost)
+    {
+        if (cost <= 0) return true;
+        if (gold < cost) return false;
+        gold -= cost;
+        return true;
+    }
+
+    public void GainGold(int amount)
+    {
+        if (amount <= 0) return;
+        gold += amount;
     }
 
     /// <summary>처형 등으로 소울 획득</summary>

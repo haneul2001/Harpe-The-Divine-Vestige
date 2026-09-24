@@ -42,7 +42,7 @@ public class PixelVfx : MonoBehaviour
             1f);
 
         var vfx = go.AddComponent<PixelVfx>();
-        vfx.Begin(c);
+        vfx.Begin(c, rotationZ);
         return vfx;
     }
 
@@ -70,7 +70,7 @@ public class PixelVfx : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-    private void Begin(VfxClip c)
+    private void Begin(VfxClip c, float rotationZ)
     {
         clip = c;
         t = 0f;
@@ -78,7 +78,7 @@ public class PixelVfx : MonoBehaviour
 
         if (sr == null) sr = GetComponent<SpriteRenderer>();
 
-        if (c.prefab != null) { BeginPrefab(c); return; }
+        if (c.prefab != null) { BeginPrefab(c, rotationZ); return; }
 
         sr.sprite = c.frames[0];
         sr.color = c.tint;
@@ -89,7 +89,7 @@ public class PixelVfx : MonoBehaviour
     // 파티클 프리팹을 자식으로 붙인다.
     // 스프라이트 프레임 방식과 달리 크기·색·정렬이 전부 프리팹 안에 들어 있어
     // 인스턴스마다 여기서 덮어써 준다.
-    private void BeginPrefab(VfxClip c)
+    private void BeginPrefab(VfxClip c, float rotationZ)
     {
         sr.enabled = false;   // 프리팹 모드에선 이 오브젝트가 껍데기 역할만 한다
 
@@ -104,6 +104,12 @@ public class PixelVfx : MonoBehaviour
             var main = ps.main;
             main.scalingMode = ParticleSystemScalingMode.Hierarchy;
             if (c.tint != Color.white) main.startColor = c.tint;
+
+            // 파티클은 트랜스폼 회전을 따라오지 않는다 (배율로 뒤집으면 아예 안 보인다).
+            // 방향은 시작 각도로만 돌릴 수 있다 — 파티클 각도는 시계방향이 +라 부호를 뒤집는다.
+            if (Mathf.Abs(rotationZ) > 0.01f)
+                main.startRotation = new ParticleSystem.MinMaxCurve(
+                    main.startRotation.constant - rotationZ * Mathf.Deg2Rad);
         }
 
         foreach (var r in inst.GetComponentsInChildren<ParticleSystemRenderer>(true))

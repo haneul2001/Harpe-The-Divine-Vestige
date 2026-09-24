@@ -48,6 +48,17 @@ public static class CardFrameBuilder
             frame.glow.Add(g);
         }
 
+        // ── 창 바탕 ───────────────────────────────────────────
+        // 카드 그림의 아치 창은 실제로 뚫려 있다(투명). 그대로 두면 뒤 화면이 그대로 비쳐
+        // 카드 속이 비어 보이므로, 프레임보다 먼저(뒤에) 어두운 바탕을 깐다.
+        // 프레임 그림이 위에 덮이므로 아치 곡선 장식은 가려지지 않는다.
+        if (frameSprite != null)
+        {
+            Image window = UIFactory.Panel("Window", root, WindowColor(color), false);
+            UIFactory.ApplySprite(window, skin.CardBackground());
+            UIFactory.SetAnchoredBox(window.rectTransform, WindowMin, WindowMax, Vector2.zero, Vector2.zero);
+        }
+
         // ── 테두리 ────────────────────────────────────────────
         Image border = UIFactory.Panel("Border", root, color, true);
         UIFactory.ApplySprite(border, frameSprite);
@@ -108,6 +119,16 @@ public static class CardFrameBuilder
         frame.content = fill;
         frame.pictureFrame = frameSprite != null;
         return frame;
+    }
+
+    // 카드 그림(100x155)에서 실제로 뚫려 있는 아치 창의 위치를 재서 비율로 적어 둔다
+    private static readonly Vector2 WindowMin = new Vector2(0.22f, 0.38f);
+    private static readonly Vector2 WindowMax = new Vector2(0.78f, 0.81f);
+
+    // 창 바탕은 어둡게 깔되 등급 색을 살짝 섞는다 — 아이콘이 뜨고 등급도 한 번 더 읽힌다
+    private static Color WindowColor(Color rarity)
+    {
+        return Color.Lerp(new Color(0.07f, 0.06f, 0.09f, 1f), rarity, 0.22f);
     }
 
     // ㄱ자 모양 — 가로 막대 + 세로 막대

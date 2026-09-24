@@ -51,6 +51,9 @@ public class AbilityCard : ScriptableObject
 
     [SerializeField] private AbilityRarity rarity = AbilityRarity.Common;
 
+    [Tooltip("중복으로 먹었을 때 한 장당 세지는 정도(%). 0이면 등급 기본값")]
+    [Min(0f)] [SerializeField] private float duplicateBonus = 0f;
+
     [Tooltip("특성 분류 (스탯·원거리·처형 …). 툴팁에 표시된다")]
     [SerializeField] private AbilityCategory category = AbilityCategory.Stat;
 
@@ -69,6 +72,17 @@ public class AbilityCard : ScriptableObject
     public string Description => description;
     public Sprite Icon => icon;
     public AbilityRarity Rarity => rarity;
+
+    // 같은 카드를 또 먹었을 때 한 장당 세지는 정도(%).
+    // 0이면 등급 기본값을 쓴다 — 약한 카드일수록 많이, 센 카드일수록 적게 오른다.
+    public float DuplicateBonus => duplicateBonus > 0f ? duplicateBonus : rarity.DuplicateBonus();
+
+    // 이 카드를 n장 들고 있을 때의 효과 배율 (1장 = 1.0)
+    public float StackMultiplier(int copies)
+    {
+        if (copies <= 1) return 1f;
+        return 1f + DuplicateBonus * 0.01f * (copies - 1);
+    }
     public AbilityCategory Category => category;
     public AbilitySet Set => set;
     public string Flavor => flavor;

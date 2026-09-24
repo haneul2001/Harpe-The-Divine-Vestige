@@ -42,6 +42,13 @@ public class PlayerStatusBar : MonoBehaviour
     [SerializeField] private float statusIconGap = 6f;
 
     [Header("스킬 쿨타임 (화면 아래 가운데)")]
+    [Header("골드")]
+    [Tooltip("골드 표시용 동전 그림. 비우면 Resources/Loot/GoldCoin 프리팹의 첫 프레임을 쓴다")]
+    [SerializeField] private Sprite goldIcon;
+    [Tooltip("동전 그림 확대 배율 (원본 픽셀 정수 배)")]
+    [Range(1, 6)] [SerializeField] private int goldIconScale = 2;
+    [SerializeField] private Color goldColor = new Color(0.93f, 0.78f, 0.35f);
+
     [Tooltip("발동 키 표시용 14x14 키캡 (Art/UI/KeyCap.png, 9-slice)")]
     [SerializeField] private Sprite keyCapSprite;
     [Tooltip("키캡 확대 배율 (원본 픽셀 정수 배)")]
@@ -75,6 +82,7 @@ public class PlayerStatusBar : MonoBehaviour
     private SpriteRenderer playerSprite;
     private PixelBar hpBar;
     private PixelBar soulBar;
+    private Text goldText;
     // 체력바 프레임 원본에서 물약 소켓 칸이 시작하는 x (StatusSlot.png를 떠 온 자리)
     private const float StatusSlotFrameX = 24f;
 
@@ -173,13 +181,35 @@ public class PlayerStatusBar : MonoBehaviour
 
     private void Update()
     {
+        if (!EnsureBuilt()) return;
         if (status == null) { ResolvePlayer(); return; }
         Refresh(false);
     }
 
+    // 에디터에서 플레이 중에 스크립트를 고치면 도메인이 다시 로드된다.
+    // 그때 직렬화되지 않는 필드(막대 참조·Instance)는 날아가는데 Awake는 다시 돌지 않아
+    // 상태바가 참조 없이 남아 매 프레임 터진다. 참조가 비어 있으면 다시 만든다.
+    // (빌드에서는 도메인 리로드가 없어 한 번도 타지 않는 길이다)
+    private bool EnsureBuilt()
+    {
+        if (hpBar != null && soulBar != null) return true;
+
+        if (Instance == null) Instance = this;
+        else if (Instance != this) return false;
+
+        // 남아 있던 옛 캔버스는 치운다 (Destroy는 프레임 끝이라 한 프레임은 겹친다)
+        for (int i = transform.childCount - 1; i >= 0; i--)
+            Destroy(transform.GetChild(i).gameObject);
+
+        BuildUI();
+        ResolvePlayer();
+        Refresh(true);
+        return false;   // 이번 프레임은 여기까지 — 다음 프레임부터 정상
+    }
+
     private void Refresh(bool snap)
     {
-        if (status == null) return;
+        if (status == null || hpBar == null || soulBar == null) return;
 
         float ratio = status.MaxHp > 0 ? Mathf.Clamp01((float)status.CurrentHp / status.MaxHp) : 0f;
         hpBar.SetRatio(ratio);
@@ -202,6 +232,8 @@ public class PlayerStatusBar : MonoBehaviour
         soulBar.SetRatio(soul);
         soulBar.SetTrail(soul);   // 소울은 잔상 없이 즉시 따라간다 — 자원이라 타격감이 필요 없다
         soulBar.Label.text = PixelBar.Format(status.CurrentSoul, status.MaxSoul);
+
+        if (goldText != null) goldText.text = status.CurrentGold.ToString();
 
         if (playerSprite != null) hpBar.SetPortrait(playerSprite.sprite);
 
@@ -251,6 +283,51 @@ public class PlayerStatusBar : MonoBehaviour
                 harvestSlot.SetBadge(stage.ToString());
             }
         }
+    }
+
+    // 소울 바 오른쪽 빈자리에 동전과 숫자만. 바를 하나 더 늘리면 화면 아래가 답답해진다
+    private void BuildGold(RectTransform root, float soulW, int s, float barH)
+    {
+        Sprite icon = goldIcon;
+        if (icon == null)
+        {
+            GameObject coin = Resources.Load<GameObject>("Loot/GoldCoin");
+            if (coin != null)
+            {
+                var sr = coin.GetComponentInChildren<SpriteRenderer>(true);
+                if (sr != null) icon = sr.sprite;
+            }
+        }
+
+        RectTransform box = UIFactory.Empty("Gold", root);
+        box.anchorMin = box.anchorMax = Vector2.zero;
+        box.pivot = new Vector2(0f, 0f);
+        box.anchoredPosition = new Vector2(soulW + 14f * s, 0f);
+        box.sizeDelta = new Vector2(barWidth - soulW, barH);
+
+        float iconSize = 0f;
+        if (icon != null)
+        {
+            Image img = UIFactory.Panel("Coin", box, Color.white, false);
+            img.sprite = icon;
+            img.preserveAspect = true;
+            iconSize = Mathf.Max(icon.rect.width, icon.rect.height) * Mathf.Max(1, goldIconScale);
+            img.rectTransform.anchorMin = img.rectTransform.anchorMax = new Vector2(0f, 0.5f);
+            img.rectTransform.pivot = new Vector2(0f, 0.5f);
+            img.rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
+            img.rectTransform.anchoredPosition = Vector2.zero;
+        }
+
+        goldText = UIFactory.Label("GoldText", box, font, 18, goldColor, TextAnchor.MiddleLeft, FontStyle.Bold);
+        // 칸이 좁아 기본값(줄바꿈)이면 "120"이 "12/0"으로 잘린다
+        goldText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        goldText.verticalOverflow = VerticalWrapMode.Overflow;
+        UIFactory.SetAnchoredBox(goldText.rectTransform, Vector2.zero, Vector2.one,
+            new Vector2(iconSize + 4f * s, 0f), Vector2.zero);
+        var sh = goldText.gameObject.AddComponent<Shadow>();
+        sh.effectColor = new Color(0f, 0f, 0f, 0.85f);
+        sh.effectDistance = new Vector2(2f, -2f);
+        goldText.text = "0";
     }
 
     private Sprite HarvestIconFor(int stage)
@@ -305,6 +382,8 @@ public class PlayerStatusBar : MonoBehaviour
         hpBar.Root.anchorMax = Vector2.zero;
         hpBar.Root.pivot = Vector2.zero;
         hpBar.Root.anchoredPosition = new Vector2(0f, barH + gap);
+        BuildGold(root, soulW, s, barH);
+
         hpBar.Layout(barWidth, s, hpFrame, fallbackTrackColor);
         hpBar.Fill.color = hpColor;
         hpBar.Trail.color = trailColor;

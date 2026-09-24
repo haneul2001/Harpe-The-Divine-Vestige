@@ -6,7 +6,8 @@ using UnityEngine;
 // 설계 요점 — 이 클래스는 개별 카드를 하나도 모른다.
 //   · 게임 이벤트 구독은 전부 여기서만 한다 (효과가 각자 구독하면 해제를 반드시 빠뜨린다)
 //   · 이벤트가 오면 활성 효과 전부에게 그대로 뿌린다
-//   · 카드를 2장 가지면 효과도 2번 호출된다 → 중첩이 공짜로 동작한다
+//   · 같은 카드를 여러 장 가져도 효과는 한 번만 붙고, 대신 세기(weight)가 올라간다
+//     — 두 번 붙이면 폭발이 두 번 터지는 식이라 중복이 곧 두 배가 되어 버린다
 //
 // 카드를 새로 추가할 때 이 파일은 건드리지 않는다.
 // 새 "트리거 종류"가 필요할 때만 구독 한 줄 + 뿌리기 한 줄이 늘어난다.
@@ -19,8 +20,9 @@ public class AbilityEffectRunner : MonoBehaviour
     private AbilityInventory inventory;
     private AbilityContext context;
 
-    // 지금 적용 중인 효과들. 카드 중복 보유 시 같은 효과가 여러 번 들어간다.
+    // 지금 적용 중인 효과들. 같은 카드를 여러 장 가지면 여기 한 번만 들어가고 weight가 커진다.
     private readonly List<AbilityEffect> active = new List<AbilityEffect>();
+    private readonly List<float> weights = new List<float>();
 
     private HarvestManager harvest;
 
@@ -91,11 +93,12 @@ public class AbilityEffectRunner : MonoBehaviour
         }
     }
 
+    // 수치형 효과는 중복 배율을 곱해서 더한다 (예: 공격력 +5% 카드 3장 → 5% × 1.06)
     public float Sum(System.Func<AbilityEffect, float> f)
     {
         float sum = 0f;
         for (int i = 0; i < active.Count; i++)
-            if (active[i] != null) sum += f(active[i]);
+            if (active[i] != null) sum += f(active[i]) * weights[i];
         return sum;
     }
 
@@ -110,7 +113,13 @@ public class AbilityEffectRunner : MonoBehaviour
     {
         float mult = 1f;
         for (int i = 0; i < active.Count; i++)
-            if (active[i] != null) mult *= Mathf.Max(0f, active[i].DamageMultiplier(context, q));
+        {
+            if (active[i] == null) continue;
+
+            // 배율은 1을 기준으로 얹힌 부분만 중복 배율을 먹인다 (1.2배 × 1.06 = 1.212배)
+            float m = Mathf.Max(0f, active[i].DamageMultiplier(context, q));
+            mult *= 1f + (m - 1f) * weights[i];
+        }
         return mult;
     }
 
@@ -188,10 +197,24 @@ public class AbilityEffectRunner : MonoBehaviour
         ClearActive();
 
         IReadOnlyList<AbilityCard> owned = inventory.Owned;
+
+        // 같은 카드는 한 번만 붙이고 장수만 센다
+        var copies = new Dictionary<AbilityCard, int>();
+        var order = new List<AbilityCard>();
         for (int i = 0; i < owned.Count; i++)
         {
             AbilityCard card = owned[i];
             if (card == null || card.Effects == null) continue;
+
+            int n;
+            if (copies.TryGetValue(card, out n)) copies[card] = n + 1;
+            else { copies[card] = 1; order.Add(card); }
+        }
+
+        for (int i = 0; i < order.Count; i++)
+        {
+            AbilityCard card = order[i];
+            float weight = card.StackMultiplier(copies[card]);
 
             for (int e = 0; e < card.Effects.Length; e++)
             {
@@ -199,6 +222,7 @@ public class AbilityEffectRunner : MonoBehaviour
                 if (effect == null) continue;
 
                 active.Add(effect);
+                weights.Add(weight);
                 effect.OnAcquire(context);
             }
         }
@@ -214,6 +238,7 @@ public class AbilityEffectRunner : MonoBehaviour
                 {
                     if (effect == null) continue;
                     active.Add(effect);
+                    weights.Add(1f);   // 세트 효과는 중복 개념이 없다
                     effect.OnAcquire(context);
                 }
             }
@@ -226,5 +251,6 @@ public class AbilityEffectRunner : MonoBehaviour
             if (active[i] != null) active[i].OnRemove(context);
 
         active.Clear();
+        weights.Clear();
     }
 }

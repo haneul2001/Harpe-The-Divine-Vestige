@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SkeletonKing
   m_EditorClassIdentifier: 
   enemyName: Skeleton King
-  hp: 3000
+  hp: 12000
   damage: 12
   exp: 0
   speed: 2

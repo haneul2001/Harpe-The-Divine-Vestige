@@ -142,6 +142,7 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
+    private HitFlash hitFlash;
 
     public EnemyStateMachine StateMachine { get; private set; }
 
@@ -417,6 +418,10 @@ public class Enemy : MonoBehaviour
 
         hp -= damage;
 
+        // 맞았다는 게 바로 읽히게 몸을 주황색으로 한 번 번쩍인다 (죽는 타격 포함)
+        if (hitFlash == null) hitFlash = HitFlash.For(spriteRenderer);
+        if (hitFlash != null) hitFlash.Flash();
+
         // 체력이 깎인 뒤에 알린다 — 구독자가 곧바로 남은 체력을 읽어야 한다.
         // 죽는 타격도 포함해야 체력바가 0까지 내려가는 게 보인다.
         if (AnyDamaged != null) AnyDamaged(this);
@@ -428,6 +433,15 @@ public class Enemy : MonoBehaviour
         }
 
         if (CanBeStaggered) StateMachine.ChangeState(HitState);
+    }
+
+    // 회복. 보스가 부하를 흡수할 때 쓴다 (최대치를 넘지 않는다)
+    public void Heal(int amount)
+    {
+        if (isDead || amount <= 0) return;
+
+        hp = Mathf.Min(maxHp, hp + amount);
+        if (AnyDamaged != null) AnyDamaged(this);   // 체력바가 따라 오르도록
     }
 
     // 맞을 때마다 경직될지. 보스는 공격 도중에 버틴다(슈퍼아머).
@@ -628,10 +642,22 @@ public class Enemy : MonoBehaviour
     public const float BaseHarvestThreshold = 0.3f;
     public static float HarvestThreshold => Mathf.Clamp01(BaseHarvestThreshold + AbilityHooks.HarvestThresholdBonus());
 
+    [Tooltip("처형(V) 대상이 되는지. 상점 주인처럼 V가 다른 뜻인 대상은 꺼 둔다")]
+    [SerializeField] private bool harvestable = true;
+
+    // 처형 판정에 쓰는 체력 비율. 기본은 전체 체력 대비다.
+    // 보스는 체력바가 페이즈만큼 나뉘어 있어, 마지막 칸을 기준으로 본다 (BossEnemy가 덮어쓴다).
+    protected virtual float HarvestRatio
+    {
+        get { return maxHp > 0 ? (float)hp / maxHp : 1f; }
+    }
+
     public bool CanHarvest
     {
         get
         {
+            if (!harvestable) return false;
+
             // 죽으면 hp가 0 이하라 비율 조건은 항상 참이 된다.
             // 사망 중인 적은 처형 대상도 아니고 처형 표시도 뜨면 안 되므로 먼저 걸러낸다.
             if (isDead) return false;
@@ -639,7 +665,7 @@ public class Enemy : MonoBehaviour
             // 체력이 채워지기 전에도 hp가 0이라 같은 문제가 생긴다 (스폰 순간 번쩍임)
             if (!statsReady || maxHp <= 0) return false;
 
-            return (float)hp / maxHp <= HarvestThreshold;
+            return HarvestRatio <= HarvestThreshold;
         }
     }
     // 패링 등으로 인한 경직 (기존 피격 상태 재사용)

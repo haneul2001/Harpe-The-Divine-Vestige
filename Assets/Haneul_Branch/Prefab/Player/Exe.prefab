@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 449027847304855214}
   - component: {fileID: 8165488478996217990}
   - component: {fileID: 2663178445965332913}
+  - component: {fileID: 2266961125639070730}
   m_Layer: 8
   m_Name: Exe
   m_TagString: Player
@@ -464,6 +465,27 @@ MonoBehaviour:
   auraOffset: {x: 0, y: -0.2}
   backSortingOffset: -1
   frontSortingOffset: 1
+--- !u!114 &2266961125639070730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38356141006681360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ecfbe2bbcb44e849b89a237a9055587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soulPerPick: 30
+  choices: 3
+  rarityWeights:
+  - 60
+  - 27
+  - 10
+  - 3
+  skin: {fileID: 11400000, guid: 2d625fe841f4a224cabbf91803dc46fc, type: 2}
+  font: {fileID: 0}
 --- !u!1 &1300492352161192977
 GameObject:
   m_ObjectHideFlags: 0

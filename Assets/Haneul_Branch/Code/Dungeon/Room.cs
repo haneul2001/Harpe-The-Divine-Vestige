@@ -136,6 +136,12 @@ public class Room : MonoBehaviour
     private readonly HashSet<Enemy> bossEnemies = new HashSet<Enemy>();
     private bool finishPlayed;
     private bool finishRunning;
+
+    // 피니시 연출은 timeScale을 직접 주무른다. 그 사이에 다른 UI가 시간을 멈추면
+    // 서로 값을 덮어써서 연출이 끝난 뒤에도 느린 채로 남는다.
+    // 그래서 "지금 연출 중인가"를 밖에서 볼 수 있게 열어 둔다 (방이 여럿이라 정적 카운터).
+    private static int finishActive;
+    public static bool FinishRunning => finishActive > 0;
     // 연출 시작 전 카메라 시야. 도중에 방이 꺼져도 되돌릴 수 있게 필드로 들고 있는다.
     private float finishBaseSize = -1f;
     // 슬로우가 이미 걸린 상태에서 다시 읽으면 값이 중첩되므로 원래 물리 간격을 한 번만 잡아 둔다
@@ -377,6 +383,7 @@ public class Room : MonoBehaviour
     private IEnumerator PlayBossFinish(Vector3 bossPos)
     {
         finishRunning = true;
+        finishActive++;
 
         Camera cam = Camera.main;
         CameraFollow follow = FindObjectOfType<CameraFollow>();
@@ -435,6 +442,7 @@ public class Room : MonoBehaviour
 
     private void RestoreAfterFinish(Camera cam, CameraFollow follow, float baseSize)
     {
+        if (finishRunning) finishActive = Mathf.Max(0, finishActive - 1);
         SetTimeScale(1f);
         if (cam != null && baseSize > 0f) cam.orthographicSize = baseSize;
         if (follow != null) follow.Suspended = false;

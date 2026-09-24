@@ -218,6 +218,7 @@ public class AbilityCheatPanel : MonoBehaviour
 
         BuildFloorSkipButton(parent);
         BuildStatCheatButton(parent);
+        BuildBossWarpButton(parent);
 
         Text hint = UIFactory.Label("Hint", parent, font, 18,
             new Color(0.5f, 0.52f, 0.5f), TextAnchor.MiddleCenter);
@@ -256,6 +257,68 @@ public class AbilityCheatPanel : MonoBehaviour
 
         Close();   // 층 전환 연출은 그 자체로 시간을 멈추지 않으므로, 정지된 채로 넘어가지 않게 먼저 닫는다
         FloorFlow.Instance.Advance();
+    }
+
+    // 보스 방으로 바로 보내는 개발용 버튼.
+    // 문을 하나씩 지나며 확인하는 건 보스 패턴을 손볼 때마다 너무 오래 걸린다.
+    private void BuildBossWarpButton(RectTransform parent)
+    {
+        Image fillImg;
+        RectTransform btn = UIFactory.BorderedPanel("BossWarpButton", parent,
+            floorButtonFill, floorButtonBorder, 2f, out fillImg);
+        UIFactory.SetAnchoredBox(btn, new Vector2(0f, 1f), new Vector2(1f, 1f),
+            new Vector2(22f, -170f), new Vector2(-22f, -140f));
+
+        Text label = UIFactory.Label("Label", (RectTransform)btn.GetChild(0), font, 20,
+            floorButtonBorder, TextAnchor.MiddleCenter, FontStyle.Bold);
+        UIFactory.SetAnchoredBox(label.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+        label.text = "보스 방으로 이동 ☠";
+
+        ClickRelay relay = btn.gameObject.AddComponent<ClickRelay>();
+        relay.onClick = OnBossWarp;
+    }
+
+    private void OnBossWarp()
+    {
+        RoomManager rm = RoomManager.Instance;
+        if (rm == null || rm.AllRooms == null)
+        {
+            Debug.LogWarning("[AbilityCheatPanel] RoomManager가 없다 — 던전 씬에서만 동작한다", this);
+            return;
+        }
+
+        Room boss = null;
+        for (int i = 0; i < rm.AllRooms.Count; i++)
+            if (rm.AllRooms[i] != null && rm.AllRooms[i].type == RoomType.Boss) { boss = rm.AllRooms[i]; break; }
+
+        if (boss == null)
+        {
+            ToastManager.Show("이 층에 보스 방이 없다");
+            return;
+        }
+
+        Close();   // 시간이 멈춘 채로 넘어가면 보스가 얼어 있는 상태로 시작된다
+
+        rm.EnterRoom(boss);
+
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
+        {
+            // 문으로 들어온 것처럼 입구에 놓는다. 방 한가운데는 보스와 겹칠 수 있다.
+            Vector3 at = boss.transform.position;
+            var doors = boss.Doors;
+            if (doors != null)
+                for (int i = 0; i < doors.Count; i++)
+                    if (doors[i] != null && doors[i].EntryPoint != null) { at = doors[i].EntryPoint.position; break; }
+
+            at.z = p.transform.position.z;
+            p.transform.position = at;
+
+            Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
+            if (rb != null) rb.velocity = Vector2.zero;
+        }
+
+        ToastManager.Show("보스 방으로 이동", ToastManager.Kind.Warn);
     }
 
     // 이동속도 4배 · 공격력 9999 개발용 원턴 치트.
@@ -304,7 +367,7 @@ public class AbilityCheatPanel : MonoBehaviour
     {
         RectTransform viewport = UIFactory.Empty("Viewport", parent);
         UIFactory.SetAnchoredBox(viewport, Vector2.zero, Vector2.one,
-            new Vector2(22f, 34f), new Vector2(-22f, -148f));
+            new Vector2(22f, 34f), new Vector2(-22f, -182f));
         viewport.gameObject.AddComponent<RectMask2D>();
         Image blocker = viewport.gameObject.AddComponent<Image>();
         blocker.color = new Color(0f, 0f, 0f, 0f);

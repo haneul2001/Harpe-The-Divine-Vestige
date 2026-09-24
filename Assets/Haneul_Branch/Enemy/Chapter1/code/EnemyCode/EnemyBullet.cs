@@ -9,6 +9,15 @@ public class EnemyBullet : MonoBehaviour
     [Tooltip("이 레이어(벽)에 닿으면 소멸")]
     [SerializeField] private LayerMask wallLayer;
 
+    [Tooltip("날아가는 동안 붙어 있을 이펙트 id (VfxLibrary)")]
+    [SerializeField] private string vfxId = "BatShot";
+
+    // 쏘는 쪽이 다른 그림을 쓰고 싶을 때 (보스 뼈창 등)
+    public void SetVfx(string id)
+    {
+        if (!string.IsNullOrEmpty(id)) vfxId = id;
+    }
+
     private int damage;
     private Enemy owner;
     private Rigidbody2D rb;
@@ -33,7 +42,7 @@ public class EnemyBullet : MonoBehaviour
         // 이펙트를 자식으로 붙여 같이 날아가게 한다. 원래 스프라이트는 자리만 차지하므로 끈다.
         var own = GetComponent<SpriteRenderer>();
         if (own != null) own.enabled = false;
-        PixelVfx.Play("BatShot", transform.position, angle, transform);
+        PixelVfx.Play(vfxId, transform.position, angle, transform);
 
         Destroy(gameObject, lifeTime);
     }

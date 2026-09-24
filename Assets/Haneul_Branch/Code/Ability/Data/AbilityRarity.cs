@@ -14,6 +14,19 @@ public enum AbilityRarity
 // 카드 테두리 / 툴팁 제목 / 세트 아이콘이 전부 이걸 참조하므로 색을 바꾸려면 여기만 고치면 된다.
 public static class AbilityRarityUtil
 {
+    // 중복 한 장당 효과 증가(%) — 일반 3 / 희귀 2.5 / 에픽 2 / 전설 1.5.
+    // 약한 카드는 여러 장 겹쳐도 판을 못 뒤집으니 후하게, 센 카드는 짜게 준다.
+    public static float DuplicateBonus(this AbilityRarity r)
+    {
+        switch (r)
+        {
+            case AbilityRarity.Legendary: return 1.5f;
+            case AbilityRarity.Epic: return 2f;
+            case AbilityRarity.Rare: return 2.5f;
+            default: return 3f;
+        }
+    }
+
     public static Color Color(this AbilityRarity rarity)
     {
         switch (rarity)

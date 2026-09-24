@@ -161,9 +161,19 @@ GameObject:
   - component: {fileID: 8558418637109547063}
   - component: {fileID: 7305823223877869279}
   - component: {fileID: 8788361795134624156}
-  - component: {fileID: 6242517480143549754}
-  - component: {fileID: 8188854691273801538}
-  - component: {fileID: 6293423643719873024}
+  - component: {fileID: 8127998003142338597}
+  - component: {fileID: 4255548984813074094}
+  - component: {fileID: 3443396305031483502}
+  - component: {fileID: 4679541627067524903}
+  - component: {fileID: 7861996612636613038}
+  - component: {fileID: 8155024233878264840}
+  - component: {fileID: 6146038413834630321}
+  - component: {fileID: 4756055380548077375}
+  - component: {fileID: 867809006173757373}
+  - component: {fileID: 4333472270632001558}
+  - component: {fileID: 6000111765359649534}
+  - component: {fileID: 8274517376748287466}
+  - component: {fileID: 3908150753241722572}
   m_Layer: 7
   m_Name: Boss_SkeletonKing
   m_TagString: Enemy
@@ -413,13 +423,14 @@ MonoBehaviour:
   attackDamage: 1
   hitDuration: 0.2
   player: {fileID: 0}
-  maxHp: 3000
+  maxHp: 12000
   grade: 2
   enemyInfo: {fileID: 0}
   portrait: {fileID: 21300000, guid: 4ce2770d713e6c04b87ddc35ddd14404, type: 3}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   lastAttackTime: 0
+  harvestable: 1
   attackHitBox: {fileID: 9058142661283257145}
   attackRangeBox: {fileID: 690968092614381325}
   attackPivot: {fileID: 281628365819188302}
@@ -432,6 +443,8 @@ MonoBehaviour:
   recoverTime: 0.8
   matchAttackRangeToHitBox: 1
   attackRangePadding: 0.4
+  slashVfxId: BossSlash
+  slashVfxLeftId: BossSlash
   phases:
   - label: 
     enterAtHpRatio: 1
@@ -440,24 +453,33 @@ MonoBehaviour:
     warningMultiplier: 1
     transitionDuration: 0
   - label: "\uD574\uACE8\uC655\uC774 \uAC80\uC744 \uACE0\uCCD0 \uC954\uB2E4"
-    enterAtHpRatio: 0.65
-    moveSpeedMultiplier: 1.2
-    attackIntervalMultiplier: 0.75
-    warningMultiplier: 0.85
-    transitionDuration: 1.2
-  - label: "\uD574\uACE8\uC655\uC774 \uBB34\uB364\uC744 \uC5F0\uB2E4"
-    enterAtHpRatio: 0.3
-    moveSpeedMultiplier: 1.35
-    attackIntervalMultiplier: 0.55
-    warningMultiplier: 0.7
+    enterAtHpRatio: 0.75
+    moveSpeedMultiplier: 1.15
+    attackIntervalMultiplier: 0.8
+    warningMultiplier: 0.9
     transitionDuration: 1.4
+  - label: "\uD574\uACE8\uC655\uC774 \uBB34\uB364\uC744 \uC5F0\uB2E4"
+    enterAtHpRatio: 0.5
+    moveSpeedMultiplier: 1.3
+    attackIntervalMultiplier: 0.65
+    warningMultiplier: 0.8
+    transitionDuration: 1.6
+  - label: "\uC655\uAD00\uC774 \uBD80\uC11C\uC9C4\uB2E4"
+    enterAtHpRatio: 0.25
+    moveSpeedMultiplier: 1.6
+    attackIntervalMultiplier: 0.4
+    warningMultiplier: 0.62
+    transitionDuration: 2
   patterns: []
   avoidRepeat: 1
   idlePatternFallback: 0.5
   superArmor: 1
   phaseShake: 0.6
   phaseVfxId: SlashHit
---- !u!114 &6242517480143549754
+  defaultHitDelay: 0.5
+  phaseZoom: 0.72
+  enrageAfterSeconds: 150
+--- !u!114 &8127998003142338597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -477,12 +499,13 @@ MonoBehaviour:
   maxDistance: 0
   minDistance: 0
   animationIndex: 0
+  hitDelay: 0.8
   hitCount: 1
   activeDuration: 0.35
   hitInterval: 0.45
   shake: 0.35
-  vfxId: SlashHit
---- !u!114 &8188854691273801538
+  vfxId: BossSlash
+--- !u!114 &4255548984813074094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -502,16 +525,132 @@ MonoBehaviour:
   maxDistance: 0
   minDistance: 0
   animationIndex: 1
+  hitDelay: 0.4
   dashSpeed: 13
   dashDuration: 0.3
   dashCount: 1
-  betweenDashes: 0.35
+  betweenDashes: 0.4
   wallLayer:
     serializedVersion: 2
     m_Bits: 8192
   wallCheckDistance: 0.15
   shake: 0.25
---- !u!114 &6293423643719873024
+--- !u!114 &3443396305031483502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf16fd9d4158b3340823af1890f30f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uC131\uAE09\uD55C \uC77C\uACA9"
+  minPhase: 0
+  maxPhase: -1
+  weight: 2
+  cooldown: 4
+  maxDistance: 0
+  minDistance: 4.5
+  animationIndex: 1
+  hitDelay: 0.4
+  dashSpeed: 15
+  dashDuration: 0.42
+  dashCount: 1
+  betweenDashes: 0.4
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  wallCheckDistance: 0.15
+  shake: 0.25
+--- !u!114 &4679541627067524903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b666dca29897b5549b33ea165e951c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uD68C\uC804 \uBCA0\uAE30"
+  minPhase: 0
+  maxPhase: -1
+  weight: 2
+  cooldown: 7
+  maxDistance: 3.6
+  minDistance: 0
+  animationIndex: 1
+  hitDelay: 0.4
+  turns: 2
+  secondsPerTurn: 0.55
+  rearmInterval: 0.45
+  shake: 0.2
+  vfxId: BossSlash
+  vfxInterval: 0.18
+--- !u!114 &7861996612636613038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be7961b578102304cbf75ed7be54fa69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uBF08\uCC3D \uBD80\uCC44\uAF34"
+  minPhase: 0
+  maxPhase: -1
+  weight: 2
+  cooldown: 6
+  maxDistance: 0
+  minDistance: 3.5
+  animationIndex: 2
+  hitDelay: 1.4
+  bulletPrefab: {fileID: 1121836764549635027, guid: db08c06b5f34af84b983b06cd8725334, type: 3}
+  volleyCount: 1
+  volleyInterval: 0.35
+  bulletsPerVolley: 3
+  spreadAngle: 40
+  bulletSpeed: 9
+  muzzleForward: 0.9
+  castTime: 0.25
+  dangerSize: {x: 9, y: 3.2}
+  shake: 0.15
+  bulletVfxId: BossSpear
+--- !u!114 &8155024233878264840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09aa60d2cdb9184ebdb663fc88c8610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "3\uC5F0\uACA9"
+  minPhase: 1
+  maxPhase: -1
+  weight: 2
+  cooldown: 6
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 1
+  hitDelay: 0.4
+  hitCount: 3
+  activeDuration: 0.28
+  hitInterval: 0.38
+  shake: 0.35
+  vfxId: BossSlash
+--- !u!114 &6146038413834630321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -525,20 +664,194 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternName: "\uBB34\uB364 \uC5F4\uAE30"
   minPhase: 1
-  maxPhase: -1
+  maxPhase: 2
   weight: 2
   cooldown: 9
   maxDistance: 0
   minDistance: 0
   animationIndex: 2
+  hitDelay: 1.4
   minionPrefabs:
   - {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
   countPerCast: 3
   spawnRadius: 2.5
   maxAlive: 5
   minionScale: 2
-  castTime: 0.5
+  castTime: 0.6
   shake: 0.3
+  vfxId: EnemyHit
+--- !u!114 &4756055380548077375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf16fd9d4158b3340823af1890f30f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uC655\uC758 \uC9C8\uC8FC"
+  minPhase: 2
+  maxPhase: -1
+  weight: 2
+  cooldown: 9
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 1
+  hitDelay: 0.4
+  dashSpeed: 14
+  dashDuration: 0.3
+  dashCount: 3
+  betweenDashes: 0.3
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  wallCheckDistance: 0.15
+  shake: 0.25
+--- !u!114 &867809006173757373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089115be9902b1341b5cce9a55ea4683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uB300\uB7C9 \uC18C\uD658"
+  minPhase: 2
+  maxPhase: 2
+  weight: 1.5
+  cooldown: 14
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  minionPrefabs:
+  - {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
+  countPerCast: 5
+  spawnRadius: 2.5
+  maxAlive: 7
+  minionScale: 2
+  castTime: 1.2
+  shake: 0.3
+  vfxId: EnemyHit
+--- !u!114 &4333472270632001558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 299d22df14cf7684eaa47abbe12228d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uBB34\uB364 \uADE0\uC5F4"
+  minPhase: 2
+  maxPhase: -1
+  weight: 2.5
+  cooldown: 8
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  crackCount: 4
+  crackRadius: 1.4
+  firstOnPlayer: 1
+  spread: 4.5
+  riseDelay: 0.9
+  stagger: 0.12
+  shake: 0.25
+  vfxId: BossCrack
+--- !u!114 &6000111765359649534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65117419a8cac94b86b13da4d828d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uC601\uD63C \uD761\uC218"
+  minPhase: 2
+  maxPhase: -1
+  weight: 1.5
+  cooldown: 12
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  range: 9
+  maxTargets: 4
+  healPercentPerMinion: 3
+  pullTime: 1.1
+  shake: 0.2
+  vfxId: EnemyHit
+--- !u!114 &8274517376748287466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3b2ee3a7df897478206467e5fdfed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uC9C0\uD558 \uC7A0\uD589"
+  minPhase: 3
+  maxPhase: -1
+  weight: 2
+  cooldown: 8
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  sinkTime: 0.4
+  travelTime: 0.8
+  surfaceWarning: 0.7
+  burstRadius: 2.2
+  shake: 0.4
+  vfxId: BossCrack
+--- !u!114 &3908150753241722572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e642a811f4ac79547bb906a93f2977e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uBF08 \uAC10\uC625"
+  minPhase: 3
+  maxPhase: -1
+  weight: 1.5
+  cooldown: 12
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  pillarSprite: {fileID: 21300000, guid: 806cbc86c2b57be41a99ce1802d106f3, type: 3}
+  pillarCount: 12
+  radius: 2.4
+  gaps: 1
+  duration: 4
+  riseDelay: 0.6
+  pillarHp: 0
+  shake: 0.2
   vfxId: EnemyHit
 --- !u!1 &1332191291545746589
 GameObject:

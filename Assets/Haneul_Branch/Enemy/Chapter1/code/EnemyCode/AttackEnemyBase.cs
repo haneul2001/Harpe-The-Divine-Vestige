@@ -179,13 +179,27 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
     // 베기 이펙트. 판정이 나가는 그 자리에, 그 크기로, 그 방향으로 띄운다.
     // 판정과 그림이 어긋나면 "분명히 피했는데 맞았다"가 된다.
+    [Header("베기 이펙트")]
+    [Tooltip("공격 판정이 열릴 때 띄울 이펙트 id (VfxLibrary)")]
+    [SerializeField] protected string slashVfxId = "SlashHit";
+    [Tooltip("좌향 전용 이펙트 id. 좌우 공격만 하는 적이 쓴다")]
+    [SerializeField] protected string slashVfxLeftId = "SlashHitLeft";
+
     private void SpawnSlash(Vector2 dir)
     {
         if (attackHitBox == null) return;
 
-        // 파티클은 음수 배율로 뒤집으면 깨지므로, 좌향은 아예 좌우 반전된 프리팹을 쓴다.
+        // 좌향 전용 그림이 따로 있으면 그걸 쓰고, 없으면 같은 그림을 좌우로 뒤집는다.
         bool left = horizontalAttackOnly && dir.x < 0f;
-        var slash = PixelVfx.Play(left ? "SlashHitLeft" : "SlashHit", attackHitBox.transform.position);
+        bool hasLeftArt = !string.IsNullOrEmpty(slashVfxLeftId) && slashVfxLeftId != slashVfxId;
+
+        // 좌우 공격만 하는 적은 좌향일 때 180도 돌려 쓰고, 8방향 공격은 겨눈 각도 그대로 쓴다
+        float angle = 0f;
+        if (!horizontalAttackOnly) angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        else if (left && !hasLeftArt) angle = 180f;
+
+        var slash = PixelVfx.Play(left && hasLeftArt ? slashVfxLeftId : slashVfxId,
+            attackHitBox.transform.position, angle);
         if (slash == null) return;
 
         var box = attackHitBox.GetComponent<BoxCollider2D>();
@@ -197,8 +211,7 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             slash.transform.localScale = Vector3.Scale(slash.transform.localScale, new Vector3(k, k, 1f));
         }
 
-        if (!horizontalAttackOnly)
-            slash.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+
     }
 
     // 공격 예고 표식. 히트박스 자리에 히트박스 크기로 띄운다.
@@ -261,6 +274,10 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
                 SpawnTelegraph();
             }
 
+            // 예고가 시작되는 시점. 파생이 이번에 쓸 공격을 정하고 위험지역을 띄운다.
+            // 공격이 정해지기 전에 예고를 띄우면 "무엇이 올지"를 표시할 방법이 없다.
+            OnAttackWarning(dir, attackWarningDuration);
+
             // 통째로 기다리지 않고 매 프레임 사망을 확인한다.
             // WaitForSeconds로 묶으면 예고 도중 죽어도 그 시간이 다 흐를 때까지
             // 표식이 화면에 남고, 죽은 적이 뒤늦게 공격까지 낸다.
@@ -295,6 +312,9 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
                 SpawnSlash(dir);
             }
 
+            // 판정이 실제로 열리는 순간. 예고 표시를 여기서 닫아야 "다 차면 맞는다"가 지켜진다.
+            OnAttackHit();
+
             // 공격 활성 동안의 동작 (돌진 / 제자리 / 발사 등) — 파생 구현
             // 이 구간엔 파생이 속도를 직접 제어하므로 상태머신의 분리 정렬을 끈다.
             IsAttackActive = true;
@@ -320,6 +340,12 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             IsAttackActive = false;
         }
     }
+
+    // 예고가 시작될 때 불린다. 기본은 아무것도 하지 않는다.
+    protected virtual void OnAttackWarning(Vector2 dirToPlayer, float warningDuration) { }
+
+    // 판정이 열리는 순간 불린다.
+    protected virtual void OnAttackHit() { }
 
     // 애니메이션 이벤트를 기다린다.
     // 이벤트가 없거나(클립에 안 걸었거나 교체됐거나) 늦으면 타임아웃으로 넘어간다 —

@@ -24,12 +24,17 @@ public static class AbilitySetCalculator
     {
         var counts = new Dictionary<AbilitySet, int>();
 
+        // 같은 카드를 여러 장 가져도 세트는 한 장으로 센다 —
+        // 중복은 그 카드를 강화할 뿐이라 세트가 열리는 조건까지 당겨 주면 두 번 이득이다
+        var seen = new HashSet<AbilityCard>();
+
         if (cards != null)
         {
             for (int i = 0; i < cards.Count; i++)
             {
                 AbilityCard c = cards[i];
                 if (c == null || c.Set == null) continue;
+                if (!seen.Add(c)) continue;
 
                 int n;
                 counts.TryGetValue(c.Set, out n);

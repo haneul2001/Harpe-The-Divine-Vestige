@@ -36,7 +36,13 @@ public abstract class BossPattern : MonoBehaviour
            + "atkIndex 파라미터가 없는 애니메이터면 그냥 무시된다")]
     [Min(0)] [SerializeField] private int animationIndex = 0;
 
+    [Tooltip("예고가 끝난 뒤 실제로 칼이 닿기까지 걸리는 시간(초).\n"
+           + "이 패턴이 쓰는 공격 애니메이션의 타격 이벤트 시각과 같게 둔다.\n"
+           + "음수면 보스의 기본 추정값을 쓰고, 한 번 때리고 나면 실제로 잰 값으로 바뀐다")]
+    [SerializeField] private float hitDelay = -1f;
+
     public int AnimationIndex { get { return animationIndex; } }
+    public float HitDelay { get { return hitDelay; } }
 
     private float lastUsedTime = -999f;
 
@@ -72,6 +78,13 @@ public abstract class BossPattern : MonoBehaviour
     public void ResetCooldown()
     {
         lastUsedTime = -999f;
+    }
+
+    // 예고 동안 보여 줄 위험지역. 기본은 히트박스 모양 그대로다.
+    // 장판·투사체처럼 히트박스를 안 쓰는 패턴은 여기서 자기 모양을 그린다.
+    public virtual DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration)
+    {
+        return boss.ShowHitBoxDanger(duration);
     }
 
     // 실제 동작. 여기서 yield하는 동안 보스는 "공격 중"이다.

@@ -22,6 +22,33 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b8574f113e11db44288e58840f1bede4, type: 3}
   - {fileID: 21300000, guid: 3866fffd4d1384147a25d1c2d7837614, type: 3}
   - {fileID: 21300000, guid: f093d1cb28c23f9469640270800dba51, type: 3}
+  keyCap: {fileID: 21300000, guid: ad3115988dc38144797e7a7841ba836e, type: 3}
+  cardBackFlip:
+  - {fileID: 21300000, guid: 2a0a9af0c8b00474d8dff459c26fc143, type: 3}
+  - {fileID: 21300000, guid: f78377cd574cc4941842111b12b4eab1, type: 3}
+  - {fileID: 21300000, guid: c67826a3d52fc69488df68c84c6c0ee4, type: 3}
+  - {fileID: 21300000, guid: 022c7d49b6cc1e64e87a4b1ee05830b0, type: 3}
+  faceFlipByRarity:
+  - frames:
+    - {fileID: 21300000, guid: b4636f4dc3a99e843a2e732e9deb4da5, type: 3}
+    - {fileID: 21300000, guid: 17a1f09a9880e3e4c8256f68bd1e01e8, type: 3}
+    - {fileID: 21300000, guid: e8e84a82dbba5be4398a016751cb7dd4, type: 3}
+    - {fileID: 21300000, guid: bbc8c6f27733d5341a7df65930e36b61, type: 3}
+  - frames:
+    - {fileID: 21300000, guid: aecd0ef79b6319b4a9d7c642934ae243, type: 3}
+    - {fileID: 21300000, guid: b8574f113e11db44288e58840f1bede4, type: 3}
+    - {fileID: 21300000, guid: bba40414b3e002844bc86f2fc88d0de2, type: 3}
+    - {fileID: 21300000, guid: 17df570936a7bae4caa864bbba4eac64, type: 3}
+  - frames:
+    - {fileID: 21300000, guid: 436eaf454f0d05847b9ec73e8dd55da5, type: 3}
+    - {fileID: 21300000, guid: 3866fffd4d1384147a25d1c2d7837614, type: 3}
+    - {fileID: 21300000, guid: f18892278f71e1a409685f07b0295d23, type: 3}
+    - {fileID: 21300000, guid: cd68420fe22e58740bd90b32ccf61d09, type: 3}
+  - frames:
+    - {fileID: 21300000, guid: ce5036429b0dd234ba2cc1fd01a50b2e, type: 3}
+    - {fileID: 21300000, guid: f093d1cb28c23f9469640270800dba51, type: 3}
+    - {fileID: 21300000, guid: a5577d53d4ed97c40b1b852423d5621c, type: 3}
+    - {fileID: 21300000, guid: c7e2492ce8ec51648956b86496a93655, type: 3}
   panelBackground: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}
   panelBorder: {fileID: 0}
   tooltipBackground: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}

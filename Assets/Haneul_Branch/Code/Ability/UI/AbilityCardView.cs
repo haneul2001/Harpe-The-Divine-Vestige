@@ -32,9 +32,17 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private AbilityUISkin skin;
 
+    // 이름 글씨 배율. 카드를 크게 그리는 화면(특성 선택)에서 제목이 묻히지 않게 키운다
+    private float nameScale = 1f;
+
+    // 뽑기 연출(CardDrawAnimation)이 테두리 그림을 프레임마다 갈아 끼우고, 아이콘·이름을 좁힐 때 쓴다
+    public Image FrameImage => frame.border;
+    public RectTransform Content => frame.content;
+
     public void Build(AbilityCard source, TooltipView sharedTooltip, Font font,
-        Color panelFill, float lift, AbilityUISkin uiSkin)
+        Color panelFill, float lift, AbilityUISkin uiSkin, float nameScale = 1f)
     {
+        this.nameScale = Mathf.Max(0.1f, nameScale);
         card = source;
         tooltip = sharedTooltip;
         hoverLift = lift;
@@ -135,7 +143,7 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             // 이름칸이 밝은 양피지라 어두운 갈색 글씨여야 읽힌다
             // 갈무리 12px — 24px면 다섯 글자 이름이 양피지 가장자리에 닿는다
-            nameText = UIFactory.Label("Name", frame.content, font, 12,
+            nameText = UIFactory.Label("Name", frame.content, font, Mathf.RoundToInt(12f * nameScale),
                 new Color(0.24f, 0.16f, 0.10f, 1f), TextAnchor.MiddleCenter, FontStyle.Bold);
             UIFactory.SetAnchoredBox(nameText.rectTransform, PicNameMin, PicNameMax, Vector2.zero, Vector2.zero);
             nameText.verticalOverflow = VerticalWrapMode.Truncate;
@@ -175,11 +183,45 @@ public class AbilityCardView : MonoBehaviour, IPointerEnterHandler, IPointerExit
             ? "\n<color=#8FD6A0>세트 · " + card.Set.DisplayName + "</color>"
             : "";
 
-        return "<color=#9AA0AE>" + card.Rarity.Label() + " · " + card.Category.Label() + "</color>\n" + card.Description + setLine;
+        return "<color=#9AA0AE>" + card.Rarity.Label() + " · " + card.Category.Label() + "</color>\n"
+            + card.Description + DuplicateLine() + setLine;
+    }
+
+    // 같은 카드를 또 먹으면 얼마나 세지는지. 고를지 말지를 이 한 줄로 판단하게 되므로
+    // 설명과 섞이지 않게 눈에 띄는 주황으로 쓴다.
+    private string DuplicateLine()
+    {
+        int owned = OwnedCount(card);
+
+        if (owned <= 0)
+            return "\n<color=#E8944A>중복 획득 시 효과 +" + Trim(card.DuplicateBonus) + "%</color>";
+
+        float now = (card.StackMultiplier(owned) - 1f) * 100f;
+        return "\n<color=#E8944A>보유 " + owned + "장 · 효과 +" + Trim(now) + "%</color>";
+    }
+
+    private static int OwnedCount(AbilityCard c)
+    {
+        AbilityInventory inv = AbilityInventory.Instance;
+        if (inv == null || c == null) return 0;
+
+        int n = 0;
+        var owned = inv.Owned;
+        for (int i = 0; i < owned.Count; i++) if (owned[i] == c) n++;
+        return n;
+    }
+
+    private static string Trim(float v)
+    {
+        return Mathf.Approximately(v, Mathf.Round(v)) ? Mathf.RoundToInt(v).ToString() : v.ToString("0.#");
     }
 
     private void Update()
     {
+        // Build 전이거나, 플레이 중 스크립트 재컴파일로 참조가 날아간 카드는 가만히 둔다.
+        // (도메인이 다시 로드되면 직렬화되지 않는 필드가 비는데 Build는 다시 불리지 않는다)
+        if (frame == null || frame.border == null || lift == null) return;
+
         // 시간정지 중에도 반응해야 하므로 unscaled
         float target = hovering ? 1f : 0f;
         t = Mathf.MoveTowards(t, target, Time.unscaledDeltaTime / 0.09f);

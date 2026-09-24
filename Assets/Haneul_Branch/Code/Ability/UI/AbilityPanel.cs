@@ -160,7 +160,9 @@ public class AbilityPanel : MonoBehaviour
 
         canvas = canvasGo.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 200;
+        // 특성 선택(400)·상점(250) 위에 뜬다 — 고르는 중에 내가 뭘 들고 있는지 보려고 여는 창이라
+        // 그 밑에 깔리면 열어도 아무것도 안 보인다
+        canvas.sortingOrder = 450;
 
         var scaler = canvasGo.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
