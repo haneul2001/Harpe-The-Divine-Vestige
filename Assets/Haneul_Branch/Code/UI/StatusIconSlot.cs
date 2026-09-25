@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // 체력바 위에 줄지어 놓이는 상태 아이콘 한 칸 (대시 쿨타임, 처형 버프 등).
@@ -112,6 +112,21 @@ public class StatusIconSlot
         rt.sizeDelta = new Vector2(w, h);
     }
 
+    // 마우스 버튼은 키캡에 글자를 적는 대신 그림을 올린다.
+    // "좌클"이라고 적어 두면 읽어야 알지만, 버튼 한쪽이 칠해진 마우스 그림은 보면 바로 안다.
+    public void SetKeyIcon(Sprite glyph, int capScale)
+    {
+        if (glyph == null) return;
+        int cs = Mathf.Max(1, capScale);
+
+        Image img = UIFactory.PixelImage("KeyIcon", Root, glyph, cs);
+        RectTransform rt = img.rectTransform;
+        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 1f);
+        rt.pivot = new Vector2(0.5f, 0f);
+        rt.anchoredPosition = new Vector2(0f, 2f * scale);
+        rt.sizeDelta = new Vector2(glyph.rect.width * cs, glyph.rect.height * cs);
+    }
+
     public const float KeyCapPixels = 14f;   // 키캡 그림 높이
 
     // 키 이름을 짧게 (LeftShift → Shift, Alpha1 → 1)
@@ -123,8 +138,9 @@ public class StatusIconSlot
             case KeyCode.LeftControl: case KeyCode.RightControl: return "Ctrl";
             case KeyCode.LeftAlt: case KeyCode.RightAlt: return "Alt";
             case KeyCode.Space: return "Space";
-            case KeyCode.Mouse0: return "LMB";
-            case KeyCode.Mouse1: return "RMB";
+            // 마우스는 약자보다 우리말이 빨리 읽힌다. 키캡 글꼴(Galmuri)이 한글을 그린다
+            case KeyCode.Mouse0: return "좌클";
+            case KeyCode.Mouse1: return "우클";
         }
         if (key >= KeyCode.Alpha0 && key <= KeyCode.Alpha9) return ((int)(key - KeyCode.Alpha0)).ToString();
         return key.ToString();
@@ -133,7 +149,7 @@ public class StatusIconSlot
     // 아이콘 뒤에서 타오르는 불꽃 (몬스터 처형 표시의 붉은 불꽃을 프레임별로 떠 둔 그림).
     // 파티클은 UI 캔버스에 안 그려지므로 스프라이트를 갈아 끼워 재생한다.
     // 프레임 그림은 1080p 기준 1:1 크기로 구워 두었으므로 픽셀 크기 그대로 놓는다
-    public void SetBackFlame(bool on, Sprite[] frames, float fps, Vector2 offset)
+    public void SetBackFlame(bool on, Sprite[] frames, float fps, Vector2 offset, float sizeScale)
     {
         if (flame == null)
         {
@@ -151,8 +167,9 @@ public class StatusIconSlot
         int i = Mathf.FloorToInt(Time.unscaledTime * Mathf.Max(0.1f, fps)) % frames.Length;
         Sprite f = frames[i];
         flame.sprite = f;
-        if (f != null) flame.rectTransform.sizeDelta = f.rect.size * (scale / 3f);
-        flame.rectTransform.anchoredPosition = offset * (scale / 3f);
+        float k = (scale / 3f) * Mathf.Max(0.1f, sizeScale);
+        if (f != null) flame.rectTransform.sizeDelta = f.rect.size * k;
+        flame.rectTransform.anchoredPosition = offset * k;
     }
 
     // 쓸 수 없을 때 아이콘을 어둡게

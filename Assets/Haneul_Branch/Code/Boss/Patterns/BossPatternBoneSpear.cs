@@ -36,12 +36,22 @@ public class BossPatternBoneSpear : BossPattern
         return bulletPrefab != null && base.IsUsable(boss);
     }
 
+    // 부채꼴이 닿는 자리를 통째로 덮는 상자. 보스 앞으로 길이의 절반만큼 밀어 둔다
+    public override DangerShape[] DangerShapes(BossEnemy boss)
+    {
+        return new DangerShape[] { DangerShape.Box(dangerSize, dangerSize.x * 0.5f, DangerOrigin.Boss) };
+    }
+
     public override DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration)
     {
+        DangerShape s = DangerShapes(boss)[0];
         float angle = Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg;
-        Vector2 center = (Vector2)boss.transform.position + dirToPlayer.normalized * (dangerSize.x * 0.5f);
-        return DangerZone.Box(center, dangerSize, angle, duration);
+        Vector2 center = (Vector2)boss.transform.position + dirToPlayer.normalized * s.forward;
+        return DangerZone.Box(center, s.size, angle, duration);
     }
+
+    // 근접 판정을 안 쓴다 — 투사체만 나간다
+    public override bool UsesHitBox { get { return false; } }
 
     public override IEnumerator Run(BossEnemy boss, Vector2 dirToPlayer)
     {

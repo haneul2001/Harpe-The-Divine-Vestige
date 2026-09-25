@@ -64,11 +64,19 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 39a904f5605ab194cbd07dc17985b117, type: 3}
   - {fileID: 21300000, guid: ead5fe647d7004b43b1ead8dac800009, type: 3}
   statusIconGap: 6
+  goldIcon: {fileID: 0}
+  goldIconScale: 2
+  goldColor: {r: 0.93, g: 0.78, b: 0.35, a: 1}
   keyCapSprite: {fileID: 21300000, guid: ad3115988dc38144797e7a7841ba836e, type: 3}
+  mouseLeftGlyph: {fileID: 21300000, guid: df85f1676dda9d945982a0b32c9c2ba9, type: 3}
+  mouseRightGlyph: {fileID: 21300000, guid: f17ef236d31d6bd4c9ee6bbf7e25f254, type: 3}
   keyCapScale: 2
   skillBarBottom: 24
   skillSlotGap: 18
-  harvestSkillIcon: {fileID: 21300000, guid: 50c8e04fb2badf143ae8f1f19101dfd4, type: 3}
+  harvestSkillIcon: {fileID: 21300000, guid: 3e9d0a0d1feafa1469cc43d56b0342f0, type: 3}
+  attackIcon: {fileID: 21300000, guid: 00cb6f510be6e0c45b141e86cc154246, type: 3}
+  parryIcon: {fileID: 21300000, guid: 4d1adbc9f28b61847a99b8f4903147e7, type: 3}
+  stealthIcon: {fileID: 21300000, guid: 6311066f0dad9074e8bc576119c7520b, type: 3}
   harvestReadyFlame:
   - {fileID: 21300000, guid: 97a995bb22862444f960c587b70c8983, type: 3}
   - {fileID: 21300000, guid: 097dea20c74c398409f4d74604098521, type: 3}
@@ -80,6 +88,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f1d6da3bc69b5e04d80b005564fbbaf2, type: 3}
   harvestFlameFps: 12
   harvestFlameOffset: {x: 0, y: 6}
+  harvestFlameScale: 0.8
   trailDelay: 0.35
   trailSpeed: 0.55
   hideLegacyBars: 1

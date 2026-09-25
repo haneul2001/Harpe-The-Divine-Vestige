@@ -56,6 +56,12 @@ public class PlayerStealth : MonoBehaviour
 
     public bool IsUnlocked { get { return unlocked; } set { unlocked = value; } }
 
+    // 아래 셋은 화면 아래 스킬 칸이 읽는다.
+    // 은신에는 발동 쿨타임이 없고 "풀린 뒤 다시 숨기까지" 기다리는 시간만 있다 — 그걸 쿨타임으로 보여 준다.
+    public KeyCode ToggleKey { get { return toggleKey; } }
+    public float CloakCooldown { get { return Mathf.Max(0f, recloakDelay); } }
+    public float CloakCooldownRemaining { get { return Mathf.Max(0f, nextCloakTime - Time.time); } }
+
     private bool hidden;
     private float nextCloakTime;
 

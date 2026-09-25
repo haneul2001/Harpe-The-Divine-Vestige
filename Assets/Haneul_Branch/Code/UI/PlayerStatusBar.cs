@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // 화면 왼쪽 아래에 붙는 플레이어 체력·소울 바.
@@ -51,6 +51,10 @@ public class PlayerStatusBar : MonoBehaviour
 
     [Tooltip("발동 키 표시용 14x14 키캡 (Art/UI/KeyCap.png, 9-slice)")]
     [SerializeField] private Sprite keyCapSprite;
+    [Tooltip("마우스 왼쪽 버튼 그림. 키캡 글자 대신 이걸 올린다")]
+    [SerializeField] private Sprite mouseLeftGlyph;
+    [Tooltip("마우스 오른쪽 버튼 그림")]
+    [SerializeField] private Sprite mouseRightGlyph;
     [Tooltip("키캡 확대 배율 (원본 픽셀 정수 배)")]
     [Range(1, 4)]
     [SerializeField] private int keyCapScale = 2;
@@ -59,11 +63,19 @@ public class PlayerStatusBar : MonoBehaviour
     [SerializeField] private float skillSlotGap = 18f;
     [Tooltip("48x48 처형 스킬 아이콘")]
     [SerializeField] private Sprite harvestSkillIcon;
+    [Tooltip("48x48 평타(좌클릭) 아이콘. 비우면 칸에 글자만 뜬다")]
+    [SerializeField] private Sprite attackIcon;
+    [Tooltip("48x48 패링(F) 아이콘. 비우면 칸에 글자만 뜬다")]
+    [SerializeField] private Sprite parryIcon;
+    [Tooltip("48x48 은신(C) 아이콘. 비우면 칸에 글자만 뜬다")]
+    [SerializeField] private Sprite stealthIcon;
     [Tooltip("처형 가능할 때 아이콘 뒤에서 타오르는 불꽃 프레임 (Art/UI/StatusIcons/HarvestFlame_0~7)")]
     [SerializeField] private Sprite[] harvestReadyFlame = new Sprite[0];
     [SerializeField] private float harvestFlameFps = 12f;
     [Tooltip("불꽃 위치 (1080p 기준 픽셀, 아이콘 중심에서)")]
     [SerializeField] private Vector2 harvestFlameOffset = new Vector2(0f, 6f);
+    [Tooltip("불꽃 크기 배율. 1이면 구워 둔 그림 크기 그대로")]
+    [Range(0.2f, 2f)] [SerializeField] private float harvestFlameScale = 0.8f;
 
     [Header("연출")]
     [Tooltip("맞은 뒤 잔상이 따라 내려오기 전 멈춰 있는 시간(초)")]
@@ -93,6 +105,11 @@ public class PlayerStatusBar : MonoBehaviour
     private bool dashAttackKeyPending;
     private StatusIconSlot dashAttackSlot;
     private StatusIconSlot harvestSkillSlot;
+    private StatusIconSlot attackSlot;
+    private StatusIconSlot parrySlot;
+    private StatusIconSlot stealthSlot;
+    private PlayerStealth stealth;
+    private SkillInputController skills;
     private PlayerCombat combat;
     private StatusIconSlot harvestSlot;
     private float hpTrail = 1f;
@@ -149,10 +166,22 @@ public class PlayerStatusBar : MonoBehaviour
         dashAttack = body.GetComponent<PlayerDashAttack>();
         harvestBuff = body.GetComponent<HarvestBuff>();
         combat = body.GetComponent<PlayerCombat>();
+        skills = body.GetComponent<SkillInputController>();
+        stealth = body.GetComponent<PlayerStealth>();
 
-        if (dashAttackKeyPending && dashAttackSlot != null && dashAttack != null)
+        if (dashAttackKeyPending)
         {
-            dashAttackSlot.SetKeyLabel(StatusIconSlot.KeyName(dashAttack.Key), keyCapSprite, font, keyCapScale);
+            if (stealthSlot != null && stealth != null) ApplyKeyCap(stealthSlot, stealth.ToggleKey);
+            if (dashAttackSlot != null && dashAttack != null) ApplyKeyCap(dashAttackSlot, dashAttack.Key);
+            if (attackSlot != null && combat != null) ApplyKeyCap(attackSlot, combat.AttackKey);
+
+            // 패링 키는 스킬 슬롯에 적힌 값을 그대로 쓴다 — 거기서 바꾸면 키캡도 따라온다
+            float ignoreRemain, ignoreTotal;
+            KeyCode parryKey;
+            if (parrySlot != null && skills != null
+                && skills.TryGetCooldownOf<Parry>(out ignoreRemain, out ignoreTotal, out parryKey))
+                ApplyKeyCap(parrySlot, parryKey);
+
             dashAttackKeyPending = false;
         }
     }
@@ -252,6 +281,40 @@ public class PlayerStatusBar : MonoBehaviour
             dashSlot.SetTimer(remain);
         }
 
+        // 평타: 따로 쿨타임이 없고 막타 뒤 텀만 있다. 다시 칠 수 있을 때까지를 가린다
+        if (attackSlot != null)
+        {
+            float remain = combat != null ? combat.AttackCooldownRemaining : 0f;
+            float total = combat != null ? combat.AttackCooldown : 0f;
+            attackSlot.SetShade(total > 0f ? remain / total : 0f);
+            attackSlot.SetTimer(remain);
+        }
+
+        // 은신: 발동 쿨타임이 아니라 "풀린 뒤 다시 숨기까지"를 가린다.
+        // 아직 해금 전이면 칸을 어둡게 둔다 — 눌러도 안 되는 칸이 멀쩡히 보이면 안 된다
+        if (stealthSlot != null)
+        {
+            stealthSlot.SetVisible(stealth != null);
+            if (stealth != null)
+            {
+                float remain = stealth.CloakCooldownRemaining;
+                float total = stealth.CloakCooldown;
+                stealthSlot.SetDimmed(!stealth.IsUnlocked);
+                stealthSlot.SetShade(total > 0f ? remain / total : 0f);
+                stealthSlot.SetTimer(remain);
+            }
+        }
+
+        // 패링: 스킬 슬롯의 쿨타임(세트 시너지로 줄어든 값)을 그대로 쓴다
+        if (parrySlot != null)
+        {
+            float remain = 0f, total = 0f;
+            KeyCode key;
+            if (skills != null) skills.TryGetCooldownOf<Parry>(out remain, out total, out key);
+            parrySlot.SetShade(total > 0f ? remain / total : 0f);
+            parrySlot.SetTimer(remain);
+        }
+
         if (dashAttackSlot != null)
         {
             dashAttackSlot.SetVisible(dashAttack != null);
@@ -266,7 +329,7 @@ public class PlayerStatusBar : MonoBehaviour
         {
             bool ready = combat != null && combat.CanHarvestNow;
             harvestSkillSlot.SetDimmed(!ready);
-            harvestSkillSlot.SetBackFlame(ready, harvestReadyFlame, harvestFlameFps, harvestFlameOffset);
+            harvestSkillSlot.SetBackFlame(ready, harvestReadyFlame, harvestFlameFps, harvestFlameOffset, harvestFlameScale);
         }
 
         if (harvestSlot != null)
@@ -283,6 +346,18 @@ public class PlayerStatusBar : MonoBehaviour
                 harvestSlot.SetBadge(stage.ToString());
             }
         }
+    }
+
+    // 칸 위에 발동 키를 단다. 마우스 버튼만 키캡 대신 그림을 쓴다 —
+    // 글자로 "좌클"이라고 적어 두면 읽어야 알고, 줄에서 혼자 폭이 넓어져 눈에 걸린다.
+    private void ApplyKeyCap(StatusIconSlot slot, KeyCode key)
+    {
+        if (slot == null) return;
+
+        if (key == KeyCode.Mouse0 && mouseLeftGlyph != null) { slot.SetKeyIcon(mouseLeftGlyph, keyCapScale); return; }
+        if (key == KeyCode.Mouse1 && mouseRightGlyph != null) { slot.SetKeyIcon(mouseRightGlyph, keyCapScale); return; }
+
+        slot.SetKeyLabel(StatusIconSlot.KeyName(key), keyCapSprite, font, keyCapScale);
     }
 
     // 소울 바 오른쪽 빈자리에 동전과 숫자만. 바를 하나 더 늘리면 화면 아래가 답답해진다
@@ -401,19 +476,39 @@ public class PlayerStatusBar : MonoBehaviour
         skillRow.pivot = new Vector2(0.5f, 0f);
         skillRow.anchoredPosition = new Vector2(0f, skillBarBottom);
         float slotW = StatusIconSlot.SlotPixels * s;
-        skillRow.sizeDelta = new Vector2(slotW * 3f + skillSlotGap * 2f, slotW);
+
+        // 칸 순서는 키보드에서 마우스로 — Shift · F · C · V · 좌클 · 우클
+        const int slotCount = 6;
+        skillRow.sizeDelta = new Vector2(slotW * slotCount + skillSlotGap * (slotCount - 1), slotW);
+
+        // 칸은 줄의 왼쪽 아래를 기준으로 놓인다(피벗 0,0). 줄 자체가 화면 가운데 정렬이라
+        // 0부터 차례로 채우면 다섯 칸이 통째로 가운데에 온다
+        float step = slotW + skillSlotGap;
+        float left = 0f;
 
         dashSlot = StatusIconSlot.Build("Skill_Dash", skillRow, statusSlot, dashIcon, "대시", s, font);
-        dashSlot.Root.anchoredPosition = Vector2.zero;
-        dashSlot.SetKeyLabel(StatusIconSlot.KeyName(PlayerMove.DashKey), keyCapSprite, font, keyCapScale);
+        dashSlot.Root.anchoredPosition = new Vector2(left, 0f);
+        ApplyKeyCap(dashSlot, PlayerMove.DashKey);
+
+        attackSlot = StatusIconSlot.Build("Skill_Attack", skillRow, statusSlot, attackIcon, "평타", s, font);
+        attackSlot.Root.anchoredPosition = new Vector2(left + step * 4f, 0f);
 
         dashAttackSlot = StatusIconSlot.Build("Skill_DashAttack", skillRow, statusSlot, dashAttackIcon, "돌진", s, font);
-        dashAttackSlot.Root.anchoredPosition = new Vector2(slotW + skillSlotGap, 0f);
-        // 대시 공격 키는 플레이어에 설정돼 있어 플레이어를 찾은 뒤(Start) 단다
+        dashAttackSlot.Root.anchoredPosition = new Vector2(left + step * 5f, 0f);
+
+        // 평타·대시 공격 키는 플레이어에 설정돼 있어 플레이어를 찾은 뒤(Start) 단다
         dashAttackKeyPending = true;
 
         harvestSkillSlot = StatusIconSlot.Build("Skill_Harvest", skillRow, statusSlot, harvestSkillIcon, "처형", s, font);
-        harvestSkillSlot.Root.anchoredPosition = new Vector2((slotW + skillSlotGap) * 2f, 0f);
-        harvestSkillSlot.SetKeyLabel(StatusIconSlot.KeyName(PlayerCombat.HarvestKey), keyCapSprite, font, keyCapScale);
+        harvestSkillSlot.Root.anchoredPosition = new Vector2(left + step * 3f, 0f);
+        ApplyKeyCap(harvestSkillSlot, PlayerCombat.HarvestKey);
+
+        parrySlot = StatusIconSlot.Build("Skill_Parry", skillRow, statusSlot, parryIcon, "패링", s, font);
+        parrySlot.Root.anchoredPosition = new Vector2(left + step, 0f);
+
+        stealthSlot = StatusIconSlot.Build("Skill_Stealth", skillRow, statusSlot, stealthIcon, "은신", s, font);
+        stealthSlot.Root.anchoredPosition = new Vector2(left + step * 2f, 0f);
+        // 은신 키도 플레이어 설정을 따라간다 — 플레이어를 찾은 뒤에 단다
+        // 패링 키도 스킬 슬롯 설정을 따라간다 — 플레이어를 찾은 뒤에 읽는다
     }
 }

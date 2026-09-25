@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   harvestRange: 6
   harvestTeleportOntoTarget: 0
+  attackKey: 323
   attackSpeed: 1.4
   chargedDamageMultiplier: 2
   isAttacking: 0
@@ -202,6 +203,9 @@ MonoBehaviour:
     stamina: 100
     soul: 0
     baseMaxSoul: 100
+    gold: 0
+    bonusCritRate: 0
+    bonusMoveSpeed: 0
     baseAttackPower: 100
     baseDefense: 0
     str: 10
@@ -411,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d848bab676e5ee547a20ea368965b89d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 120
+  key: 324
   cooldown: 3
   distance: 3.5
   duration: 0.14
@@ -478,6 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulPerPick: 30
+  showDelay: 1
   choices: 3
   rarityWeights:
   - 60

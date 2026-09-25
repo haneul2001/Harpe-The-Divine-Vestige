@@ -140,7 +140,7 @@ MonoBehaviour:
     lifeTime: 0.9
     fps: 24
     loop: 0
-    tint: {r: 1, g: 1, b: 1, a: 1}
+    tint: {r: 1, g: 0.25, b: 0.2, a: 1}
     scale: 1.4
     sortingLayer: Skill
     sortingOrder: 2
@@ -204,7 +204,27 @@ MonoBehaviour:
     lifeTime: 5
     fps: 20
     loop: 1
-    tint: {r: 1, g: 1, b: 1, a: 1}
+    tint: {r: 1, g: 0.25, b: 0.2, a: 1}
     scale: 0.8
     sortingLayer: Skill
     sortingOrder: 1
+  - id: BossSpinSlash
+    frames: []
+    prefab: {fileID: 4748681987041982144, guid: 14b6304903daaa04588ea60494dc66a2, type: 3}
+    lifeTime: 0.9
+    fps: 20
+    loop: 0
+    tint: {r: 1, g: 0.25, b: 0.2, a: 1}
+    scale: 1
+    sortingLayer: Skill
+    sortingOrder: 3
+  - id: BossPhaseFire
+    frames: []
+    prefab: {fileID: 4748681987041982144, guid: 5b9772bea98d35846a98a25e2ed26b14, type: 3}
+    lifeTime: 6
+    fps: 20
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    sortingLayer: Skill
+    sortingOrder: 5

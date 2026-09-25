@@ -11,18 +11,14 @@ public class DebugBoxMarker : DebugVisual
     [Tooltip("자식의 렌더러까지 포함할지")]
     [SerializeField] private bool includeChildren = true;
 
-    private Renderer[] renderers;
-
-    private void Awake()
-    {
-        renderers = includeChildren
-            ? GetComponentsInChildren<Renderer>(true)
-            : GetComponents<Renderer>();
-    }
-
+    // 켜고 끌 때마다 다시 모은다.
+    // 판정 모양이 런타임에 바뀌면서(상자 → 부채꼴) 그림도 새로 붙으므로,
+    // Awake에서 한 번만 모아 두면 나중에 생긴 표시가 영영 안 꺼진다.
     protected override void Apply(bool visible)
     {
-        if (renderers == null) return;
+        Renderer[] renderers = includeChildren
+            ? GetComponentsInChildren<Renderer>(true)
+            : GetComponents<Renderer>();
 
         for (int i = 0; i < renderers.Length; i++)
             if (renderers[i] != null) renderers[i].enabled = visible;

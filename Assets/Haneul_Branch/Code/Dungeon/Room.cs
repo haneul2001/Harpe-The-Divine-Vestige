@@ -114,6 +114,50 @@ public class Room : MonoBehaviour
     public bool Visited { get; private set; }
     public bool HasEnemies => spawns != null && spawns.Count > 0;
 
+    // 방이 정해 둔 스폰 자리. 보스의 소환 패턴이 이 자리를 쓴다 —
+    // 보스 주위에 원형으로 뿌리면 방 모양에 따라 벽 너머에 떨어지는 놈이 생긴다.
+    public Transform[] SpawnPointList { get { return spawnPoints; } }
+
+    // 이 방이 그 프리팹을 잡몹으로 어떻게 스폰하는지.
+    // 소환된 부하가 방의 잡몹과 같은 체력·크기를 갖게 하려고 같은 설정을 꺼내 쓴다.
+    public bool TryGetSpawnSetup(GameObject prefab, out EnemyInfo info, out float scale)
+    {
+        info = null;
+        scale = 0f;
+        if (prefab == null || spawns == null) return false;
+
+        for (int i = 0; i < spawns.Count; i++)
+        {
+            SpawnEntry e = spawns[i];
+            if (e == null || e.prefab != prefab || e.isBoss) continue;
+
+            info = e.info;
+            scale = e.scale;
+            return true;
+        }
+        return false;
+    }
+
+    // 프리팹이 목록에 없을 때 쓸 대표 잡몹 설정 (보스가 아닌 첫 항목)
+    public bool TryGetAnyMinionSetup(out EnemyInfo info, out float scale)
+    {
+        info = null;
+        scale = 0f;
+        if (spawns == null) return false;
+
+        for (int i = 0; i < spawns.Count; i++)
+        {
+            SpawnEntry e = spawns[i];
+            if (e == null || e.prefab == null || e.isBoss) continue;
+            if (e.info == null) continue;
+
+            info = e.info;
+            scale = e.scale;
+            return true;
+        }
+        return false;
+    }
+
     private readonly List<Enemy> alive = new List<Enemy>();
     private readonly List<int> spawnOrder = new List<int>();
     private int spawnCursor;

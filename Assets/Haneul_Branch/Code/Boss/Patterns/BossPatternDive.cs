@@ -22,12 +22,23 @@ public class BossPatternDive : BossPattern
 
     [Header("연출")]
     [SerializeField] private float shake = 0.4f;
-    [SerializeField] private string vfxId = "EnemyHit";
+
+    [Tooltip("솟구칠 때 띄울 이펙트 id. 예고한 원을 그대로 채운다")]
+    [SerializeField] private string vfxId = "BossSpinSlash";
 
     public override bool MovesSelf { get { return true; } }
 
+    // 솟구치는 자리 — 플레이어를 따라가 그 발밑에 뜬다
+    public override DangerShape[] DangerShapes(BossEnemy boss)
+    {
+        return new DangerShape[] { DangerShape.Circle(burstRadius, DangerOrigin.Player) };
+    }
+
     // 잠행은 "지금 여기"가 위험한 게 아니라 "곧 저기"가 위험하다. 예고는 패턴 안에서 낸다.
     public override DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration) { return null; }
+
+    // 근접 판정을 안 쓴다 — 솟구칠 때 반경으로 직접 피해를 굴린다
+    public override bool UsesHitBox { get { return false; } }
 
     public override IEnumerator Run(BossEnemy boss, Vector2 dirToPlayer)
     {
@@ -59,7 +70,8 @@ public class BossPatternDive : BossPattern
         boss.transform.position = target;
 
         // ③ 솟을 자리를 보여 준다
-        DangerZone.Circle(target, burstRadius, surfaceWarning);
+        float radius = DangerShapes(boss)[0].Radius;
+        DangerZone.Circle(target, radius, surfaceWarning);
         t = surfaceWarning;
         while (t > 0f && !boss.isDead) { t -= Time.deltaTime; yield return null; }
 
@@ -71,9 +83,15 @@ public class BossPatternDive : BossPattern
         if (boss.isDead) { Restore(boss, sr, cols); yield break; }
 
         if (shake > 0f) CameraShake.Shake(shake);
-        if (!string.IsNullOrEmpty(vfxId)) PixelVfx.Play(vfxId, boss.transform.position);
 
-        boss.DamagePlayerInRadius(boss.transform.position, burstRadius);
+        // 예고한 원을 그대로 덮는다 — 회전 베기와 같은 그림이라 "원 안이 위험"이 한 번에 읽힌다
+        if (!string.IsNullOrEmpty(vfxId))
+        {
+            float d = radius * 2f;
+            PixelVfx.PlayStretched(vfxId, boss.transform.position, 0f, new Vector2(d, d));
+        }
+
+        boss.DamagePlayerInRadius(boss.transform.position, radius);
     }
 
     private static void SetColliders(Collider2D[] cols, bool on)

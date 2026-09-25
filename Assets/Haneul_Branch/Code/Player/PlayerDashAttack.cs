@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 대시 공격 (기본 X키 — 나중에 스킬 슬롯으로 옮길 예정).
+// 대시 공격 (기본 마우스 오른클릭 — 나중에 스킬 슬롯으로 옮길 예정).
 //
 // 공격 방향(8방향)으로 빠르게 미끄러지며 지나가는 길의 몬스터를 한 번씩 벤다.
 //  · 맵 밖으로 안 나가게: 이동 전에 플레이어 콜라이더를 경로로 쏴(Cast) 벽·맵 콜라이더까지의 거리를 잰다.
@@ -13,7 +13,8 @@ using UnityEngine;
 public class PlayerDashAttack : MonoBehaviour
 {
     [Header("입력 · 쿨타임")]
-    [SerializeField] private KeyCode key = KeyCode.X;
+    [Tooltip("대시 공격 버튼. 기본은 마우스 오른클릭(Mouse1)")]
+    [SerializeField] private KeyCode key = KeyCode.Mouse1;
     [SerializeField] private float cooldown = 0.9f;
 
     [Header("이동")]
@@ -106,6 +107,9 @@ public class PlayerDashAttack : MonoBehaviour
 
     private void Update()
     {
+        // 멈춰 있는 동안은 받지 않는다 — 클릭으로 조작하는 창이 떠 있을 때 같이 나가면 안 된다
+        if (Time.timeScale <= 0f) return;
+
         if (!Input.GetKeyDown(key)) return;
         if (!CanDash()) return;
         StartCoroutine(Dash());

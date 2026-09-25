@@ -26,8 +26,16 @@ public class EnemyHitBox : MonoBehaviour
         if (col == null) return;
 
         Physics2D.SyncTransforms();
-        Collider2D[] hits = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.size, 0f);
-        foreach (var h in hits) TryHit(h);
+
+        // 콜라이더 모양 그대로 겹침을 본다.
+        // 예전처럼 사각형으로 훑으면 부채꼴 판정에서 모서리 바깥까지 맞는다.
+        var filter = new ContactFilter2D();
+        filter.useTriggers = true;
+        filter.useLayerMask = false;
+
+        var hits = new Collider2D[8];
+        int count = col.OverlapCollider(filter, hits);
+        for (int i = 0; i < count; i++) TryHit(hits[i]);
     }
 
     private void TryHit(Collider2D other)

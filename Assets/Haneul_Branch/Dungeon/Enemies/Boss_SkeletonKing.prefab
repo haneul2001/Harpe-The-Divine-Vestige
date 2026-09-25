@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 281628365819188302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -165,8 +165,6 @@ GameObject:
   - component: {fileID: 4255548984813074094}
   - component: {fileID: 3443396305031483502}
   - component: {fileID: 4679541627067524903}
-  - component: {fileID: 7861996612636613038}
-  - component: {fileID: 8155024233878264840}
   - component: {fileID: 6146038413834630321}
   - component: {fileID: 4756055380548077375}
   - component: {fileID: 867809006173757373}
@@ -174,6 +172,9 @@ GameObject:
   - component: {fileID: 6000111765359649534}
   - component: {fileID: 8274517376748287466}
   - component: {fileID: 3908150753241722572}
+  - component: {fileID: 3009174124334057924}
+  - component: {fileID: 522471885730123078}
+  - component: {fileID: 553959619112336724}
   m_Layer: 7
   m_Name: Boss_SkeletonKing
   m_TagString: Enemy
@@ -418,7 +419,7 @@ MonoBehaviour:
   detectRange: 30
   attackRange: 1.68
   moveSpeed: 2
-  attackIdleTime: 1.6
+  attackIdleTime: 2.4
   attackWarningDuration: 0.4
   attackDamage: 1
   hitDuration: 0.2
@@ -436,40 +437,36 @@ MonoBehaviour:
   attackPivot: {fileID: 281628365819188302}
   waitForAnimationHit: 1
   hitEventTimeout: 1.8
-  horizontalAttackOnly: 1
+  horizontalAttackOnly: 0
   verticalTolerance: 2
   showAttackWarning: 0
   groundOnly: 0
-  recoverTime: 0.8
+  recoverTime: 1.1
   matchAttackRangeToHitBox: 1
   attackRangePadding: 0.4
+  hitBoxShrink: 0.1
+  fanHitBox: 1
   slashVfxId: BossSlash
   slashVfxLeftId: BossSlash
   phases:
   - label: 
     enterAtHpRatio: 1
     moveSpeedMultiplier: 1
-    attackIntervalMultiplier: 1
+    attackIntervalMultiplier: 1.12
     warningMultiplier: 1
-    transitionDuration: 0
+    transitionDuration: 3.45
   - label: "\uD574\uACE8\uC655\uC774 \uAC80\uC744 \uACE0\uCCD0 \uC954\uB2E4"
-    enterAtHpRatio: 0.75
-    moveSpeedMultiplier: 1.15
-    attackIntervalMultiplier: 0.8
-    warningMultiplier: 0.9
-    transitionDuration: 1.4
-  - label: "\uD574\uACE8\uC655\uC774 \uBB34\uB364\uC744 \uC5F0\uB2E4"
-    enterAtHpRatio: 0.5
-    moveSpeedMultiplier: 1.3
-    attackIntervalMultiplier: 0.65
-    warningMultiplier: 0.8
-    transitionDuration: 1.6
-  - label: "\uC655\uAD00\uC774 \uBD80\uC11C\uC9C4\uB2E4"
-    enterAtHpRatio: 0.25
+    enterAtHpRatio: 0.66
+    moveSpeedMultiplier: 1.2
+    attackIntervalMultiplier: 0.85
+    warningMultiplier: 0.85
+    transitionDuration: 3.45
+  - label: "\uC8FD\uC740 \uC655\uC774 \uB450 \uBC88\uC9F8 \uC8FD\uC74C\uC744 \uAC70\uBD80\uD55C\uB2E4"
+    enterAtHpRatio: 0.33
     moveSpeedMultiplier: 1.6
-    attackIntervalMultiplier: 0.4
+    attackIntervalMultiplier: 0.52
     warningMultiplier: 0.62
-    transitionDuration: 2
+    transitionDuration: 3.45
   patterns: []
   avoidRepeat: 1
   idlePatternFallback: 0.5
@@ -479,6 +476,24 @@ MonoBehaviour:
   defaultHitDelay: 0.5
   phaseZoom: 0.72
   enrageAfterSeconds: 150
+  phaseDim: 0.85
+  phaseFireVfxId: BossPhaseFire
+  phaseFireSize: 3
+  phaseFireGrow: 0.1
+  phaseAttackSpeedGrow: 0.15
+  phaseAnimation: 2
+  phaseAnimFreezeAt: 0.95
+  slashOverdraw: 1.2
+  slashLift: 0.45
+  slashPush: 0
+  attackStateNames:
+  - Atk1
+  - Atk2
+  - Atk3
+  attackHitTimes:
+  - 0.8
+  - 0.4
+  - 1.4
 --- !u!114 &8127998003142338597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +518,7 @@ MonoBehaviour:
   hitCount: 1
   activeDuration: 0.35
   hitInterval: 0.45
+  hitAnimations: 
   shake: 0.35
   vfxId: BossSlash
 --- !u!114 &4255548984813074094
@@ -535,6 +551,7 @@ MonoBehaviour:
     m_Bits: 8192
   wallCheckDistance: 0.15
   shake: 0.25
+  slashDelay: 0.12
 --- !u!114 &3443396305031483502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +582,7 @@ MonoBehaviour:
     m_Bits: 8192
   wallCheckDistance: 0.15
   shake: 0.25
+  slashDelay: 0.12
 --- !u!114 &4679541627067524903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,70 +604,11 @@ MonoBehaviour:
   minDistance: 0
   animationIndex: 1
   hitDelay: 0.4
-  turns: 2
-  secondsPerTurn: 0.55
-  rearmInterval: 0.45
+  recoverTime: 0.5
   shake: 0.2
-  vfxId: BossSlash
-  vfxInterval: 0.18
---- !u!114 &7861996612636613038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146800402705198529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be7961b578102304cbf75ed7be54fa69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patternName: "\uBF08\uCC3D \uBD80\uCC44\uAF34"
-  minPhase: 0
-  maxPhase: -1
-  weight: 2
-  cooldown: 6
-  maxDistance: 0
-  minDistance: 3.5
-  animationIndex: 2
-  hitDelay: 1.4
-  bulletPrefab: {fileID: 1121836764549635027, guid: db08c06b5f34af84b983b06cd8725334, type: 3}
-  volleyCount: 1
-  volleyInterval: 0.35
-  bulletsPerVolley: 3
-  spreadAngle: 40
-  bulletSpeed: 9
-  muzzleForward: 0.9
-  castTime: 0.25
-  dangerSize: {x: 9, y: 3.2}
-  shake: 0.15
-  bulletVfxId: BossSpear
---- !u!114 &8155024233878264840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146800402705198529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09aa60d2cdb9184ebdb663fc88c8610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patternName: "3\uC5F0\uACA9"
-  minPhase: 1
-  maxPhase: -1
-  weight: 2
-  cooldown: 6
-  maxDistance: 0
-  minDistance: 0
-  animationIndex: 1
-  hitDelay: 0.4
-  hitCount: 3
-  activeDuration: 0.28
-  hitInterval: 0.38
-  shake: 0.35
-  vfxId: BossSlash
+  sweepVfxId: BossSpinSlash
+  sweepScale: 1
+  dangerScale: 0.9
 --- !u!114 &6146038413834630321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,6 +634,8 @@ MonoBehaviour:
   - {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
   countPerCast: 3
   spawnRadius: 2.5
+  keepAwayFromPlayer: 2.5
+  spawnMarkRadius: 1.1
   maxAlive: 5
   minionScale: 2
   castTime: 0.6
@@ -710,6 +671,7 @@ MonoBehaviour:
     m_Bits: 8192
   wallCheckDistance: 0.15
   shake: 0.25
+  slashDelay: 0.12
 --- !u!114 &867809006173757373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +697,8 @@ MonoBehaviour:
   - {fileID: 239502156141647011, guid: 1ff5662519057434594a5ed6b05c1434, type: 3}
   countPerCast: 5
   spawnRadius: 2.5
+  keepAwayFromPlayer: 2.5
+  spawnMarkRadius: 1.1
   maxAlive: 7
   minionScale: 2
   castTime: 1.2
@@ -822,7 +786,7 @@ MonoBehaviour:
   surfaceWarning: 0.7
   burstRadius: 2.2
   shake: 0.4
-  vfxId: BossCrack
+  vfxId: BossSpinSlash
 --- !u!114 &3908150753241722572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -853,6 +817,85 @@ MonoBehaviour:
   pillarHp: 0
   shake: 0.2
   vfxId: EnemyHit
+--- !u!114 &3009174124334057924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38910e720d936594590af4eac5eec146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 4.6
+  holdSeconds: 2.5
+  characterSize: 0.1
+  color: {r: 1, g: 0.85, b: 0.35, a: 1}
+  showDetail: 1
+--- !u!114 &522471885730123078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04c10b9476295646839b0afa8ebe5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "\uAE34 \uBCA0\uAE30"
+  minPhase: 0
+  maxPhase: -1
+  weight: 2
+  cooldown: 6
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 2
+  hitDelay: 1.4
+  slashSize: {x: 9, y: 3.2}
+  angles:
+  - 0
+  - 40
+  - -40
+  warnTime: 0.5
+  betweenSlashes: 0.18
+  castTime: 0.15
+  slashVfxId: BossSlash
+  shake: 0.25
+--- !u!114 &553959619112336724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146800402705198529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf16fd9d4158b3340823af1890f30f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternName: "3\uC5F0 \uB3CC\uC9C4\uBCA0\uAE30"
+  minPhase: 1
+  maxPhase: -1
+  weight: 2
+  cooldown: 7
+  maxDistance: 0
+  minDistance: 0
+  animationIndex: 1
+  hitDelay: 0.4
+  dashSpeed: 12
+  dashDuration: 0.28
+  dashCount: 3
+  betweenDashes: 0.5
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  wallCheckDistance: 0.15
+  shake: 0.25
+  slashDelay: 0.1
 --- !u!1 &1332191291545746589
 GameObject:
   m_ObjectHideFlags: 0

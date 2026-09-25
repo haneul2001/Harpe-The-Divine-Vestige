@@ -350,8 +350,25 @@ public class TraitPickPanel : MonoBehaviour
         for (int i = row.childCount - 1; i >= 0; i--) Destroy(row.GetChild(i).gameObject);
         slots.Clear();
 
+        // 판이 이미 끝났으면 시간도 입력도 건드리지 않는다.
+        // 결과 화면이 멈춰 둔 시간을 여기서 풀고 사망으로 잠근 입력까지 열면,
+        // 죽은 채로 결과창 뒤에서 돌아다니게 된다.
+        if (RunIsOver()) return;
+
         RestoreTime();
         SetPlayerInputLocked(false);
+    }
+
+    // 한 판이 끝났는가 (죽었거나 결과 화면이 떠 있거나)
+    private static bool RunIsOver()
+    {
+        if (GameOverScreen.IsShowing) return true;
+
+        var p = GameObject.FindGameObjectWithTag("Player");
+        if (p == null) return true;
+
+        var status = p.GetComponent<PlayerStatus>();
+        return status != null && status.IsDead;
     }
 
     // fixedDeltaTime도 같이 되돌린다 — Room이 슬로우를 걸 때 물리 간격까지 줄여 놓기 때문에
@@ -362,10 +379,11 @@ public class TraitPickPanel : MonoBehaviour
         if (previousFixedDelta > 0f) Time.fixedDeltaTime = previousFixedDelta * Time.timeScale;
     }
 
-    // 층 이동 등으로 화면이 통째로 사라져도 시간은 반드시 돌려놓는다
+    // 층 이동 등으로 화면이 통째로 사라져도 시간은 반드시 돌려놓는다.
+    // 단 판이 끝난 뒤라면 결과 화면이 멈춰 둔 것을 지켜야 한다.
     private void OnDestroy()
     {
-        if (IsOpen) RestoreTime();
+        if (IsOpen && !RunIsOver()) RestoreTime();
     }
 
     private static void SetPlayerInputLocked(bool locked)

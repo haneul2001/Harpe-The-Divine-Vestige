@@ -124,6 +124,7 @@ MonoBehaviour:
   knockBackPower: 8
   hitDuration: 0.3
   isExecuting: 0
+  inputLocked: 0
 --- !u!114 &8136257344840416870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   harvestRange: 6
   harvestTeleportOntoTarget: 1
+  attackKey: 323
   attackSpeed: 1.2
   chargedDamageMultiplier: 2
   isAttacking: 0
@@ -146,6 +148,14 @@ MonoBehaviour:
   maxChargeTime: 1.5
   chargedThreshold: 1.3
   attackNum: 0
+  attackBufferWindow: 0.25
+  attackFailSafeTime: 1.2
+  lungeDistance: 0.35
+  lungeDuration: 0.08
+  comboCount: 3
+  reverseSlashByHit: 000100
+  finisherRecovery: 0.35
+  minHitDelay: 0.1
   comboResetTime: 1
   enemyLayer:
     serializedVersion: 2
@@ -154,6 +164,7 @@ MonoBehaviour:
   boxSize: {x: 3.2, y: 1.1}
   chargeFill: {fileID: 3993607935517162739}
   chargeCanvas: {fileID: 6986242262167334654}
+  critSlashMaterial: {fileID: 0}
 --- !u!114 &5562068882946302869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +195,9 @@ MonoBehaviour:
     stamina: 100
     soul: 0
     baseMaxSoul: 100
+    gold: 0
+    bonusCritRate: 0
+    bonusMoveSpeed: 0
     baseAttackPower: 100
     baseDefense: 0
     str: 10
@@ -193,6 +207,20 @@ MonoBehaviour:
   maxExp: 100
   level: 1
   invincibleTime: 0.5
+  blinkWhileInvincible: 1
+  blinkInterval: 0.06
+  hitShake: 0.25
+  deathHoldTime: 1.4
+  deathTimeScale: 0.25
+  deathShake: 0.55
+  parryCounterClip: {fileID: 0}
+  counterMoveEarlier: 0.2
+  parryCounterSpeed: 2
+  parryHitVfxId: ParryBurst
+  counterAreaRadius: 1.8
+  counterAreaEnemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &667097894837244086
 MonoBehaviour:
   m_ObjectHideFlags: 0

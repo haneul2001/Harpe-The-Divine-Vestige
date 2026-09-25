@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -10,6 +10,11 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("체크 시 처형할 때 적 '뒤'가 아니라 적 '좌표'로 순간이동 (예: Reaper 내려찍기). 캐릭터별로 설정.")]
     [SerializeField] private bool harvestTeleportOntoTarget = false;
     public bool HarvestTeleportOntoTarget => harvestTeleportOntoTarget;
+
+    [Header("입력")]
+    [Tooltip("공격 버튼. 기본은 마우스 왼클릭(Mouse0).\n"
+           + "차징이 해금돼 있으면 이 버튼을 누른 채로 모으고, 뗄 때 나간다")]
+    [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
 
     [Header("공격 속도")]
     [Tooltip("일반 공격 애니메이션 재생 배율. 1 = 기본, 2 = 2배 빠름")]
@@ -28,7 +33,7 @@ public class PlayerCombat : MonoBehaviour
     public bool isCharging = false;
 
     [Header("차징 공격 스킬 해금")]
-    [Tooltip("체크 시 Z 홀드로 차징 공격 가능. 해제 시 차징 없이 일반 공격만 나감.")]
+    [Tooltip("체크 시 공격 버튼 홀드로 차징 공격 가능. 해제 시 차징 없이 일반 공격만 나감.")]
     public bool HasChargingAttackSkill = false;
 
     private float chargeTime;
@@ -133,6 +138,24 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        // 화면이 멈춰 있으면 입력을 받지 않는다.
+        //
+        // 공격이 마우스 왼클릭이 된 뒤로는 이게 필요하다 — 특성 카드·상점처럼 timeScale을 0으로
+        // 두고 뜨는 창은 클릭으로 조작하므로, 안 막으면 카드를 고를 때마다 칼도 같이 휘두른다.
+        if (Time.timeScale <= 0f)
+        {
+            // 멈춘 사이에 버튼을 떼면 GetKeyUp을 놓쳐 영영 차징 중으로 남는다. 모으던 건 접는다
+            if (isCharging)
+            {
+                isCharging = false;
+                chargeTime = 0f;
+                fullCharged = false;
+            }
+
+            UpdateChargeUI();
+            return;
+        }
+
         // 패링 직후 같은 조작 불가 구간, 처형·대시 공격 같은 연출 중에는 공격·처형 입력을 받지 않는다
         if (move != null && (move.IsControlLocked || move.isExecuting))
         {
@@ -141,7 +164,7 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        NormalAttack(); // Z입력
+        NormalAttack(); // 공격 버튼 입력
         UpdateChargeUI();
         CheckAttackFailSafe();
 
@@ -170,6 +193,20 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public const KeyCode HarvestKey = KeyCode.V;
+
+    // 공격 버튼(좌클릭)이 UI에 칸으로 올라가므로, 다음 평타가 나갈 수 있을 때까지를 내준다.
+    //
+    // 평타에는 따로 쿨타임이 없다. 실제로 "지금 못 친다"가 되는 구간은 막타 뒤 텀뿐이라
+    // 그걸 쿨타임으로 삼는다. 휘두르는 도중은 세지 않는다 — 그 사이 누른 입력은 예약돼
+    // 이어서 나가므로, 칸을 가려 두면 못 치는 것처럼 보여 거짓말이 된다.
+    public float AttackCooldown { get { return Mathf.Max(0f, finisherRecovery); } }
+
+    public float AttackCooldownRemaining
+    {
+        get { return nextAttackTime > 0f ? Mathf.Max(0f, nextAttackTime - Time.time) : 0f; }
+    }
+
+    public KeyCode AttackKey { get { return attackKey; } }
 
     // 지금 처형 키를 누르면 처형이 나가는가 (상태 UI의 처형 칸을 빛내는 데 쓴다)
     public bool CanHarvestNow
@@ -243,19 +280,19 @@ public class PlayerCombat : MonoBehaviour
             SimpleAttack();   // 차징 미해금: 일반 공격만
     }
 
-    // 차징 공격 (해금 시): Z 홀드로 차징, 뗄 때 공격
+    // 차징 공격 (해금 시): 공격 버튼 홀드로 차징, 뗄 때 공격
     private void ChargingAttack()
     {
         // 공격 중 입력은 예약으로 돌린다 (차징 해금 상태에서도 콤보가 이어지도록)
-        if (isAttacking && Input.GetKeyDown(KeyCode.Z))
+        if (isAttacking && Input.GetKeyDown(attackKey))
             bufferedAttackTime = Time.time;
 
         // 막타 뒤 텀에는 차징도 시작하지 않는다
-        if (!isAttacking && Time.time < nextAttackTime && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && Time.time < nextAttackTime && Input.GetKeyDown(attackKey))
             bufferedAttackTime = Time.time;
 
         // 차징 시작
-        if (!isAttacking && Time.time >= nextAttackTime && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && Time.time >= nextAttackTime && Input.GetKeyDown(attackKey))
         {
             isCharging = true;
             chargeTime = 0f;
@@ -284,7 +321,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 버튼 뗐을 때 공격
-        if (isCharging && Input.GetKeyUp(KeyCode.Z))
+        if (isCharging && Input.GetKeyUp(attackKey))
         {
             isCharging = false;
             isAttacking = true; //어택 시작시 공격 중 상태로 전환 공격 인덱스 버그 방지 위해 공격 시작 시점에 true로 변경
@@ -333,10 +370,10 @@ public class PlayerCombat : MonoBehaviour
         attackNum = (attackNum + 1) % Mathf.Max(1, comboCount);
     }
 
-    // 일반 공격 (차징 미해금): Z 누르면 즉시 공격, 차징 없음
+    // 일반 공격 (차징 미해금): 공격 버튼 누르면 즉시 공격, 차징 없음
     private void SimpleAttack()
     {
-        if (!Input.GetKeyDown(KeyCode.Z))
+        if (!Input.GetKeyDown(attackKey))
             return;
 
         // 공격 중이거나 막타 뒤 텀이면 버리지 않고 예약해 둔다
@@ -561,7 +598,7 @@ public class PlayerCombat : MonoBehaviour
         fullCharged = false;
 
         // 차징이 해금돼 있고 키를 계속 누르고 있으면 다음 타는 차징으로 시작한다
-        if (HasChargingAttackSkill && Input.GetKey(KeyCode.Z))
+        if (HasChargingAttackSkill && Input.GetKey(attackKey))
         {
             isCharging = true;
             return;

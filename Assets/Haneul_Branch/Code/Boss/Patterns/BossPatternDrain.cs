@@ -26,10 +26,17 @@ public class BossPatternDrain : BossPattern
     [SerializeField] private float shake = 0.2f;
     [SerializeField] private string vfxId = "EnemyHit";
 
+    // 빨아들이는 사거리 전체
+    public override DangerShape[] DangerShapes(BossEnemy boss)
+    {
+        return new DangerShape[] { DangerShape.Circle(range, DangerOrigin.Boss) };
+    }
+
     public override DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration)
     {
         // 플레이어가 맞는 공격은 아니지만, "지금 뭔가 크게 온다"는 건 보여 준다
-        return DangerZone.Circle(boss.transform.position, range, duration, boss.transform);
+        DangerShape s = DangerShapes(boss)[0];
+        return DangerZone.Circle(boss.transform.position, s.Radius, duration, boss.transform);
     }
 
     public override bool IsUsable(BossEnemy boss)
@@ -51,6 +58,9 @@ public class BossPatternDrain : BossPattern
         }
         return found;
     }
+
+    // 근접 판정을 안 쓴다 — 부하를 빨아들일 뿐 플레이어를 때리지 않는다
+    public override bool UsesHitBox { get { return false; } }
 
     public override IEnumerator Run(BossEnemy boss, Vector2 dirToPlayer)
     {

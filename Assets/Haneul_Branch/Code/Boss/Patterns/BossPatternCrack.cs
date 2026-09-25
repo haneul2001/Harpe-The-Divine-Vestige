@@ -29,8 +29,18 @@ public class BossPatternCrack : BossPattern
     [SerializeField] private float shake = 0.25f;
     [SerializeField] private string vfxId = "EnemyHit";
 
+    // 플레이어 발밑을 중심으로 흩어지는 원 여러 개
+    public override DangerShape[] DangerShapes(BossEnemy boss)
+    {
+        return new DangerShape[] {
+            DangerShape.Circle(crackRadius, DangerOrigin.Player).Scattered(crackCount, spread) };
+    }
+
     // 예고는 균열 자체가 낸다 (터지기 직전까지 차오르는 표시)
     public override DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration) { return null; }
+
+    // 근접 판정을 안 쓴다 — 바닥 균열이 직접 피해를 굴린다
+    public override bool UsesHitBox { get { return false; } }
 
     public override IEnumerator Run(BossEnemy boss, Vector2 dirToPlayer)
     {
@@ -82,14 +92,16 @@ public class BossPatternCrack : BossPattern
         if (delay > 0f) yield return Wait(delay);
         if (boss.isDead) yield break;
 
-        DangerZone.Circle(at, crackRadius, riseDelay);
+        float radius = DangerShapes(boss)[0].Radius;
+
+        DangerZone.Circle(at, radius, riseDelay);
         yield return Wait(riseDelay);
         if (boss.isDead) yield break;
 
         if (!string.IsNullOrEmpty(vfxId)) PixelVfx.Play(vfxId, at);
         if (shake > 0f) CameraShake.Shake(shake);
 
-        boss.DamagePlayerInRadius(at, crackRadius);
+        boss.DamagePlayerInRadius(at, radius);
     }
 
     private static IEnumerator Wait(float seconds)

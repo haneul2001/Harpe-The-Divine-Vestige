@@ -122,11 +122,31 @@ public class TraitLevelUp : MonoBehaviour
 
         // 보스 피니시 슬로모션이 도는 동안은 열지 않는다 — 그쪽도 timeScale을 주무르고 있어서
         // 겹치면 연출이 끝난 뒤에도 시간이 느린 채로 남는다. 다른 창(일시정지·상점)도 마찬가지.
-        while (Room.FinishRunning || Time.timeScale <= 0f) yield return null;
+        //
+        // 판이 끝났으면 그대로 접는다. 결과 화면도 timeScale을 0으로 두므로
+        // 이 조건만 보면 영영 기다리게 되고, 열려도 죽은 판에 특성을 고르게 된다.
+        while (Room.FinishRunning || Time.timeScale <= 0f)
+        {
+            if (RunIsOver()) { waiting = false; PendingPicks = 0; yield break; }
+            yield return null;
+        }
 
         waiting = false;
+        if (RunIsOver()) { PendingPicks = 0; yield break; }
 
         Show();
+    }
+
+    // 죽은 판에서는 특성을 고르지 않는다
+    private static bool RunIsOver()
+    {
+        if (GameOverScreen.IsShowing) return true;
+
+        var p = GameObject.FindGameObjectWithTag("Player");
+        if (p == null) return false;      // 씬 전환 중일 수 있다 — 없다고 판을 접지는 않는다
+
+        var status = p.GetComponent<PlayerStatus>();
+        return status != null && status.IsDead;
     }
 
     private void Show()

@@ -102,6 +102,7 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             hitBox = attackHitBox.GetComponent<EnemyHitBox>();
             if (hitBox != null) hitBox.Initialize(this);
             attackHitBox.SetActive(false);
+            ShrinkHitBox();
         }
         if (attackRangeBox != null) attackRangeBox.SetActive(false);
 
@@ -113,6 +114,127 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
 
     // 파생 클래스 초기화 훅
     protected virtual void OnStart() { }
+
+    [Header("판정 여유")]
+    [Tooltip("실제 맞는 상자를 보이는 범위보다 이 비율만큼 줄인다. 0.1이면 10% 작게.\n"
+           + "예고 표시와 베기 이펙트는 원래 크기 그대로라, 가장자리에서 아슬아슬하게 피한 것이 실제로 빗나가 준다")]
+    [Range(0f, 0.5f)] [SerializeField] protected float hitBoxShrink = 0.1f;
+
+    // 줄이기 전 콜라이더 크기(로컬). 월드 크기는 그때그때 배율을 곱해 낸다 —
+    // 적은 크기 0에서 부풀며 스폰되므로, Start에서 잰 월드 크기를 붙들면 0이 박힌다.
+    private Vector2 hitBoxLocalSize;
+
+    // 줄이기 전, 화면에 보이는 크기(월드 단위). 예고와 이펙트는 이 값을 쓴다.
+    public Vector2 HitBoxDisplaySize
+    {
+        get
+        {
+            if (attackHitBox == null || hitBoxLocalSize.x <= 0.0001f) return Vector2.zero;
+
+            Vector3 ls = attackHitBox.transform.lossyScale;
+            return new Vector2(hitBoxLocalSize.x * Mathf.Abs(ls.x), hitBoxLocalSize.y * Mathf.Abs(ls.y));
+        }
+    }
+
+    [Tooltip("근접 판정을 부채꼴로 만든다. 끄면 예전처럼 네모 상자로 때린다.\n"
+           + "칼은 호를 그리며 지나가므로, 네모로 때리면 모서리에서 '안 닿았는데 맞았다'가 나온다")]
+    [SerializeField] protected bool fanHitBox = true;
+
+    private void ShrinkHitBox()
+    {
+        var box = attackHitBox.GetComponent<BoxCollider2D>();
+        if (box == null) return;
+
+        hitBoxLocalSize = box.size;
+
+        float keep = 1f - Mathf.Clamp01(hitBoxShrink);
+        if (!fanHitBox)
+        {
+            box.size = box.size * keep;
+            return;
+        }
+
+        // 상자를 부채꼴로 바꾼다. 꼭짓점은 주인(적)의 발밑 —
+        // 히트박스는 앞으로 밀려 있는 자식이라, 그 자리를 로컬 좌표로 되짚는다.
+        Vector3 ls = attackHitBox.transform.localScale;
+        var apex = new Vector2(
+            -attackHitBox.transform.localPosition.x / Mathf.Max(0.0001f, ls.x),
+            -attackHitBox.transform.localPosition.y / Mathf.Max(0.0001f, ls.y));
+
+        // 반각은 로컬 값만으로 나온다 — 배율은 위아래로 똑같이 곱해져 약분된다
+        float halfAngle = Mathf.Atan2(hitBoxLocalSize.y * 0.5f, hitBoxLocalSize.x);
+        float radius = hitBoxLocalSize.x * keep;
+
+        var poly = attackHitBox.GetComponent<PolygonCollider2D>();
+        if (poly == null) poly = attackHitBox.gameObject.AddComponent<PolygonCollider2D>();
+        poly.isTrigger = true;
+        poly.points = WedgePoints(apex, radius, halfAngle, 12);
+
+        // 상자는 지운다. EnemyHitBox가 Collider2D 하나를 집어 쓰므로 둘이 남으면 엉뚱한 쪽을 본다
+        Destroy(box);
+
+        ShowFanDebug(apex, radius, halfAngle);
+    }
+
+    private static Vector2[] WedgePoints(Vector2 apex, float radius, float halfAngle, int segments)
+    {
+        var pts = new Vector2[segments + 2];
+        pts[0] = apex;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float a = -halfAngle + (halfAngle * 2f) * i / segments;
+            pts[i + 1] = apex + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * radius;
+        }
+        return pts;
+    }
+
+    // 디버그(F2)에서 보이는 그림도 부채꼴로 바꾼다 — 네모가 그려지면 판정과 다른 말을 한다.
+    // 사거리 표시(AttackRange)도 같이 바꾼다. 판정만 부채꼴이고 옆에 네모가 남으면
+    // 어느 쪽이 진짜인지 알 수 없다.
+    private void ShowFanDebug(Vector2 apex, float radius, float halfAngle)
+    {
+        SwapToFan(attackHitBox, "DebugHitFan", apex, radius, halfAngle);
+
+        if (attackRangeBox != null)
+        {
+            // 사거리는 줄이지 않은 크기로 보여 준다 — 여기까지 닿는다는 뜻이라
+            float full = hitBoxLocalSize.x;
+            SwapToFan(attackRangeBox, "DebugRangeFan", apex, full, halfAngle);
+        }
+    }
+
+    private void SwapToFan(GameObject host, string name, Vector2 apex, float radius, float halfAngle)
+    {
+        var boxSprite = host.GetComponent<SpriteRenderer>();
+        if (boxSprite != null) boxSprite.enabled = false;
+
+        if (host.transform.Find(name) != null) return;
+
+        var go = new GameObject(name);
+        go.transform.SetParent(host.transform, false);
+        go.transform.localPosition = apex;
+        go.transform.localScale = Vector3.one * radius * 2f;
+        go.AddComponent<DebugVisualPart>();
+
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = DangerZone.WedgeEdgeSprite(halfAngle * Mathf.Rad2Deg);
+        sr.color = boxSprite != null ? boxSprite.color : new Color(1f, 0.3f, 0.3f, 0.65f);
+        sr.sortingLayerName = "Skill";
+        sr.sortingOrder = boxSprite != null ? boxSprite.sortingOrder : 200;
+        sr.enabled = DebugBoxManager.Visible;
+    }
+
+    // 반경으로 굴리는 피해(장판·솟구치기)도 같은 비율만큼 줄인다
+    public float ShrinkRadius(float radius)
+    {
+        return radius * (1f - Mathf.Clamp01(hitBoxShrink));
+    }
+
+    public Vector2 ShrinkSize(Vector2 size)
+    {
+        return size * (1f - Mathf.Clamp01(hitBoxShrink));
+    }
 
     // ─────────────────────────────────────────────
     // 공격 시작 거리 = 히트박스가 실제로 닿는 거리
@@ -185,9 +307,32 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
     [Tooltip("좌향 전용 이펙트 id. 좌우 공격만 하는 적이 쓴다")]
     [SerializeField] protected string slashVfxLeftId = "SlashHitLeft";
 
-    private void SpawnSlash(Vector2 dir)
+    // 애니메이션의 타격 이벤트가 다시 올 때까지 기다린다.
+    //
+    // 연격이 한 번 휘두를 때마다 쓴다. 고정 시간으로 맞추면 애니메이션 속도가 바뀌는 순간
+    // 칼과 판정이 따로 놀지만, 이벤트를 기다리면 클립이 빨라지든 느려지든 늘 칼끝에서 터진다.
+    public IEnumerator WaitForNextAnimHit(float timeout)
     {
-        if (attackHitBox == null) return;
+        animHitReceived = false;
+
+        float elapsed = 0f;
+        while (!animHitReceived && elapsed < timeout && !isDead)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    // 이번 공격이 근접 판정 상자를 여는가. 기본은 연다.
+    protected virtual bool OpensHitBox { get { return true; } }
+
+    // 이번 공격이 자기 그림을 따로 그리면 기본 베기는 띄우지 않는다.
+    // 둘 다 뜨면 큰 한 방 위에 작은 베기가 겹쳐 지저분해진다.
+    protected virtual bool ShouldSpawnSlash { get { return true; } }
+
+    protected void SpawnSlash(Vector2 dir)
+    {
+        if (attackHitBox == null || !ShouldSpawnSlash) return;
 
         // 좌향 전용 그림이 따로 있으면 그걸 쓰고, 없으면 같은 그림을 좌우로 뒤집는다.
         bool left = horizontalAttackOnly && dir.x < 0f;
@@ -198,15 +343,35 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
         if (!horizontalAttackOnly) angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         else if (left && !hasLeftArt) angle = 180f;
 
-        var slash = PixelVfx.Play(left && hasLeftArt ? slashVfxLeftId : slashVfxId,
-            attackHitBox.transform.position, angle);
+        string id = left && hasLeftArt ? slashVfxLeftId : slashVfxId;
+
+        // 공격이 덮을 자리를 아는 적(보스)은 예고한 그 칸을 그대로 채운다.
+        // 예고는 길게 깔아 놓고 베기는 코앞에서만 나면 "저 끝은 안전한가"를 알 수 없다.
+        Vector3 areaCenter; float areaAngle; Vector2 areaSize;
+        if (TryGetSlashArea(dir, out areaCenter, out areaAngle, out areaSize))
+        {
+            var wide = PixelVfx.PlayStretched(id, areaCenter, areaAngle, areaSize);
+            if (wide != null && SlashFollowsOwner) wide.Follow(transform);
+            return;
+        }
+
+        var slash = PixelVfx.Play(id, attackHitBox.transform.position, angle);
         if (slash == null) return;
 
-        var box = attackHitBox.GetComponent<BoxCollider2D>();
-        if (box != null)
+        // 돌진처럼 스스로 움직이는 공격은 그림도 같이 가야 한다.
+        // 제자리에 남으면 "베고 나서 따로 이동한다"로 읽힌다.
+        if (SlashFollowsOwner) slash.Follow(transform);
+
+        // 보이는 높이에 맞춰 키운다. 줄어든 콜라이더가 아니라 원래 크기를 기준으로 한다 —
+        // 판정만 줄이고 그림은 그대로여야 한다.
+        float h = HitBoxDisplaySize.y;
+        if (h <= 0.001f)
         {
-            // 판정 높이에 맞춰 키운다. 라이브러리 기본 배율 위에 곱한다.
-            float h = box.size.y * Mathf.Abs(attackHitBox.transform.lossyScale.y);
+            var box = attackHitBox.GetComponent<BoxCollider2D>();
+            if (box != null) h = box.size.y * Mathf.Abs(attackHitBox.transform.lossyScale.y);
+        }
+        if (h > 0.001f)
+        {
             float k = Mathf.Clamp(h / 2f, 0.4f, 2f);
             slash.transform.localScale = Vector3.Scale(slash.transform.localScale, new Vector3(k, k, 1f));
         }
@@ -305,7 +470,9 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             if (waitForAnimationHit)
                 yield return WaitForAnimationHit();
 
-            if (attackHitBox != null)
+            // 근접 판정을 안 쓰는 공격(소환·장판·투사체)은 아예 열지 않는다.
+            // 열었다가 파생이 닫는 방식은 그 사이 한 프레임이 새어 붙어 있던 상대가 맞는다.
+            if (attackHitBox != null && OpensHitBox)
             {
                 hitBox.ResetHit();
                 attackHitBox.SetActive(true);
@@ -339,6 +506,19 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
             isAttacking = false;
             IsAttackActive = false;
         }
+    }
+
+    // 이번 공격이 스스로 움직이는가. 그렇다면 베기 그림도 주인을 따라가야 한다.
+    protected virtual bool SlashFollowsOwner { get { return false; } }
+
+    // 베기 그림이 덮을 자리. 돌려줄 게 있으면 그 칸을 가로세로 따로 늘려 채운다.
+    // 기본은 없음 — 보통 적은 히트박스 높이에 맞춘 균등 배율로 충분하다.
+    protected virtual bool TryGetSlashArea(Vector2 dir, out Vector3 center, out float angle, out Vector2 size)
+    {
+        center = Vector3.zero;
+        angle = 0f;
+        size = Vector2.zero;
+        return false;
     }
 
     // 예고가 시작될 때 불린다. 기본은 아무것도 하지 않는다.

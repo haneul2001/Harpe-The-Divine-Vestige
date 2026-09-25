@@ -34,12 +34,21 @@ public class BossPatternCage : BossPattern
     [SerializeField] private float shake = 0.2f;
     [SerializeField] private string vfxId = "EnemyHit";
 
+    // 기둥이 둘러서는 자리. 표시는 기둥보다 조금 넉넉하게 잡는다 (0.4)
+    public override DangerShape[] DangerShapes(BossEnemy boss)
+    {
+        return new DangerShape[] { DangerShape.Circle(radius + 0.4f, DangerOrigin.Player) };
+    }
+
     public override DangerZone ShowDanger(BossEnemy boss, Vector2 dirToPlayer, float duration) { return null; }
 
     public override bool IsUsable(BossEnemy boss)
     {
         return pillarSprite != null && base.IsUsable(boss);
     }
+
+    // 근접 판정을 안 쓴다 — 기둥을 세울 뿐 피해가 없다
+    public override bool UsesHitBox { get { return false; } }
 
     public override IEnumerator Run(BossEnemy boss, Vector2 dirToPlayer)
     {
@@ -50,7 +59,7 @@ public class BossPatternCage : BossPattern
         if (p != null) center = p.transform.position;
 
         // 어디가 막히는지 먼저 보여 준다
-        DangerZone.Circle(center, radius + 0.4f, riseDelay);
+        DangerZone.Circle(center, DangerShapes(boss)[0].Radius, riseDelay);
 
         float t = riseDelay;
         while (t > 0f && !boss.isDead)

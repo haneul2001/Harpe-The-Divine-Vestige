@@ -57,6 +57,28 @@ public class SkillInputController : MonoBehaviour
         return Mathf.Max(0f, skill.cooldown - AbilityHooks.SkillCooldownReduction(skill));
     }
 
+    // 스킬 칸 UI가 "다음에 쓸 수 있을 때까지"를 그릴 수 있게 남은 쿨타임을 내준다.
+    // 세트 시너지로 줄어든 값을 그대로 쓰므로, 철벽을 먹으면 칸도 같이 빨리 찬다.
+    //
+    // 타입으로 찾는 이유는 UI가 에셋(Parry.asset)을 직접 들고 있지 않기 때문이다.
+    // 키도 같이 내줘서 키캡 글자까지 여기 설정을 따라가게 한다.
+    public bool TryGetCooldownOf<T>(out float remain, out float total, out KeyCode key) where T : PlayerSkill
+    {
+        remain = 0f; total = 0f; key = KeyCode.None;
+        if (slots == null) return false;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null || !(slots[i].skill is T)) continue;
+
+            total = Cooldown(slots[i].skill);
+            remain = Mathf.Max(0f, slots[i].lastUsedTime + total - Time.time);
+            key = slots[i].key;
+            return true;
+        }
+        return false;
+    }
+
     public bool TryUseSkill(int index)
     {
         if (slots == null || index < 0 || index >= slots.Length) return false;
