@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 public class SkillInputController : MonoBehaviour
@@ -77,6 +77,15 @@ public class SkillInputController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // 설명 패널이 스킬 에셋의 값(패링 판정 시간 등)을 직접 읽을 수 있게 내준다
+    public T FindSkill<T>() where T : PlayerSkill
+    {
+        if (slots == null) return null;
+        for (int i = 0; i < slots.Length; i++)
+            if (slots[i] != null && slots[i].skill is T) return (T)slots[i].skill;
+        return null;
     }
 
     public bool TryUseSkill(int index)

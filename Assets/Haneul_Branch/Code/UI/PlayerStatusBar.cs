@@ -108,6 +108,9 @@ public class PlayerStatusBar : MonoBehaviour
     private StatusIconSlot attackSlot;
     private StatusIconSlot parrySlot;
     private StatusIconSlot stealthSlot;
+    private SkillTooltip tooltip;
+    private StatusIconSlot[] hoverSlots;
+    private int hoveredIndex = -1;
     private PlayerStealth stealth;
     private SkillInputController skills;
     private PlayerCombat combat;
@@ -267,6 +270,7 @@ public class PlayerStatusBar : MonoBehaviour
         if (playerSprite != null) hpBar.SetPortrait(playerSprite.sprite);
 
         RefreshStatusIcons();
+        RefreshTooltip();
     }
 
     // 쿨타임은 남은 비율만큼 위에서부터 가리고 남은 초를 적는다. 준비되면 깨끗한 아이콘만 남는다.
@@ -347,6 +351,132 @@ public class PlayerStatusBar : MonoBehaviour
             }
         }
     }
+
+    // 마우스가 어느 칸 위에 있는지 보고 설명을 띄운다.
+    //
+    // EventSystem 레이캐스트를 안 쓴다 — 이 캔버스는 blocksRaycasts를 꺼 둬서
+    // 클릭이 게임으로 그대로 지나가야 하기 때문이다. 사각형 판정이면 그럴 필요가 없다.
+    private void RefreshTooltip()
+    {
+        if (tooltip == null || hoverSlots == null) return;
+
+        int found = -1;
+        for (int i = 0; i < hoverSlots.Length; i++)
+        {
+            var slot = hoverSlots[i];
+            if (slot == null || slot.Root == null || !slot.Root.gameObject.activeInHierarchy) continue;
+
+            // 화면에 그대로 덮이는 캔버스라 카메라는 null이 맞다
+            if (RectTransformUtility.RectangleContainsScreenPoint(slot.Root, Input.mousePosition, null))
+            { found = i; break; }
+        }
+
+        if (found < 0)
+        {
+            hoveredIndex = -1;
+            tooltip.Hide();
+            return;
+        }
+
+        // 내용은 매 프레임 다시 만든다 — 남은 쿨타임처럼 변하는 값이 들어 있다
+        hoveredIndex = found;
+        string title, key, body;
+        Describe(found, out title, out key, out body);
+        tooltip.Show(title, key, body, hoverSlots[found].Root, 520f);
+    }
+
+    // 설명 문구. 숫자는 전부 실제 값에서 뽑는다 — 적어 두면 밸런스를 만질 때 거짓말이 된다.
+    private void Describe(int index, out string title, out string key, out string body)
+    {
+        int min = 0, max = 0;
+        if (status != null && status.Stats != null)
+        {
+            min = status.Stats.MinAttack;
+            max = status.Stats.MaxAttack;
+        }
+
+        switch (index)
+        {
+            case 0:   // 대시
+                title = "대시";
+                key = StatusIconSlot.KeyName(PlayerMove.DashKey);
+                body = "짧게 미끄러지듯 파고든다. 이동 키를 누르고 있으면 그쪽으로, 아니면 겨누는 쪽으로 나간다.\n"
+                     + "쿨타임 " + Sec(playerMove != null ? playerMove.DashCooldown : 1f);
+                return;
+
+            case 1:   // 패링
+            {
+                title = "패링";
+                key = "F";
+                float remain, total;
+                KeyCode k;
+                if (skills != null && skills.TryGetCooldownOf<Parry>(out remain, out total, out k))
+                    key = StatusIconSlot.KeyName(k);
+                else total = 0f;
+
+                Parry p = skills != null ? skills.FindSkill<Parry>() : null;
+                if (p == null)
+                {
+                    body = "날을 세워 들어오는 공격을 받아친다.";
+                    return;
+                }
+
+                body = "날을 세워 받아친다. 발동 후 " + Sec(p.PerfectWindow) + " 안에 맞으면 피해를 완전히 무효로 하고, "
+                     + "공격자에게 평타의 " + Mult(p.CounterDamageMultiplier) + "로 반격한 뒤 " + Sec(p.IframeDuration) + " 무적이 된다.\n"
+                     + "그 뒤 " + Sec(p.ParryWindow) + "까지 맞으면 피해를 " + Pct(1f - p.BlockedDamageMultiplier) + " 줄인다.\n"
+                     + "쿨타임 " + Sec(total > 0f ? total : p.cooldown) + " (특성 '철벽'으로 줄어든다)";
+                return;
+            }
+
+            case 2:   // 은신
+                title = "은신";
+                key = stealth != null ? StatusIconSlot.KeyName(stealth.ToggleKey) : "C";
+                body = "연막을 터뜨리고 모습을 감춘다. 숨어 있는 동안 적이 이쪽을 찾지 못한다.\n"
+                     + "걷는 것은 되지만 공격·대시·처형·스킬을 쓰거나 피해를 입으면 풀린다.\n"
+                     + "풀린 뒤 " + Sec(stealth != null ? stealth.CloakCooldown : 0.5f) + " 동안은 다시 숨을 수 없다.";
+                return;
+
+            case 3:   // 처형
+                title = "처형";
+                key = StatusIconSlot.KeyName(PlayerCombat.HarvestKey);
+                body = "체력이 " + Pct(Enemy.BaseHarvestThreshold) + " 이하로 떨어진 적을 붙잡아 즉사시킨다.\n"
+                     + "처형에 성공하면 처형 버프가 쌓이고, 돌진 베기의 쿨타임이 즉시 초기화된다.\n"
+                     + "처형할 수 있는 적이 가까이 있으면 이 칸에 불이 붙는다.";
+                return;
+
+            case 4:   // 평타
+            {
+                title = "평타";
+                key = combat != null ? StatusIconSlot.KeyName(combat.AttackKey) : "좌클";
+                int combo = combat != null ? combat.ComboCount : 3;
+                string charged = "";
+                if (combat != null && combat.HasChargingAttackSkill)
+                    charged = "\n버튼을 누르고 있으면 모아서 " + Mult(combat.ChargedDamageMultiplier) + "로 내리친다.";
+
+                body = "피해 " + min + " ~ " + max + "\n"
+                     + combo + "타 콤보. 막타 뒤 " + Sec(combat != null ? combat.AttackCooldown : 0.25f) + " 쉰다."
+                     + charged;
+                return;
+            }
+
+            default:  // 돌진 베기
+            {
+                title = "돌진 베기";
+                key = dashAttack != null ? StatusIconSlot.KeyName(dashAttack.Key) : "우클";
+                float mult = dashAttack != null ? dashAttack.DamageMultiplier : 1.5f;
+                body = "피해 " + Mathf.RoundToInt(min * mult) + " ~ " + Mathf.RoundToInt(max * mult)
+                     + "  (평타의 " + Mult(mult) + ")\n"
+                     + "앞으로 파고들며 벤다. 지나간 길과 도착 지점 모두에 판정이 들어가고, 몬스터는 뚫고 지나간다.\n"
+                     + "처형에 성공하면 쿨타임이 즉시 초기화된다.\n"
+                     + "쿨타임 " + Sec(dashAttack != null ? dashAttack.Cooldown : 0.9f);
+                return;
+            }
+        }
+    }
+
+    private static string Sec(float v) { return v.ToString("0.##") + "초"; }
+    private static string Mult(float v) { return v.ToString("0.##") + "배"; }
+    private static string Pct(float v) { return Mathf.RoundToInt(v * 100f) + "%"; }
 
     // 칸 위에 발동 키를 단다. 마우스 버튼만 키캡 대신 그림을 쓴다 —
     // 글자로 "좌클"이라고 적어 두면 읽어야 알고, 줄에서 혼자 폭이 넓어져 눈에 걸린다.
@@ -508,6 +638,12 @@ public class PlayerStatusBar : MonoBehaviour
 
         stealthSlot = StatusIconSlot.Build("Skill_Stealth", skillRow, statusSlot, stealthIcon, "은신", s, font);
         stealthSlot.Root.anchoredPosition = new Vector2(left + step * 2f, 0f);
+
+        // 설명 패널은 줄을 부모로 둔다 — 칸 위치를 그대로 쓸 수 있고 같이 숨겨진다
+        tooltip = new SkillTooltip(skillRow, font, s);
+
+        // 마우스 판정 순서는 화면에 놓인 순서와 같게 (설명 고르는 데 그대로 쓴다)
+        hoverSlots = new StatusIconSlot[] { dashSlot, parrySlot, stealthSlot, harvestSkillSlot, attackSlot, dashAttackSlot };
         // 은신 키도 플레이어 설정을 따라간다 — 플레이어를 찾은 뒤에 단다
         // 패링 키도 스킬 슬롯 설정을 따라간다 — 플레이어를 찾은 뒤에 읽는다
     }

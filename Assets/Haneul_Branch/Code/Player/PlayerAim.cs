@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // 8방향 조준.
 //
-// 공격 방향은 마지막으로 누른 이동 방향(8방향으로 반올림)이다. 공격하는 동안에는 고정된다 —
-// 휘두르는 도중에 방향키를 바꿔도 이미 나간 베기가 따라 돌면 어색하다.
+// 공격 방향은 마우스 포인터가 있는 쪽이다(8방향으로 반올림). 공격하는 동안에는 고정된다 —
+// 휘두르는 도중에 마우스를 움직여도 이미 나간 베기가 따라 돌면 어색하다.
 //
 // 발밑에 반투명 원을 깔고, 원 테두리 위에 공격 방향을 가리키는 뾰족한 표시를 둔다.
 // 그림은 전부 런타임에 픽셀 단위로 직접 그린다 (8방향마다 따로 래스터라이즈해서
@@ -15,6 +15,13 @@ public class PlayerAim : MonoBehaviour
         new Vector2(1f, 0f), new Vector2(1f, 1f).normalized, new Vector2(0f, 1f), new Vector2(-1f, 1f).normalized,
         new Vector2(-1f, 0f), new Vector2(-1f, -1f).normalized, new Vector2(0f, -1f), new Vector2(1f, -1f).normalized,
     };
+
+    [Header("조준")]
+    [Tooltip("마우스 포인터 쪽을 겨눈다. 끄면 예전처럼 이동 키 방향을 쓴다")]
+    [SerializeField] private bool aimWithMouse = true;
+
+    [Tooltip("겨누는 기준점의 발 기준 높이. 피벗(발밑)에서 재면 포인터를 몸 옆에 뒀을 때 방향이 위로 치우친다 — 몸통 한가운데에서 재야 한다")]
+    [SerializeField] private float aimOriginHeight = 0.28f;
 
     [Header("발밑 원")]
     [SerializeField] private bool showIndicator = true;
@@ -78,17 +85,42 @@ public class PlayerAim : MonoBehaviour
         UpdateIndicator();
     }
 
-    // 지금 누르고 있는 방향키로 조준을 다시 잡는다. 안 누르고 있으면 방향을 유지한다.
+    // 조준을 다시 잡는다. 겨눌 것이 없으면(포인터가 몸 위, 방향키를 안 누름) 방향을 유지한다.
     //
     // 콤보 중에는 한 타가 끝나는 순간 다음 타가 바로 시작돼 isAttacking이 한 프레임도 안 풀린다.
     // 그래서 Update의 잠금 해제만으로는 콤보 내내 첫 타 방향에 묶인다 — 새 타가 나갈 때 여기서 다시 잡는다.
     public void RefreshFromInput()
     {
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (input.sqrMagnitude <= 0.01f) return;
+        Vector2 d;
+        if (!TryGetAimVector(out d)) return;
 
-        float a = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+        float a = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
         index = ((Mathf.RoundToInt(a / 45f) % 8) + 8) % 8;
+    }
+
+    private Camera cachedCamera;
+
+    private bool TryGetAimVector(out Vector2 dir)
+    {
+        dir = Vector2.zero;
+
+        if (aimWithMouse)
+        {
+            if (cachedCamera == null || !cachedCamera.isActiveAndEnabled) cachedCamera = Camera.main;
+
+            // 카메라가 아직 없는 프레임(씬 전환 직후 등)에는 이동 키로 물러선다
+            if (cachedCamera != null)
+            {
+                Vector3 p = cachedCamera.ScreenToWorldPoint(Input.mousePosition);
+                dir = (Vector2)p - ((Vector2)transform.position + Vector2.up * aimOriginHeight);
+
+                // 포인터가 몸에 겹쳐 있으면 방향이 매 프레임 튄다 — 직전 방향을 그대로 둔다
+                return dir.sqrMagnitude > 0.02f;
+            }
+        }
+
+        dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        return dir.sqrMagnitude > 0.01f;
     }
 
     // 공격이 시작될 때 몸도 그 방향으로 돌린다 (위·아래는 좌우를 그대로 둔다)

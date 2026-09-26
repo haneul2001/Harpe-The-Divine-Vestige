@@ -60,6 +60,8 @@ public class PlayerDashAttack : MonoBehaviour
 
     // 상태 아이콘(대시 공격 쿨타임) 표시용
     public float Cooldown => cooldown;
+    // 칸 설명 패널이 "평타 몇 배"를 적을 때 읽는다
+    public float DamageMultiplier => damageMultiplier;
     public KeyCode Key => key;
     public float CooldownRemaining => Mathf.Max(0f, nextUseTime - Time.time);
 
@@ -229,18 +231,25 @@ public class PlayerDashAttack : MonoBehaviour
         for (int i = 0; i < n; i++) HitEnemy(overlapHits[i], from);
     }
 
-    // 누르고 있는 방향키가 있으면 그쪽(8방향), 없으면 조준(마지막 공격 방향)
+    // 겨누는 쪽으로 나간다. 조준은 마우스 포인터를 따라가므로 대시 공격도 포인터 쪽이다.
+    //
+    // 예전에는 누르고 있는 방향키를 먼저 봤는데, 그러면 이동하면서 쏘는 순간
+    // 마우스로 겨눈 곳이 아니라 달리던 쪽으로 튀어 나간다.
     private Vector2 DashDirection()
     {
-        Vector2 raw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (aim != null)
+        {
+            aim.RefreshFromInput();     // 누른 순간의 포인터로 다시 잡는다
+            return aim.Direction;
+        }
 
+        Vector2 raw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (raw.sqrMagnitude > 0.01f)
         {
             float a = Mathf.Atan2(raw.y, raw.x) * Mathf.Rad2Deg;
             int i = ((Mathf.RoundToInt(a / 45f) % 8) + 8) % 8;
             return PlayerAim.Directions8[i];
         }
-        if (aim != null) return aim.Direction;
         return sprite != null && sprite.flipX ? Vector2.left : Vector2.right;
     }
 

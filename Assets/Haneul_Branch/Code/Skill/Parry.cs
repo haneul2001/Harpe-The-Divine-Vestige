@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // 패링: 발동 후 짧은 창 동안 들어오는 피해를 타이밍에 따라 무효/감소.
 [CreateAssetMenu(fileName = "Parry", menuName = "PlayerSkill/Parry")]
@@ -32,6 +32,14 @@ public class Parry : PlayerSkill
     [SerializeField] private float counterDamageMultiplier = 1.5f;
     [Tooltip("퍼펙트 패링 후 짧은 무적 시간(초)")]
     [SerializeField] private float iframeDuration = 0.4f;
+
+    // 아래 값들은 화면 아래 칸에 붙는 설명 패널이 읽는다.
+    // 숫자를 설명 쪽에 따로 적어 두면 여기 값을 고칠 때마다 설명이 거짓말이 된다.
+    public float PerfectWindow { get { return perfectWindow; } }
+    public float ParryWindow { get { return parryWindow; } }
+    public float BlockedDamageMultiplier { get { return blockedDamageMultiplier; } }
+    public float CounterDamageMultiplier { get { return counterDamageMultiplier; } }
+    public float IframeDuration { get { return iframeDuration; } }
 
     // 연타 방지: 판정 시간(방패)이 떠 있거나, 조작 불가 구간이거나, 반격 애니 중이면 다시 못 쓴다.
     // 쿨타임만으로는 성공 후(조작 잠금을 지운 뒤) 반격 도중에 또 눌리는 걸 못 막는다.

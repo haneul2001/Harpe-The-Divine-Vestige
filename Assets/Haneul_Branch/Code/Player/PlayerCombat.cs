@@ -208,6 +208,10 @@ public class PlayerCombat : MonoBehaviour
 
     public KeyCode AttackKey { get { return attackKey; } }
 
+    // 칸 설명 패널이 읽는 값들
+    public float ChargedDamageMultiplier { get { return chargedDamageMultiplier; } }
+    public int ComboCount { get { return Mathf.Max(1, comboCount); } }
+
     // 지금 처형 키를 누르면 처형이 나가는가 (상태 UI의 처형 칸을 빛내는 데 쓴다)
     public bool CanHarvestNow
     {
