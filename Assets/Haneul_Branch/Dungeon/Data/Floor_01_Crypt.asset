@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e496f4f61e7696b448eb70aeca9386b8, type: 3}
+  m_Name: Floor_01_Crypt
+  m_EditorClassIdentifier: 
+  displayName: "\uB0A9\uACE8\uB2F9"
+  subtitle: 
+  roomCount: 11
+  gridSize: {x: 9, y: 8}
+  allowVerticalDoors: 1
+  startRoomPrefab: {fileID: 8459164338062436888, guid: 68a95cf865ae6ca448d16fe0a5d4e1d2, type: 3}
+  bossRoomPrefab: {fileID: 5914584073320191237, guid: e3865ef2133c2aa4abefa2705ef28f76, type: 3}
+  treasureRoomPrefab: {fileID: 3298956441374496029, guid: 668f1954cb06d884ebd905cb41cf6033, type: 3}
+  shopRoomPrefab: {fileID: 1632733089074111504, guid: 034c0caeef2776f4089b03e968d32267, type: 3}
+  loadRoomsFromResources: 1
+  roomsResourcePath: Rooms_Crypt
+  normalRoomPrefabs: []

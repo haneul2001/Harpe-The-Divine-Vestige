@@ -48,6 +48,16 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private Room shopRoomPrefab;
     [Tooltip("일반 방 후보들. 필요한 문 방향을 가진 프리팹 중에서 랜덤으로 뽑는다")]
     [SerializeField] private List<Room> normalRoomPrefabs = new List<Room>();
+    [Tooltip("보스 방으로 올라가는 문에 끼우는 감옥 문 프리팹. 비우면 Resources/Dungeon/BossEntranceGate")]
+    [SerializeField] private GameObject bossEntranceGate;
+    private GameObject BossGate
+    {
+        get
+        {
+            if (bossEntranceGate == null) bossEntranceGate = Resources.Load<GameObject>("Dungeon/BossEntranceGate");
+            return bossEntranceGate;
+        }
+    }
 
     [Header("일반 방 자동 수집")]
     [Tooltip("Resources 아래 폴더에서 일반 방 프리팹을 전부 불러온다. "
@@ -60,6 +70,9 @@ public class DungeonGenerator : MonoBehaviour
 
     [Header("동작")]
     [SerializeField] private bool generateOnStart = true;
+
+    [Tooltip("디버그: 0 이상이면 이 층부터 시작한다 (0 = 1층). 특정 층의 방을 바로 보고 싶을 때. 빌드 전엔 -1로")]
+    [SerializeField] private int debugStartFloor = -1;
 
     // 지금 몇 번째 층인가. 0부터 센다(= 1층).
     public int CurrentFloorIndex { get; private set; }
@@ -81,6 +94,34 @@ public class DungeonGenerator : MonoBehaviour
     private readonly Dictionary<Vector2Int, Room> placed = new Dictionary<Vector2Int, Room>();
     private Vector2Int startCell;
 
+    // 큰 방(여러 칸)은 "기준 칸"(왼쪽 아래) 하나에만 놓이고, 나머지 칸은 여기로 기준 칸을 가리킨다.
+    // 한 칸 방은 자기 자신을 가리킨다.
+    private readonly Dictionary<Vector2Int, Vector2Int> anchorOf = new Dictionary<Vector2Int, Vector2Int>();
+    private readonly Dictionary<Vector2Int, Vector2Int> spanOf = new Dictionary<Vector2Int, Vector2Int>();
+
+    // 막다른 특수 방의 유일한 입구: 기준 칸 → (입구가 있는 칸, 그 칸에서 바깥으로 나가는 방향)
+    private readonly Dictionary<Vector2Int, (Vector2Int cell, Dir dir)> specialEntry = new Dictionary<Vector2Int, (Vector2Int cell, Dir dir)>();
+
+    // cell 에서 d 방향 이웃 칸과 문으로 이어져야 하는가
+    private bool Connects(Vector2Int cell, Dir d)
+    {
+        Vector2Int n = cell + d.Offset();
+        if (!anchorOf.TryGetValue(cell, out Vector2Int a) || !anchorOf.TryGetValue(n, out Vector2Int b)) return false;
+        if (a == b) return false;   // 같은 방 안
+
+        // 어느 한쪽이 막다른 특수 방이면 기억해 둔 입구만 통한다
+        if (specialEntry.TryGetValue(a, out var ea) && !(ea.cell == cell && ea.dir == d)) return false;
+        if (specialEntry.TryGetValue(b, out var eb) && !(eb.cell == n && eb.dir == d.Opposite())) return false;
+        return true;
+    }
+
+    [Header("큰 방")]
+    [Tooltip("옆으로 나란한 일반 방 두 칸을 하나의 긴 방(2x1)으로 합칠 확률. 그 크기의 방 프리팹이 있을 때만 합친다")]
+    [Range(0f, 1f)] [SerializeField] private float wideRoomChance = 0.35f;
+
+    [Tooltip("위아래로 나란한 일반 방 두 칸을 하나의 높은 방(1x2)으로 합칠 확률")]
+    [Range(0f, 1f)] [SerializeField] private float tallRoomChance = 0.35f;
+
     private void Awake()
     {
         roomManager = GetComponent<RoomManager>();
@@ -88,7 +129,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private void Start()
     {
-        if (generateOnStart) GenerateFloor(0);
+        if (generateOnStart) GenerateFloor(debugStartFloor >= 0 ? debugStartFloor : 0);
     }
 
     // 층 하나를 짓는다. 층 에셋이 있으면 그 내용으로 자기 설정을 갈아끼운 뒤 평소대로 생성한다.
@@ -173,6 +214,7 @@ public class DungeonGenerator : MonoBehaviour
         ClearExisting();
         BuildLayout();
         AssignSpecialRooms();
+        MergeBigRooms();
         InstantiateRooms();
         LinkDoors();
 
@@ -317,7 +359,36 @@ public class DungeonGenerator : MonoBehaviour
         int idx = 0;
 
         if (bossRoomPrefab != null && idx < deadEnds.Count)
-            layout[deadEnds[idx++]] = RoomType.Boss;
+        {
+            // 보스 방은 아래 방에서 올라가는 자리여야 한다 — 입구 감옥 문이 아래 방의 위쪽 벽(앞면)에 서기 때문.
+            // ① 아래에서 올라오는 막다른 칸이 있으면 거기, ② 없으면 가장 먼 막다른 칸 위에 보스 칸을 덧붙인다, ③ 그것도 안 되면 그냥 가장 먼 칸
+            // 보스 프리팹이 여러 칸짜리면 그 자리에 실제로 들어가는지도 같이 본다 (안 맞으면 한 칸 자리에 겹쳐 놓이게 된다)
+            Vector2Int bossSpan = bossRoomPrefab.CellSpan;
+            int pick = deadEnds.FindIndex(c => EntryFromBelow(c) && (bossSpan == Vector2Int.one || TryReserveSpan(c, bossSpan, false)));
+            if (pick >= 0)
+            {
+                layout[deadEnds[pick]] = RoomType.Boss;
+                deadEnds.RemoveAt(pick);
+            }
+            else
+            {
+                int above = deadEnds.FindIndex(c =>
+                {
+                    Vector2Int q = c + Dir.Up.Offset();
+                    return InBounds(q) && !layout.ContainsKey(q) && (bossSpan == Vector2Int.one || TryReserveSpan(q, bossSpan, false));
+                });
+                if (above >= 0)
+                {
+                    layout[deadEnds[above] + Dir.Up.Offset()] = RoomType.Boss;   // 그 막다른 칸은 보스로 가는 통로 방이 된다
+                    deadEnds.RemoveAt(above);
+                }
+                else
+                {
+                    layout[deadEnds[0]] = RoomType.Boss;
+                    deadEnds.RemoveAt(0);
+                }
+            }
+        }
 
         if (treasureRoomPrefab != null && idx < deadEnds.Count)
             layout[deadEnds[idx++]] = RoomType.Treasure;
@@ -353,15 +424,179 @@ public class DungeonGenerator : MonoBehaviour
     // 3단계 — 실제 배치
     // ─────────────────────────────────────────────
 
+    // ─────────────────────────────────────────────
+    // 2.5단계 — 이웃한 일반 방 두 칸을 큰 방 하나로 합친다
+    // ─────────────────────────────────────────────
+    //
+    // 배치는 나무 구조라 이웃한 두 칸은 반드시 문으로 이어져 있다. 그 둘을 한 방으로 합쳐도
+    // 바깥과의 연결은 그대로다 — 합쳐진 방의 어느 칸에서든 밖으로 나가는 문이 subCell로 구분될 뿐이다.
+    private void MergeBigRooms()
+    {
+        anchorOf.Clear();
+        spanOf.Clear();
+        foreach (Vector2Int c in layout.Keys) { anchorOf[c] = c; spanOf[c] = Vector2Int.one; }
+
+        // 보스·보물·상점은 막다른 방이다 — 들어오는 길은 배치 때 정해진 이웃 하나뿐이어야 한다.
+        // 큰 방으로 커지면 다른 방들과도 맞닿게 되는데, 그쪽으로 문이 열리면 보스 방을 우회하거나
+        // 보물 방이 통로가 된다. 그래서 입구(칸, 방향)를 기억해 두고 그 문만 잇는다.
+        specialEntry.Clear();
+        var handled = new HashSet<Vector2Int>();   // 옮겨진 특수 방을 두 번 처리하지 않게
+        foreach (Vector2Int c0 in new List<Vector2Int>(layout.Keys))
+        {
+            if (handled.Contains(c0) || !layout.ContainsKey(c0)) continue;
+            Vector2Int c = c0;
+            RoomType t = layout[c];
+            if (t == RoomType.Normal) continue;
+            bool deadEndKind = t == RoomType.Boss || t == RoomType.Treasure || t == RoomType.Shop;
+
+            Room prefab = null;
+            switch (t)
+            {
+                case RoomType.Boss: prefab = bossRoomPrefab; break;
+                case RoomType.Treasure: prefab = treasureRoomPrefab; break;
+                case RoomType.Shop: prefab = shopRoomPrefab; break;
+                case RoomType.Start: prefab = startRoomPrefab; break;
+            }
+            Vector2Int span = prefab != null ? prefab.CellSpan : Vector2Int.one;
+
+            // 특수 방 프리팹이 여러 칸짜리면 그만큼 빈 칸을 함께 차지시킨다. 안 그러면 격자 한 칸 자리에
+            // 40x22 방이 놓여 이웃과 겹친다. 지금 자리에 안 들어가면 들어가는 다른 막다른 칸으로 옮긴다.
+            if (span != Vector2Int.one && !TryReserveSpan(c, span, false))
+            {
+                Vector2Int moved = c;
+                // 보스는 아래에서 올라오는 막다른 칸을 먼저 찾고, 없으면 아무 막다른 칸
+                for (int pass = (t == RoomType.Boss ? 0 : 1); pass < 2 && moved == c; pass++)
+                    foreach (Vector2Int alt in layout.Keys)
+                    {
+                        if (layout[alt] != RoomType.Normal || NeighborCount(alt) != 1 || alt == startCell) continue;
+                        if (pass == 0 && !EntryFromBelow(alt)) continue;
+                        if (TryReserveSpan(alt, span, false)) { moved = alt; break; }
+                    }
+                if (moved != c)
+                {
+                    layout[moved] = t;
+                    layout[c] = RoomType.Normal;
+                    c = moved;
+                }
+                else Debug.LogWarning($"[DungeonGenerator] {c} {t} 방({span.x}x{span.y})을 놓을 빈 칸이 없어 한 칸 자리에 겹쳐 놓는다");
+            }
+
+            // 막다른 방의 유일한 입구는 배치 때 정해진 이웃 하나다 — 큰 방으로 커져 다른 방과 맞닿아도 그쪽은 벽이다
+            Dir entryDir = Dir.Up; bool hasEntry = false;
+            if (deadEndKind)
+                foreach (Dir d in (t == RoomType.Boss ? BossEntryOrder : DirUtil.All))   // 보스는 아래쪽 입구 우선
+                    if (layout.ContainsKey(c + d.Offset())) { entryDir = d; hasEntry = true; break; }
+
+            Vector2Int anchor = c;
+            if (span != Vector2Int.one && TryReserveSpan(c, span, true))
+                anchor = anchorOf[c];
+
+            if (hasEntry) specialEntry[anchor] = (c, entryDir);
+            handled.Add(c); handled.Add(anchor);
+        }
+
+        bool hasWide = HasNormalPrefabOfSpan(new Vector2Int(2, 1));
+        bool hasTall = HasNormalPrefabOfSpan(new Vector2Int(1, 2));
+        if (!hasWide && !hasTall) return;
+
+        List<Vector2Int> cells = new List<Vector2Int>(layout.Keys);
+        cells.Sort((a, b) => a.y != b.y ? a.y.CompareTo(b.y) : a.x.CompareTo(b.x));
+
+        foreach (Vector2Int c in cells)
+        {
+            if (layout[c] != RoomType.Normal || spanOf[c] != Vector2Int.one || anchorOf[c] != c) continue;
+
+            // 가로 먼저, 안 되면 세로
+            if (hasWide && Random.value < wideRoomChance && TryMerge(c, c + Vector2Int.right, new Vector2Int(2, 1))) continue;
+            if (hasTall && Random.value < tallRoomChance) TryMerge(c, c + Vector2Int.up, new Vector2Int(1, 2));
+        }
+    }
+
+    // 배치된 칸 cell을 포함하는 span 크기의 자리를 찾는다. cell이 방의 어느 구석이든 될 수 있으므로
+    // 기준 칸(왼쪽 아래)을 옮겨 가며 나머지 칸이 전부 비어 있고 격자 안인 자리를 고른다.
+    // 막다른 칸의 유일한 이웃이 바로 아래 칸인가
+    private bool EntryFromBelow(Vector2Int c) => layout.ContainsKey(c + Dir.Down.Offset());
+    private static readonly Dir[] BossEntryOrder = { Dir.Down, Dir.Up, Dir.Right, Dir.Left };
+
+    private bool TryReserveSpan(Vector2Int cell, Vector2Int span, bool apply)
+    {
+        for (int oy = 0; oy < span.y; oy++)
+            for (int ox = 0; ox < span.x; ox++)
+            {
+                Vector2Int anchor = cell - new Vector2Int(ox, oy);
+                bool ok = true;
+                for (int y = 0; y < span.y && ok; y++)
+                    for (int x = 0; x < span.x && ok; x++)
+                    {
+                        Vector2Int q = anchor + new Vector2Int(x, y);
+                        if (q == cell) continue;
+                        if (!InBounds(q) || layout.ContainsKey(q) || anchorOf.ContainsKey(q)) ok = false;
+                    }
+                if (!ok) continue;
+                if (!apply) return true;
+
+                // cell 자체는 layout에 남기되(문·타입은 거기 있다) 방의 기준은 anchor다
+                for (int y = 0; y < span.y; y++)
+                    for (int x = 0; x < span.x; x++)
+                    {
+                        Vector2Int q = anchor + new Vector2Int(x, y);
+                        anchorOf[q] = anchor;
+                        spanOf[q] = span;
+                    }
+                if (anchor != cell)
+                {
+                    // 기준 칸이 layout에 없으면 InstantiateRooms가 못 본다 — 타입을 기준 칸으로 옮긴다
+                    layout[anchor] = layout[cell];
+                    layout.Remove(cell);
+                }
+                return true;
+            }
+        return false;
+    }
+
+    private bool TryMerge(Vector2Int a, Vector2Int b, Vector2Int span)
+    {
+        if (!layout.TryGetValue(b, out RoomType tb) || tb != RoomType.Normal) return false;
+        if (spanOf[b] != Vector2Int.one || anchorOf[b] != b) return false;
+        anchorOf[b] = a;
+        spanOf[a] = span;
+        spanOf[b] = span;
+        return true;
+    }
+
+    private bool HasNormalPrefabOfSpan(Vector2Int span)
+    {
+        for (int i = 0; i < normalRoomPrefabs.Count; i++)
+            if (normalRoomPrefabs[i] != null && normalRoomPrefabs[i].CellSpan == span) return true;
+        return false;
+    }
+
+    // 방이 차지하는 칸들
+    private IEnumerable<Vector2Int> CellsOf(Vector2Int anchor)
+    {
+        Vector2Int span = spanOf.TryGetValue(anchor, out Vector2Int s) ? s : Vector2Int.one;
+        for (int y = 0; y < span.y; y++)
+            for (int x = 0; x < span.x; x++)
+                yield return anchor + new Vector2Int(x, y);
+    }
+
+    // 어떤 칸의 어떤 방향 문이 큰 방에서 몇 번째(subCell)인지
+    private static int SubCellOf(Vector2Int anchor, Vector2Int cell, Dir dir)
+    {
+        return dir.IsVertical() ? cell.x - anchor.x : cell.y - anchor.y;
+    }
+
     private void InstantiateRooms()
     {
         foreach (KeyValuePair<Vector2Int, RoomType> kv in layout)
         {
             Vector2Int cell = kv.Key;
+            if (anchorOf.TryGetValue(cell, out Vector2Int anchor) && anchor != cell) continue;   // 큰 방의 나머지 칸
             RoomType type = kv.Value;
+            Vector2Int span = spanOf.TryGetValue(cell, out Vector2Int s) ? s : Vector2Int.one;
 
-            List<Dir> needed = RequiredDirs(cell);
-            Room prefab = PickPrefab(type, needed);
+            List<(Dir dir, int sub)> needed = RequiredDoors(cell);
+            Room prefab = PickPrefab(type, needed, span);
 
             if (prefab == null)
             {
@@ -369,7 +604,8 @@ public class DungeonGenerator : MonoBehaviour
                 continue;
             }
 
-            Vector3 pos = CellToWorld(cell);
+            // 큰 방은 차지하는 칸들의 한가운데에 놓는다
+            Vector3 pos = CellToWorld(cell) + new Vector3((span.x - 1) * roomSize.x * 0.5f, (span.y - 1) * roomSize.y * 0.5f, 0f);
             Room room = Instantiate(prefab, pos, Quaternion.identity, transform);
             room.name = $"Room_{type}_{cell.x}_{cell.y}";
             room.Configure(cell);
@@ -384,31 +620,47 @@ public class DungeonGenerator : MonoBehaviour
         return new Vector3(rel.x * roomSize.x, rel.y * roomSize.y, 0f);
     }
 
-    private List<Dir> RequiredDirs(Vector2Int cell)
+    // 방이 가져야 하는 문들. 방이 차지하는 칸마다, 방 밖의 이웃 칸이 있는 방향에 문이 하나씩 필요하다.
+    private List<(Dir dir, int sub)> RequiredDoors(Vector2Int anchor)
     {
-        List<Dir> dirs = new List<Dir>();
-        foreach (Dir d in DirUtil.All)
-        {
-            if (layout.ContainsKey(cell + d.Offset())) dirs.Add(d);
-        }
-        return dirs;
+        var doors = new List<(Dir dir, int sub)>();
+        foreach (Vector2Int cell in CellsOf(anchor))
+            foreach (Dir d in DirUtil.All)
+            {
+                if (!Connects(cell, d)) continue;
+                doors.Add((d, SubCellOf(anchor, cell, d)));
+            }
+        return doors;
     }
 
     // 필요한 문 방향을 모두 가진 프리팹 중에서 랜덤으로 고른다.
     // 정확히 그 조합만 가진 방이 있으면 그쪽을 먼저 쓴다 — 아래 PickNormal 참고.
-    private Room PickPrefab(RoomType type, List<Dir> needed)
+    private Room PickPrefab(RoomType type, List<(Dir dir, int sub)> needed, Vector2Int span)
     {
         switch (type)
         {
             case RoomType.Start:    return startRoomPrefab;
-            case RoomType.Boss:     return bossRoomPrefab != null ? bossRoomPrefab : PickNormal(needed);
-            case RoomType.Treasure: return treasureRoomPrefab != null ? treasureRoomPrefab : PickNormal(needed);
-            case RoomType.Shop:     return shopRoomPrefab != null ? shopRoomPrefab : PickNormal(needed);
-            default:                return PickNormal(needed);
+            case RoomType.Boss:     return bossRoomPrefab != null ? bossRoomPrefab : PickNormal(needed, span);
+            case RoomType.Treasure: return treasureRoomPrefab != null ? treasureRoomPrefab : PickNormal(needed, span);
+            case RoomType.Shop:     return shopRoomPrefab != null ? shopRoomPrefab : PickNormal(needed, span);
+            default:                return PickNormal(needed, span);
         }
     }
 
-    private Room PickNormal(List<Dir> needed)
+    private Room lastNormalPick;
+
+    private Room PickAvoidingLast(List<Room> candidates)
+    {
+        if (candidates.Count > 1 && lastNormalPick != null)
+        {
+            var others = candidates.FindAll(r => r != lastNormalPick);
+            if (others.Count > 0) candidates = others;
+        }
+        lastNormalPick = candidates[Random.Range(0, candidates.Count)];
+        return lastNormalPick;
+    }
+
+    private Room PickNormal(List<(Dir dir, int sub)> needed, Vector2Int span)
     {
         // exact  : 필요한 문만 정확히 가진 방 (벽이 처음부터 제대로 그려져 있다)
         // superset: 필요한 문을 포함하되 남는 문은 벽으로 막게 되는 방
@@ -418,29 +670,26 @@ public class DungeonGenerator : MonoBehaviour
         for (int i = 0; i < normalRoomPrefabs.Count; i++)
         {
             Room p = normalRoomPrefabs[i];
-            if (p == null) continue;
+            if (p == null || p.CellSpan != span) continue;
 
             bool hasAll = true;
             for (int d = 0; d < needed.Count; d++)
             {
-                if (p.GetDoor(needed[d]) == null) { hasAll = false; break; }
+                if (p.GetDoor(needed[d].dir, needed[d].sub) == null) { hasAll = false; break; }
             }
             if (!hasAll) continue;
 
             // 프리팹이 가진 문 개수를 세어 정확히 일치하는지 본다
-            int owned = 0;
-            foreach (Dir dd in DirUtil.All)
-                if (p.GetDoor(dd) != null) owned++;
+            int owned = p.Doors.Count;
 
             if (owned == needed.Count) exact.Add(p);
             else superset.Add(p);
         }
 
-        if (exact.Count > 0)
-            return exact[Random.Range(0, exact.Count)];
-
-        if (superset.Count > 0)
-            return superset[Random.Range(0, superset.Count)];
+        // 방금 고른 방은 이어서 또 쓰지 않는다 — 같은 방이 연달아 나오면 복붙한 티가 난다.
+        // 고를 게 하나뿐이면 어쩔 수 없이 다시 쓴다.
+        if (exact.Count > 0) return PickAvoidingLast(exact);
+        if (superset.Count > 0) return PickAvoidingLast(superset);
 
         // 맞는 게 없으면 아무거나 — 문이 없는 방향은 벽으로 막혀 길이 끊긴다.
         Debug.LogWarning($"[DungeonGenerator] 문 방향 {string.Join(",", needed)} 을 모두 가진 일반 방 프리팹이 없음. " +
@@ -456,23 +705,35 @@ public class DungeonGenerator : MonoBehaviour
     {
         foreach (KeyValuePair<Vector2Int, Room> kv in placed)
         {
-            Vector2Int cell = kv.Key;
+            Vector2Int anchor = kv.Key;
             Room room = kv.Value;
 
-            foreach (Dir d in DirUtil.All)
+            foreach (Door door in room.Doors)
             {
-                Door door = room.GetDoor(d);
                 if (door == null) continue;
+                Dir d = door.dir;
 
+                // 이 문이 붙어 있는 칸 → 그 방향의 이웃 칸
+                // 문이 붙은 칸: 위쪽 문은 맨 윗줄, 오른쪽 문은 맨 오른쪽 열에 있다 (한 칸 방이면 전부 기준 칸)
+                Vector2Int span = spanOf.TryGetValue(anchor, out Vector2Int sp) ? sp : Vector2Int.one;
+                Vector2Int cell;
+                switch (d)
+                {
+                    case Dir.Up:    cell = anchor + new Vector2Int(door.subCell, span.y - 1); break;
+                    case Dir.Down:  cell = anchor + new Vector2Int(door.subCell, 0); break;
+                    case Dir.Right: cell = anchor + new Vector2Int(span.x - 1, door.subCell); break;
+                    default:        cell = anchor + new Vector2Int(0, door.subCell); break;
+                }
                 Vector2Int nCell = cell + d.Offset();
 
-                if (!placed.TryGetValue(nCell, out Room neighbor))
+                if (!Connects(cell, d) || !anchorOf.TryGetValue(nCell, out Vector2Int nAnchor)
+                    || !placed.TryGetValue(nAnchor, out Room neighbor))
                 {
                     door.DisableAsWall();
                     continue;
                 }
 
-                Door other = neighbor.GetDoor(d.Opposite());
+                Door other = neighbor.GetDoor(d.Opposite(), SubCellOf(nAnchor, nCell, d.Opposite()));
                 if (other == null)
                 {
                     // 이웃 방에 반대편 문이 없으면 통로가 성립하지 않는다
@@ -481,6 +742,9 @@ public class DungeonGenerator : MonoBehaviour
                 }
 
                 door.Link(other);
+                // 보스 방으로 올라가는 문은 감옥 문. 벽 그림을 깔고 그 위에 3칸짜리 문을 얹는다
+                if (d == Dir.Up && neighbor.type == RoomType.Boss && BossGate != null)
+                    door.SetGate(BossGate, true);
                 door.Open();
             }
         }

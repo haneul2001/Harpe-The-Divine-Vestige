@@ -1,0 +1,1911 @@
+{
+"name": "Room_Cry_Gen_URDL",
+"kind": "Normal",
+"width": 20,
+"height": 11,
+"originX": -10,
+"originY": -6,
+"up": true,
+"right": true,
+"down": true,
+"left": true,
+"spawns": [
+{
+"x": -6,
+"y": 1
+},
+{
+"x": 0,
+"y": 1
+},
+{
+"x": 6,
+"y": 1
+},
+{
+"x": -6,
+"y": -2
+},
+{
+"x": 0,
+"y": -2
+},
+{
+"x": 6,
+"y": -2
+},
+{
+"x": -3,
+"y": -0.5
+},
+{
+"x": 3,
+"y": -0.5
+}
+],
+"tilemaps": [
+{
+"name": "Ground",
+"cells": [
+{
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_362.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_362.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+}
+]
+},
+{
+"name": "Wall",
+"cells": [
+{
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_14.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_164.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_164.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_64.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_117.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_47.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_39.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_151.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_63.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_15.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_164.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_15.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_114.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_23.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_30.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_162.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_115.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_2.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_64.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_34.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_165.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_115.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_165.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_49.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_40.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_157.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_17.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_152.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_152.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_153.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_114.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_116.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_17.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_24.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_49.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_153.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_114.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_121.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_127.asset",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_139.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_80.asset",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_93.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_126.asset",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_138.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_126.asset",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_138.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_126.asset",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_138.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_127.asset",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_139.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_129.asset",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_141.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_133.asset",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_145.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_128.asset",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_140.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_80.asset",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_93.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_79.asset",
+"f": 0
+},
+{
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_92.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_178.asset",
+"f": 0
+},
+{
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_170.asset",
+"f": 0
+}
+]
+},
+{
+"name": "Object",
+"cells": []
+}
+],
+"props": []
+}

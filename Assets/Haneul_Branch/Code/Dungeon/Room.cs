@@ -217,16 +217,25 @@ public class Room : MonoBehaviour
         GridPos = gridPos;
     }
 
-    public Door GetDoor(Dir dir)
+    public Door GetDoor(Dir dir, int subCell = 0)
     {
         EnsureDoors();
 
         for (int i = 0; i < doors.Count; i++)
         {
-            if (doors[i] != null && doors[i].dir == dir)
+            if (doors[i] != null && doors[i].dir == dir && doors[i].subCell == subCell)
                 return doors[i];
         }
         return null;
+    }
+
+    [Tooltip("격자에서 차지하는 칸 수. 한 칸 방은 (1,1), 가로로 긴 방은 (2,1).\n"
+           + "생성기는 이 값만큼 이웃 칸을 함께 비워 두고, 문은 칸마다 subCell로 찾는다")]
+    [SerializeField] private Vector2Int cellSpan = new Vector2Int(1, 1);
+
+    public Vector2Int CellSpan
+    {
+        get { return new Vector2Int(Mathf.Max(1, cellSpan.x), Mathf.Max(1, cellSpan.y)); }
     }
 
     public IReadOnlyList<Door> Doors
