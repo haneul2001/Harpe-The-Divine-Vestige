@@ -30,7 +30,7 @@ public class DungeonMinimap : MonoBehaviour
     [SerializeField] private Sprite cellSprite;
     [Tooltip("지금 있는 방 칸")]
     [SerializeField] private Sprite currentCellSprite;
-    [Tooltip("특수 방 아이콘은 방문 전이라도 옆방까지 오면 바로 보인다 (아이작 방식)")]
+    [Tooltip("특수 방 아이콘은 방문 전이라도 옆방까지 오면 바로 보인다 (아이작 방식). 보스도 같다")]
     [SerializeField] private Sprite bossIcon;
     [SerializeField] private Sprite shopIcon;
     [SerializeField] private Sprite treasureIcon;
@@ -75,6 +75,12 @@ public class DungeonMinimap : MonoBehaviour
     private RectTransform rect;
 
     private readonly Dictionary<Room, Image> cells = new Dictionary<Room, Image>();
+    // 여러 칸짜리 특수 방(2x2 보스 등)은 칸 틀을 늘리고 아이콘은 한 칸 크기로 가운데에 따로 얹는다
+    private readonly Dictionary<Room, Image> bigIcons = new Dictionary<Room, Image>();
+
+    // 큰 방 안에서 플레이어가 어느 칸에 있는지 찍으려면 플레이어 위치와 격자 한 칸의 월드 크기가 필요하다
+    private Transform player;
+    private DungeonGenerator generator;
 
     // 문 연결선. 양쪽 방이 모두 보일 때만 그리므로 방 참조를 같이 들고 있는다.
     private class Link
@@ -196,6 +202,7 @@ public class DungeonMinimap : MonoBehaviour
     {
         foreach (Transform child in rect) Destroy(child.gameObject);
         cells.Clear();
+        bigIcons.Clear();
         links.Clear();
         panel = null;
         marker = null;
@@ -205,13 +212,14 @@ public class DungeonMinimap : MonoBehaviour
 
         // 방 전체의 한가운데를 기준점으로 잡는다.
         // 현재 방을 기준으로 하면 방을 옮길 때마다 지도 전체가 흔들린다.
+        // 큰 방은 GridPos(왼쪽 아래 칸)부터 CellSpan만큼 차지한다 — 오른쪽 위 끝 칸까지 범위에 넣는다
         Vector2Int min = rooms[0].GridPos;
-        Vector2Int max = rooms[0].GridPos;
+        Vector2Int max = rooms[0].GridPos + rooms[0].CellSpan - Vector2Int.one;
         for (int i = 1; i < rooms.Count; i++)
         {
             if (rooms[i] == null) continue;
             min = Vector2Int.Min(min, rooms[i].GridPos);
-            max = Vector2Int.Max(max, rooms[i].GridPos);
+            max = Vector2Int.Max(max, rooms[i].GridPos + rooms[i].CellSpan - Vector2Int.one);
         }
         origin = new Vector2Int((min.x + max.x) / 2, (min.y + max.y) / 2);
 
@@ -259,9 +267,24 @@ public class DungeonMinimap : MonoBehaviour
             Room r = rooms[i];
             if (r == null) continue;
 
+            Vector2Int span = r.CellSpan;
+            Vector2 size = new Vector2(span.x * step - cellGap, span.y * step - cellGap);
             Image img = NewImage("Cell_" + r.GridPos.x + "_" + r.GridPos.y, rect,
-                Vector2.one * cellSize, CellPos(r.GridPos, step), Color.white);
+                size, RoomCenter(r, step), Color.white);
             cells[r] = img;
+        }
+
+        // 큰 특수 방 아이콘 — 칸보다 위에
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            Room r = rooms[i];
+            if (r == null || r.CellSpan == Vector2Int.one || IconFor(r.type) == null) continue;
+            if (r.CellSpan.x == r.CellSpan.y) continue;   // 정사각형 큰 방은 아이콘이 칸 전체가 된다 (ApplySkinnedCell)
+            int shortSide = Mathf.Min(r.CellSpan.x, r.CellSpan.y);
+            Image icon = NewImage("Icon_" + r.GridPos.x + "_" + r.GridPos.y, rect,
+                Vector2.one * (shortSide * step - cellGap), RoomCenter(r, step), Color.white);
+            icon.sprite = IconFor(r.type);
+            bigIcons[r] = icon;
         }
 
         // 플레이어 마커는 맨 위
@@ -290,8 +313,10 @@ public class DungeonMinimap : MonoBehaviour
                 Room nb = door.Linked.OwnerRoom;
                 if (nb == null) continue;
 
-                Vector2 a = CellPos(r.GridPos, step);
-                Vector2 b = CellPos(nb.GridPos, step);
+                // 큰 방은 문마다 붙은 칸이 다르다 (위쪽 문은 맨 윗줄의 subCell번째 칸, 오른쪽 문은 맨 오른쪽 열)
+                Vector2Int cell = DoorCell(r, door);
+                Vector2 a = CellPos(cell, step);
+                Vector2 b = CellPos(cell + door.dir.Offset(), step);
                 Vector2 mid = (a + b) * 0.5f;
 
                 Vector2 size = door.dir == Dir.Right
@@ -309,6 +334,26 @@ public class DungeonMinimap : MonoBehaviour
         return new Vector2((grid.x - origin.x) * step, (grid.y - origin.y) * step) + contentShift;
     }
 
+    // 여러 칸짜리 방의 한가운데
+    private Vector2 RoomCenter(Room r, float step)
+    {
+        Vector2Int span = r.CellSpan;
+        return CellPos(r.GridPos, step) + new Vector2((span.x - 1) * step * 0.5f, (span.y - 1) * step * 0.5f);
+    }
+
+    // 문이 붙어 있는 칸 (생성기 LinkDoors와 같은 규칙)
+    private static Vector2Int DoorCell(Room r, Door door)
+    {
+        Vector2Int span = r.CellSpan;
+        switch (door.dir)
+        {
+            case Dir.Up:    return r.GridPos + new Vector2Int(door.subCell, span.y - 1);
+            case Dir.Down:  return r.GridPos + new Vector2Int(door.subCell, 0);
+            case Dir.Right: return r.GridPos + new Vector2Int(span.x - 1, door.subCell);
+            default:        return r.GridPos + new Vector2Int(0, door.subCell);
+        }
+    }
+
     // ─────────────────────────────────────────────
     // 갱신
     // ─────────────────────────────────────────────
@@ -321,9 +366,14 @@ public class DungeonMinimap : MonoBehaviour
             Image img = kv.Value;
             if (r == null || img == null) continue;
 
-            // 보스방은 못 가봤어도 랜드마크로 미리 보여준다 (탐색 여부와 무관하게)
-            bool known = r.Visited || IsNextToVisited(r) || r.type == RoomType.Boss;
+            // 보스방도 다른 특수 방처럼 옆방까지 가야 드러난다 (탐험해서 찾게)
+            bool known = r.Visited || IsNextToVisited(r);
             img.enabled = known;
+            if (bigIcons.TryGetValue(r, out Image bigIcon) && bigIcon != null)
+            {
+                bigIcon.enabled = known;
+                bigIcon.color = r.Visited || r == manager.Current ? Color.white : new Color(0.72f, 0.72f, 0.72f, 1f);
+            }
             if (!known) continue;
 
             if (cellSprite != null)
@@ -354,7 +404,9 @@ public class DungeonMinimap : MonoBehaviour
     // 픽셀 스킨: 특수 방은 아이콘 그림 자체가 칸이 되고(방문 전에도 보임), 일반 방은 슬롯 그림에 명암만 준다
     private void ApplySkinnedCell(Room r, Image img)
     {
-        Sprite icon = IconFor(r.type);
+        // 특수 방 아이콘은 테두리까지 그려진 그림이라 칸 자체가 된다. 정사각형 큰 방(2x2 보스)은 아이콘을 칸 크기로 키우고,
+        // 직사각형 큰 방만 슬롯 틀을 늘린 뒤 아이콘을 따로 얹는다
+        Sprite icon = r.CellSpan.x == r.CellSpan.y ? IconFor(r.type) : null;
         bool isCurrent = r == manager.Current;
 
         Sprite want;
@@ -378,8 +430,8 @@ public class DungeonMinimap : MonoBehaviour
         else
         {
             want = cellSprite;
-            // 들어가 봤지만 아직 못 깬 방은 붉은 기
-            tint = r.IsCleared ? Color.white : new Color(1f, 0.62f, 0.58f, 1f);
+            // 들어가 봤지만 아직 못 깬 방은 보라 기 (사신 톤 — 붉은색은 체력에만 쓴다)
+            tint = r.IsCleared ? Color.white : new Color(0.82f, 0.70f, 1f, 1f);
         }
 
         if (img.sprite != want)
@@ -476,6 +528,30 @@ public class DungeonMinimap : MonoBehaviour
         }
     }
 
+    // 큰 방 안에서 플레이어가 서 있는 칸 (왼쪽 아래 칸 기준). 한 칸 방이면 늘 (0,0)
+    private Vector2Int PlayerSubCell(Room room)
+    {
+        Vector2Int span = room.CellSpan;
+        if (span == Vector2Int.one) return Vector2Int.zero;
+
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
+        }
+        if (generator == null) generator = FindObjectOfType<DungeonGenerator>();
+        if (player == null || generator == null) return Vector2Int.zero;
+
+        Vector2 cellWorld = generator.RoomSize;
+        if (cellWorld.x <= 0f || cellWorld.y <= 0f) return Vector2Int.zero;
+
+        Vector2 local = (Vector2)(player.position - room.transform.position)
+                        + new Vector2(span.x * cellWorld.x, span.y * cellWorld.y) * 0.5f;
+        int sx = Mathf.Clamp(Mathf.FloorToInt(local.x / cellWorld.x), 0, span.x - 1);
+        int sy = Mathf.Clamp(Mathf.FloorToInt(local.y / cellWorld.y), 0, span.y - 1);
+        return new Vector2Int(sx, sy);
+    }
+
     private void UpdatePlayerMarker()
     {
         if (marker == null) return;
@@ -489,9 +565,9 @@ public class DungeonMinimap : MonoBehaviour
 
         marker.gameObject.SetActive(true);
 
-        // 방 안 세부 위치는 따라가지 않고, 지금 있는 방 칸의 한가운데에만 찍는다
+        // 방 안 세부 위치는 따라가지 않고 칸 한가운데에만 찍는다. 큰 방이면 플레이어가 서 있는 칸에
         float step = cellSize + cellGap;
-        marker.anchoredPosition = CellPos(cur.GridPos, step);
+        marker.anchoredPosition = CellPos(cur.GridPos + PlayerSubCell(cur), step);
 
         // 흰 칸 위의 흰 점은 안 보이므로 깜빡여서 눈에 띄게 한다
         if (playerPulseSpeed > 0f)
