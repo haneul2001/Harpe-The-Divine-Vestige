@@ -440,7 +440,7 @@ public class PlayerStatusBar : MonoBehaviour
                 body = "연막을 터뜨리고 모습을 감춘다. 숨어 있는 동안 적이 이쪽을 찾지 못하고, 이동속도가 "
                      + Pct((stealth != null ? stealth.SpeedMultiplierWhenHidden : 1.4f) - 1f) + " 빨라진다.\n"
                      + "걷는 것은 되지만 공격·대시·처형·스킬을 쓰거나 피해를 입으면 풀린다.\n"
-                     + "풀린 뒤 " + Sec(stealth != null ? stealth.CloakCooldown : 0.5f) + " 동안은 다시 숨을 수 없다.";
+                     + "쿨타임 " + Sec(stealth != null ? stealth.CloakCooldown : 10f) + " — 숨는 순간부터 돌고, 특성으로 다시 숨어도 처음부터 다시 돈다.";
                 return;
 
             case 3:   // 처형

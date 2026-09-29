@@ -43,8 +43,11 @@ public class PlayerStealth : MonoBehaviour
     [SerializeField] private bool breakOnDash = true;
     [Tooltip("피해를 입으면 은신이 풀린다")]
     [SerializeField] private bool breakOnDamage = true;
-    [Tooltip("은신이 풀린 뒤 다시 은신할 수 있을 때까지의 시간(초)")]
-    [SerializeField] private float recloakDelay = 0.5f;
+    [Tooltip("은신 쿨타임(초). 은신에 들어가는 순간부터 돈다 — C로 들어가든 특성(유령의 발걸음 등)으로 들어가든,\n"
+           + "들어갈 때마다 처음부터 다시 돈다")]
+    [SerializeField] private float cloakCooldown = 10f;
+    [Tooltip("풀린 직후 최소 이만큼은 다시 못 숨는다 — 쿨타임이 이미 끝난 채 오래 숨어 있다 풀었을 때 바로 깜빡이지 않게")]
+    [SerializeField] private float minRecloakGap = 0.5f;
 
     [Header("물리")]
     [Tooltip("은신 중에는 몬스터와 부딪히지 않는다.\n" +
@@ -59,7 +62,7 @@ public class PlayerStealth : MonoBehaviour
     // 아래 셋은 화면 아래 스킬 칸이 읽는다.
     // 은신에는 발동 쿨타임이 없고 "풀린 뒤 다시 숨기까지" 기다리는 시간만 있다 — 그걸 쿨타임으로 보여 준다.
     public KeyCode ToggleKey { get { return toggleKey; } }
-    public float CloakCooldown { get { return Mathf.Max(0f, recloakDelay); } }
+    public float CloakCooldown { get { return Mathf.Max(0f, cloakCooldown); } }
     public float CloakCooldownRemaining { get { return Mathf.Max(0f, nextCloakTime - Time.time); } }
 
     private bool hidden;
@@ -182,6 +185,7 @@ public class PlayerStealth : MonoBehaviour
     {
         hidden = true;
         cloakStart = Time.time;
+        nextCloakTime = Time.time + cloakCooldown;   // 들어갈 때마다 쿨타임이 처음부터 다시 돈다
         Sfx.Play(cloakSfxId);
         autoRevealTime = -1f;
         ApplyPhysics();
@@ -260,7 +264,7 @@ public class PlayerStealth : MonoBehaviour
 
         hidden = false;
         autoRevealTime = -1f;
-        nextCloakTime = Time.time + recloakDelay;
+        nextCloakTime = Mathf.Max(nextCloakTime, Time.time + minRecloakGap);
         ApplyPhysics();
         PlaySmoke(revealSmokeState);
         AbilityHooks.NotifyStealthExit();

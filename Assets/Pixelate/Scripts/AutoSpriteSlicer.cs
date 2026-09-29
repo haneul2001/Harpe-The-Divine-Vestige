@@ -5,7 +5,6 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
-#endif
 
 namespace Pixelate
 {
@@ -123,3 +122,4 @@ namespace Pixelate
         }
     }
 }
+#endif
