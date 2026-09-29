@@ -94,6 +94,9 @@ public class HarvestImageController : MonoBehaviour
             fx.name = "HarvestBackEffect";
             backEffect = fx.transform;
 
+            // 이펙트 팩 프리팹에 물 흐르는 반복 효과음이 붙어 있다 — 처형 가능 표시가 뜰 때마다 울려서 끈다
+            foreach (var src in fx.GetComponentsInChildren<AudioSource>(true)) { src.Stop(); src.playOnAwake = false; src.enabled = false; }
+
             foreach (var ps in fx.GetComponentsInChildren<ParticleSystem>(true))
             {
                 var main = ps.main;

@@ -85,6 +85,7 @@ public class PlayerStatus : MonoBehaviour
     private float parryBlockedMult = 1f;
     private float parryCounterMultiplier = 0f;
     private float parryIframeDuration = 0f;
+    private float parrySuccessMoveDelay = 0.5f;
 
     // 반격 애니메이션의 "내려찍는" 프레임이 올 때까지 들고 있는 대상.
     // ParryCounterHit()이 불릴 때 실제로 데미지를 넣는다.
@@ -94,6 +95,8 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
+        // 발 위치로 적과 앞뒤를 가린다 (적과 같은 그리기 층)
+        CharacterSorting.Ensure(gameObject);
         anim = GetComponentInChildren<Animator>();
         move = GetComponent<PlayerMove>();
 
@@ -136,10 +139,20 @@ public class PlayerStatus : MonoBehaviour
     // 피해를 받는다. 반환값: 실제로 피해가 적중했는지(넉백 여부 판단용). 퍼펙트 패링/무적이면 false.
     public bool TakeDamage(int damage, Enemy attacker = null)
     {
-        if (isDead || isInvincible)
+        return TakeDamage(damage, attacker, true);
+    }
+
+    // parryable=false: 패링으로 막을 수 없는 피해 (용이 남긴 불장판처럼 서 있기만 해도 타는 것)
+    public bool TakeDamage(int damage, Enemy attacker, bool parryable)
+    {
+        if (isDead)
             return false;
 
-        ParryResult parry = EvaluateParry();
+        // 패링은 무적보다 먼저 본다 — 첫 패링 성공의 무적이 남아 있는 동안 다시 받아쳐도 판정이 나야 한다
+        ParryResult parry = parryable ? EvaluateParry() : ParryResult.None;
+        // 단, 패링 한 번에 성공은 한 번 — 연타 공격이 같은 창 안에서 반격을 몇 번이고 다시 틀지 않게
+        if (isInvincible && (parry != ParryResult.Perfect || parryConsumed))
+            return false;
 
         // 퍼펙트 패링: 완전 무효 + 반격 + 경직 + 짧은 무적
         if (parry == ParryResult.Perfect)
@@ -156,6 +169,7 @@ public class PlayerStatus : MonoBehaviour
         int taken = stats.CalcIncomingDamage(raw);
 
         currentHp -= taken;
+        Sfx.Play("PlayerHurt");
         Debug.Log($"플레이어피격 : {taken} damage (원본 {damage}, 패링 x{mult}, 방어 {stats.Defense}). HP: {currentHp}/{MaxHp}");
 
         // 실제로 피해가 들어간 경우에만 (무적·퍼펙트 패링은 위에서 이미 빠져나갔다)
@@ -172,12 +186,25 @@ public class PlayerStatus : MonoBehaviour
     // 퍼펙트 패링 성공 처리.
     // 데미지는 여기서 바로 넣지 않는다 — 반격 애니메이션의 "내려찍는" 프레임(ParryCounterHit)에서
     // 실제로 들어간다. 그래야 판정이 눈에 보이는 타이밍과 맞는다.
+    // 이번 패링 창에서 이미 받아쳤는지 (BeginParry가 새로 열 때 지운다)
+    private bool parryConsumed;
+
     private void OnPerfectParry(Enemy attacker)
     {
+        parryConsumed = true;
+        Sfx.Play("PlayerParry");
         // 기존 성공 이펙트(ParryClang)는 제거 — 방패 이펙트가 발동 시점부터 판정 시간 내내 떠 있다
 
         bool canCounter = attacker != null && !attacker.isDead && parryCounterMultiplier > 0f
                         && anim != null && parryCounterClip != null;
+
+        // 받아친 순간을 공격한 쪽에 알린다 (날아오른 용은 이걸 세어 떨어진다)
+        if (attacker != null && !attacker.isDead) attacker.OnParriedByPlayer();
+
+        // 성공 판정 순간: 무적을 바로 걸고(parryIframeDuration), 발동 때 건 조작 잠금은 버린 뒤
+        // 성공 순간부터 parrySuccessMoveDelay 뒤에 움직일 수 있게 한다
+        if (parryIframeDuration > 0f) StartCoroutine(InvincibleFor(parryIframeDuration));
+        if (move != null) move.ClearControlLock();
 
         if (canCounter)
         {
@@ -185,32 +212,41 @@ public class PlayerStatus : MonoBehaviour
             pendingCounterTarget = attacker;
             float counterSpeed = Mathf.Max(0.01f, parryCounterSpeed);
             anim.SetFloat("ParryCounterSpeed", counterSpeed);
-            anim.SetTrigger("ParryCounter");
+            // 신호(트리거)로 넘기면 패링 자세가 끝날 때까지(0.3초 남짓) 기다렸다가 넘어간다 — 반격이 굼떴던 원인.
+            // 반격 상태가 있으면 곧바로 튼다
+            int counterState = Animator.StringToHash("ParryCounter");
+            if (anim.HasState(0, counterState))
+            {
+                anim.ResetTrigger("Parry");
+                anim.ResetTrigger("ParryCounter");
+                anim.Play(counterState, 0, 0f);
+            }
+            else anim.SetTrigger("ParryCounter");
 
-            // 성공하면 패링 발동 때 건 조작 잠금(방패 1초 + 0.5초)은 버리고 반격 기준으로만 잠근다 —
-            // 둘 중 긴 쪽에 묶이면 "성공 후 움직일 수 있는 시점"을 조절할 수가 없다.
-            if (move != null) move.ClearControlLock();
+            // 반격 칼이 닿을 때까지만 이동을 막는다 — 그 전에 움직이면 반격 동작이 끊겨 피해가 안 들어간다.
+            // 칼이 닿는 순간(ParryCounterHit) 곧바로 풀린다. 무적은 그대로 남는다
+            StartCoroutine(ParryCounterLock(parryCounterClip.length / counterSpeed));
 
-            // 반격 애니 동안 무적은 끝까지, 이동은 counterMoveEarlier만큼 먼저 풀어 준다
-            float len = parryCounterClip.length / counterSpeed;
-            StartCoroutine(ParryCounterLock(len, Mathf.Max(0f, len - counterMoveEarlier)));
+            // 받아치면 반격 동작이 끝나는 순간 바로 다시 패링할 수 있다 (쿨타임을 거기까지 당긴다)
+            var skillInput = GetComponent<SkillInputController>();
+            if (skillInput != null) skillInput.SetReadyAt<Parry>(Time.time + parryCounterClip.length / counterSpeed);
         }
         else
         {
             Debug.Log("[Parry] PERFECT! 경직 + 무적");
             if (attacker != null && !attacker.isDead) attacker.Stagger(); // 반격 없으면 경직만
-            if (parryIframeDuration > 0f) StartCoroutine(InvincibleFor(parryIframeDuration));
+            if (move != null) move.LockControl(parrySuccessMoveDelay);
         }
     }
 
     // 반격 스윙 중엔 캐릭터가 미끄러지듯 움직이면 안 되므로, 무적과 함께 이동도 같이 잠근다.
     // 처형의 isExecuting과 같은 잠금이라 서로 겹쳐도 안전하다(둘 다 끝나야 풀리는 게 아니라
     // 각자 자기 구간이 끝나면 그냥 false로 되돌리는 방식 — 패링 반격 중엔 처형이 불가능해 겹칠 일이 없다).
-    private IEnumerator ParryCounterLock(float invincibleDuration, float moveLockDuration)
+    private IEnumerator ParryCounterLock(float maxDuration)
     {
         if (move != null) move.isExecuting = true;
-        StartCoroutine(InvincibleFor(invincibleDuration));
-        yield return new WaitForSeconds(moveLockDuration);
+        float end = Time.time + maxDuration;
+        while (pendingCounterTarget != null && Time.time < end) yield return null;   // 칼이 닿으면 바로 풀린다
         if (move != null) move.isExecuting = false;
     }
 
@@ -226,7 +262,10 @@ public class PlayerStatus : MonoBehaviour
         bool isCrit = stats.RollCritChance() || AbilityHooks.ForcesCrit(DamageKind.Parry);
         int counter = Mathf.Max(1, Mathf.RoundToInt(stats.RollPhysicalDamage(isCrit) * parryCounterMultiplier
             * AbilityHooks.DamageMultiplier(DamageKind.Parry, target, true)));
-        target.TakeDamage(counter, true, Color.yellow); // 반격 (+HitState 경직, 노란 데미지 숫자)
+        // 반격 피해라고 표시해 둔다 — 공중의 용처럼 반격만 받는 적이 이걸 보고 받아들인다
+        Enemy.ApplyingParryCounter = true;
+        try { target.TakeDamage(counter, true, Color.yellow); } // 반격 (+HitState 경직, 노란 데미지 숫자)
+        finally { Enemy.ApplyingParryCounter = false; }
 
         AbilityHooks.NotifyHit(new HitInfo
         {
@@ -265,7 +304,9 @@ public class PlayerStatus : MonoBehaviour
             if (enemy == null || enemy == last) continue;
             if (enemy == excluded || enemy.isDead) continue; // 원래 대상은 이미 맞았다
 
-            enemy.TakeDamage(damage, true, Color.yellow);
+            Enemy.ApplyingParryCounter = true;
+            try { enemy.TakeDamage(damage, true, Color.yellow); }
+            finally { Enemy.ApplyingParryCounter = false; }
             last = enemy;
         }
 
@@ -274,8 +315,10 @@ public class PlayerStatus : MonoBehaviour
 
     // 패링 창 시작 (Parry 스킬에서 호출).
     public void BeginParry(float perfectWindow, float window, float perfectMult, float blockedMult,
-                           float counterMultiplier, float iframeDuration)
+                           float counterMultiplier, float iframeDuration, float successMoveDelay = 0.5f)
     {
+        parrySuccessMoveDelay = successMoveDelay;
+        parryConsumed = false;
         float now = Time.time;
         parryPerfectEndTime = now + perfectWindow;
         parryEndTime = now + window;
@@ -299,11 +342,16 @@ public class PlayerStatus : MonoBehaviour
         if (duration > 0f && !isDead) StartCoroutine(InvincibleFor(duration));
     }
 
+    // 무적이 겹치면(피격 무적 중 패링 성공 등) 가장 늦게 끝나는 쪽을 따른다 —
+    // 먼저 끝난 코루틴이 무적을 꺼 버리면 패링 무적 1.5초가 중간에 잘린다
+    private float invincibleUntil;
+
     private IEnumerator InvincibleFor(float duration)
     {
+        invincibleUntil = Mathf.Max(invincibleUntil, Time.time + duration);
         isInvincible = true;
         yield return Blink(duration);
-        isInvincible = false;
+        if (Time.time >= invincibleUntil - 0.001f) isInvincible = false;
     }
 
     // 무적 동안 스프라이트를 명멸시킨다.
@@ -316,16 +364,21 @@ public class PlayerStatus : MonoBehaviour
             yield break;
         }
 
-        float elapsed = 0f;
+        // 끝나는 시각 기준으로 잰다 — 간격마다 WaitForSeconds를 쌓으면 매번 한 프레임씩 늦어
+        // 무적이 정해진 시간보다 길어졌다 (1.5초가 1.8초 넘게)
+        float end = Time.time + duration;
+        float nextToggle = Time.time;
         bool on = false;
 
-        while (elapsed < duration)
+        while (Time.time < end)
         {
-            SetRenderersEnabled(on);
-            on = !on;
-
-            yield return new WaitForSeconds(blinkInterval);
-            elapsed += blinkInterval;
+            if (Time.time >= nextToggle)
+            {
+                SetRenderersEnabled(on);
+                on = !on;
+                nextToggle += blinkInterval;
+            }
+            yield return null;
         }
 
         SetRenderersEnabled(true);

@@ -35,6 +35,10 @@ public class VfxClip
     [Tooltip("월드 크기 배율. 프레임은 64px/PPU32 라서 기본이 2x2 유닛이다")]
     public float scale = 1f;
 
+    [Tooltip("그림이 왼쪽을 보고 있다(해골 영혼처럼). 켜면 오른쪽으로 날아갈 때 뒤집지 않고 좌우 반전해서, "
+           + "얼굴이 거꾸로 서지 않는다")]
+    public bool facesLeft = false;
+
     [Tooltip("정렬 레이어. 이펙트는 보통 소품(Prop)보다 위")]
     public string sortingLayer = "Skill";
     public int sortingOrder = 0;

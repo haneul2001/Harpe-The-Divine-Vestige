@@ -3,7 +3,7 @@ guid: d18340b8d8fb8344089523debedeff10
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -112,14 +117,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1d8593675724b0747b0281838f721183
+      spriteID: b81aa830000000000800000000000000
       internalID: 59416971
       vertices: []
       indices: 
@@ -133,14 +138,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8961fc921b651a344a0243cf298f2b99
+      spriteID: f0547c14000000000800000000000000
       internalID: 1103578383
       vertices: []
       indices: 
@@ -154,14 +159,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e4d5056329ba16c4a9bbe525e80d83df
+      spriteID: 8baed0ffffffffff0800000000000000
       internalID: -15865160
       vertices: []
       indices: 
@@ -175,14 +180,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8d7f8e32d118dd7489c7055bee96d533
+      spriteID: b00f769effffffff0800000000000000
       internalID: -379064309
       vertices: []
       indices: 
@@ -196,14 +201,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 0c22444a5a40e324ea8d5953ef89ca92
+      spriteID: db2c7ecdffffffff0800000000000000
       internalID: -588791107
       vertices: []
       indices: 
@@ -217,14 +222,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2fa5a27f8ccf7c34e87cd63ce52c7bca
+      spriteID: a5a31685000000000800000000000000
       internalID: 1482766938
       vertices: []
       indices: 
@@ -238,14 +243,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 0fd727f4f1b6b944e8d36989d6e46b26
+      spriteID: 466f2a16000000000800000000000000
       internalID: 1638069860
       vertices: []
       indices: 
@@ -259,14 +264,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 0aaf59bd7b088de4e89a7bf98339f54c
+      spriteID: 9d373370000000000800000000000000
       internalID: 120812505
       vertices: []
       indices: 
@@ -291,9 +296,8 @@ TextureImporter:
       Skeleton - animations-with rusty sword-walk_5: 1482766938
       Skeleton - animations-with rusty sword-walk_6: 1638069860
       Skeleton - animations-with rusty sword-walk_7: 120812505
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

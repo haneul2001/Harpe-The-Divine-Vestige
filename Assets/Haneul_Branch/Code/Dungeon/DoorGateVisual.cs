@@ -18,6 +18,7 @@ public class DoorGateVisual : MonoBehaviour
     public bool stayWhenOpen = true;
 
     private SpriteRenderer sr;
+    private bool closedShown;   // 지금 닫힌 그림인가 — 이미 닫혀 있으면 닫히는 연출을 다시 틀지 않는다
 
     private void Awake() { sr = GetComponent<SpriteRenderer>(); }
 
@@ -31,6 +32,8 @@ public class DoorGateVisual : MonoBehaviour
     {
         if (sr == null) sr = GetComponent<SpriteRenderer>();
         gameObject.SetActive(true);
+        if (closedShown) { sr.sprite = Closed; return; }
+        closedShown = true;
         StopAllCoroutines();
         if (raiseAnimated && gameObject.activeInHierarchy && openFrames != null && openFrames.Length > 1)
             StartCoroutine(Play(reverse: true, hideAfter: false));
@@ -42,6 +45,7 @@ public class DoorGateVisual : MonoBehaviour
     public float Unlock(bool animate)
     {
         if (sr == null) sr = GetComponent<SpriteRenderer>();
+        closedShown = false;
         StopAllCoroutines();
         if (!animate || !gameObject.activeInHierarchy || openFrames == null || openFrames.Length < 2)
         {
@@ -54,9 +58,20 @@ public class DoorGateVisual : MonoBehaviour
         return Duration;
     }
 
+    // 연출 없이 바로 닫힌 그림으로 (처음부터 잠긴 문)
+    public void ShowClosed()
+    {
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+        gameObject.SetActive(true);
+        StopAllCoroutines();
+        sr.sprite = Closed;
+        closedShown = true;
+    }
+
     // 벽으로 막힌 문 등 — 아예 안 보이게
     public void Hide()
     {
+        closedShown = false;
         StopAllCoroutines();
         gameObject.SetActive(false);
     }

@@ -208,7 +208,7 @@ public class EnemyHealthBar : MonoBehaviour
         }
         bar.SetTrail(trailRatio);
 
-        bar.Label.text = PixelBar.Format(target.hp, target.maxHp);
+        bar.Label.text = PixelBar.Format(Mathf.Max(0, target.hp), target.maxHp);
     }
 
     private void SetAlpha(float value)
@@ -288,6 +288,10 @@ public class EnemyHealthBar : MonoBehaviour
         root.sizeDelta = new Vector2(width, PixelBar.SrcHeight * s + nameRowHeight);
         root.anchoredPosition = new Vector2(0f, -topMargin);
         nameRow.sizeDelta = new Vector2(0f, nameRowHeight);
+
+        // 등급 칩은 초상화 칸 바로 위 가운데에 — 프레임 왼쪽 끝에 두면 초상화와 줄이 안 맞는다
+        RectTransform chip = gradeChip.rectTransform;
+        chip.anchoredPosition = new Vector2(PixelBar.SocketX * s + (PixelBar.SocketSize * s - chip.sizeDelta.x) * 0.5f, 0f);
 
         bar.Layout(width, s, FrameFor(grade), fallbackTrackColor);
         // 폭은 부모를 따라가게 두고(좌우 앵커), 높이만 프레임에서 정한다

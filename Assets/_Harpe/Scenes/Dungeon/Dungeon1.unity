@@ -175,6 +175,7 @@ MonoBehaviour:
   labelPadding: 6
   spacing: 8
   margin: {x: 28, y: 28}
+  skillRowClearance: 200
   maxVisible: 4
   holdDuration: 2.4
   background: {r: 0.16, g: 0.16, b: 0.18, a: 0.94}
@@ -911,6 +912,7 @@ MonoBehaviour:
   defaultSoulGain: 10
   onTargetOffset: {x: 0, y: 0, z: 0}
   impactTime: 0.833
+  harvestSfxDelay: 0.2
   showDamageOnImpact: 0
   impactDamageAsCritical: 0
   harvestTextOnImpact: 1
@@ -1691,12 +1693,12 @@ MonoBehaviour:
   panelColor: {r: 0.05, g: 0.05, b: 0.08, a: 0.82}
   panelBorderColor: {r: 0.62, g: 0.58, b: 0.5, a: 0.85}
   panelBorderWidth: 2
-  panelSprite: {fileID: 21300000, guid: a34c1fabaad3d5344b933f96c11dbf99, type: 3}
-  cellSprite: {fileID: 1213479468, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
-  currentCellSprite: {fileID: 1656189245, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
-  bossIcon: {fileID: -1126419981, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
-  shopIcon: {fileID: 1999212009, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
-  treasureIcon: {fileID: -1880099858, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  panelSprite: {fileID: 21300000, guid: ddebc35653ad4561be6f32dde9a800db, type: 3}
+  cellSprite: {fileID: 1213479468, guid: 93aaf2acd8234e62b93a681851376d33, type: 3}
+  currentCellSprite: {fileID: 1656189245, guid: 93aaf2acd8234e62b93a681851376d33, type: 3}
+  bossIcon: {fileID: -1126419981, guid: 18e6e948d87b41679e3f58fccccb4132, type: 3}
+  shopIcon: {fileID: 1999212009, guid: 18e6e948d87b41679e3f58fccccb4132, type: 3}
+  treasureIcon: {fileID: -1880099858, guid: 18e6e948d87b41679e3f58fccccb4132, type: 3}
   displayScale: 2
   opacity: 0.7
   cornerMargin: 8
@@ -1711,7 +1713,7 @@ MonoBehaviour:
   bossColor: {r: 0.78, g: 0.25, b: 0.28, a: 0.9}
   treasureColor: {r: 0.45, g: 0.85, b: 0.62, a: 1}
   shopColor: {r: 0.96, g: 0.78, b: 0.28, a: 1}
-  linkColor: {r: 0.62, g: 0.5, b: 0.32, a: 1}
+  linkColor: {r: 0.4745098, g: 0.44705883, b: 0.54901963, a: 1}
   playerColor: {r: 0.35, g: 1, b: 0.95, a: 1}
   playerMarkerSize: 6
   playerPulseSpeed: 5
@@ -2628,7 +2630,7 @@ MonoBehaviour:
   deathShake: 0.55
   parryCounterClip: {fileID: 7400000, guid: 9b9b8ec43057f634daf502ac856c6598, type: 2}
   counterMoveEarlier: 0.2
-  parryCounterSpeed: 2
+  parryCounterSpeed: 3
   parryHitVfxId: ParryBurst
   counterAreaRadius: 1.8
   counterAreaEnemyLayers:
@@ -2797,6 +2799,29 @@ MonoBehaviour:
   passThroughLayers:
     serializedVersion: 2
     m_Bits: 0
+  deathFrames:
+  - {fileID: 6991849013916550155, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -276728812324164698, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 3156895337291164288, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1400002288684528572, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -1891625820773287384, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -5789737788129074030, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 3968659893341466949, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 6495761399759928590, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 4800267807231483719, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -6126746645354384401, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 672487888, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -269641181, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -997496579, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -557685645, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1103561142, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1838345100, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  cloakIntro: {x: 0, y: 4}
+  hiddenLoop: 03000000040000000500000004000000
+  deathFps: 12
+  deathLookAlpha: 0.85
+  cloakSfxId: PlayerStealth
+  hiddenSpeedMult: 1.4
 --- !u!114 &1413800646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2878,6 +2903,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b8c3d15b14e74b4d90059cc3491636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimWithMouse: 1
+  aimOriginHeight: 0.28
   showIndicator: 1
   ringDiameter: 0.8
   ringYScale: 0.7
@@ -3334,9 +3361,13 @@ MonoBehaviour:
   normalRoomPrefabs:
   - {fileID: 8180047968145645134, guid: 507147fe767af3142aac32f84f68aa0d, type: 3}
   - {fileID: 5649005962653041305, guid: 7fd10157b55ffac4a82a69ac5b413683, type: 3}
+  bossEntranceGate: {fileID: 0}
   loadRoomsFromResources: 1
   roomsResourcePath: Rooms
   generateOnStart: 1
+  debugStartFloor: -1
+  wideRoomChance: 0.35
+  tallRoomChance: 0.35
 --- !u!114 &1514019688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4168,7 +4199,7 @@ MonoBehaviour:
   deathShake: 0.55
   parryCounterClip: {fileID: 0}
   counterMoveEarlier: 0.2
-  parryCounterSpeed: 2
+  parryCounterSpeed: 3
   parryHitVfxId: ParryBurst
   counterAreaRadius: 1.8
   counterAreaEnemyLayers:
@@ -4347,6 +4378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b8c3d15b14e74b4d90059cc3491636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimWithMouse: 1
+  aimOriginHeight: 0.28
   showIndicator: 1
   ringDiameter: 0.8
   ringYScale: 0.7

@@ -6,51 +6,69 @@ RM = 'Assets/ThirdParty/RafaelMatos'
 OP = RM + '/ERW - Old Prison/Props/atlas props - individual sprites/'
 DP = RM + '/ERW - The Depths/Props/Static/Props-individual sprites/'
 
-def p(path, x, y): return (path, x, y)
+def p(path, x, y, passable=False, broken=None, gold=None): return (path, x, y, passable, broken, gold)
+
+def crate(n, x, y):
+    """부서지는 나무 상자 — 'crate N'과 짝인 'crate - broken - N' 그림으로 부서진다. 1~4는 상자, 5~8은 작은 통"""
+    return p(OP + f'crate {n}.png', x, y, broken=OP + f'crate - broken - {n}.png')
 
 def room_treasure(name='Room_Cry_Treasure'):
     """감옥 창고 — 술통·금은 더미·궤짝. 1x1. 문은 왼쪽 하나만(막다른 방)이지만 전부 뚫어 두고 생성기가 막는다."""
     inner = ['.' * 18] * 9
     props = []
-    # 위쪽 벽 앞 술통 열 (2칸 높이 그림, 벽 앞면 아래에 서게)
-    for i, n in enumerate(['barrel - 10', 'barrel - 1 gold', 'barrel - 11', 'barrel - 22 silver', 'barrel - 12', 'barrel - 2 gold']):
-        props.append(p(OP + n + '.png', -7.5 + i * 3.0, 1.0))
-    # 큰 통 두 개(2x3 그림)
-    props += [p(OP + 'barrel - color scheme 1 - 1.png', -3.0, -0.5), p(OP + 'barrel - color scheme 1 - 2.png', 3.0, -0.5)]
-    # 금·은 더미
-    props += [p(OP + 'gold 1.png', 0.5, -3.5), p(OP + 'silver 1.png', 5.5, -2.0), p(OP + 'gold 2.png', -5.5, -2.5)]
-    # 상자·궤짝·자루
-    props += [p(OP + 'chest - 1.png', 0.0, -1.5), p(OP + 'stone chest 2.png', -6.5, -4.0),
-              p(OP + 'crate 1.png', 7.5, -4.0), p(OP + 'crate 2.png', 8.5, -4.0), p(OP + 'crate 3.png', 8.0, -3.0),
-              p(OP + 'supply - 1.png', -8.0, 0.0), p(OP + 'supply - 2.png', 7.5, 0.0), p(OP + 'supply - 10.png', 8.5, -1.5)]
-    # 매달린 새장 (벽 앞)
-    props += [p(OP + 'suspended cage - 1.png', 8.5, 1.0)]
+    # 문 앞 통로(위·아래 가운데 6칸, 좌우 끝 2칸)는 비운다 — 옆문은 x ±7 바깥, 아래 문은 y -2.5 아래
+    # 금이 담긴 통 두 개 — 가운데 (나무 상자 ±3.5 사이)
+    # 부서지면 골드 20. 같은 크기·같은 갈색 테의 부서진 통 그림과 짝
+    props += [p(OP + 'barrel - 1 gold.png', -1.2, -1.3, broken=OP + 'barrel - broken - 12.png', gold=(20, 20)),
+              p(OP + 'barrel - 2 gold.png', 1.2, -1.3, broken=OP + 'barrel - broken - 13.png', gold=(20, 20))]
+    # 왼쪽 자루, 왼쪽 아래 돌 궤짝
+    props += [p(OP + 'supply - 1.png', -6.0, 0.0), p(OP + 'stone chest 2.png', -6.0, -4.0)]
+    # 부서지는 나무 상자 — 체력 100, 부서지면 골드 5~10
+    props += [crate(1, 5.0, -4.0), crate(2, 6.2, -4.0), crate(3, 5.6, -3.0),
+              crate(4, -3.5, -1.0), crate(1, 3.5, -1.0), crate(2, -4.3, -2.6)]
+    # 매달린 새장 (벽 앞면에 건다)
+    props += [p(OP + 'suspended cage - 1.png', 8.0, 2.6)]
     return build(name, (1, 1), inner, seed=201, kind='Treasure', theme='oldprison', props=props, spawns=[])
 
 def room_boss(name='Room_Cry_Boss'):
-    """심층 왕좌실 — 2x2(40x22). 위쪽 가운데 카펫 끝에 왕좌, 좌우 황금 석상, 위 벽 앞 기둥, 모서리 결정."""
-    W = 38
+    """심층 왕좌실 — 1x2(20x22). 바닥 전체가 깔개. 입구는 아래 가운데 하나(1칸 폭 방이라 아래 문이 곧 가운데)."""
+    W = 18
     inner = []
-    for y in range(20):
-        row = ['.'] * W
-        if 2 <= y <= 15:
-            for x in range(15, 23): row[x] = ','    # 가운데 통로 무늬
-        inner.append(''.join(row))
+    for y in range(20):                       # 안쪽 y 0 = 방 격자 1행
+        inner.append(('.' if y < 3 else ';') * W)   # Depths 벽 앞면(3줄) 아래부터 끝까지 깔개
     props = []
-    # 왕좌 + 카펫 (위 가운데). 카펫은 장식이라 막지 않는다 — 임포터는 소품 전부에 콜라이더를 붙이므로 카펫은 타일 대신 그림으로 두되 위치를 왕좌 밑으로
-    props += [p(DP + 'boss-carpet.png', 0.0, 4.5), p(DP + 'boss-throne1.png', 0.0, 6.5)]
-    # 좌우 황금 석상
-    props += [p(DP + 'golden statues_0.png', -6.0, 6.0), p(DP + 'golden statues_1.png', 6.0, 6.0)]
-    # 위 벽 앞 기둥들
-    for x in (-15.0, -10.0, 10.0, 15.0): props.append(p(DP + 'pillars-bg_1.png', x, 6.0))
-    # 불단지 (왕좌 양옆), 결정(모서리), 항아리
-    props += [p(DP + 'stand1.png', -3.0, 5.0), p(DP + 'stand2.png', 3.0, 5.0)]
-    props += [p(DP + 'Crystals1_0.png', -17.5, -8.5), p(DP + 'Crystals1_1.png', 17.5, -8.5), p(DP + 'Crystals1_2.png', -17.5, 7.0), p(DP + 'Crystals1_3.png', 17.5, 7.0)]
-    props += [p(DP + 'pots1_0.png', -12.0, -8.5), p(DP + 'pots1_1.png', 12.0, -8.5), p(DP + 'sword stuck in the ground.png', 0.0, -8.0)]
+    # 왕좌: 발 y 5 (그림 5~9, 윗부분이 벽 앞면에 기댄다). 좁은 융단은 앞으로 흘러내린다 — 밟고 지나간다
+    props += [p(DP + 'boss-carpet.png', 0.0, 3.0, passable=True), p(DP + 'boss-throne1.png', 0.0, 5.0)]
+    # 왕좌 양옆 제단(어두운 쪽 둘), 그 바깥 황금 석상
+    props += [p(DP + 'stand1.png', -3.0, 5.0), p(DP + 'stand1.png', 3.0, 5.0)]
+    props += [p(DP + 'golden statues_0.png', -6.5, 6.0), p(DP + 'golden statues_1.png', 6.5, 6.0)]
+    # 모서리 결정·항아리
+    props += [p(DP + 'Crystals1_0.png', -8.0, -8.5), p(DP + 'Crystals1_1.png', 8.0, -8.5)]
+    props += [p(DP + 'pots1_0.png', -6.0, -8.5), p(DP + 'pots1_1.png', 6.0, -8.5)]
     spawns = [(0.0, 0.0)]
-    return build(name, (2, 2), inner, seed=202, kind='Boss', theme='depths', props=props, spawns=spawns)
+    # 문은 남쪽 입구 하나 — 생성기는 보스 방을 늘 아래 방에서 올라오게 놓는다. 나머지 자리는 처음부터 벽
+    return build(name, (1, 2), inner, seed=202, kind='Boss', theme='depths', props=props, spawns=spawns, doors=[('down', 0)])
 
-ALL = [room_treasure, room_boss]
+def room_dragon(name='Room_Cry_DragonLair'):
+    """2층 용의 둥지 — 2x2(40x22). 용이 날아다니며 메테오·장판을 깔아야 해서 바닥은 통째로 비운다.
+    소품은 네 귀퉁이와 윗벽 양끝에만 — 가운데로 들어오면 장판을 피할 자리를 가린다. 입구는 아래 가운데 하나."""
+    W = 38
+    inner = ['.' * W for _ in range(20)]
+    props = []
+    props += [p(DP + 'golden statues_0.png', -16.0, 6.0), p(DP + 'golden statues_1.png', 16.0, 6.0)]
+    props += [p(DP + 'Crystals1_0.png', -17.5, -8.5), p(DP + 'Crystals1_1.png', 17.5, -8.5)]
+    props += [p(DP + 'pots1_0.png', -15.5, -8.5), p(DP + 'pots1_1.png', 15.5, -8.5)]
+    spawns = [(0.0, 1.5)]
+    return build(name, (2, 2), inner, seed=303, kind='Boss', theme='depths', props=props, spawns=spawns, doors=[('down', -1)])
+
+def room_reaper(name='Room_Sw_ReaperLair'):
+    """3층 사신의 제단 — 2x2(40x22). 분신·결계·심판 안전지대가 방 전체를 쓰므로 바닥은 비운다. 입구는 아래 가운데 하나."""
+    W = 38
+    inner = ['.' * W for _ in range(20)]
+    spawns = [(0.0, 1.5)]
+    return build(name, (2, 2), inner, seed=404, kind='Boss', theme='sewers', props=[], spawns=spawns, doors=[('down', -1)])
+
+ALL = [room_treasure, room_boss, room_dragon, room_reaper]
 
 if __name__ == '__main__':
     import time

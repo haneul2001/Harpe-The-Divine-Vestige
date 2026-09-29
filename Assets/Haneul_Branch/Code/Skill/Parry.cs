@@ -18,8 +18,12 @@ public class Parry : PlayerSkill
     [Tooltip("방패 중심의 발 기준 위치 (오른쪽을 볼 때 — 왼쪽을 보면 x가 뒤집힌다).\n" +
              "Little Reaper 몸통 중심은 피벗에서 옆으로 4.5px(≈0.14), 위로 9px(≈0.28)이다")]
     [SerializeField] private Vector2 shieldOffset = new Vector2(0.14f, 0.28f);
-    [Tooltip("방패 애니메이션(= 판정 시간 perfectWindow)이 끝난 뒤 추가로 조작을 막는 시간(초)")]
-    [SerializeField] private float controlLockDuration = 0.5f;
+    [Tooltip("방패 이펙트 원본이 한 번 도는 시간(초). 판정 시간에 맞춰 이 비율로 빨리 돌린다")]
+    [SerializeField] private float shieldEffectLength = 1.0f;
+    [Tooltip("발동부터 조작을 막는 전체 시간(초). 판정 시간을 포함한다")]
+    [SerializeField] private float controlLockTotal = 1.0f;
+    [Tooltip("패링에 성공하면 성공 순간부터 이 시간 뒤에 움직일 수 있다(초)")]
+    [SerializeField] private float successMoveDelay = 0.5f;
 
     [Header("피해 배율")]
     [Tooltip("퍼펙트 패링 시 받는 피해 배율 (0 = 완전 무효)")]
@@ -30,8 +34,8 @@ public class Parry : PlayerSkill
     [Header("퍼펙트 패링 보상")]
     [Tooltip("반격 데미지 배율 (내 평타 굴림 × 이 값을 공격자에게). 0이면 반격 없이 경직만.")]
     [SerializeField] private float counterDamageMultiplier = 1.5f;
-    [Tooltip("퍼펙트 패링 후 짧은 무적 시간(초)")]
-    [SerializeField] private float iframeDuration = 0.4f;
+    [Tooltip("패링 성공 순간부터 주는 무적 시간(초)")]
+    [SerializeField] private float iframeDuration = 1.5f;
 
     // 아래 값들은 화면 아래 칸에 붙는 설명 패널이 읽는다.
     // 숫자를 설명 쪽에 따로 적어 두면 여기 값을 고칠 때마다 설명이 거짓말이 된다.
@@ -40,6 +44,8 @@ public class Parry : PlayerSkill
     public float BlockedDamageMultiplier { get { return blockedDamageMultiplier; } }
     public float CounterDamageMultiplier { get { return counterDamageMultiplier; } }
     public float IframeDuration { get { return iframeDuration; } }
+    public float ControlLockTotal { get { return controlLockTotal; } }
+    public float SuccessMoveDelay { get { return successMoveDelay; } }
 
     // 연타 방지: 판정 시간(방패)이 떠 있거나, 조작 불가 구간이거나, 반격 애니 중이면 다시 못 쓴다.
     // 쿨타임만으로는 성공 후(조작 잠금을 지운 뒤) 반격 도중에 또 눌리는 걸 못 막는다.
@@ -66,15 +72,26 @@ public class Parry : PlayerSkill
         {
             float side = ctx.Sprite != null && ctx.Sprite.flipX ? -1f : 1f;
             Vector3 center = ctx.Transform.position + new Vector3(shieldOffset.x * side, shieldOffset.y, 0f);
-            PixelVfx.Play(shieldVfxId, center, 0f, ctx.Transform);
+            PixelVfx shield = PixelVfx.Play(shieldVfxId, center, 0f, ctx.Transform);
+            // 방패는 판정 시간과 같은 길이로 돈다 — 원본 이펙트(1초)를 판정 시간에 맞춰 빨리 돌리고, 끝나면 치운다
+            if (shield != null && perfectWindow > 0.01f)
+            {
+                float speed = Mathf.Max(0.1f, shieldEffectLength / perfectWindow);
+                foreach (var ps in shield.GetComponentsInChildren<ParticleSystem>(true))
+                {
+                    var main = ps.main;
+                    main.simulationSpeed = speed;
+                }
+                Object.Destroy(shield.gameObject, perfectWindow + 0.05f);
+            }
         }
 
-        // 조작 불가: 방패 애니메이션(판정 시간)이 끝나고 나서 0.5초 더
+        // 조작 불가: 발동부터 controlLockTotal 동안 (판정 시간 포함). 특성(반격의 기회)이 줄여 준다
         var move = ctx.Transform != null ? ctx.Transform.GetComponent<PlayerMove>() : null;
-        if (move != null) move.LockControl(perfectWindow + Mathf.Max(0f, controlLockDuration - AbilityHooks.ParryLockReduction()));   // 세트: 반격의 기회
+        if (move != null) move.LockControl(Mathf.Max(0f, controlLockTotal - AbilityHooks.ParryLockReduction()));
 
         ctx.Status.BeginParry(perfectWindow, parryWindow,
             perfectDamageMultiplier, blockedDamageMultiplier,
-            counterDamageMultiplier, iframeDuration);
+            counterDamageMultiplier, iframeDuration, successMoveDelay);
     }
 }

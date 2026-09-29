@@ -119,12 +119,24 @@ public class DangerZone : MonoBehaviour
         bool fan = sectorHalfAngle > 0.01f;
         Sprite body = fan ? WedgeSprite(sectorHalfAngle) : (round ? RoundSprite() : BoxSprite());
         Sprite outline = fan ? WedgeEdgeSprite(sectorHalfAngle) : (round ? RoundEdgeSprite() : EdgeSprite());
+        Sprite roundFill = RoundSprite();
+
+        // 큰 원·부채꼴은 전용 그림을 쓴다. 기본 그림은 테두리가 반지름에 비례해 굵어져서
+        // 반경 12칸 브레스면 테두리만 1.7칸이 되어 둔탁했다. 전용 그림은 게임 도트 밀도(32px/칸)로
+        // 그려 테두리를 크기와 무관하게 3도트로 고정한다
+        if (round && size.x * 0.5f >= LargeRadius)
+        {
+            int px = LargePixels(size.x);
+            body = fan ? LargeWedge(px, sectorHalfAngle, false) : LargeRound(px, false);
+            outline = fan ? LargeWedge(px, sectorHalfAngle, true) : LargeRound(px, true);
+            roundFill = body;
+        }
 
         // ① 바탕 — 옅게 깔아 "여기가 범위"임을 보여 준다
         MakeLayer("Base", body, Base, size, 0);
 
         // ② 차오르는 속
-        fill = MakeLayer("Fill", fan ? body : (round ? RoundSprite() : SolidSprite()), Fill, size, 1);
+        fill = MakeLayer("Fill", fan ? body : (round ? roundFill : SolidSprite()), Fill, size, 1);
 
         // 원은 가운데서 커진다. 다 찼을 때의 배율을 기억해 둬야 한다 —
         // 여기서 Vector3.one을 기준으로 잡으면 칸이 아무리 커도 1칸까지만 차오른다.
@@ -189,6 +201,40 @@ public class DangerZone : MonoBehaviour
         // 표시가 먼저 사라지면 "예고가 끝났는데 왜 지금 맞지?"가 된다.
         if (!holdWhenFull) Destroy(gameObject);
         else if (Time.time - fullAt > maxHold) Destroy(gameObject);   // 타격이 영영 안 와도 남지 않게
+    }
+
+    private static readonly Color DarkEdge = Fade(new Color(0.78f, 0.4f, 1f, 0.95f));
+    private static readonly Color DarkBase = Fade(new Color(0.35f, 0.1f, 0.55f, 0.28f));
+    private static readonly Color DarkFill = Fade(new Color(0.62f, 0.25f, 0.95f, 0.5f));
+
+    // 어둠 마법 예고 — 붉은 표시 대신 보라색. 불과 어둠을 색으로 구분해 "무엇이 오는지" 읽히게 한다
+    public DangerZone Dark()
+    {
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (sr.name == "Edge") sr.color = DarkEdge;
+            else if (sr.name == "Fill") sr.color = DarkFill;
+            else if (sr.name == "Base") sr.color = DarkBase;
+        }
+        return this;
+    }
+
+    private static readonly Color SafeEdge = new Color(0.85f, 0.95f, 1f, 0.95f);
+    private static readonly Color SafeBase = new Color(0.55f, 0.85f, 1f, 0.28f);
+    private static readonly Color SafeFill = new Color(0.75f, 0.92f, 1f, 0.35f);
+
+    // 안전지대 — 방 전체를 덮는 공격(심판)에서 "여기로 피하라"는 빛나는 원.
+    // 위험 장판보다 위에 그려야 겹친 자리에서 보인다
+    public DangerZone Safe()
+    {
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (sr.name == "Edge") sr.color = SafeEdge;
+            else if (sr.name == "Fill") sr.color = SafeFill;
+            else if (sr.name == "Base") sr.color = SafeBase;
+            sr.sortingOrder += 10;
+        }
+        return this;
     }
 
     // 실제 타격이 들어올 때까지 꽉 찬 채로 기다리게 한다
@@ -258,7 +304,7 @@ public class DangerZone : MonoBehaviour
     private static Sprite RoundSprite()
     {
         if (round == null)
-            round = Make(32, 32, delegate(int x, int y, int w, int h)
+            round = Make(64, 64, delegate(int x, int y, int w, int h)
             {
                 float dx = x - (w - 1) * 0.5f, dy = y - (h - 1) * 0.5f;
                 float r = Mathf.Sqrt(dx * dx + dy * dy) / (w * 0.5f);
@@ -270,7 +316,7 @@ public class DangerZone : MonoBehaviour
     private static Sprite RoundEdgeSprite()
     {
         if (roundEdge == null)
-            roundEdge = Make(32, 32, delegate(int x, int y, int w, int h)
+            roundEdge = Make(64, 64, delegate(int x, int y, int w, int h)
             {
                 float dx = x - (w - 1) * 0.5f, dy = y - (h - 1) * 0.5f;
                 float r = Mathf.Sqrt(dx * dx + dy * dy) / (w * 0.5f);
@@ -291,7 +337,7 @@ public class DangerZone : MonoBehaviour
         if (wedges.TryGetValue(key, out s) && s != null) return s;
 
         float limit = key * Mathf.Deg2Rad;
-        s = Make(96, 96, delegate(int x, int y, int w, int h)
+        s = Make(192, 192, delegate(int x, int y, int w, int h)
         {
             float dx = x - (w - 1) * 0.5f, dy = y - (h - 1) * 0.5f;
             float r = Mathf.Sqrt(dx * dx + dy * dy) / (w * 0.5f);
@@ -310,7 +356,7 @@ public class DangerZone : MonoBehaviour
         if (wedgeEdges.TryGetValue(key, out s) && s != null) return s;
 
         float limit = key * Mathf.Deg2Rad;
-        s = Make(96, 96, delegate(int x, int y, int w, int h)
+        s = Make(192, 192, delegate(int x, int y, int w, int h)
         {
             float dx = x - (w - 1) * 0.5f, dy = y - (h - 1) * 0.5f;
             float r = Mathf.Sqrt(dx * dx + dy * dy) / (w * 0.5f);
@@ -323,6 +369,68 @@ public class DangerZone : MonoBehaviour
         }, Vector4.zero);
 
         wedgeEdges[key] = s;
+        return s;
+    }
+
+    // ─── 큰 장판 전용 (반경 2.5칸 이상) ───
+
+    private const float LargeRadius = 2.5f;
+    private const int LargePixelsPerUnit = 32;   // 게임 도트 밀도 — 그림 한 칸 = 화면 도트 한 칸
+    private const float LargeEdgePixels = 3f;    // 테두리 두께(도트). 크기가 달라도 늘 이 두께
+
+    // 지름에 맞춘 그림 크기. 비슷한 크기끼리 한 장을 같이 쓰도록 16도트 단위로 맞춘다
+    private static int LargePixels(float diameter)
+    {
+        int px = Mathf.CeilToInt(diameter * LargePixelsPerUnit / 16f) * 16;
+        return Mathf.Clamp(px, 64, 1024);
+    }
+
+    private static readonly Dictionary<long, Sprite> largeSprites = new Dictionary<long, Sprite>();
+
+    private static Sprite LargeRound(int px, bool edge)
+    {
+        long key = ((long)px << 20) | (edge ? 1L : 0L);
+        Sprite s;
+        if (largeSprites.TryGetValue(key, out s) && s != null) return s;
+
+        float half = px * 0.5f;
+        s = Make(px, px, delegate(int x, int y, int w, int h)
+        {
+            float dx = x + 0.5f - half, dy = y + 0.5f - half;
+            float d = Mathf.Sqrt(dx * dx + dy * dy);
+            if (d > half) return 0f;
+            return edge ? (d > half - LargeEdgePixels ? 1f : 0f) : 1f;
+        }, Vector4.zero);
+
+        largeSprites[key] = s;
+        return s;
+    }
+
+    // 부채꼴. 옆 변도 각도가 아니라 "변까지의 거리"로 재야 끝으로 갈수록 굵어지지 않는다
+    private static Sprite LargeWedge(int px, float halfAngle, bool edge)
+    {
+        int deg = Mathf.RoundToInt(halfAngle);
+        long key = ((long)px << 20) | ((long)deg << 2) | (edge ? 3L : 2L);
+        Sprite s;
+        if (largeSprites.TryGetValue(key, out s) && s != null) return s;
+
+        float half = px * 0.5f;
+        float limit = deg * Mathf.Deg2Rad;
+        s = Make(px, px, delegate(int x, int y, int w, int h)
+        {
+            float dx = x + 0.5f - half, dy = y + 0.5f - half;
+            float d = Mathf.Sqrt(dx * dx + dy * dy);
+            if (d > half) return 0f;
+            float a = Mathf.Abs(Mathf.Atan2(dy, dx));
+            if (a > limit) return 0f;
+            if (!edge) return 1f;
+
+            bool arc = d > half - LargeEdgePixels;
+            bool side = d * Mathf.Sin(limit - a) < LargeEdgePixels;   // 옆 변까지의 수직 거리
+            return (arc || side) ? 1f : 0f;
+        }, Vector4.zero);
+
+        largeSprites[key] = s;
         return s;
     }
 

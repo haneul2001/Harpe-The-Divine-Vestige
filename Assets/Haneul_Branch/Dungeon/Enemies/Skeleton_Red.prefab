@@ -181,7 +181,7 @@ MonoBehaviour:
   attackIdleTime: 1.3
   attackWarningDuration: 0.55
   attackDamage: 1
-  hitDuration: 0.2
+  hitDuration: 0.35
   player: {fileID: 0}
   maxHp: 15
   grade: 0
@@ -190,6 +190,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   lastAttackTime: 0
+  hitSound: 1
+  harvestable: 1
   attackHitBox: {fileID: 4207791732039643300}
   attackRangeBox: {fileID: 8111876562847524070}
   attackPivot: {fileID: 379718677296145065}
@@ -202,6 +204,10 @@ MonoBehaviour:
   recoverTime: 1
   matchAttackRangeToHitBox: 1
   attackRangePadding: 0.4
+  hitBoxShrink: 0.1
+  fanHitBox: 1
+  slashVfxId: SlashHit
+  slashVfxLeftId: SlashHitLeft
   dashSpeed: 9
   dashDuration: 0.28
   wallLayer:

@@ -212,11 +212,20 @@ public class DungeonGenerator : MonoBehaviour
         Random.InitState(useRandomSeed ? System.Environment.TickCount : seed);
 
         ClearExisting();
-        BuildLayout();
-        AssignSpecialRooms();
+        // 보스 방은 남쪽 문 하나뿐이라 아래 방에서 들어오게 놓여야 한다. 격자 위쪽 끝까지 뻗은 배치에선
+        // 1x2 보스 방이 들어갈 자리가 없을 수 있어, 그럴 땐 배치를 새로 뽑는다
+        for (int attempt = 0; ; attempt++)
+        {
+            layout.Clear();
+            BuildLayout();
+            AssignSpecialRooms();
+            if (bossEntryOk || attempt >= 40) break;
+        }
+        if (!bossEntryOk) Debug.LogWarning("[DungeonGenerator] 40번 다시 뽑아도 보스 입구 자리를 못 찾았다 — 보스 방 입구가 막힐 수 있다");
         MergeBigRooms();
         InstantiateRooms();
         LinkDoors();
+        TintDoors();
 
         Room startRoom = placed.TryGetValue(startCell, out Room r) ? r : null;
         roomManager.Initialize(new List<Room>(placed.Values), startRoom);
@@ -335,8 +344,12 @@ public class DungeonGenerator : MonoBehaviour
     // 2단계 — 막다른 방에 보스/보상/상점 배치
     // ─────────────────────────────────────────────
 
+    // 이번 배치에서 보스 방이 아래 방에서 들어오게 놓였는가
+    private bool bossEntryOk;
+
     private void AssignSpecialRooms()
     {
+        bossEntryOk = bossRoomPrefab == null;
         // 시작 방에서의 거리 계산 (BFS)
         Dictionary<Vector2Int, int> dist = BfsDistances(startCell);
 
@@ -361,7 +374,8 @@ public class DungeonGenerator : MonoBehaviour
         if (bossRoomPrefab != null && idx < deadEnds.Count)
         {
             // 보스 방은 아래 방에서 올라가는 자리여야 한다 — 입구 감옥 문이 아래 방의 위쪽 벽(앞면)에 서기 때문.
-            // ① 아래에서 올라오는 막다른 칸이 있으면 거기, ② 없으면 가장 먼 막다른 칸 위에 보스 칸을 덧붙인다, ③ 그것도 안 되면 그냥 가장 먼 칸
+            // ① 아래에서 올라오는 막다른 칸이 있으면 거기, ② 없으면 가장 먼 막다른 칸 위에 보스 칸을 덧붙인다,
+            // ③ 그것도 안 되면 어느 방이든 위가 비어 있는 곳 위에 덧붙인다. 보스 방 프리팹은 남쪽 문 하나뿐이라 옆·위 입구는 안 된다
             // 보스 프리팹이 여러 칸짜리면 그 자리에 실제로 들어가는지도 같이 본다 (안 맞으면 한 칸 자리에 겹쳐 놓이게 된다)
             Vector2Int bossSpan = bossRoomPrefab.CellSpan;
             int pick = deadEnds.FindIndex(c => EntryFromBelow(c) && (bossSpan == Vector2Int.one || TryReserveSpan(c, bossSpan, false)));
@@ -369,6 +383,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 layout[deadEnds[pick]] = RoomType.Boss;
                 deadEnds.RemoveAt(pick);
+                bossEntryOk = true;
             }
             else
             {
@@ -381,11 +396,34 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     layout[deadEnds[above] + Dir.Up.Offset()] = RoomType.Boss;   // 그 막다른 칸은 보스로 가는 통로 방이 된다
                     deadEnds.RemoveAt(above);
+                    bossEntryOk = true;
                 }
                 else
                 {
-                    layout[deadEnds[0]] = RoomType.Boss;
-                    deadEnds.RemoveAt(0);
+                    // 시작 방에서 먼 방부터
+                    var anyCells = new List<Vector2Int>(layout.Keys);
+                    anyCells.Sort((a, b) => (dist.TryGetValue(b, out int db) ? db : 0).CompareTo(dist.TryGetValue(a, out int da) ? da : 0));
+                    Vector2Int host = new Vector2Int(int.MinValue, 0);
+                    foreach (Vector2Int c in anyCells)
+                    {
+                        if (c == startCell || layout[c] != RoomType.Normal) continue;
+                        Vector2Int q = c + Dir.Up.Offset();
+                        if (!InBounds(q) || layout.ContainsKey(q)) continue;
+                        if (bossSpan != Vector2Int.one && !TryReserveSpan(q, bossSpan, false)) continue;
+                        host = c; break;
+                    }
+                    if (host.x != int.MinValue)
+                    {
+                        layout[host + Dir.Up.Offset()] = RoomType.Boss;
+                        deadEnds.Remove(host);
+                        bossEntryOk = true;
+                    }
+                    else
+                    {
+                        // 이 배치는 버리고 다시 뽑는다 (Generate가 bossEntryOk를 보고 재시도)
+                        layout[deadEnds[0]] = RoomType.Boss;
+                        deadEnds.RemoveAt(0);
+                    }
                 }
             }
         }
@@ -465,7 +503,9 @@ public class DungeonGenerator : MonoBehaviour
             {
                 Vector2Int moved = c;
                 // 보스는 아래에서 올라오는 막다른 칸을 먼저 찾고, 없으면 아무 막다른 칸
-                for (int pass = (t == RoomType.Boss ? 0 : 1); pass < 2 && moved == c; pass++)
+                // 보스는 아래에서 올라오는 칸만 (남쪽 문 하나뿐), 다른 특수 방은 아무 막다른 칸
+                int lastPass = t == RoomType.Boss ? 1 : 2;
+                for (int pass = (t == RoomType.Boss ? 0 : 1); pass < lastPass && moved == c; pass++)
                     foreach (Vector2Int alt in layout.Keys)
                     {
                         if (layout[alt] != RoomType.Normal || NeighborCount(alt) != 1 || alt == startCell) continue;
@@ -514,6 +554,13 @@ public class DungeonGenerator : MonoBehaviour
 
     // 배치된 칸 cell을 포함하는 span 크기의 자리를 찾는다. cell이 방의 어느 구석이든 될 수 있으므로
     // 기준 칸(왼쪽 아래)을 옮겨 가며 나머지 칸이 전부 비어 있고 격자 안인 자리를 고른다.
+    private static int DoorCount(Room room, Dir dir)
+    {
+        int n = 0;
+        foreach (Door x in room.Doors) if (x != null && x.dir == dir) n++;
+        return n;
+    }
+
     // 막다른 칸의 유일한 이웃이 바로 아래 칸인가
     private bool EntryFromBelow(Vector2Int c) => layout.ContainsKey(c + Dir.Down.Offset());
     private static readonly Dir[] BossEntryOrder = { Dir.Down, Dir.Up, Dir.Right, Dir.Left };
@@ -724,6 +771,9 @@ public class DungeonGenerator : MonoBehaviour
                     case Dir.Right: cell = anchor + new Vector2Int(span.x - 1, door.subCell); break;
                     default:        cell = anchor + new Vector2Int(0, door.subCell); break;
                 }
+                // 보스 방처럼 입구 쪽 변에 가운데 문 하나만 둔 특수 방: 그 문은 입구 칸이 어디든 입구가 된다
+                if (specialEntry.TryGetValue(anchor, out var ent) && ent.dir == d && DoorCount(room, d) == 1)
+                    cell = ent.cell;
                 Vector2Int nCell = cell + d.Offset();
 
                 if (!Connects(cell, d) || !anchorOf.TryGetValue(nCell, out Vector2Int nAnchor)
@@ -734,6 +784,9 @@ public class DungeonGenerator : MonoBehaviour
                 }
 
                 Door other = neighbor.GetDoor(d.Opposite(), SubCellOf(nAnchor, nCell, d.Opposite()));
+                if (other == null && specialEntry.TryGetValue(nAnchor, out var nEnt) && nEnt.dir == d.Opposite()
+                    && DoorCount(neighbor, d.Opposite()) == 1)
+                    other = neighbor.GetDoor(d.Opposite(), 0);
                 if (other == null)
                 {
                     // 이웃 방에 반대편 문이 없으면 통로가 성립하지 않는다
@@ -744,8 +797,28 @@ public class DungeonGenerator : MonoBehaviour
                 door.Link(other);
                 // 보스 방으로 올라가는 문은 감옥 문. 벽 그림을 깔고 그 위에 3칸짜리 문을 얹는다
                 if (d == Dir.Up && neighbor.type == RoomType.Boss && BossGate != null)
+                {
+                    // 보스 입구는 닫힌 채로 시작해서 이 방을 클리어하면 열린다
                     door.SetGate(BossGate, true);
-                door.Open();
+                    door.LockSilently();
+                }
+                else door.Open();
+            }
+        }
+    }
+
+    // 층마다 문 색을 입힌다. 문 그림(철창·보스 입구 문)은 모든 층이 같이 쓰므로
+    // 층 분위기(2층 심연 동굴의 초록 등)는 색으로만 맞춘다. 문을 다 붙인 뒤라 보스 입구 문도 포함된다.
+    private void TintDoors()
+    {
+        Color tint = CurrentFloor != null ? CurrentFloor.doorTint : Color.white;
+        foreach (Room room in placed.Values)
+        {
+            if (room == null) continue;
+            foreach (DoorGateVisual gate in room.GetComponentsInChildren<DoorGateVisual>(true))
+            {
+                var sr = gate.GetComponent<SpriteRenderer>();
+                if (sr != null) sr.color = tint;
             }
         }
     }

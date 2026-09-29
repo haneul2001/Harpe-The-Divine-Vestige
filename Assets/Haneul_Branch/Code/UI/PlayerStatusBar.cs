@@ -19,7 +19,7 @@ public class PlayerStatusBar : MonoBehaviour
     [Header("배치")]
     [SerializeField] private float barWidth = 620f;
     [Tooltip("소울 바는 체력보다 짧게 둔다 — 시선이 체력에 먼저 가야 한다")]
-    [SerializeField] private float soulWidthRatio = 0.78f;
+    [SerializeField] private float soulWidthRatio = 1f;
     [SerializeField] private Vector2 margin = new Vector2(28f, 26f);
     [SerializeField] private float gap = 6f;
 
@@ -260,10 +260,14 @@ public class PlayerStatusBar : MonoBehaviour
         }
         hpBar.SetTrail(hpTrail);
 
-        float soul = status.MaxSoul > 0 ? Mathf.Clamp01((float)status.CurrentSoul / status.MaxSoul) : 0f;
+        // 소울 칸은 경험치 — 다음 특성까지 모은 양. 특성을 얻는 순간 100%
+        var lv = TraitLevelUp.Instance;
+        float soul; int cur, max;
+        if (lv != null) { soul = lv.Progress; cur = lv.ShownIntoLevel; max = lv.SoulPerPick; }
+        else { soul = 0f; cur = 0; max = 1; }
         soulBar.SetRatio(soul);
-        soulBar.SetTrail(soul);   // 소울은 잔상 없이 즉시 따라간다 — 자원이라 타격감이 필요 없다
-        soulBar.Label.text = PixelBar.Format(status.CurrentSoul, status.MaxSoul);
+        soulBar.SetTrail(soul);   // 잔상 없이 즉시 따라간다
+        soulBar.Label.text = PixelBar.Format(cur, max);
 
         if (goldText != null) goldText.text = status.CurrentGold.ToString();
 
@@ -422,8 +426,10 @@ public class PlayerStatusBar : MonoBehaviour
                 }
 
                 body = "날을 세워 받아친다. 발동 후 " + Sec(p.PerfectWindow) + " 안에 맞으면 피해를 완전히 무효로 하고, "
-                     + "공격자에게 평타의 " + Mult(p.CounterDamageMultiplier) + "로 반격한 뒤 " + Sec(p.IframeDuration) + " 무적이 된다.\n"
-                     + "그 뒤 " + Sec(p.ParryWindow) + "까지 맞으면 피해를 " + Pct(1f - p.BlockedDamageMultiplier) + " 줄인다.\n"
+                     + "공격자에게 평타의 " + Mult(p.CounterDamageMultiplier) + "로 반격하며 그 순간부터 " + Sec(p.IframeDuration) + " 무적이 된다.\n"
+                     + (p.ParryWindow > p.PerfectWindow + 0.01f
+                        ? "그 뒤 " + Sec(p.ParryWindow) + "까지 맞으면 피해를 " + Pct(1f - p.BlockedDamageMultiplier) + " 줄인다.\n" : "")
+                     + "발동하면 " + Sec(p.ControlLockTotal) + " 동안 움직일 수 없고, 성공하면 " + Sec(p.SuccessMoveDelay) + " 뒤에 움직일 수 있다.\n"
                      + "쿨타임 " + Sec(total > 0f ? total : p.cooldown) + " (특성 '철벽'으로 줄어든다)";
                 return;
             }
@@ -431,7 +437,8 @@ public class PlayerStatusBar : MonoBehaviour
             case 2:   // 은신
                 title = "은신";
                 key = stealth != null ? StatusIconSlot.KeyName(stealth.ToggleKey) : "C";
-                body = "연막을 터뜨리고 모습을 감춘다. 숨어 있는 동안 적이 이쪽을 찾지 못한다.\n"
+                body = "연막을 터뜨리고 모습을 감춘다. 숨어 있는 동안 적이 이쪽을 찾지 못하고, 이동속도가 "
+                     + Pct((stealth != null ? stealth.SpeedMultiplierWhenHidden : 1.4f) - 1f) + " 빨라진다.\n"
                      + "걷는 것은 되지만 공격·대시·처형·스킬을 쓰거나 피해를 입으면 풀린다.\n"
                      + "풀린 뒤 " + Sec(stealth != null ? stealth.CloakCooldown : 0.5f) + " 동안은 다시 숨을 수 없다.";
                 return;
@@ -490,8 +497,9 @@ public class PlayerStatusBar : MonoBehaviour
         slot.SetKeyLabel(StatusIconSlot.KeyName(key), keyCapSprite, font, keyCapScale);
     }
 
-    // 소울 바 오른쪽 빈자리에 동전과 숫자만. 바를 하나 더 늘리면 화면 아래가 답답해진다
-    private void BuildGold(RectTransform root, float soulW, int s, float barH)
+    // 체력바 바로 위, 물약 소켓과 같은 세로줄에 동전과 숫자만. 바를 하나 더 늘리면 화면 아래가 답답해진다.
+    // 돌려주는 값은 차지한 높이 — 버프 줄이 그 위로 올라간다
+    private float BuildGold(RectTransform root, float x, float y, int s)
     {
         Sprite icon = goldIcon;
         if (icon == null)
@@ -504,35 +512,72 @@ public class PlayerStatusBar : MonoBehaviour
             }
         }
 
+        // 동전 그림은 바닥에 떨어진 모습이라 칸 아래쪽 절반에만 그려져 있다 — 그대로 쓰면 숫자보다 한참 아래로 처진다.
+        // 보이는 부분만 잘라 써서 숫자와 가운데 줄을 맞춘다
+        icon = TrimToVisible(icon);
+
+        float iconW = 0f, iconH = 18f * 1.4f;
+        if (icon != null)
+        {
+            iconW = icon.rect.width * Mathf.Max(1, goldIconScale);
+            iconH = icon.rect.height * Mathf.Max(1, goldIconScale);
+        }
+
         RectTransform box = UIFactory.Empty("Gold", root);
         box.anchorMin = box.anchorMax = Vector2.zero;
         box.pivot = new Vector2(0f, 0f);
-        box.anchoredPosition = new Vector2(soulW + 14f * s, 0f);
-        box.sizeDelta = new Vector2(barWidth - soulW, barH);
+        box.anchoredPosition = new Vector2(x, y);
+        box.sizeDelta = new Vector2(barWidth * 0.5f, iconH);
 
-        float iconSize = 0f;
         if (icon != null)
         {
             Image img = UIFactory.Panel("Coin", box, Color.white, false);
             img.sprite = icon;
             img.preserveAspect = true;
-            iconSize = Mathf.Max(icon.rect.width, icon.rect.height) * Mathf.Max(1, goldIconScale);
             img.rectTransform.anchorMin = img.rectTransform.anchorMax = new Vector2(0f, 0.5f);
             img.rectTransform.pivot = new Vector2(0f, 0.5f);
-            img.rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
+            img.rectTransform.sizeDelta = new Vector2(iconW, iconH);
             img.rectTransform.anchoredPosition = Vector2.zero;
         }
+        float iconSize = iconW;
 
         goldText = UIFactory.Label("GoldText", box, font, 18, goldColor, TextAnchor.MiddleLeft, FontStyle.Bold);
         // 칸이 좁아 기본값(줄바꿈)이면 "120"이 "12/0"으로 잘린다
         goldText.horizontalOverflow = HorizontalWrapMode.Overflow;
         goldText.verticalOverflow = VerticalWrapMode.Overflow;
         UIFactory.SetAnchoredBox(goldText.rectTransform, Vector2.zero, Vector2.one,
-            new Vector2(iconSize + 4f * s, 0f), Vector2.zero);
+            new Vector2(iconSize + 4f * s, GoldTextLift), new Vector2(0f, GoldTextLift));
         var sh = goldText.gameObject.AddComponent<Shadow>();
         sh.effectColor = new Color(0f, 0f, 0f, 0.85f);
         sh.effectDistance = new Vector2(2f, -2f);
         goldText.text = "0";
+        return iconH;
+    }
+
+    // 스프라이트의 투명한 테두리를 잘라낸 새 스프라이트. 텍스처를 읽을 수 없으면 그대로 돌려준다
+    // 갈무리 글꼴은 칸 가운데 정렬해도 글자가 살짝 아래로 앉는다 — 동전 가운데와 줄을 맞추려고 그만큼 올린다
+    private const float GoldTextLift = 3f;
+
+    private static Sprite TrimToVisible(Sprite s)
+    {
+        if (s == null || s.texture == null || !s.texture.isReadable) return s;
+        Rect r = s.rect;
+        int x0 = (int)r.x, y0 = (int)r.y, w = (int)r.width, h = (int)r.height;
+        Color32[] px = s.texture.GetPixels32();
+        int texW = s.texture.width;
+        int minX = w, minY = h, maxX = -1, maxY = -1;
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++)
+                if (px[(y0 + y) * texW + x0 + x].a > 20)
+                {
+                    if (x < minX) minX = x; if (x > maxX) maxX = x;
+                    if (y < minY) minY = y; if (y > maxY) maxY = y;
+                }
+        if (maxX < 0) return s;
+        var trimmed = Sprite.Create(s.texture, new Rect(x0 + minX, y0 + minY, maxX - minX + 1, maxY - minY + 1),
+                                    new Vector2(0.5f, 0.5f), s.pixelsPerUnit, 0, SpriteMeshType.FullRect);
+        trimmed.name = s.name + "_trim";
+        return trimmed;
     }
 
     private Sprite HarvestIconFor(int stage)
@@ -587,24 +632,25 @@ public class PlayerStatusBar : MonoBehaviour
         hpBar.Root.anchorMax = Vector2.zero;
         hpBar.Root.pivot = Vector2.zero;
         hpBar.Root.anchoredPosition = new Vector2(0f, barH + gap);
-        BuildGold(root, soulW, s, barH);
+        float goldY = barH * 2f + gap + statusIconGap;
+        float goldH = BuildGold(root, StatusSlotFrameX * s, goldY, s);
 
         hpBar.Layout(barWidth, s, hpFrame, fallbackTrackColor);
         hpBar.Fill.color = hpColor;
         hpBar.Trail.color = trailColor;
 
         // 버프 줄: 체력바 바로 위. 첫 칸은 체력바 물약 소켓(프레임 x24~49)과 세로로 줄을 맞춘다
-        float rowY = barH * 2f + gap + statusIconGap;
+        float rowY = goldY + goldH + statusIconGap;
         float rowX = StatusSlotFrameX * s;
         harvestSlot = StatusIconSlot.Build("Status_HarvestBuff", root, statusSlot, HarvestIconFor(1), "처형", s, font);
         harvestSlot.Root.anchoredPosition = new Vector2(rowX, rowY);
         harvestSlot.SetVisible(false);
 
-        // 스킬 쿨타임 줄: 화면 아래 가운데. 칸 위에 발동 키를 키캡으로 띄운다
+        // 스킬 쿨타임 줄: 화면 오른쪽 아래 끝 (왼쪽 체력·소울 막대와 같은 여백). 칸 위에 발동 키를 키캡으로 띄운다
         RectTransform skillRow = UIFactory.Empty("SkillRow", canvasGo.transform);
-        skillRow.anchorMin = skillRow.anchorMax = new Vector2(0.5f, 0f);
-        skillRow.pivot = new Vector2(0.5f, 0f);
-        skillRow.anchoredPosition = new Vector2(0f, skillBarBottom);
+        skillRow.anchorMin = skillRow.anchorMax = new Vector2(1f, 0f);
+        skillRow.pivot = new Vector2(1f, 0f);
+        skillRow.anchoredPosition = new Vector2(-margin.x, skillBarBottom);
         float slotW = StatusIconSlot.SlotPixels * s;
 
         // 칸 순서는 키보드에서 마우스로 — Shift · F · C · V · 좌클 · 우클

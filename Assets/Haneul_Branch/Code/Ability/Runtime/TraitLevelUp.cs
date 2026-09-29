@@ -33,6 +33,18 @@ public class TraitLevelUp : MonoBehaviour
     public int SoulIntoLevel => TotalSoul % soulPerPick;
     public int PendingPicks { get; private set; }
 
+    // 상태바에 그릴 경험치 진행도 (0~1). 특성을 얻는 순간 가득 차 있고,
+    // 고를 카드가 남아 있는 동안(뜸·선택 화면)은 가득 찬 채로 둔다 — 고르고 나면 0부터 다시 찬다
+    public float Progress
+    {
+        get
+        {
+            if (PendingPicks > 0 || waiting || (panel != null && panel.IsOpen)) return 1f;
+            return (float)SoulIntoLevel / soulPerPick;
+        }
+    }
+    public int ShownIntoLevel { get { return Progress >= 1f ? soulPerPick : SoulIntoLevel; } }
+
     private TraitPickPanel panel;
     private bool waiting;
 

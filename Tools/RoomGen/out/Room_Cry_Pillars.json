@@ -3,6 +3,7 @@
 "kind": "Normal",
 "width": 20,
 "height": 11,
+"wallBottom": -3.15625,
 "originX": -10,
 "originY": -6,
 "spanX": 1,
@@ -13,28 +14,808 @@
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Pillars_up0.png",
 "plugX": 0.0,
-"plugY": -1.5
+"plugY": -1.5,
+"colX": 0.0,
+"colY": -1.5,
+"colW": 6,
+"colH": 4.0,
+"patch": [
+{
+"m": "Ground",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_140.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_126.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_127.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_116.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_130.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_64.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_128.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_80.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_138.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_139.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_142.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_114.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_115.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_93.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_118.asset",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 2,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "down",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Pillars_down0.png",
 "plugX": 0.0,
-"plugY": 0.5
+"plugY": 0.5,
+"colX": 0.0,
+"colY": 0.5,
+"colW": 6,
+"colH": 2.0,
+"patch": [
+{
+"m": "Ground",
+"x": 1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_153.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "left",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Pillars_left0.png",
 "plugX": 0.5,
-"plugY": 0.0
+"plugY": 1.0,
+"colX": 0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_24.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_152.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_40.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_163.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_34.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_165.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_165.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_152.asset",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "right",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Pillars_right0.png",
 "plugX": -0.5,
-"plugY": 0.0
+"plugY": 1.0,
+"colX": -0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": 9,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_30.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_23.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_30.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_39.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_162.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_30.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_30.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_164.asset",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+}
+]
 }
 ],
 "spawns": [
@@ -108,6 +889,12 @@
 {
 "x": 2,
 "y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
 "f": 0
 },
@@ -217,6 +1004,18 @@
 "x": 8,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_436.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
 "f": 0
 },
 {
@@ -325,6 +1124,12 @@
 "x": 8,
 "y": 2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_398.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/tileset-terrain/Tileset-Terrain_399.asset",
 "f": 0
 },
 {
@@ -1227,12 +2032,6 @@
 "f": 0
 },
 {
-"x": -10,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
-"f": 0
-},
-{
 "x": -9,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_17.asset",
@@ -1266,12 +2065,6 @@
 "x": 8,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_149.asset",
-"f": 0
-},
-{
-"x": -9,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_24.asset",
 "f": 0
 },
 {
@@ -1323,15 +2116,9 @@
 "f": 0
 },
 {
-"x": 8,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_23.asset",
-"f": 0
-},
-{
 "x": 9,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
 "f": 0
 },
 {
@@ -1349,7 +2136,7 @@
 {
 "x": -9,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_163.asset",
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
 "f": 0
 },
 {
@@ -1377,7 +2164,7 @@
 "f": 0
 },
 {
-"x": 4,
+"x": -7,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
 "f": 0
@@ -1389,7 +2176,7 @@
 "f": 0
 },
 {
-"x": -7,
+"x": 4,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
 "f": 0
@@ -1409,7 +2196,7 @@
 {
 "x": 8,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_162.asset",
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
 "f": 0
 },
 {
@@ -1422,12 +2209,6 @@
 "x": 9,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
-"f": 0
-},
-{
-"x": -9,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_87.asset",
 "f": 0
 },
 {
@@ -1467,33 +2248,21 @@
 "f": 0
 },
 {
-"x": -7,
-"y": -5,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_153.asset",
-"f": 0
-},
-{
 "x": 4,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_1.asset",
 "f": 0
 },
 {
-"x": 8,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_88.asset",
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_153.asset",
 "f": 0
 },
 {
 "x": -10,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
-"f": 0
-},
-{
-"x": 9,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_116.asset",
 "f": 0
 },
 {
@@ -1506,12 +2275,6 @@
 "x": 5,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_115.asset",
-"f": 0
-},
-{
-"x": -5,
-"y": 4,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
 "f": 0
 },
 {
@@ -1521,6 +2284,12 @@
 "f": 0
 },
 {
+"x": -5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
+"f": 0
+},
+{
 "x": 5,
 "y": -6,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_32.asset",
@@ -1590,6 +2359,24 @@
 "x": -6,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_166.asset",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_128.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
 "f": 0
 },
 {
@@ -1713,38 +2500,32 @@
 "f": 0
 },
 {
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
+"f": 0
+},
+{
 "x": 2,
 "y": 1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_78.asset",
 "f": 0
 },
 {
-"x": 8,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_62.asset",
-"f": 0
-},
-{
-"x": 8,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_78.asset",
-"f": 0
-},
-{
 "x": -3,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_82.asset",
-"f": 0
-},
-{
-"x": -9,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_66.asset",
-"f": 0
-},
-{
-"x": -9,
-"y": -1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_82.asset",
 "f": 0
 }
@@ -1792,36 +2573,12 @@
 {
 "x": -10,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_64.asset",
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_140.asset",
 "f": 0
 },
 {
 "x": 9,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_113.asset",
-"f": 0
-},
-{
-"x": -10,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_80.asset",
-"f": 0
-},
-{
-"x": 9,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_125.asset",
-"f": 0
-},
-{
-"x": -10,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_93.asset",
-"f": 0
-},
-{
-"x": 9,
-"y": -1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Tilesets/tile palette/wall-1/wall-1_137.asset",
 "f": 0
 },
@@ -1895,101 +2652,118 @@
 },
 {
 "name": "Props",
+"cells": []
+}
+],
+"uprights": [
+{
 "cells": [
 {
 "x": -6,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y352-w32h32",
-"f": 0
-},
-{
-"x": -5,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y352-w32h32",
-"f": 0
-},
-{
-"x": -6,
-"y": 0,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y320-w32h32",
 "f": 0
 },
 {
 "x": -5,
-"y": 0,
+"y": 1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y320-w32h32",
 "f": 0
 },
 {
-"x": 2,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x64y352-w32h32",
-"f": 0
-},
-{
-"x": 3,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x96y352-w32h32",
-"f": 0
-},
-{
-"x": 2,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x64y320-w32h32",
-"f": 0
-},
-{
-"x": 3,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x96y320-w32h32",
-"f": 0
-},
-{
 "x": -6,
-"y": -2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x128y352-w32h32",
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y288-w32h32",
 "f": 0
 },
 {
 "x": -5,
-"y": -2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x160y352-w32h32",
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y288-w32h32",
+"f": 0
+}
+]
+},
+{
+"cells": [
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x64y320-w32h32",
 "f": 0
 },
 {
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x96y320-w32h32",
+"f": 0
+},
+{
+"x": 4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x64y288-w32h32",
+"f": 0
+},
+{
+"x": 5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x96y288-w32h32",
+"f": 0
+}
+]
+},
+{
+"cells": [
+{
 "x": -6,
-"y": -3,
+"y": -2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x128y320-w32h32",
 "f": 0
 },
 {
 "x": -5,
-"y": -3,
+"y": -2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x160y320-w32h32",
 "f": 0
 },
 {
-"x": 2,
-"y": -2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y352-w32h32",
-"f": 0
-},
-{
-"x": 3,
-"y": -2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y352-w32h32",
-"f": 0
-},
-{
-"x": 2,
+"x": -6,
 "y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x128y288-w32h32",
+"f": 0
+},
+{
+"x": -5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x160y288-w32h32",
+"f": 0
+}
+]
+},
+{
+"cells": [
+{
+"x": 4,
+"y": -2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y320-w32h32",
 "f": 0
 },
 {
-"x": 3,
-"y": -3,
+"x": 5,
+"y": -2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y320-w32h32",
+"f": 0
+},
+{
+"x": 4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x0y288-w32h32",
+"f": 0
+},
+{
+"x": 5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW-Crypt/Props/Atlas-Props.png#st2u_x32y288-w32h32",
 "f": 0
 }
 ]

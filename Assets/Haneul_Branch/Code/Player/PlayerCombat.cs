@@ -423,6 +423,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack(int attackNum)
     {
         bool isCharged = chargeTime >= chargedThreshold;
+        Sfx.Play("PlayerSwing");
 
         anim.SetBool("Charged", isCharged);
 
@@ -487,6 +488,9 @@ public class PlayerCombat : MonoBehaviour
         }
 
         Debug.Log("맞은 개수 : " + hits.Length);
+
+        // 부서지는 소품(상자) — 적 레이어가 아니라 따로 훑는다
+        Breakable.HitBox(AttackBoxPos.position, boxSize, AttackAngle, damage, isCritical);
 
         var struck = new System.Collections.Generic.HashSet<Enemy>();
         foreach (Collider2D hit in hits)

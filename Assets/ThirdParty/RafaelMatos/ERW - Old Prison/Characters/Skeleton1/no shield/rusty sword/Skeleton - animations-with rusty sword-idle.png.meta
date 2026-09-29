@@ -3,7 +3,7 @@ guid: 0af19deab9598e448a3c6fbe8d32c08e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -112,14 +117,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 868791102ec542a4c8dc2c45e7a99fde
+      spriteID: 822f9cbeffffffff0800000000000000
       internalID: -339086808
       vertices: []
       indices: 
@@ -133,14 +138,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8f3d40eda16dca541af7991186b639f9
+      spriteID: 71bf4860000000000800000000000000
       internalID: 109378327
       vertices: []
       indices: 
@@ -154,14 +159,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: dbfc009efefd39347a2b189afda93f28
+      spriteID: a58d43c9ffffffff0800000000000000
       internalID: -1674258342
       vertices: []
       indices: 
@@ -175,14 +180,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 563f16ee42c7f314ba357df0e0987eb0
+      spriteID: ced4ec15000000000800000000000000
       internalID: 1372474860
       vertices: []
       indices: 
@@ -196,14 +201,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 0040c4cc515bbdb48a3da9fa2ec1607d
+      spriteID: 78223560000000000800000000000000
       internalID: 106111623
       vertices: []
       indices: 
@@ -217,14 +222,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: c717ea056a27be840bb9b6797faf55ca
+      spriteID: dd745f99ffffffff0800000000000000
       internalID: -1711978531
       vertices: []
       indices: 
@@ -238,14 +243,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 537ff7404c5a80945bdc5135e5f29645
+      spriteID: a208c6d1000000000800000000000000
       internalID: 493649962
       vertices: []
       indices: 
@@ -259,14 +264,14 @@ TextureImporter:
         y: 0
         width: 220
         height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3272727}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f2320d70b2e717e4a8d6c52acea2ed6e
+      spriteID: 6db213dcffffffff0800000000000000
       internalID: -852415530
       vertices: []
       indices: 
@@ -291,9 +296,8 @@ TextureImporter:
       Skeleton - animations-with rusty sword-idle_5: -1711978531
       Skeleton - animations-with rusty sword-idle_6: 493649962
       Skeleton - animations-with rusty sword-idle_7: -852415530
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

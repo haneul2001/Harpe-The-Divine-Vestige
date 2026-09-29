@@ -1,0 +1,2729 @@
+{
+"name": "Room_Sw_Ossuary",
+"kind": "Normal",
+"width": 20,
+"height": 11,
+"wallBottom": -3.25,
+"originX": -10,
+"originY": -6,
+"spanX": 1,
+"spanY": 1,
+"doors": [
+{
+"dir": "up",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Sw_Ossuary_up0.png",
+"plugX": 0.0,
+"plugY": -1.5,
+"colX": 0.0,
+"colY": -1.5,
+"colW": 6,
+"colH": 4.0,
+"patch": [
+{
+"m": "Ground",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_139",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_115",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_127",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 2,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "down",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Sw_Ossuary_down0.png",
+"plugX": 0.0,
+"plugY": 0.5,
+"colX": 0.0,
+"colY": 0.5,
+"colW": 6,
+"colH": 2.0,
+"patch": [
+{
+"m": "Ground",
+"x": 1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_166",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_179",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "left",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Sw_Ossuary_left0.png",
+"plugX": 0.5,
+"plugY": 1.0,
+"colX": 0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_24",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_165",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_40",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_49",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_165",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_178",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_178",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_152",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "right",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Sw_Ossuary_right0.png",
+"plugX": -0.5,
+"plugY": 1.0,
+"colX": -0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": 9,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_151",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_23",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_177",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_39",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_175",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+}
+]
+}
+],
+"spawns": [
+{
+"x": -5,
+"y": -0.5
+},
+{
+"x": 5,
+"y": -0.5
+},
+{
+"x": 0,
+"y": -1
+},
+{
+"x": -5,
+"y": -2.5
+},
+{
+"x": 5,
+"y": -2.5
+},
+{
+"x": 0,
+"y": -3
+},
+{
+"x": -2.5,
+"y": -2
+},
+{
+"x": 2.5,
+"y": -2
+}
+],
+"tilemaps": [
+{
+"name": "Ground",
+"cells": [
+{
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 0,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 0,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 0,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 0,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": -1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 0,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_102",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_104",
+"f": 0
+},
+{
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+},
+{
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_58",
+"f": 0
+},
+{
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_103",
+"f": 0
+},
+{
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_160",
+"f": 0
+}
+]
+},
+{
+"name": "Wall",
+"cells": [
+{
+"x": 9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": 6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_17",
+"f": 0
+},
+{
+"x": -7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_0",
+"f": 0
+},
+{
+"x": 8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_15",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_18",
+"f": 0
+},
+{
+"x": 3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": -4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_18",
+"f": 0
+},
+{
+"x": -8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"x": 9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_14",
+"f": 0
+},
+{
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": 5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_118",
+"f": 0
+},
+{
+"x": 7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": -7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": 8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"x": -5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"x": 6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_153",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_153",
+"f": 0
+},
+{
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_118",
+"f": 0
+},
+{
+"x": -10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_115",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_114",
+"f": 0
+},
+{
+"x": -5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_113",
+"f": 0
+},
+{
+"x": 7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": 3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_32",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_130",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_130",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_142",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_127",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_139",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_125",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_137",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_126",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_184",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_82",
+"f": 0
+}
+]
+},
+{
+"name": "Object",
+"cells": [
+{
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_152",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_50",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_66",
+"f": 0
+},
+{
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_151",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_158",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_171",
+"f": 0
+},
+{
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_142",
+"f": 0
+},
+{
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_138",
+"f": 0
+},
+{
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_153",
+"f": 0
+},
+{
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_178",
+"f": 0
+},
+{
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Tilesets/wall-1-no water- 3 tiles tall.png#wall-1-no water- 3 tiles tall_30",
+"f": 0
+}
+]
+},
+{
+"name": "Props",
+"cells": []
+}
+],
+"uprights": [],
+"props": [
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/bones_7.png",
+"x": -6.216,
+"y": 0.938,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/bones_18.png",
+"x": 5.184,
+"y": 0.938,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/bones - color scheme 2_2.png",
+"x": 6.384,
+"y": 0.938,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/bones - color scheme 2_2.png",
+"x": -7.316,
+"y": -3.513,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/wooden chests - topdown_4.png",
+"x": -0.516,
+"y": -1.431,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/wooden chests - topdown_4.png",
+"x": 0.384,
+"y": -1.431,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/torch1-lit.png",
+"x": -3.638,
+"y": 1.75,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 10
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/torch2-lit.png",
+"x": 3.763,
+"y": 1.75,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 10
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/web - color scheme 1_8.png",
+"x": -7.4,
+"y": 1.913,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/web - color scheme 1_11.png",
+"x": 7.463,
+"y": 1.975,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Sewers/Props/atlas props - individual sprites/laboratory - potions_13.png",
+"x": 7.169,
+"y": -3.475,
+"passable": true,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0,
+"fps": 0
+}
+]
+}

@@ -213,7 +213,7 @@ public class GameOverScreen : MonoBehaviour
         Text title = CenteredLabel("Title", titleSize,
             victory ? victoryTitleColor : titleColor, FontStyle.Bold);
         PlaceCentered(title.rectTransform, y - 110f, y);
-        title.text = victory ? "탈 출" : "패 배";
+        title.text = victory ? "승 리" : "패 배";
 
         Image rule = UIFactory.Panel("Rule", rootGo.transform, accentColor, false);
         UIFactory.SetAnchoredBox(rule.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),

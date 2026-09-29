@@ -25,6 +25,9 @@ public class HarvestManager : MonoBehaviour
              "harvestSpeed 배율은 자동으로 반영된다.")]
     [SerializeField] private float impactTime = 0.833f;
 
+    [Tooltip("처형을 누르고 칼 소리가 나기까지(초, 실제 시간)")]
+    [SerializeField] private float harvestSfxDelay = 0.2f;
+
     [Tooltip("임팩트 순간에 처형 데미지 숫자를 띄운다. 값은 적의 남은 체력(= 처형으로 준 피해).\n" +
              "끄면 'HARVEST!' 문구만 남는다 — 문구와 숫자가 겹치면 시선이 분산된다.\n" +
              "이 옵션은 '처형 대상'의 숫자만 막는다. 처형 파생 효과(충격파 등)로\n" +
@@ -223,6 +226,7 @@ public class HarvestManager : MonoBehaviour
         SpriteRenderer playerSprite)
     {
         isHarvesting = true;
+        StartCoroutine(PlayHarvestSfx());
 
         PlayerMove playerMove = player.GetComponent<PlayerMove>();
 
@@ -244,7 +248,9 @@ public class HarvestManager : MonoBehaviour
         if (blackoutDash)
         {
             // 화면이 어두워지면서 적에게 쏜살같이 돌진 — 지나간 길에 핏방울을 흩뿌린다
-            StartCoroutine(DimScreen(dimFadeIn + dashDuration + dimHold, dimFadeOut, player, enemy.transform));
+            // 처형이 겹치면 앞의 어둠 연출을 끝내고(올렸던 그림도 되돌리고) 새로 시작한다
+            if (dimRoutine != null) StopCoroutine(dimRoutine);
+            dimRoutine = StartCoroutine(DimScreen(dimFadeIn + dashDuration + dimHold, dimFadeOut, player, enemy.transform));
             yield return DashAlongPath(player, startPos, endPos);
         }
         else
@@ -304,7 +310,7 @@ public class HarvestManager : MonoBehaviour
 
         // 처형 보상: 소울 획득 (스킬 자원)
         PlayerStatus playerStatus = player.GetComponent<PlayerStatus>();
-        if (playerStatus != null)
+        if (playerStatus != null && enemy.HarvestGivesSoul)
         {
             int soulGain = (enemy.Info != null && enemy.Info.Soul > 0) ? enemy.Info.Soul : defaultSoulGain;
             soulGain = Mathf.RoundToInt(soulGain * (1f + AbilityHooks.HarvestSoulBonus()));   // 특성: 영혼 수확
@@ -407,11 +413,21 @@ public class HarvestManager : MonoBehaviour
         }
     }
 
+    // 처형 칼 소리. 내려찍는 순간에 맞추면 한참 뒤에 들려 굼뜨게 느껴진다 — 누르고 곧바로(harvestSfxDelay 뒤) 튼다.
+    // 화면이 어두워지고 느려지는 연출과 무관하게 실제 시간으로 잰다
+    private IEnumerator PlayHarvestSfx()
+    {
+        if (harvestSfxDelay > 0f) yield return new WaitForSecondsRealtime(harvestSfxDelay);
+        Sfx.Play("PlayerHarvest");
+    }
+
     private void SpawnDashPathMark(Vector3 pos)
     {
         if (dashPathEffect == null) return;
 
         GameObject fx = Instantiate(dashPathEffect, pos, Quaternion.identity);
+        // 이펙트 팩 프리팹에 독 효과음이 붙어 있다(생성되자마자 재생). 처형 소리는 따로 내므로 끈다
+        foreach (var src in fx.GetComponentsInChildren<AudioSource>(true)) { src.Stop(); src.enabled = false; }
         fx.transform.localScale = Vector3.one * dashPathScale;
 
         foreach (var ps in fx.GetComponentsInChildren<ParticleSystem>(true))
@@ -458,7 +474,11 @@ public class HarvestManager : MonoBehaviour
         dimRenderer.sortingLayerName = dimSortingLayer;
         dimRenderer.sortingOrder = dimSortingOrder;
 
+        // 앞 연출이 중간에 끊겼으면 그때 올린 그림부터 되돌린다 — 안 그러면 "올라간 상태"를 원래 값으로
+        // 저장해 버려서, 되돌린 뒤에도 플레이어가 Skill 층에 갇혀 모든 적 위에 그려졌다
+        if (activeLift != null) { RestoreSorting(activeLift); activeLift = null; }
         var lifted = LiftAboveDim(spotlights);
+        activeLift = lifted;
 
         dimRenderer.gameObject.SetActive(true);
 
@@ -485,12 +505,17 @@ public class HarvestManager : MonoBehaviour
         }
 
         dimRenderer.gameObject.SetActive(false);
-        RestoreSorting(lifted);
+        if (activeLift == lifted) { RestoreSorting(lifted); activeLift = null; }
+        dimRoutine = null;
     }
+
+    private Coroutine dimRoutine;
+    private List<SortingBackup> activeLift;
 
     private struct SortingBackup
     {
         public Renderer renderer;
+        public UnityEngine.Rendering.SortingGroup group;   // 묶음으로 정렬되는 캐릭터면 이쪽을 올린다
         public int layerId;
         public int order;
     }
@@ -502,9 +527,20 @@ public class HarvestManager : MonoBehaviour
         var list = new List<SortingBackup>();
         int dimLayerId = SortingLayer.NameToID(dimSortingLayer);
 
+        int rank = 0;
         foreach (var root in targets)
         {
             if (root == null) continue;
+            // 캐릭터는 SortingGroup으로 묶여 있어 자식 그림의 층을 바꿔도 소용없다 — 묶음째 올린다.
+            // 먼저 넘긴 대상(플레이어)이 위에 오게 순서를 준다
+            var sg = root.GetComponent<UnityEngine.Rendering.SortingGroup>();
+            if (sg != null)
+            {
+                list.Add(new SortingBackup { group = sg, layerId = sg.sortingLayerID, order = sg.sortingOrder });
+                sg.sortingLayerID = dimLayerId;
+                sg.sortingOrder = dimSortingOrder + 100 - rank++;
+                continue;
+            }
             foreach (var r in root.GetComponentsInChildren<Renderer>())
             {
                 if (r is SpriteRenderer sr && DebugVisual.Owns(sr)) continue;
@@ -523,6 +559,7 @@ public class HarvestManager : MonoBehaviour
     {
         foreach (var b in list)
         {
+            if (b.group != null) { b.group.sortingLayerID = b.layerId; b.group.sortingOrder = b.order; continue; }
             if (b.renderer == null) continue;   // 처형으로 이미 사라진 몬스터
             b.renderer.sortingLayerID = b.layerId;
             b.renderer.sortingOrder = b.order;

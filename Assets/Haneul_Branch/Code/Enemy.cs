@@ -174,8 +174,22 @@ public class Enemy : MonoBehaviour
     // 아무 적이나 죽을 때마다 발생. 판 기록(RunStats)의 처치 수 집계에 쓴다.
     // 개체 이벤트(Died)와 달리 구독자가 스폰 시점을 몰라도 되므로 정적으로 둔다.
     public static event System.Action<Enemy> AnyDied;
+
+    // 맞을 때 나는 소리. 해골류는 뼈 부서지는 소리, 나머지는 살을 치는 소리
+    public enum HitSound { Body, Bone }
+    [Tooltip("피격음 종류. 해골류는 Bone")]
+    [SerializeField] private HitSound hitSound = HitSound.Body;
+
+    // 처치로 치지 않는 적(보스가 불러낸 분신 등). 끄면 AnyDied가 안 울려서
+    // 골드·처치 수·처치 시 발동 효과가 전부 따라오지 않는다 — 분신을 베어 골드를 벌 수 없게 한다
+    protected virtual bool CountsAsKill { get { return true; } }
+
+    // 처형했을 때 소울을 주는지. 3층 최종 보스(사신)는 처형해도 소울을 주지 않는다
+    public virtual bool HarvestGivesSoul { get { return true; } }
     protected virtual void Awake()
     {
+        // 발 위치로 플레이어·다른 적과 앞뒤를 가린다
+        CharacterSorting.Ensure(gameObject);
         rb = GetComponent<Rigidbody2D>();
         if (rb != null) baseConstraints = rb.constraints;
         animator = GetComponent<Animator>();
@@ -383,7 +397,7 @@ public class Enemy : MonoBehaviour
         SetFacing(dx > 0);
     }
 
-    private void SetFacing(bool faceRight)
+    protected void SetFacing(bool faceRight)
     {
         IsFacingRight = faceRight;
         if(faceRight) transform.rotation = Quaternion.Euler(0f,0f,0f);
@@ -404,11 +418,28 @@ public class Enemy : MonoBehaviour
             && IsAttackAligned();
     }
 
+    // 지금 들어오는 피해가 패링 반격인지. PlayerStatus가 반격 피해를 넣는 동안만 켠다.
+    // 피해 경로가 전부 TakeDamage 하나로 모이므로, 출처는 이렇게 옆에서 알려 줄 수밖에 없다.
+    public static bool ApplyingParryCounter { get; set; }
+
+    // 이 피해를 받지 않을지. 날아오른 용처럼 "패링 반격만 들어가는" 상태가 덮어쓴다.
+    // IsInvulnerable로 막으면 반격까지 같이 막힌다.
+    protected virtual bool RejectsDamage(bool fromParry) { return false; }
+
+    // 받는 피해 배율. 기절한 보스처럼 잠깐 더 아프게 맞는 상태가 덮어쓴다
+    protected virtual float IncomingDamageMultiplier { get { return 1f; } }
+
+    // 플레이어가 이 적의 공격을 완벽하게 받아쳤다 (반격 피해가 들어가기 전, 받아친 순간)
+    public virtual void OnParriedByPlayer() { }
+
     public void TakeDamage(int damage, bool isCritical = false, Color? numberColor = null)
     {
-        if (isDead || IsInvulnerable)
+        if (isDead || IsInvulnerable || RejectsDamage(ApplyingParryCounter))
             return;
         Debug.Log("TakeDamage 호출");
+
+        float mult = IncomingDamageMultiplier;
+        if (!Mathf.Approximately(mult, 1f)) damage = Mathf.Max(1, Mathf.RoundToInt(damage * mult));
 
         // 플로팅 데미지 숫자 표시 (죽는 타격도 보이도록 hp 차감 전에 호출)
         if (DamageNumberSpawner.Instance != null)
@@ -416,7 +447,10 @@ public class Enemy : MonoBehaviour
 
         // 공통 피격 이펙트(EnemyHit)는 끔 — 일반 공격은 방향이 있는 PlayerHitSparkVfx가 대신 띄운다.
 
-        hp -= damage;
+        // 0 밑으로는 안 내려간다 — 처형 피해에 특성 배율이 붙으면 남은 체력보다 커져 체력바에 음수가 떴다
+        hp = Mathf.Max(0, hp - damage);
+
+        Sfx.Play(hitSound == HitSound.Bone ? "EnemyHitBone" : "EnemyHitBody");
 
         // 맞았다는 게 바로 읽히게 몸을 주황색으로 한 번 번쩍인다 (죽는 타격 포함)
         if (hitFlash == null) hitFlash = HitFlash.For(spriteRenderer);
@@ -449,8 +483,13 @@ public class Enemy : MonoBehaviour
     // 코루틴은 계속 도는데 화면에는 안 휘두르는 상태가 된다.
     protected virtual bool CanBeStaggered { get { return true; } }
 
+    // 죽음을 가로챈다. true를 돌려주면 죽지 않고 선 채로 남는다 — 두 번째 목숨을 가진 보스(사신)가 쓴다.
+    // fromHarvest: 처형으로 죽는 중. 가로챈 쪽이 체력·무적·연출을 책임진다
+    protected virtual bool InterceptDeath(bool fromHarvest) { return false; }
+
     private void Die()
     {
+        if (InterceptDeath(false)) return;
         isDead = true;
 
         DetachFromPhysics();
@@ -462,7 +501,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (Died != null) Died(this);
-        if (AnyDied != null) AnyDied(this);
+        if (AnyDied != null && CountsAsKill) AnyDied(this);
 
         Destroy(gameObject, 1.5f);//사라지는 시간
     }
@@ -671,13 +710,15 @@ public class Enemy : MonoBehaviour
     // 패링 등으로 인한 경직 (기존 피격 상태 재사용)
     public void Stagger()
     {
-        if (isDead) return;
+        // 보스처럼 버티는 상태(공격 중 슈퍼아머·공중)면 경직도 안 걸린다
+        if (isDead || !CanBeStaggered) return;
         StateMachine.ChangeState(HitState);
     }
 
     public void HarvestDie(float destroyDelay)
     {
         if(isDead) return;
+        if (InterceptDeath(true)) return;
         isDead = true;
 
         DetachFromPhysics();
@@ -689,7 +730,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (Died != null) Died(this);
-        if (AnyDied != null) AnyDied(this);
+        if (AnyDied != null && CountsAsKill) AnyDied(this);
 
         Destroy(gameObject, destroyDelay);
     }

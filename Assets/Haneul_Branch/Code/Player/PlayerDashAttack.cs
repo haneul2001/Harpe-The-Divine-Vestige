@@ -92,6 +92,7 @@ public class PlayerDashAttack : MonoBehaviour
     private readonly RaycastHit2D[] castHits = new RaycastHit2D[8];
     private readonly Collider2D[] overlapHits = new Collider2D[16];
     private readonly HashSet<Enemy> struck = new HashSet<Enemy>();
+    private readonly HashSet<Breakable> struckProps = new HashSet<Breakable>();
 
     private void Awake()
     {
@@ -130,7 +131,9 @@ public class PlayerDashAttack : MonoBehaviour
     {
         IsDashing = true;
         nextUseTime = Time.time + cooldown;
+        Sfx.Play("PlayerSwing");
         struck.Clear();
+        struckProps.Clear();
 
         // 휘두르던 평타는 끊고 대시로
         if (combat != null) combat.CancelAttack();
@@ -342,6 +345,14 @@ public class PlayerDashAttack : MonoBehaviour
         int n = Physics2D.OverlapCircleNonAlloc(center, hitRadius, overlapHits, enemyMask);
 
         for (int i = 0; i < n; i++) HitEnemy(overlapHits[i], from);
+
+        // 부서지는 소품 — 대시 한 번에 하나씩 한 번만. 특성 배율은 적 대상이라 빼고 기본 피해만
+        if (status != null && status.Stats != null)
+        {
+            bool crit = status.Stats.RollCritChance();
+            int dmg = Mathf.Max(1, Mathf.RoundToInt(status.Stats.RollPhysicalDamage(crit) * damageMultiplier));
+            Breakable.HitCircle(center, hitRadius, dmg, crit, struckProps);
+        }
     }
 
     // 대시 한 번에 몬스터마다 한 번만 맞는다 (지나간 길 + 끝 지점 베기 합쳐서)

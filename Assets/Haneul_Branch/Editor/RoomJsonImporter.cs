@@ -13,19 +13,23 @@ public static class RoomJsonImporter
 {
     [System.Serializable] public class Cell { public int x, y; public string a; public int f; }
     [System.Serializable] public class Layer { public string name; public List<Cell> cells; }
-    [System.Serializable] public class Prop { public string sprite; public float x, y; }
+    [System.Serializable] public class Prop { public string sprite; public float x, y; public bool passable; public string broken; public int goldMin, goldMax; public float fps; }
     [System.Serializable] public class Spawn { public float x, y; }
-    [System.Serializable] public class DoorSpec { public string dir; public int sub; public string plug; public float plugX, plugY; }
+    [System.Serializable] public class Upright { public List<Cell> cells; public bool full; }
+    [System.Serializable] public class PatchCell { public string m; public int x, y; public string a; public int f; }
+    [System.Serializable] public class DoorSpec { public string dir; public int sub; public string plug; public float plugX, plugY; public float colX, colY, colW, colH; public List<PatchCell> patch; }
     [System.Serializable]
     public class RoomJson
     {
         public string name, kind;
         public int width, height, originX, originY;
         public int spanX = 1, spanY = 1;
+        public float wallBottom;
         public List<DoorSpec> doors;
         public List<Spawn> spawns;
         public List<Layer> tilemaps;
         public List<Prop> props;
+        public List<Upright> uprights;
     }
 
     // Tiled 뒤집기 플래그 (gid 상위 비트)
@@ -86,6 +90,22 @@ public static class RoomJsonImporter
                 tm.CompressBounds();
             }
 
+            // 타일이 실제로 깔린 자리의 가운데. 높이가 짝수 칸(세로 2칸 방 등)이면 Grid가 0.5 올라가 있는 탓에
+            // 타일 전체가 방 중심보다 반 칸 아래에 놓인다 — 카메라 범위는 방 중심이 아니라 여기에 맞춘다.
+            // 벽 타일맵이 방 테두리 전체를 두르므로 그걸로 잰다 (바닥은 위쪽 벽 줄 아래에 없어서 치우친다)
+            Vector2 content = Vector2.zero;
+            if (maps.TryGetValue("Wall", out Tilemap frameMap) && frameMap.cellBounds.size.x > 0)
+            {
+                var gb = frameMap.cellBounds;
+                Vector3 grid = root.transform.InverseTransformPoint(frameMap.layoutGrid.transform.position);
+                content = new Vector2((gb.xMin + gb.xMax) * 0.5f + grid.x, (gb.yMin + gb.yMax) * 0.5f + grid.y);
+            }
+
+            // 방 밖이 검게 보이지 않게 가장자리 타일을 바깥으로 두 줄 이어 깐다.
+            // 화면(11.25칸)이 1칸 방(11칸)보다 높아 위아래 끝이 늘 조금 비친다. 옆방은 꺼져 있어 겹칠 일이 없다.
+            foreach (var key in new[] { "Ground", "Wall" })
+                if (maps.TryGetValue(key, out Tilemap padMap)) PadOutside(padMap, 2);
+
             // ② 문 — JSON이 요구하는 (방향, 칸) 마다 하나씩. 본 프리팹의 같은 방향 문을 복제해서 쓴다.
             //    막힌 문은 본 프리팹처럼 벽 그림(plug)을 덮는다 — 파이썬이 그 자리 벽을 그려 둔 스프라이트다.
             var rso0 = new SerializedObject(room);
@@ -107,8 +127,16 @@ public static class RoomJsonImporter
                     var go = Object.Instantiate(tpl.gameObject, doorsRoot);
                     go.name = "Door_" + ddir + (spec.sub > 0 ? "_" + spec.sub : "");
                     var door = go.GetComponent<Door>();
-                    door.subCell = spec.sub;
+                    // sub -1 = 변 한가운데 문 (여러 칸짜리 특수 방의 단일 입구). 생성기는 입구 방향 문이 하나면 입구 칸에 맞춰 잇는다
+                    bool centered = spec.sub < 0;
+                    door.subCell = Mathf.Max(0, spec.sub);
+                    if (centered) go.name = "Door_" + ddir;
                     Vector3 p;
+                    if (centered)
+                        p = ddir == Dir.Up ? new Vector3(0f, halfH - 0.5f, 0f)
+                          : ddir == Dir.Down ? new Vector3(0f, -halfH + 0.5f, 0f)
+                          : ddir == Dir.Left ? new Vector3(-halfW + 0.5f, 0f, 0f) : new Vector3(halfW - 0.5f, 0f, 0f);
+                    else
                     switch (ddir)
                     {
                         case Dir.Up:    p = new Vector3(-halfW + 10f + spec.sub * 20f, halfH - 0.5f, 0f); break;
@@ -130,7 +158,23 @@ public static class RoomJsonImporter
                     // 잠김 그림: Depths 보스 창살 (위·아래 문은 가로형, 왼·오른쪽 문은 세로형)
                     Transform oldClosed = go.transform.Find("ClosedVisual");
                     if (oldClosed != null) Object.DestroyImmediate(oldClosed.gameObject);
-                    MakeGate(go, door, ddir, FindSortingLayer(root));
+                    // 막힐 때 바꿔 끼울 타일
+                    var wp = new List<Door.TilePatch>();
+                    if (spec.patch != null)
+                        foreach (var pc in spec.patch)
+                        {
+                            if (!maps.TryGetValue(pc.m, out Tilemap ptm)) continue;
+                            TileBase pt = string.IsNullOrEmpty(pc.a) ? null : ResolveTile(pc.a);
+                            if (!string.IsNullOrEmpty(pc.a) && pt == null) { missing++; continue; }
+                            Matrix4x4 pm = pc.f != 0 ? FlipMatrix((uint)pc.f) : Matrix4x4.identity;
+                            if (pt != null) pm = PivotFix(pt) * pm;
+                            wp.Add(new Door.TilePatch { map = ptm, pos = new Vector3Int(pc.x, pc.y, 0), tile = pt, matrix = pm });
+                        }
+                    door.EditorSetWallPatch(wp);
+
+                    float wallBottom = data.wallBottom < -0.1f ? data.wallBottom : -2.5f;   // 옛 JSON엔 없다
+                    door.wallBottom = wallBottom;
+                    MakeGate(go, door, ddir, WallLayer(root), WallOrder(root) + 3, wallBottom);
 
                     // 벽 그림: 이웃 방이 없어 막힐 때 Door.DisableAsWall이 켠다
                     Transform oldWall = go.transform.Find("WallVisual");
@@ -145,8 +189,17 @@ public static class RoomJsonImporter
                             wv.transform.localPosition = new Vector3(spec.plugX, spec.plugY, 0f);
                             var sr = wv.AddComponent<SpriteRenderer>();
                             sr.sprite = plugSprite;
-                            sr.sortingLayerName = FindSortingLayer(root);
-                            sr.sortingOrder = 1;
+                            // 벽과 같은 그리기 층 — 소품 층(Prop)은 플레이어보다 위라 캐릭터가 벽 그림 밑으로 가려졌다
+                            sr.sortingLayerName = WallLayer(root);
+                            sr.sortingOrder = WallOrder(root) + 2;
+                            // 그림만 있고 충돌이 문 한가운데 얇은 띠뿐이면 벽 그림 안으로 걸어 들어간다 — 새로 생긴 벽 칸 범위만큼 막는다
+                            if (spec.colW > 0f && spec.colH > 0f)
+                            {
+                                wv.layer = LayerMask.NameToLayer("Wall");
+                                var wcol = wv.AddComponent<BoxCollider2D>();
+                                wcol.offset = new Vector2(spec.colX - spec.plugX, spec.colY - spec.plugY);
+                                wcol.size = new Vector2(spec.colW, spec.colH);
+                            }
                             wv.SetActive(false);
                             var dso = new SerializedObject(door);
                             dso.FindProperty("wallVisual").objectReferenceValue = wv;
@@ -159,10 +212,10 @@ public static class RoomJsonImporter
             foreach (var tpl in templates.Values) Object.DestroyImmediate(tpl.gameObject);
 
             // ③ 카메라 경계 — 20x11 한 칸 방은 가운데 고정, 더 크면 그만큼 따라다닌다
-            SetLocal(root, "CameraBounds/CamXMin", new Vector3(-(halfW - 10f), 0f, 0f));
-            SetLocal(root, "CameraBounds/CamXMax", new Vector3(halfW - 10f, 0f, 0f));
-            SetLocal(root, "CameraBounds/CamYMin", new Vector3(0f, -(halfH - 5.5f), 0f));
-            SetLocal(root, "CameraBounds/CamYMax", new Vector3(0f, halfH - 5.5f, 0f));
+            SetLocal(root, "CameraBounds/CamXMin", new Vector3(content.x - (halfW - 10f), 0f, 0f));
+            SetLocal(root, "CameraBounds/CamXMax", new Vector3(content.x + halfW - 10f, 0f, 0f));
+            SetLocal(root, "CameraBounds/CamYMin", new Vector3(0f, content.y - (halfH - 5.5f), 0f));
+            SetLocal(root, "CameraBounds/CamYMax", new Vector3(0f, content.y + halfH - 5.5f, 0f));
 
             // ④ 스폰 — 본에 있던 자리는 버리고 JSON대로
             Transform spawnRoot = root.transform.Find("SpawnPoints");
@@ -186,33 +239,112 @@ public static class RoomJsonImporter
             Transform props = root.transform.Find("Props");
             if (props == null) { props = new GameObject("Props").transform; props.SetParent(root.transform, false); }
             for (int i = props.childCount - 1; i >= 0; i--) Object.DestroyImmediate(props.GetChild(i).gameObject);
-            string sortLayer = FindSortingLayer(root);
-            // 소품은 벽 앞면 위에 서야 한다 — 벽 타일맵보다 위 순서로
-            int propOrder = 3;
-            foreach (var r in root.GetComponentsInChildren<TilemapRenderer>(true)) propOrder = Mathf.Max(propOrder, r.sortingOrder + 1);
+            // 서 있는 소품은 캐릭터와 같은 그리기 층에서 발밑(y)으로 앞뒤를 가린다 (CharacterSorting과 같은 층).
+            // 충돌은 맨 아래 한 칸만 — 그 위로는 캐릭터가 소품 뒤로 지나가며 가려진다
+            int wallLayer = LayerMask.NameToLayer("Wall");
             int propCount = 0;
+
+            // ① 선 소품(아틀라스 블록: 석상·관·촛대·받침대·의자) — 타일 조각들을 한 묶음으로
+            if (data.uprights != null)
+                foreach (var up in data.uprights)
+                {
+                    if (up.cells == null || up.cells.Count == 0) continue;
+                    int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue;
+                    foreach (var c in up.cells) { minX = Mathf.Min(minX, c.x); maxX = Mathf.Max(maxX, c.x); minY = Mathf.Min(minY, c.y); }
+                    // 발밑 = 맨 아래 줄 칸의 아래 변. 칸 (cx, cy)는 세계 x [cx, cx+1], y [cy+0.5, cy+1.5] (Grid가 0.5 올라가 있다)
+                    Vector2 foot = new Vector2((minX + maxX + 1) * 0.5f, minY + 0.5f);
+                    var go = new GameObject("Upright");
+                    go.transform.SetParent(props, false);
+                    go.transform.localPosition = foot;
+                    go.layer = wallLayer;
+                    var sg = go.AddComponent<UnityEngine.Rendering.SortingGroup>();
+                    sg.sortingLayerName = CharacterSorting.Layer; sg.sortingOrder = CharacterSorting.Order;
+                    foreach (var c in up.cells)
+                    {
+                        var tb = ResolveTile(c.a) as Tile;
+                        if (tb == null || tb.sprite == null) { missing++; continue; }
+                        var piece = new GameObject("Tile");
+                        piece.transform.SetParent(go.transform, false);
+                        Vector2 pv = tb.sprite.pivot / tb.sprite.pixelsPerUnit;
+                        piece.transform.localPosition = new Vector3(c.x + pv.x - foot.x, c.y + 0.5f + pv.y - foot.y, 0f);
+                        var psr = piece.AddComponent<SpriteRenderer>();
+                        psr.sprite = tb.sprite;
+                    }
+                    float w = maxX - minX + 1;
+                    var col = go.AddComponent<BoxCollider2D>();
+                    col.size = new Vector2(w * 0.9f, 1f);
+                    col.offset = new Vector2(0f, 0.5f);
+                    LiftUprightToVisible(go.transform);
+                    if (up.full) BlockWholeUpright(go.transform);
+                    propCount++;
+                }
+
+            // ② 그림 소품(낱개 스프라이트) — 발밑에 묶음 뿌리를 두고 그림은 그 위로
             if (data.props != null)
                 foreach (var pr in data.props)
                 {
                     int hash = pr.sprite.IndexOf('#');
                     if (hash < 0) EnsurePpu32(pr.sprite);
-                    var sp = hash < 0 ? AssetDatabase.LoadAssetAtPath<Sprite>(pr.sprite)
+                    // 여러 장으로 잘린 시트(횃불·거품 캡슐 등)는 첫 프레임을 그림으로 쓰고, fps가 있으면 반복 재생한다
+                    Sprite[] frames = null;
+                    if (hash < 0 && AssetImporter.GetAtPath(pr.sprite) is TextureImporter timp && timp.spriteImportMode == SpriteImportMode.Multiple)
+                        frames = SheetFrames(pr.sprite);
+                    var sp = frames != null && frames.Length > 0 ? frames[0]
+                           : hash < 0 ? AssetDatabase.LoadAssetAtPath<Sprite>(pr.sprite)
                                       : FindSprite(pr.sprite.Substring(0, hash), pr.sprite.Substring(hash + 1));
                     if (sp == null) { missing++; continue; }
-                    var go = new GameObject(Path.GetFileNameWithoutExtension(pr.sprite));
-                    go.transform.SetParent(props, false);
-                    go.layer = LayerMask.NameToLayer("Wall");
-                    var sr = go.AddComponent<SpriteRenderer>();
-                    sr.sprite = sp;
-                    sr.sortingLayerName = sortLayer;
-                    sr.sortingOrder = propOrder;
-                    // 발 기준으로 놓는다 — 스프라이트 피벗이 가운데라 높이의 절반만큼 올린다
+                    string nm = Path.GetFileNameWithoutExtension(pr.sprite);
                     float hUnits = sp.rect.height / sp.pixelsPerUnit;
                     float wUnits = sp.rect.width / sp.pixelsPerUnit;
-                    go.transform.localPosition = new Vector3(pr.x, pr.y + hUnits * 0.5f, 0f);
+
+                    if (pr.passable)
+                    {
+                        // 밟고 지나가는 깔개류는 바닥 위, 캐릭터 아래
+                        var flat = new GameObject(nm);
+                        flat.transform.SetParent(props, false);
+                        flat.transform.localPosition = new Vector3(pr.x, pr.y + hUnits * 0.5f, 0f);
+                        var fsr = flat.AddComponent<SpriteRenderer>();
+                        fsr.sprite = sp;
+                        fsr.sortingLayerName = WallLayer(root);
+                        fsr.sortingOrder = WallOrder(root) + 1;
+                        AddLoop(flat, frames, pr.fps);
+                        propCount++;
+                        continue;
+                    }
+
+                    var rootGo = new GameObject(nm);
+                    rootGo.transform.SetParent(props, false);
+                    rootGo.transform.localPosition = new Vector3(pr.x, pr.y, 0f);   // 발밑
+                    var group = rootGo.AddComponent<UnityEngine.Rendering.SortingGroup>();
+                    group.sortingLayerName = CharacterSorting.Layer; group.sortingOrder = CharacterSorting.Order;
+
+                    var go = new GameObject("Sprite");
+                    go.transform.SetParent(rootGo.transform, false);
+                    go.transform.localPosition = new Vector3(0f, hUnits * 0.5f, 0f);
+                    go.layer = wallLayer;
+                    var sr = go.AddComponent<SpriteRenderer>();
+                    sr.sprite = sp;
+                    AddLoop(go, frames, pr.fps);
+
+                    // 충돌: 보이는 그림의 맨 아래 한 칸(1유닛)만. 그림이 1칸보다 낮으면 그 높이만큼
+                    Bounds vb = VisibleBounds(sp);
+                    float colH = Mathf.Min(1f, vb.size.y);
                     var col = go.AddComponent<BoxCollider2D>();
-                    col.size = new Vector2(Mathf.Max(0.5f, wUnits * 0.8f), Mathf.Min(1f, hUnits * 0.5f));
-                    col.offset = new Vector2(0f, -hUnits * 0.5f + col.size.y * 0.5f);
+                    col.size = new Vector2(Mathf.Max(0.4f, vb.size.x * 0.9f), colH);
+                    col.offset = new Vector2(vb.center.x, vb.min.y + colH * 0.5f);
+
+                    // 부서지는 상자: 부서진 그림이 짝으로 있으면 체력 100, 골드는 방 데이터(없으면 5~10)
+                    if (!string.IsNullOrEmpty(pr.broken))
+                    {
+                        EnsurePpu32(pr.broken);
+                        var bs = AssetDatabase.LoadAssetAtPath<Sprite>(pr.broken);
+                        if (bs == null) missing++;
+                        var br = go.AddComponent<Breakable>();
+                        br.brokenSprite = bs;
+                        br.maxHp = 100;
+                        br.goldMin = pr.goldMax > 0 ? pr.goldMin : 5;
+                        br.goldMax = pr.goldMax > 0 ? pr.goldMax : 10;
+                    }
                     propCount++;
                 }
 
@@ -324,6 +456,79 @@ public static class RoomJsonImporter
     private const string GateH = "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Animated props/boss gate-going down.png";
     private const string GateV = "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Animated props/boss gate-going down-vertical.png";
 
+    // 시트 소품을 제자리에서 반복 재생한다 (Animator 없이 SpriteLoop로)
+    private static void AddLoop(GameObject go, Sprite[] frames, float fps)
+    {
+        if (frames == null || frames.Length < 2 || fps <= 0f) return;
+        var loop = go.AddComponent<SpriteLoop>();
+        loop.loop = frames;
+        loop.fps = fps;
+    }
+
+    // 아틀라스 블록의 맨 아래 줄이 통째로 비어 있으면(1층 큰 석상 2x3 — 맨 아래 줄은 투명) 그 줄을 발밑·충돌에서 뺀다.
+    // 빼지 않으면 보이지 않는 줄이 길을 막고, 발밑이 한 칸 아래라 그 줄에 선 캐릭터를 석상이 가린다.
+    // 돌려주는 값은 올린 줄 수
+    public static int LiftUprightToVisible(Transform up)
+    {
+        var rows = new SortedDictionary<int, bool>();     // 줄 번호(0 = 맨 아래) → 보이는 그림이 있는지
+        foreach (var sr in up.GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (sr.sprite == null) continue;
+            float pvY = sr.sprite.pivot.y / sr.sprite.pixelsPerUnit;
+            int row = Mathf.RoundToInt(sr.transform.localPosition.y - pvY);
+            bool vis = !IsBlank(sr.sprite);
+            bool prev;
+            rows[row] = (rows.TryGetValue(row, out prev) && prev) || vis;
+        }
+        int lift = 0;
+        foreach (var kv in rows) { if (kv.Value) break; lift++; }
+        if (lift == 0 || lift >= rows.Count) return 0;
+
+        up.localPosition += new Vector3(0f, lift, 0f);
+        foreach (Transform piece in up) piece.localPosition -= new Vector3(0f, lift, 0f);
+        return lift;
+    }
+
+    // 누운 물건(관)은 윗부분 뒤로도 못 지나간다 — 충돌을 보이는 그림 전체 높이로 늘린다
+    public static void BlockWholeUpright(Transform up)
+    {
+        var col = up.GetComponent<BoxCollider2D>();
+        if (col == null) return;
+        int top = 0;
+        foreach (var sr in up.GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (sr.sprite == null || IsBlank(sr.sprite)) continue;
+            float pvY = sr.sprite.pivot.y / sr.sprite.pixelsPerUnit;
+            int row = Mathf.RoundToInt(sr.transform.localPosition.y - pvY);
+            top = Mathf.Max(top, row + 1);
+        }
+        if (top <= 0) return;
+        col.size = new Vector2(col.size.x, top);
+        col.offset = new Vector2(col.offset.x, top * 0.5f);
+    }
+
+    private static readonly Dictionary<string, Texture2D> readableCopies = new Dictionary<string, Texture2D>();
+
+    // 스프라이트 칸이 완전히 투명한지. 팩 텍스처는 읽기 설정이 꺼져 있으므로 파일을 직접 읽은 사본으로 본다
+    private static bool IsBlank(Sprite s)
+    {
+        string path = AssetDatabase.GetAssetPath(s.texture);
+        Texture2D tex;
+        if (!readableCopies.TryGetValue(path, out tex))
+        {
+            tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            if (!tex.LoadImage(File.ReadAllBytes(path))) tex = null;
+            readableCopies[path] = tex;
+        }
+        if (tex == null) return false;
+        Rect r = s.rect;
+        Color32[] px = tex.GetPixels32();
+        for (int y = (int)r.y; y < (int)(r.y + r.height); y++)
+            for (int x = (int)r.x; x < (int)(r.x + r.width); x++)
+                if (px[y * tex.width + x].a > 8) return false;
+        return true;
+    }
+
     public static Sprite[] SheetFrames(string texPath)
     {
         EnsurePpu32(texPath);
@@ -340,7 +545,22 @@ public static class RoomJsonImporter
         return i >= 0 && int.TryParse(name.Substring(i + 1), out int n) ? n : 0;
     }
 
-    private static void MakeGate(GameObject doorGo, Door door, Dir ddir, string sortLayer)
+    // 벽 타일맵의 그리기 층·순서 (막힌 문 벽 그림과 창살을 벽과 같은 층에 둔다)
+    private static string WallLayer(GameObject root)
+    {
+        foreach (var r in root.GetComponentsInChildren<TilemapRenderer>(true))
+            if (r.name.IndexOf("Wall", System.StringComparison.OrdinalIgnoreCase) >= 0) return r.sortingLayerName;
+        return "Default";
+    }
+
+    private static int WallOrder(GameObject root)
+    {
+        int order = 1;
+        foreach (var r in root.GetComponentsInChildren<TilemapRenderer>(true)) order = Mathf.Max(order, r.sortingOrder);
+        return order - 1 < 1 ? 1 : order - 1;   // 가장 위 타일맵(소품·Object)보다 하나 아래 = 벽 순서 근처. 호출하는 쪽이 +로 올린다
+    }
+
+    private static void MakeGate(GameObject doorGo, Door door, Dir ddir, string sortLayer, int order, float wallBottom)
     {
         bool horiz = ddir == Dir.Up || ddir == Dir.Down;
         var frames = SheetFrames(horiz ? GateH : GateV);
@@ -353,7 +573,7 @@ public static class RoomJsonImporter
         Vector2 anchorPx, target;
         switch (ddir)
         {
-            case Dir.Up:   anchorPx = new Vector2(112f, 15f);  target = new Vector2(0f, -2.5f); break;
+            case Dir.Up:   anchorPx = new Vector2(112f, 15f);  target = new Vector2(0f, wallBottom); break;   // 위쪽 벽의 보이는 밑선
             case Dir.Down: anchorPx = new Vector2(112f, 15f);  target = new Vector2(0f, 0.5f); break;   // 아래쪽 문은 방 바닥 끝선(밴드 윗선)에
             default:       anchorPx = new Vector2(108f, 137f); target = Vector2.zero; break;
         }
@@ -362,16 +582,66 @@ public static class RoomJsonImporter
         var sr = cv.AddComponent<SpriteRenderer>();
         sr.sprite = frames[0];
         sr.sortingLayerName = sortLayer;
-        sr.sortingOrder = 3;
+        sr.sortingOrder = order;
         var gv = cv.AddComponent<DoorGateVisual>();
         gv.openFrames = frames;
         gv.fps = 10f;
         gv.raiseAnimated = true;
-        gv.stayWhenOpen = true;
+        gv.stayWhenOpen = false;   // 다 내려가면 숨긴다 — 바닥에 남는 받침 자국이 열린 문 앞을 가로질러 거슬린다
         cv.SetActive(false);
         var dso = new SerializedObject(door);
         dso.FindProperty("closedVisual").objectReferenceValue = cv;
         dso.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    // 타일맵 바깥 테두리를 n줄 이어 붙인다. 모서리까지 채우려고 위아래를 먼저 늘린 뒤 좌우를 늘린다.
+    // 문 구멍 자리는 바닥이 이어져 복도가 계속되는 것처럼 보인다.
+    private static void PadOutside(Tilemap tm, int n)
+    {
+        tm.CompressBounds();
+        BoundsInt b = tm.cellBounds;
+        if (b.size.x <= 0 || b.size.y <= 0) return;
+
+        for (int x = b.xMin; x < b.xMax; x++)
+        {
+            CopyOut(tm, new Vector3Int(x, b.yMax - 1, 0), Vector3Int.up, n);
+            CopyOut(tm, new Vector3Int(x, b.yMin, 0), Vector3Int.down, n);
+        }
+        for (int y = b.yMin - n; y < b.yMax + n; y++)
+        {
+            CopyOut(tm, new Vector3Int(b.xMin, y, 0), Vector3Int.left, n);
+            CopyOut(tm, new Vector3Int(b.xMax - 1, y, 0), Vector3Int.right, n);
+        }
+        tm.CompressBounds();
+    }
+
+    private static void CopyOut(Tilemap tm, Vector3Int from, Vector3Int step, int n)
+    {
+        // 가장자리 칸이 비어 있으면(문 구멍 자리) 안쪽으로 몇 칸 들어가 찾은 타일을 쓴다
+        Vector3Int src = from;
+        TileBase t = tm.GetTile(src);
+        for (int i = 1; t == null && i <= 4; i++) { src = from - step * i; t = tm.GetTile(src); }
+        if (t == null) return;
+        Matrix4x4 m = tm.GetTransformMatrix(src);
+        for (int i = 1; i <= n; i++)
+        {
+            Vector3Int p = from + step * i;
+            if (tm.GetTile(p) != null) continue;
+            tm.SetTile(p, t);
+            tm.SetTransformMatrix(p, m);
+        }
+    }
+
+    // 스프라이트에서 실제로 그려지는(투명 아닌) 범위 — 메시 꼭짓점 기준 (Tight 메시). 스프라이트 로컬 좌표
+    private static Bounds VisibleBounds(Sprite sp)
+    {
+        var v = sp.vertices;
+        if (v == null || v.Length == 0) return sp.bounds;
+        Vector2 mn = v[0], mx = v[0];
+        foreach (var p in v) { mn = Vector2.Min(mn, p); mx = Vector2.Max(mx, p); }
+        var b = new Bounds();
+        b.SetMinMax(mn, mx);
+        return b;
     }
 
     private static Dir ParseDir(string s)

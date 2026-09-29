@@ -413,13 +413,36 @@ public abstract class AttackEnemyBase : Enemy, IEnemyAttack
         attackRangeBox.SetActive(show);
     }
 
+    private Coroutine attackRoutine;
+
     public void Execute()
     {
         if (isAttacking)
             return;
 
         isAttacking = true;
-        StartCoroutine(AttackRoutine());
+        attackRoutine = StartCoroutine(AttackRoutine());
+    }
+
+    // 피격(경직)으로 공격을 끊는다.
+    // 끊지 않으면 맞고 있는 동안에도 공격 코루틴이 계속 돌아, 피격 모션 도중 "attack" 신호를 걸어
+    // 피격 모션을 자르고 맞은 직후 바로 휘둘렀다. StopCoroutine은 finally를 돌리지 않으므로
+    // 뒷정리(판정·예고·위치 잠금)를 여기서 직접 한다. 다음 공격은 공격 간격을 새로 기다린다.
+    public void CancelAttack()
+    {
+        if (!isAttacking) return;
+        if (attackRoutine != null) StopCoroutine(attackRoutine);
+        attackRoutine = null;
+
+        if (attackRangeBox != null) attackRangeBox.SetActive(false);
+        if (attackHitBox != null) attackHitBox.SetActive(false);
+        ClearTelegraph();
+        SetPositionLocked(false);
+        OnAttackFinally();
+        lastAttackTime = Time.time;
+        isAttacking = false;
+        IsAttackActive = false;
+        if (animator != null) animator.ResetTrigger("attack");
     }
 
     private IEnumerator AttackRoutine()

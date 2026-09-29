@@ -3,6 +3,7 @@
 "kind": "Treasure",
 "width": 20,
 "height": 11,
+"wallBottom": -2.5,
 "originX": -10,
 "originY": -6,
 "spanX": 1,
@@ -13,28 +14,808 @@
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Treasure_up0.png",
 "plugX": 0.0,
-"plugY": -1.5
+"plugY": -1.5,
+"colX": 0.0,
+"colY": -1.5,
+"colW": 6,
+"colH": 4.0,
+"patch": [
+{
+"m": "Ground",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 1,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_131",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_191",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_144",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_120",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_250",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_207",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_132",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_204",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_143",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_236",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_199",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_119",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": 2,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "down",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Treasure_down0.png",
 "plugX": 0.0,
-"plugY": 0.5
+"plugY": 0.5,
+"colX": 0.0,
+"colY": 0.5,
+"colW": 6,
+"colH": 2.0,
+"patch": [
+{
+"m": "Ground",
+"x": 1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -2,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -1,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 0,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_251",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_201",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_233",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_246",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_208",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_245",
+"f": 0
+},
+{
+"m": "Object",
+"x": -3,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 2,
+"y": -6,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "left",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Treasure_left0.png",
 "plugX": 0.5,
-"plugY": 0.0
+"plugY": 1.0,
+"colX": 0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_250",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_24",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_256",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_232",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_34",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_234",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_209",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_188",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_191",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_238",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_40",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_49",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_34",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_34",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_157",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_157",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -10,
+"y": -4,
+"a": "",
+"f": 0
+}
+]
 },
 {
 "dir": "right",
 "sub": 0,
 "plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Cry_Treasure_right0.png",
 "plugX": -0.5,
-"plugY": 0.0
+"plugY": 1.0,
+"colX": -0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": 9,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_156",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_23",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_220",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_251",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_214",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_215",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_233",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_192",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_209",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_39",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_47",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_156",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_156",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_156",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_208",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 9,
+"y": 1,
+"a": "",
+"f": 0
+}
+]
 }
 ],
 "spawns": [],
@@ -79,6 +860,12 @@
 "f": 0
 },
 {
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_514",
+"f": 0
+},
+{
 "x": -9,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_567",
@@ -187,6 +974,18 @@
 "f": 0
 },
 {
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_566",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_566",
+"f": 0
+},
+{
 "x": -9,
 "y": 2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_620",
@@ -292,6 +1091,12 @@
 "x": 8,
 "y": 2,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_514",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/Tileset-Terrain-old prison.png#Tileset-Terrain-old prison_567",
 "f": 0
 },
 {
@@ -1194,12 +1999,6 @@
 "f": 0
 },
 {
-"x": -10,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_191",
-"f": 0
-},
-{
 "x": -9,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_155",
@@ -1233,12 +2032,6 @@
 "x": 8,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_154",
-"f": 0
-},
-{
-"x": -9,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_24",
 "f": 0
 },
 {
@@ -1290,15 +2083,9 @@
 "f": 0
 },
 {
-"x": 8,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_23",
-"f": 0
-},
-{
 "x": 9,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_251",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_64",
 "f": 0
 },
 {
@@ -1316,7 +2103,7 @@
 {
 "x": -9,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_49",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_122",
 "f": 0
 },
 {
@@ -1344,9 +2131,9 @@
 "f": 0
 },
 {
-"x": 4,
+"x": -7,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_122",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_119",
 "f": 0
 },
 {
@@ -1356,9 +2143,9 @@
 "f": 0
 },
 {
-"x": -7,
+"x": 4,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_119",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_122",
 "f": 0
 },
 {
@@ -1376,7 +2163,7 @@
 {
 "x": 8,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_47",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
 "f": 0
 },
 {
@@ -1389,12 +2176,6 @@
 "x": 9,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_209",
-"f": 0
-},
-{
-"x": -9,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_87",
 "f": 0
 },
 {
@@ -1434,33 +2215,21 @@
 "f": 0
 },
 {
-"x": -7,
-"y": -5,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
-"f": 0
-},
-{
 "x": 4,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_171",
 "f": 0
 },
 {
-"x": 8,
-"y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_88",
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
 "f": 0
 },
 {
 "x": -10,
 "y": 3,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_256",
-"f": 0
-},
-{
-"x": 9,
-"y": 2,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_209",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_119",
 "f": 0
 },
 {
@@ -1476,15 +2245,15 @@
 "f": 0
 },
 {
-"x": -5,
-"y": 4,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_223",
-"f": 0
-},
-{
 "x": -6,
 "y": 3,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
+"f": 0
+},
+{
+"x": -5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_223",
 "f": 0
 },
 {
@@ -1557,6 +2326,24 @@
 "x": -6,
 "y": -5,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_1",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_131",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_134",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_146",
 "f": 0
 },
 {
@@ -1680,39 +2467,33 @@
 "f": 0
 },
 {
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_80",
+"f": 0
+},
+{
 "x": 2,
 "y": 1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_184",
 "f": 0
 },
 {
-"x": 8,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_62",
-"f": 0
-},
-{
-"x": 8,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_78",
-"f": 0
-},
-{
 "x": -3,
 "y": 1,
 "a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_185",
-"f": 0
-},
-{
-"x": -9,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_66",
-"f": 0
-},
-{
-"x": -9,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_82",
 "f": 0
 }
 ]
@@ -1759,37 +2540,13 @@
 {
 "x": -10,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_125",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_143",
 "f": 0
 },
 {
 "x": 9,
 "y": 1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_118",
-"f": 0
-},
-{
-"x": -10,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_137",
-"f": 0
-},
-{
-"x": 9,
-"y": 0,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_130",
-"f": 0
-},
-{
-"x": -10,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_149",
-"f": 0
-},
-{
-"x": 9,
-"y": -1,
-"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_142",
+"a": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Tilesets/wall-1- 3 tiles tall.png#wall-1- 3 tiles tall_93",
 "f": 0
 },
 {
@@ -1823,106 +2580,106 @@
 "cells": []
 }
 ],
+"uprights": [],
 "props": [
 {
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 10.png",
-"x": -7.5,
-"y": 1.0
-},
-{
 "sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 1 gold.png",
-"x": -4.5,
-"y": 1.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 11.png",
-"x": -1.5,
-"y": 1.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 22 silver.png",
-"x": 1.5,
-"y": 1.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 12.png",
-"x": 4.5,
-"y": 1.0
+"x": -1.2,
+"y": -1.3,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - broken - 12.png",
+"goldMin": 20,
+"goldMax": 20
 },
 {
 "sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - 2 gold.png",
-"x": 7.5,
-"y": 1.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - color scheme 1 - 1.png",
-"x": -3.0,
-"y": -0.5
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - color scheme 1 - 2.png",
-"x": 3.0,
-"y": -0.5
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/gold 1.png",
-"x": 0.5,
-"y": -3.5
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/silver 1.png",
-"x": 5.5,
-"y": -2.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/gold 2.png",
-"x": -5.5,
-"y": -2.5
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/chest - 1.png",
-"x": 0.0,
-"y": -1.5
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/stone chest 2.png",
-"x": -6.5,
-"y": -4.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 1.png",
-"x": 7.5,
-"y": -4.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 2.png",
-"x": 8.5,
-"y": -4.0
-},
-{
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 3.png",
-"x": 8.0,
-"y": -3.0
+"x": 1.2,
+"y": -1.3,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/barrel - broken - 13.png",
+"goldMin": 20,
+"goldMax": 20
 },
 {
 "sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/supply - 1.png",
-"x": -8.0,
-"y": 0.0
+"x": -6.0,
+"y": 0.0,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
 },
 {
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/supply - 2.png",
-"x": 7.5,
-"y": 0.0
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/stone chest 2.png",
+"x": -6.0,
+"y": -4.0,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
 },
 {
-"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/supply - 10.png",
-"x": 8.5,
-"y": -1.5
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 1.png",
+"x": 5.0,
+"y": -4.0,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 1.png",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 2.png",
+"x": 6.2,
+"y": -4.0,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 2.png",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 3.png",
+"x": 5.6,
+"y": -3.0,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 3.png",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 4.png",
+"x": -3.5,
+"y": -1.0,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 4.png",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 1.png",
+"x": 3.5,
+"y": -1.0,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 1.png",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate 2.png",
+"x": -4.3,
+"y": -2.6,
+"passable": false,
+"broken": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/crate - broken - 2.png",
+"goldMin": 0,
+"goldMax": 0
 },
 {
 "sprite": "Assets/ThirdParty/RafaelMatos/ERW - Old Prison/Props/atlas props - individual sprites/suspended cage - 1.png",
-"x": 8.5,
-"y": 1.0
+"x": 8.0,
+"y": 2.6,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
 }
 ]
 }

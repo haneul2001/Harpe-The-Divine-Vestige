@@ -22,6 +22,8 @@ public class ToastManager : MonoBehaviour
     [SerializeField] private float spacing = 8f;
     [Tooltip("화면 가장자리에서 띄우는 여백")]
     [SerializeField] private Vector2 margin = new Vector2(28f, 28f);
+    [Tooltip("화면 아래에서 알림 묶음까지 최소 거리. 오른쪽 아래 스킬 칸(키캡 포함) 위로 띄운다")]
+    [SerializeField] private float skillRowClearance = 200f;
     [Tooltip("동시에 떠 있을 수 있는 최대 개수. 넘으면 가장 오래된 것부터 사라진다")]
     [Min(1)]
     [SerializeField] private int maxVisible = 4;
@@ -71,7 +73,8 @@ public class ToastManager : MonoBehaviour
         rect.anchorMin = new Vector2(1f, 0f);
         rect.anchorMax = new Vector2(1f, 0f);
         rect.pivot = new Vector2(1f, 0f);
-        rect.anchoredPosition = new Vector2(-margin.x, margin.y);
+        // 오른쪽 아래에 스킬 칸이 있다 — 그 위로 띄운다
+        rect.anchoredPosition = new Vector2(-margin.x, Mathf.Max(margin.y, skillRowClearance));
         rect.sizeDelta = new Vector2(width, 0f);
 
         // 부모 Canvas가 order 0이라 패널들에 가린다.
@@ -85,7 +88,7 @@ public class ToastManager : MonoBehaviour
         if (layout == null) layout = gameObject.AddComponent<VerticalLayoutGroup>();
         layout.spacing = spacing;
         layout.childAlignment = TextAnchor.LowerRight;
-        layout.childControlWidth = true;
+        layout.childControlWidth = false;   // 글자 길이에 따라 알림마다 폭이 다르다 — 묶음 폭(340)에 눌리지 않게
         layout.childControlHeight = true;
         layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = false;

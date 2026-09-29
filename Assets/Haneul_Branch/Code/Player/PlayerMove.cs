@@ -8,9 +8,11 @@ public class PlayerMove : MonoBehaviour
     // 일시 버프가 곱하는 이동속도 배율 (처형 단계 버프 등). 저장하지 않는 런타임 값
     [System.NonSerialized] public float speedMult = 1f;
 
-    // 최종 이동속도 = 기본 × 버프 × (1 + 특성 보너스)
-    // 상점 능력치 카드로 올린 이동속도까지 포함한다
-    public float CurrentSpeed => speed * speedMult * (1f + AbilityHooks.MoveSpeedBonus() + StatBonusMoveSpeed);
+    // 최종 이동속도 = 기본 × 버프 × 은신 × (1 + 특성 보너스)
+    // 상점 능력치 카드로 올린 이동속도까지 포함한다. 은신 중에는 40% 빠르다
+    public float CurrentSpeed => speed * speedMult * StealthMult * (1f + AbilityHooks.MoveSpeedBonus() + StatBonusMoveSpeed);
+
+    private float StealthMult => PlayerStealth.Instance != null ? PlayerStealth.Instance.SpeedMultiplier : 1f;
 
     private PlayerStatus statusForSpeed;
     private float StatBonusMoveSpeed

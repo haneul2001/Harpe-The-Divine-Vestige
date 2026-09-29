@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e496f4f61e7696b448eb70aeca9386b8, type: 3}
   m_Name: Floor_02_Crypt
   m_EditorClassIdentifier: 
-  displayName: "\uC9C0\uD558 \uBB18\uC2E4"
+  displayName: "\uBC84\uB824\uC9C4 \uC720\uC801"
   subtitle: 
   roomCount: 13
   gridSize: {x: 9, y: 8}
   allowVerticalDoors: 1
-  startRoomPrefab: {fileID: 1399933240449242289, guid: 081a477e062b1e244836820b5f97c5bb, type: 3}
-  bossRoomPrefab: {fileID: 6526676775906276927, guid: 623d61cd4de7d3543a67ec26950a13f8, type: 3}
-  treasureRoomPrefab: {fileID: 3960817978416807742, guid: 19d3a792cd1923446bca7b8c75a16c65, type: 3}
-  shopRoomPrefab: {fileID: 3960817978416807742, guid: b1a52bab694d3204aab68086d094ff5c, type: 3}
+  startRoomPrefab: {fileID: 8473811554328183500, guid: bd233d252475aee47ac35cc605872a41, type: 3}
+  bossRoomPrefab: {fileID: 2777757332776066218, guid: 3487c08e53f2b874a893cc93c23a2c7d, type: 3}
+  treasureRoomPrefab: {fileID: 2408285894909981612, guid: bc7b9e3aec634c1488bdf0d7b96e33ef, type: 3}
+  shopRoomPrefab: {fileID: 1398015800468194092, guid: 937f5e563d8d25c4a9e841209db0ed63, type: 3}
   loadRoomsFromResources: 1
-  roomsResourcePath: Rooms_Crypt
+  roomsResourcePath: Rooms_Depths
   normalRoomPrefabs: []
+  doorTint: {r: 0.6, g: 1, b: 0.6, a: 1}

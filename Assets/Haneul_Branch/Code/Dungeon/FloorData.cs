@@ -40,6 +40,11 @@ public class FloorData : ScriptableObject
     [Tooltip("위 자동 수집을 끈 경우에만 쓰는 직접 지정 목록")]
     public List<Room> normalRoomPrefabs = new List<Room>();
 
+    [Header("문")]
+    [Tooltip("이 층 문(철창·보스 입구 문)에 입힐 색. 흰색이면 원래 그림 그대로.\n"
+           + "문 그림은 모든 층이 같이 쓰므로, 층 분위기는 색으로만 맞춘다")]
+    public Color doorTint = Color.white;
+
     // 부제가 비어 있으면 층 번호로 채운다. 층마다 "2층"을 손으로 적게 하면 반드시 어긋난다.
     public string ResolveSubtitle(int floorNumber)
     {

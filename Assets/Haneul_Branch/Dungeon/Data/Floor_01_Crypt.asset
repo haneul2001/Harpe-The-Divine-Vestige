@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e496f4f61e7696b448eb70aeca9386b8, type: 3}
   m_Name: Floor_01_Crypt
   m_EditorClassIdentifier: 
-  displayName: "\uB0A9\uACE8\uB2F9"
+  displayName: "\uD574\uACE8 \uBB34\uB364"
   subtitle: 
   roomCount: 11
   gridSize: {x: 9, y: 8}
@@ -24,3 +24,4 @@ MonoBehaviour:
   loadRoomsFromResources: 1
   roomsResourcePath: Rooms_Crypt
   normalRoomPrefabs: []
+  doorTint: {r: 1, g: 1, b: 1, a: 1}

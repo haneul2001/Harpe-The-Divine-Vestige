@@ -48,7 +48,7 @@ MonoBehaviour:
   soulFrame: {fileID: 5303426700869505575, guid: dd8a3c0e05e81434d861fd9a72e129a6, type: 3}
   frameScale: 3
   barWidth: 620
-  soulWidthRatio: 0.78
+  soulWidthRatio: 1
   margin: {x: 28, y: 26}
   gap: 6
   hpColor: {r: 0.541, g: 0.153, b: 0.196, a: 1}

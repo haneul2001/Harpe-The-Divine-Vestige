@@ -81,6 +81,21 @@ public class GoldDropper : MonoBehaviour
         }
     }
 
+    // 합계 total 골드를 동전 2~4개로 나눠 뿌린다 (부서진 상자 등)
+    public void DropTotal(Vector3 position, int total)
+    {
+        if (coinPrefab == null || total <= 0) return;
+        int count = Mathf.Clamp(Random.Range(2, 5), 1, total);
+        int left = total;
+        for (int i = 0; i < count; i++)
+        {
+            int v = i == count - 1 ? left : Mathf.Max(1, Mathf.RoundToInt((float)left / (count - i) + Random.Range(-1, 2)));
+            v = Mathf.Clamp(v, 1, left - (count - 1 - i));
+            left -= v;
+            GoldCoin.Spawn(coinPrefab, position, v);
+        }
+    }
+
     public void Drop(Vector3 position, DropRule rule)
     {
         if (coinPrefab == null || rule == null) return;

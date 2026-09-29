@@ -68,6 +68,13 @@ public class ToastView : MonoBehaviour
         label.verticalOverflow = VerticalWrapMode.Truncate;
         label.text = message;
 
+        // 글자가 기본 폭보다 길면 상자를 왼쪽으로 늘린다 — 한 줄 고정이라 안 늘리면 글자가 상자 밖으로 삐져나간다.
+        // 묶음(오른쪽 아래 기준 정렬)이 오른쪽 끝을 맞춰 주므로 늘어난 만큼 왼쪽으로 자란다
+        float need = label.preferredWidth + 18f + 14f + 8f;
+        float w = Mathf.Max(width, need);
+        layout.preferredWidth = w;
+        ((RectTransform)transform).sizeDelta = new Vector2(w, height);   // 묶음이 폭을 정하지 않으므로 직접
+
         phase = Phase.In;
         timer = 0f;
         Apply(0f);

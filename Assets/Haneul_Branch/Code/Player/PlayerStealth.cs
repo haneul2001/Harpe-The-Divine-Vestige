@@ -63,6 +63,26 @@ public class PlayerStealth : MonoBehaviour
     public float CloakCooldownRemaining { get { return Mathf.Max(0f, nextCloakTime - Time.time); } }
 
     private bool hidden;
+
+    [Header("은신 모습 — 사망(Death) 동작의 흩어지는 프레임")]
+    [Tooltip("캐릭터 Death 애니메이션 프레임 전부 (순서대로). 비우면 반투명만 된다")]
+    [SerializeField] private Sprite[] deathFrames;
+    [Tooltip("은신할 때 한 번 트는 구간 (흩어지기 시작 ~ 검은 실루엣)")]
+    [SerializeField] private Vector2Int cloakIntro = new Vector2Int(0, 4);
+    [Tooltip("은신 중 반복하는 프레임 번호 — 검은 실루엣과 연기 사이를 오간다")]
+    [SerializeField] private int[] hiddenLoop = { 3, 4, 5, 4 };
+    [SerializeField] private float deathFps = 12f;
+    [Tooltip("Death 모습일 때의 투명도. 그림 자체가 어두운 연기라 반투명(hiddenAlpha)까지 곱하면 안 보인다")]
+    [Range(0f, 1f)] [SerializeField] private float deathLookAlpha = 0.85f;
+    [SerializeField] private string cloakSfxId = "PlayerStealth";
+
+    private SpriteRenderer bodyRenderer;
+    private float cloakStart;
+
+    [Tooltip("은신 중 이동속도 배율 (1.4 = 40% 빠르게)")]
+    [SerializeField] private float hiddenSpeedMult = 1.4f;
+    public float SpeedMultiplier => hidden ? hiddenSpeedMult : 1f;
+    public float SpeedMultiplierWhenHidden => hiddenSpeedMult;
     private float nextCloakTime;
 
     // 현재 적용 중인 알파. 페이드 때문에 목표값과 따로 관리한다.
@@ -103,6 +123,9 @@ public class PlayerStealth : MonoBehaviour
         baseColors = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
             baseColors[i] = renderers[i].color;
+
+        var bodyAnim = GetComponentInChildren<Animator>();
+        bodyRenderer = bodyAnim != null ? bodyAnim.GetComponent<SpriteRenderer>() : GetComponentInChildren<SpriteRenderer>();
 
         bodyCollider = GetComponent<Collider2D>();
         if (bodyCollider != null) baseExcludeLayers = bodyCollider.excludeLayers.value;
@@ -158,6 +181,8 @@ public class PlayerStealth : MonoBehaviour
     private void Cloak()
     {
         hidden = true;
+        cloakStart = Time.time;
+        Sfx.Play(cloakSfxId);
         autoRevealTime = -1f;
         ApplyPhysics();
         PlaySmoke(cloakSmokeState);
@@ -260,9 +285,27 @@ public class PlayerStealth : MonoBehaviour
         return false;
     }
 
+    // 애니메이터가 이번 프레임 그림을 정한 뒤에 덮는다 — 은신 중엔 Death 프레임으로 돌아다닌다.
+    // 좌우 뒤집기(flipX)는 이동 코드가 그대로 맡는다
+    private void LateUpdate()
+    {
+        if (!hidden || !UsesDeathLook || bodyRenderer == null) return;
+
+        int f = Mathf.FloorToInt((Time.time - cloakStart) * deathFps);
+        int introLen = cloakIntro.y - cloakIntro.x + 1;
+        int idx = f < introLen ? cloakIntro.x + f : hiddenLoop[(f - introLen) % hiddenLoop.Length];
+        idx = Mathf.Clamp(idx, 0, deathFrames.Length - 1);
+        if (deathFrames[idx] != null) bodyRenderer.sprite = deathFrames[idx];
+    }
+
+    private bool UsesDeathLook
+    {
+        get { return deathFrames != null && deathFrames.Length > 0 && hiddenLoop != null && hiddenLoop.Length > 0; }
+    }
+
     private void UpdateAlpha()
     {
-        float target = hidden ? hiddenAlpha : 1f;
+        float target = hidden ? (UsesDeathLook ? deathLookAlpha : hiddenAlpha) : 1f;
 
         if (fadeDuration > 0f)
             alpha = Mathf.MoveTowards(alpha, target, Time.deltaTime / fadeDuration);

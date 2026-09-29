@@ -223,7 +223,7 @@ MonoBehaviour:
   deathShake: 0.55
   parryCounterClip: {fileID: 7400000, guid: 9b9b8ec43057f634daf502ac856c6598, type: 2}
   counterMoveEarlier: 0.2
-  parryCounterSpeed: 2
+  parryCounterSpeed: 3
   parryHitVfxId: ParryBurst
   counterAreaRadius: 1.8
   counterAreaEnemyLayers:
@@ -310,6 +310,29 @@ MonoBehaviour:
   passThroughLayers:
     serializedVersion: 2
     m_Bits: 0
+  deathFrames:
+  - {fileID: 6991849013916550155, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -276728812324164698, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 3156895337291164288, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1400002288684528572, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -1891625820773287384, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -5789737788129074030, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 3968659893341466949, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 6495761399759928590, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 4800267807231483719, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -6126746645354384401, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 672487888, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -269641181, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -997496579, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: -557685645, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1103561142, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  - {fileID: 1838345100, guid: 2549a8dcea3ec4041a57257846fe8387, type: 3}
+  cloakIntro: {x: 0, y: 4}
+  hiddenLoop: 03000000040000000500000004000000
+  deathFps: 12
+  deathLookAlpha: 0.85
+  cloakSfxId: PlayerStealth
+  hiddenSpeedMult: 1.4
 --- !u!114 &1903061372961969743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b8c3d15b14e74b4d90059cc3491636d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimWithMouse: 1
+  aimOriginHeight: 0.28
   showIndicator: 1
   ringDiameter: 0.8
   ringYScale: 0.7

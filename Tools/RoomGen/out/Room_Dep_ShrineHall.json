@@ -1,0 +1,4864 @@
+{
+"name": "Room_Dep_ShrineHall",
+"kind": "Normal",
+"width": 40,
+"height": 11,
+"wallBottom": -3.5,
+"originX": -20,
+"originY": -6,
+"spanX": 2,
+"spanY": 1,
+"doors": [
+{
+"dir": "up",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_up0.png",
+"plugX": 0.0,
+"plugY": -1.5,
+"colX": 0.0,
+"colY": -1.5,
+"colW": 6,
+"colH": 4.0,
+"patch": [
+{
+"m": "Ground",
+"x": -12,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -11,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -13,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -8,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -9,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_131",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_142",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_118",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_143",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_119",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_130",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_131",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_143",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_119",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Object",
+"x": -8,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -13,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -8,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -13,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -8,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -13,
+"y": 2,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "down",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_down0.png",
+"plugX": 0.0,
+"plugY": 0.5,
+"colX": 0.0,
+"colY": 0.5,
+"colW": 6,
+"colH": 2.0,
+"patch": [
+{
+"m": "Ground",
+"x": -12,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -9,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -11,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -8,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -13,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -10,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_163",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -12,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -13,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -11,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Object",
+"x": -8,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -13,
+"y": -6,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "up",
+"sub": 1,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_up1.png",
+"plugX": 0.0,
+"plugY": -1.5,
+"colX": 0.0,
+"colY": -1.5,
+"colW": 6,
+"colH": 4.0,
+"patch": [
+{
+"m": "Ground",
+"x": 8,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 11,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 12,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 7,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 10,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_93",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_64",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_80",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_144",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_120",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_145",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_132",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_121",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_133",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"m": "Object",
+"x": 12,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 7,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 12,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 7,
+"y": 4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 12,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 7,
+"y": 2,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "down",
+"sub": 1,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_down1.png",
+"plugX": 0.0,
+"plugY": 0.5,
+"colX": 0.0,
+"colY": 0.5,
+"colW": 6,
+"colH": 2.0,
+"patch": [
+{
+"m": "Ground",
+"x": 7,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 8,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 11,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 9,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 10,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 12,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_163",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_163",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 11,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 12,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_153",
+"f": 0
+},
+{
+"m": "Object",
+"x": 12,
+"y": -6,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 7,
+"y": -6,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "left",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_left0.png",
+"plugX": 0.5,
+"plugY": 1.0,
+"colX": 0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": -20,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": -20,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_34",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_167",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_152",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_24",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_167",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -20,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_40",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_49",
+"f": 0
+},
+{
+"m": "Wall",
+"x": -19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_167",
+"f": 0
+},
+{
+"m": "Object",
+"x": -20,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": -20,
+"y": 1,
+"a": "",
+"f": 0
+}
+]
+},
+{
+"dir": "right",
+"sub": 0,
+"plug": "Assets/Haneul_Branch/Art/RoomPlugs/Room_Dep_ShrineHall_right0.png",
+"plugX": -0.5,
+"plugY": 1.0,
+"colX": -0.5,
+"colY": 0.0,
+"colW": 2,
+"colH": 6.0,
+"patch": [
+{
+"m": "Ground",
+"x": 19,
+"y": 0,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": 3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": -1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": -2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": 2,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": -3,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": 1,
+"a": "",
+"f": 0
+},
+{
+"m": "Ground",
+"x": 19,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_39",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_47",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_166",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_23",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 18,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_181",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"m": "Wall",
+"x": 19,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"m": "Object",
+"x": 19,
+"y": -4,
+"a": "",
+"f": 0
+},
+{
+"m": "Object",
+"x": 19,
+"y": 1,
+"a": "",
+"f": 0
+}
+]
+}
+],
+"spawns": [
+{
+"x": -15,
+"y": -1
+},
+{
+"x": 15,
+"y": -1
+},
+{
+"x": -15,
+"y": -3
+},
+{
+"x": 15,
+"y": -3
+},
+{
+"x": -6,
+"y": -1
+},
+{
+"x": 6,
+"y": -1
+},
+{
+"x": 0,
+"y": -1
+},
+{
+"x": 0,
+"y": -3.5
+}
+],
+"tilemaps": [
+{
+"name": "Ground",
+"cells": [
+{
+"x": -13,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -12,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -11,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 9,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 10,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 11,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 12,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -20,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -18,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -17,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -16,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -15,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -14,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -13,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -12,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -11,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 9,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 10,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 11,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 12,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 13,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 14,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 15,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 16,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 17,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 18,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -20,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -18,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -17,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -16,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -15,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -14,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -13,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -12,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -11,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 9,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 10,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 11,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 12,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 13,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 14,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 15,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 16,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 17,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 18,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -20,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -18,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -17,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -16,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -15,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -14,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -13,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -12,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -11,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 9,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 10,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 11,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 12,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 13,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 14,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 15,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 16,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 17,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 18,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -20,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -19,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -18,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -17,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -16,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -15,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -14,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -13,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -12,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -11,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 0,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 1,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 2,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 3,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 4,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 5,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 6,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 7,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 8,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 9,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 10,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 11,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 12,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 13,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 14,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 15,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 16,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 17,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 18,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 19,
+"y": 0,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -20,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -19,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -18,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -17,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -16,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -15,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -14,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -13,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -12,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -11,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 0,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 1,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 2,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 3,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 4,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 5,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 6,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 7,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 8,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 9,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 10,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 11,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 12,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 13,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 14,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 15,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 16,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 17,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 18,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 19,
+"y": -1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -20,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -19,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -18,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -17,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -16,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -15,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -14,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -13,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -12,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -11,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 0,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 1,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 2,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 3,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 4,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 5,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 6,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 7,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 8,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 9,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 10,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 11,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 12,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 13,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 14,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 15,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 16,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 17,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 18,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 19,
+"y": -2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -20,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -19,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -18,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -17,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -16,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -15,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -14,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -13,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -12,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -11,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 0,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 1,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 2,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 3,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 4,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 5,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 6,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 7,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 8,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 9,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 10,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 11,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 12,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 13,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 14,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 15,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 16,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 17,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 18,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 19,
+"y": -3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -20,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -18,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -17,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -16,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -15,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -14,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -13,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -12,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -11,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 0,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 1,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 2,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 3,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 4,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 5,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 6,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 7,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 8,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 9,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 10,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 11,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 12,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 13,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 14,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 15,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 16,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 17,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 18,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -19,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -18,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -17,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -16,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -15,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -14,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -13,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -12,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -11,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 9,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 10,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 11,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 12,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 13,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 14,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1365",
+"f": 0
+},
+{
+"x": 15,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 16,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 17,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 18,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -13,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": -12,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": -11,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": -8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1415",
+"f": 0
+},
+{
+"x": 9,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1461",
+"f": 0
+},
+{
+"x": 10,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+},
+{
+"x": 11,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1417",
+"f": 0
+},
+{
+"x": 12,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset-Terrain2.png#Tileset-Terrain2_1416",
+"f": 0
+}
+]
+},
+{
+"name": "Wall",
+"cells": [
+{
+"x": -1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": 3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": 2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"x": 5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 16,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": 2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 16,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": -8,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_0",
+"f": 0
+},
+{
+"x": 4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 18,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": -7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_114",
+"f": 0
+},
+{
+"x": -19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_2",
+"f": 0
+},
+{
+"x": -7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": 4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 19,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -18,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": -18,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -19,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"x": -5,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": 6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -16,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -19,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_163",
+"f": 0
+},
+{
+"x": -6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_115",
+"f": 0
+},
+{
+"x": -3,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -17,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_114",
+"f": 0
+},
+{
+"x": -17,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": -2,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_114",
+"f": 0
+},
+{
+"x": -2,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 12,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_14",
+"f": 0
+},
+{
+"x": -1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"x": -15,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": -15,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 0,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 14,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 1,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 0,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 1,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": 15,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_114",
+"f": 0
+},
+{
+"x": 15,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_153",
+"f": 0
+},
+{
+"x": 13,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 13,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 17,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"x": 17,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 18,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_15",
+"f": 0
+},
+{
+"x": 2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_153",
+"f": 0
+},
+{
+"x": -7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -20,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": 4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": -20,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": 19,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 19,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": -5,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": -16,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"x": -4,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_115",
+"f": 0
+},
+{
+"x": -4,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -3,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": -19,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -19,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_150",
+"f": 0
+},
+{
+"x": -17,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": -6,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 14,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -2,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": -2,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_183",
+"f": 0
+},
+{
+"x": -14,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_121",
+"f": 0
+},
+{
+"x": 0,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": -14,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": -13,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_2",
+"f": 0
+},
+{
+"x": 15,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 15,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 13,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": 3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 17,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_16",
+"f": 0
+},
+{
+"x": 3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": 17,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_153",
+"f": 0
+},
+{
+"x": 4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": 18,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_14",
+"f": 0
+},
+{
+"x": 1,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 1,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 16,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_115",
+"f": 0
+},
+{
+"x": 5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 16,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 18,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 18,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": -18,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_119",
+"f": 0
+},
+{
+"x": -4,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": -18,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -4,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": 7,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_18",
+"f": 0
+},
+{
+"x": -6,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -17,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_1",
+"f": 0
+},
+{
+"x": -20,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"x": -20,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -5,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_114",
+"f": 0
+},
+{
+"x": 6,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_117",
+"f": 0
+},
+{
+"x": -15,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -5,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_31",
+"f": 0
+},
+{
+"x": 6,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -16,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_32",
+"f": 0
+},
+{
+"x": -15,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"x": -16,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_123",
+"f": 0
+},
+{
+"x": 0,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_183",
+"f": 0
+},
+{
+"x": -3,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_116",
+"f": 0
+},
+{
+"x": -3,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": 13,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_162",
+"f": 0
+},
+{
+"x": -14,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_48",
+"f": 0
+},
+{
+"x": -14,
+"y": -5,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_163",
+"f": 0
+},
+{
+"x": 14,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_113",
+"f": 0
+},
+{
+"x": 14,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_33",
+"f": 0
+},
+{
+"x": -20,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"x": -19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"x": -19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"x": -18,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_131",
+"f": 0
+},
+{
+"x": -18,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_143",
+"f": 0
+},
+{
+"x": -17,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_126",
+"f": 0
+},
+{
+"x": -17,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_138",
+"f": 0
+},
+{
+"x": -16,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_135",
+"f": 0
+},
+{
+"x": -16,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_147",
+"f": 0
+},
+{
+"x": -15,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": -15,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": -14,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_133",
+"f": 0
+},
+{
+"x": -14,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_145",
+"f": 0
+},
+{
+"x": -7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_126",
+"f": 0
+},
+{
+"x": -7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_138",
+"f": 0
+},
+{
+"x": -6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_127",
+"f": 0
+},
+{
+"x": -6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_139",
+"f": 0
+},
+{
+"x": -5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_126",
+"f": 0
+},
+{
+"x": -5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_138",
+"f": 0
+},
+{
+"x": -4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_127",
+"f": 0
+},
+{
+"x": -4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_139",
+"f": 0
+},
+{
+"x": -3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"x": -3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"x": -2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_126",
+"f": 0
+},
+{
+"x": -2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_138",
+"f": 0
+},
+{
+"x": -1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": -1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 0,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 0,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 1,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 1,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 2,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"x": 2,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"x": 3,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 3,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 4,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 4,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 5,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 5,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 6,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_129",
+"f": 0
+},
+{
+"x": 6,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_141",
+"f": 0
+},
+{
+"x": 13,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 13,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 14,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 14,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 15,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_126",
+"f": 0
+},
+{
+"x": 15,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_138",
+"f": 0
+},
+{
+"x": 16,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_127",
+"f": 0
+},
+{
+"x": 16,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_139",
+"f": 0
+},
+{
+"x": 17,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_128",
+"f": 0
+},
+{
+"x": 17,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"x": 18,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": 18,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": 19,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_125",
+"f": 0
+},
+{
+"x": -8,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_78",
+"f": 0
+},
+{
+"x": 12,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_190",
+"f": 0
+},
+{
+"x": -13,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_82",
+"f": 0
+},
+{
+"x": 7,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_189",
+"f": 0
+}
+]
+},
+{
+"name": "Object",
+"cells": [
+{
+"x": -13,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_34",
+"f": 0
+},
+{
+"x": -13,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_50",
+"f": 0
+},
+{
+"x": -13,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_66",
+"f": 0
+},
+{
+"x": -8,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+},
+{
+"x": -8,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_46",
+"f": 0
+},
+{
+"x": -8,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_62",
+"f": 0
+},
+{
+"x": 7,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_34",
+"f": 0
+},
+{
+"x": 7,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_159",
+"f": 0
+},
+{
+"x": 7,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_174",
+"f": 0
+},
+{
+"x": 12,
+"y": 4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+},
+{
+"x": 12,
+"y": 3,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_160",
+"f": 0
+},
+{
+"x": 12,
+"y": 2,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_175",
+"f": 0
+},
+{
+"x": -20,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_140",
+"f": 0
+},
+{
+"x": 19,
+"y": 1,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_137",
+"f": 0
+},
+{
+"x": -20,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"x": 19,
+"y": -4,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_168",
+"f": 0
+},
+{
+"x": -13,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_34",
+"f": 0
+},
+{
+"x": -8,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_151",
+"f": 0
+},
+{
+"x": 7,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_167",
+"f": 0
+},
+{
+"x": 12,
+"y": -6,
+"a": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Tilesets/Tileset 1.png#Tileset 1_30",
+"f": 0
+}
+]
+},
+{
+"name": "Props",
+"cells": []
+}
+],
+"uprights": [],
+"props": [
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/golden monument_1.png",
+"x": -5.0,
+"y": -1.4,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/golden monument_0.png",
+"x": 5.0,
+"y": -1.4,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/golden monument_2.png",
+"x": -16.0,
+"y": 0.6,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/golden monument_3.png",
+"x": 16.0,
+"y": 0.6,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/candelabrum_0.png",
+"x": -4.0,
+"y": 0.6,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/candelabrum_1.png",
+"x": 4.0,
+"y": 0.6,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/Crystals5-improved refraction_1.png",
+"x": -17.5,
+"y": -3.3,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/Crystals5-improved refraction_2.png",
+"x": -16.7,
+"y": -3.65,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/Crystals4-improved refraction_1.png",
+"x": 17.0,
+"y": -3.3,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/Crystals4-improved refraction_3.png",
+"x": 16.2,
+"y": -3.65,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+},
+{
+"sprite": "Assets/ThirdParty/RafaelMatos/ERW - The Depths/Props/Static/Props-individual sprites/Crystals6_0.png",
+"x": 0.0,
+"y": -3.3,
+"passable": false,
+"broken": "",
+"goldMin": 0,
+"goldMax": 0
+}
+]
+}

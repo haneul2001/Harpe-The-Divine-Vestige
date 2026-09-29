@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e496f4f61e7696b448eb70aeca9386b8, type: 3}
   m_Name: Floor_03_Sewers
   m_EditorClassIdentifier: 
-  displayName: "\uC9C0\uD558 \uD558\uC218\uB3C4"
+  displayName: "\uB9DD\uC790\uC758 \uD68C\uB791"
   subtitle: 
   roomCount: 15
   gridSize: {x: 9, y: 8}
   allowVerticalDoors: 1
-  startRoomPrefab: {fileID: 1399933240449242289, guid: 59357a9a7fa3b5f41a58e8b7f2b471b2, type: 3}
-  bossRoomPrefab: {fileID: 6526676775906276927, guid: 04f53ed9caa79d543b1f21041c57260a, type: 3}
-  treasureRoomPrefab: {fileID: 3960817978416807742, guid: 56e7f9d0c5a758442a102ed43b840490, type: 3}
-  shopRoomPrefab: {fileID: 3960817978416807742, guid: 4f0a22613a401b0419f14a557ba49710, type: 3}
+  startRoomPrefab: {fileID: 7908139508540700765, guid: 2c274599599c53440b9363f4ba05e813, type: 3}
+  bossRoomPrefab: {fileID: 5562390244880845984, guid: 143a89aa582585744939e8ad9b8034d6, type: 3}
+  treasureRoomPrefab: {fileID: 5098874396207909205, guid: a4bf22d366f4a8d4486e9aee5e7e5bc0, type: 3}
+  shopRoomPrefab: {fileID: 1669735941891648058, guid: 9364c9783e007b949b14a45aaf6f6d1a, type: 3}
   loadRoomsFromResources: 1
-  roomsResourcePath: Rooms_Sewers
+  roomsResourcePath: Rooms_Sewers_v2
   normalRoomPrefabs: []
+  doorTint: {r: 0.45, g: 1, b: 0.5, a: 1}

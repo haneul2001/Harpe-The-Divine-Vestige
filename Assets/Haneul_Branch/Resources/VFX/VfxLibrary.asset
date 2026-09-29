@@ -40,6 +40,7 @@ MonoBehaviour:
     loop: 1
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
     scale: 0.6
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 0
   - id: AttackTelegraph
@@ -64,6 +65,7 @@ MonoBehaviour:
     loop: 1
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
     scale: 1
+    facesLeft: 0
     sortingLayer: Map
     sortingOrder: 10
   - id: SlashHit
@@ -74,6 +76,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 1}
     scale: 0.8
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 1
   - id: EnemyHit
@@ -102,6 +105,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 0.741, g: 0.667, b: 0.867, a: 1}
     scale: 0.8
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 2
   - id: SlashHitLeft
@@ -112,6 +116,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 1}
     scale: 0.8
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 1
   - id: ParryShield
@@ -122,6 +127,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 0.548}
     scale: 1
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 50
   - id: ParryBurst
@@ -132,6 +138,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 1}
     scale: 1.5
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 50
   - id: BossSlash
@@ -142,6 +149,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 0.25, b: 0.2, a: 1}
     scale: 1.4
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 2
   - id: BossCrack
@@ -174,6 +182,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 1, b: 1, a: 1}
     scale: 1.6
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 2
   - id: BossSpear
@@ -206,6 +215,7 @@ MonoBehaviour:
     loop: 1
     tint: {r: 1, g: 0.25, b: 0.2, a: 1}
     scale: 0.8
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 1
   - id: BossSpinSlash
@@ -216,6 +226,7 @@ MonoBehaviour:
     loop: 0
     tint: {r: 1, g: 0.25, b: 0.2, a: 1}
     scale: 1
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 3
   - id: BossPhaseFire
@@ -226,5 +237,964 @@ MonoBehaviour:
     loop: 1
     tint: {r: 1, g: 1, b: 1, a: 1}
     scale: 1
+    facesLeft: 0
     sortingLayer: Skill
     sortingOrder: 5
+  - id: DragonFireStart
+    frames:
+    - {fileID: 420453722, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: -845333100, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: 1159198372, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: 1718923968, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: 1086052083, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: 1012975298, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: 1174020610, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    - {fileID: -1378803850, guid: 592bb35a06ac2544492e865ebce21cbb, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonFireLoop
+    frames:
+    - {fileID: -359564551, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: 670690477, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: -390241372, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: -1410437393, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: -489633093, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: -14816401, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: 1285948690, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    - {fileID: 2063739365, guid: 32a1d38dc5dfc3a4ab559bede0fc3e18, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonFireEnd
+    frames:
+    - {fileID: -447924714, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: 1431336062, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: -944895387, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: 2114571812, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: 1916747934, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: 1180687494, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    - {fileID: 1115361252, guid: d5154a09dccdc2846b3475c2491803fd, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonMeteor
+    frames:
+    - {fileID: 1578400013, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -632927595, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 81640179, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1380097878, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 909771348, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -44277791, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 158076511, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -872905680, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 473625991, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -586554086, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -819526312, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1112274735, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1347672065, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 431697344, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1013608581, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 153222877, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -259738879, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1488081459, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 1822185506, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: 143684275, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -781528629, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -1219735258, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    - {fileID: -209295895, guid: 345e2caea8c968b4f806cbb9bb703cdc, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 3.6
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 5
+  - id: DragonFireball
+    frames:
+    - {fileID: -1020801786, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    - {fileID: -958401833, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    - {fileID: 1122416663, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    - {fileID: -1048774656, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    - {fileID: 754281594, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    - {fileID: -895142688, guid: 6e9fbe6688750054993aebcef8b65cc9, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 3.125
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 5
+  - id: DragonFireBurst
+    frames:
+    - {fileID: 409271710, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: 2005822273, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: 927783154, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: -1032998286, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: 1275684977, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: 2022132387, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    - {fileID: 1203421197, guid: 0a12efe6d698584458e166050b7cb9df, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 4.7
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: DragonBreathStart
+    frames:
+    - {fileID: -192792014, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 1753429764, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: -1093021976, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 1102313319, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 1899510562, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 538447326, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 518784982, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: -2022257249, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 227939856, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 1699347517, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: -149661667, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: 1355360027, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    - {fileID: -286984951, guid: 1d2df3d174dc5a24f8fc748c73f9a8be, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 26
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 4.6
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: DragonBreath
+    frames:
+    - {fileID: 1431084491, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: -2123462260, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: 1742380998, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: 1425121383, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: -1935151166, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: 2113515673, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: -349878983, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    - {fileID: 171054731, guid: 3c5e44e09319d0a40b981d11ec90afd5, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 5.2
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: DragonBreathEnd
+    frames:
+    - {fileID: 40107654, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 233345875, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: -1975895854, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: -363243650, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 1796127774, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 98088618, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 759855316, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: -1766033717, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: -451290543, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 1293941786, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: -366899566, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    - {fileID: 806163190, guid: 06e8fe2e99c8de043839807714d9abd0, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 22
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 5.2
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: DragonDarkOrb
+    frames:
+    - {fileID: -1289920334, guid: dcfcc2af57791cd43bae90773e70230f, type: 3}
+    - {fileID: 1575014421, guid: dcfcc2af57791cd43bae90773e70230f, type: 3}
+    - {fileID: -1006561449, guid: dcfcc2af57791cd43bae90773e70230f, type: 3}
+    - {fileID: 282789477, guid: dcfcc2af57791cd43bae90773e70230f, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 10
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 2.8
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 5
+  - id: DragonDarkBurst
+    frames:
+    - {fileID: 692531175, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: 824704003, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: 1459536075, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: -42511030, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: 298897660, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: 1247990783, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    - {fileID: 761292648, guid: 0e9be014e94eb434cbf670562fe8191b, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 2.6
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 5
+  - id: DragonDarkRune
+    frames:
+    - {fileID: 781548421, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -898864000, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1577659312, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1983635567, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1491669201, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -445834964, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -982257169, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -832617094, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1459638714, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1481795083, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1130195614, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1195685221, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 956193441, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1532670055, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 2028309316, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -774602625, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1326979291, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -397408613, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1970977109, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1193799327, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 238147547, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 509746523, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -635234411, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1723077878, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1352932900, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 166746269, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 631904183, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -967900416, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: -1766956569, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1439903477, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 11341036, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    - {fileID: 1245581831, guid: 2d62f10b8a236aa44bc76b1005d77848, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 35
+    loop: 0
+    tint: {r: 0.72, g: 0.42, b: 1, a: 0.9}
+    scale: 1.3
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 23
+  - id: DragonCrack
+    frames:
+    - {fileID: -1478979237, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1190199087, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1580752895, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -643246920, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1460199502, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1467106925, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1273280018, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -1771940550, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: 1463548401, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: -100995435, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    - {fileID: 1176878091, guid: 5f31b206d4f554746b57c0d718457929, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 3.4
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 9
+  - id: DragonDust
+    frames:
+    - {fileID: -1029731909, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: 2034013725, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: 1992409031, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: -260664758, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: -1714036797, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: -779703247, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: 125472454, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: 255220390, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    - {fileID: -416811197, guid: 9f06ce46c9c1cdb41a556a74fc16702f, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 3
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: DragonDarkFireStart
+    frames:
+    - {fileID: 420453722, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: -845333100, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: 1159198372, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: 1718923968, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: 1086052083, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: 1012975298, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: 1174020610, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    - {fileID: -1378803850, guid: a6003a453dc34f18abf5d812bbd09065, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonDarkFireLoop
+    frames:
+    - {fileID: -359564551, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: 670690477, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: -390241372, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: -1410437393, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: -489633093, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: -14816401, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: 1285948690, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    - {fileID: 2063739365, guid: 3cb2b86cd787438aa013ed42072c7f40, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonDarkFireEnd
+    frames:
+    - {fileID: -447924714, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: 1431336062, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: -944895387, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: 2114571812, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: 1916747934, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: 1180687494, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    - {fileID: 1115361252, guid: d90c84b3718145019808d03cb1763a00, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 10
+  - id: DragonDarkMeteor
+    frames:
+    - {fileID: 1578400013, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -632927595, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 81640179, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1380097878, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 909771348, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -44277791, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 158076511, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -872905680, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 473625991, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -586554086, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -819526312, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1112274735, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1347672065, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 431697344, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1013608581, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 153222877, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -259738879, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1488081459, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 1822185506, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: 143684275, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -781528629, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -1219735258, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    - {fileID: -209295895, guid: 5065c37081784e2fa24bccfa4c016f8a, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 3.6
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 5
+  - id: DragonLightning
+    frames:
+    - {fileID: -1846049770, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: -1009491043, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: -973815075, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: 653848142, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: 691045785, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: 395892739, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: -1040806533, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: -589614426, guid: be27741ca43393148a10d41869fdb3f0, type: 3}
+    - {fileID: 222990362, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: -2031518228, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 1814010058, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 1767324149, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 344278201, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 881411278, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: -1086916898, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 1372157938, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 1551914988, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    - {fileID: 687822784, guid: 56ee0e2a2a301094989e58bb148aa5f2, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 24
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 5.5
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 7
+  - id: DragonDarkFlameGround
+    frames:
+    - {fileID: 4351508705297450995, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 1306515889729153156, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4693763492748122453, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4217077644261470637, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4259139696223830978, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -3278623162098279714, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 5591429765576084279, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -3596113682675463857, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 3461217645757231467, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -3529109714366826000, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 6870269062912951267, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4305994497581468935, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 5541980908159101442, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -3738904100149839458, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -6439704262069461476, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 6094975803501988055, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -4562622144495109405, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 7203541816401436827, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 230601477975035672, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4958761835533474026, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -2050132240099395930, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -7329228228169612622, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -136118976914041566, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 5719141445081263086, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4331634648270741237, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -3758793975352238309, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -177430741819540552, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -6380360232703272933, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 7477416763884089669, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -9134443114459284673, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 701001517541199207, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 8579133784099935060, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 0, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -6374028045695165171, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -4881617548749725264, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 5629611741742196668, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -4654351212663167258, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: -1090681891485029353, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 4130995723264742287, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    - {fileID: 8469943865889404342, guid: 750ca3c72ec2421439e80bdc51bcbbee, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Enemy
+    sortingOrder: -1
+  - id: DragonDarkFlameRise
+    frames:
+    - {fileID: -2570587514844461257, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3352915594592287965, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -246625093942472764, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4049701190755263630, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 3671239930568820566, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7935846407907689745, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 4179188024996084526, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3405191719578098882, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -1280168774448595982, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -9116224194034752967, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -6740453640732568981, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -1290306820091553124, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -6622558957842037829, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 1709694490103842299, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 740413358663470644, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7281890710110148218, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3870503299501404278, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 6260220216346904326, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4188964399471249691, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4430271556322595137, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 2676371697077147178, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 5459419384065068229, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 9137219308001599686, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 637192747412761340, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 5430696084906521132, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7394204234065732246, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7218522593156173531, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 608764583611459618, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 2903262499975186268, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -5255478204320366445, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 6289042555903847957, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Enemy
+    sortingOrder: -1
+  - id: BabyBoltGold
+    frames:
+    - {fileID: 21300000, guid: f734d4382ab4e4b37b208b3b2ee810d8, type: 3}
+    - {fileID: 21300000, guid: 15d87b7bd2ca3459284ad4542e0733d7, type: 3}
+    - {fileID: 21300000, guid: d95ec019d4cc84b5c9fac50831ec0a1b, type: 3}
+    - {fileID: 21300000, guid: e433191f6c12048f0a8a2dffd730e654, type: 3}
+    - {fileID: 21300000, guid: 5d9cf0e0055754058b8604d1da27a27c, type: 3}
+    - {fileID: 21300000, guid: 305a89948fc534475bac2ae1ac36687d, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 2.2
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: BabyBoltPink
+    frames:
+    - {fileID: 21300000, guid: 088916082fd674897916b7bc1d23b088, type: 3}
+    - {fileID: 21300000, guid: 61f7d33105e584671ad5b3041fe9ee52, type: 3}
+    - {fileID: 21300000, guid: 206c2ee3eaf514321976a05ed969ba71, type: 3}
+    - {fileID: 21300000, guid: d24b24b3fd838488bad38304dbf90f35, type: 3}
+    - {fileID: 21300000, guid: 3a6a3f1ef7e484ace803225274a58b66, type: 3}
+    - {fileID: 21300000, guid: 7b553b262b4a042428589536c9e8e85c, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 2.2
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperSkull_aqua
+    frames:
+    - {fileID: 21300000, guid: dce68c4c9e0944d46aeb1e7c88d5213a, type: 3}
+    - {fileID: 21300000, guid: 01205483b821c4c1292e23c9c729f55e, type: 3}
+    - {fileID: 21300000, guid: 198f46cc32a9a477d816c144fd8f7167, type: 3}
+    - {fileID: 21300000, guid: 623e2486106ca4bb38df32ac244b80d0, type: 3}
+    - {fileID: 21300000, guid: 9a03225f4b339442d977bbd45d3aac05, type: 3}
+    - {fileID: 21300000, guid: f8e230b7747474f0dbeaefdafc9cf237, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_aqua
+    frames:
+    - {fileID: 21300000, guid: 6d19dccdf261c4a4e842a6d43d72d2c6, type: 3}
+    - {fileID: 21300000, guid: 3f48fd14a889e46e8b4007ea41b517fc, type: 3}
+    - {fileID: 21300000, guid: 319e787d1768a45e28cf7128e2a1c3e3, type: 3}
+    - {fileID: 21300000, guid: a9599bc61aca04ae2a72fed9a8600392, type: 3}
+    - {fileID: 21300000, guid: f260a13018ac54b3994c19207feb59a9, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperSkull_blue
+    frames:
+    - {fileID: 21300000, guid: c1472d44a63f54a5db53c3f3ba839fe4, type: 3}
+    - {fileID: 21300000, guid: a2f903fb69d8045bbbfd87dbe44dd3aa, type: 3}
+    - {fileID: 21300000, guid: c0657dfd7e8174a73be380c126c640a2, type: 3}
+    - {fileID: 21300000, guid: e80be5eba5c4a45b89011c78b04ffe32, type: 3}
+    - {fileID: 21300000, guid: f8479f0e11e2143e9bea88767dffdc92, type: 3}
+    - {fileID: 21300000, guid: 05cbd2f1f5e97440e9f2b50c087d541a, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_blue
+    frames:
+    - {fileID: 21300000, guid: b641265c1bc064aafa6c635d70bf1a37, type: 3}
+    - {fileID: 21300000, guid: 42f235bc284894be286cd8dbc033a273, type: 3}
+    - {fileID: 21300000, guid: 4e915c842b7eb4c05afe7257aaa3ce79, type: 3}
+    - {fileID: 21300000, guid: 59ce28c600c8f42838ed8bb2d131f18f, type: 3}
+    - {fileID: 21300000, guid: ec2c70bf429ac477781dcac2185679e0, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperSkull_green
+    frames:
+    - {fileID: 21300000, guid: 5dbb7e9a6062e4abd9157445e5b459a2, type: 3}
+    - {fileID: 21300000, guid: 87188000c83cc424aab684b8de3c2c32, type: 3}
+    - {fileID: 21300000, guid: e5f94222dc0614cb6a38b2258b8f8012, type: 3}
+    - {fileID: 21300000, guid: 39b90a4989ee2427fa1ad4d3d41c3f1d, type: 3}
+    - {fileID: 21300000, guid: ec2ddd63785fa488896b921450e30598, type: 3}
+    - {fileID: 21300000, guid: 49ae00ff9c0cc410cacb8432421b59c6, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_green
+    frames:
+    - {fileID: 21300000, guid: 1485e54ed4cc444a1a64d45f9fe151c5, type: 3}
+    - {fileID: 21300000, guid: de3ba02f89cf94c9a960d378d2be5879, type: 3}
+    - {fileID: 21300000, guid: e9323263201cc4e22a9f4aa5b5d4e9cb, type: 3}
+    - {fileID: 21300000, guid: 174d80dd698c44a2ba107c1e61f64ba7, type: 3}
+    - {fileID: 21300000, guid: e54bc04d2acd247659aa6b0f95b85f0b, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperSkull_red
+    frames:
+    - {fileID: 21300000, guid: 8aa0e0e2d29294d5799919b3b96ebe69, type: 3}
+    - {fileID: 21300000, guid: 3c78a620661994e78b4449ba2518561d, type: 3}
+    - {fileID: 21300000, guid: fa97d831922494a3282fb16f5a3867f6, type: 3}
+    - {fileID: 21300000, guid: 2aa87a72adc614592aed6c7f28ce968c, type: 3}
+    - {fileID: 21300000, guid: a4830ece445b64dd683a3beb4004d9aa, type: 3}
+    - {fileID: 21300000, guid: a09faf555484c43069c709cb5464b692, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_red
+    frames:
+    - {fileID: 21300000, guid: b6789f8ac7f3e466db65455a7464e143, type: 3}
+    - {fileID: 21300000, guid: 016cca061bd5c492b849f64043c52fd9, type: 3}
+    - {fileID: 21300000, guid: 7419d42216f204121988f61ec45d776d, type: 3}
+    - {fileID: 21300000, guid: 6311122a09608489c837a995fcb773a4, type: 3}
+    - {fileID: 21300000, guid: eb2cbb4bae45a4631afb989650755a64, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperSkull_brown
+    frames:
+    - {fileID: 21300000, guid: c44c2f0b1d2344b49b044f282b9ca392, type: 3}
+    - {fileID: 21300000, guid: 7091b0f2a00104bfc8547717c97fead1, type: 3}
+    - {fileID: 21300000, guid: 01b5a77cd58a34c00ac6ffc083be3e1f, type: 3}
+    - {fileID: 21300000, guid: 9e811143a6a2f4cf68e35852e6fa6886, type: 3}
+    - {fileID: 21300000, guid: 5a08ba3174da84269ba9e69fd3b023c0, type: 3}
+    - {fileID: 21300000, guid: 8d9324ff5009c48ffbcf64344b22261a, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_brown
+    frames:
+    - {fileID: 21300000, guid: 2f5d6b219d29d4c059f697fa30f94408, type: 3}
+    - {fileID: 21300000, guid: 98d8b6101486c4ab5b76f1ced30f1cb2, type: 3}
+    - {fileID: 21300000, guid: ad5a48ee542434de09e803559ebe03b7, type: 3}
+    - {fileID: 21300000, guid: 7c52d9c8bb9c843f9ba6478f7cf62516, type: 3}
+    - {fileID: 21300000, guid: ee15b8e7bab644ac7af33c57be61c0cc, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperSkull_purple
+    frames:
+    - {fileID: 21300000, guid: 332ee2f8a0e29430ca9992f403320ab4, type: 3}
+    - {fileID: 21300000, guid: 1c42975a8760a48abba2b5022230233b, type: 3}
+    - {fileID: 21300000, guid: 4123eff723bcf44ccbde17f810024e3a, type: 3}
+    - {fileID: 21300000, guid: b31369d8d75994878823c1b18f5eb818, type: 3}
+    - {fileID: 21300000, guid: 9d202d13756964a3eb7cccb65d807762, type: 3}
+    - {fileID: 21300000, guid: 8d3f11175ad8c4821945e1be17005c5a, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 12
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 1
+    sortingLayer: Skill
+    sortingOrder: 4
+  - id: ReaperBurst_purple
+    frames:
+    - {fileID: 21300000, guid: 5ff2b7a3a499c4dc8909d347b46acc6a, type: 3}
+    - {fileID: 21300000, guid: d13e783f4a0c4433f810386c8fe2ade3, type: 3}
+    - {fileID: 21300000, guid: 06f6ce22504e64c5cb101b604d2933a8, type: 3}
+    - {fileID: 21300000, guid: 39a462c1820354ebbba2d2e7450dd91b, type: 3}
+    - {fileID: 21300000, guid: 4c99c0b3f9d85435787fee6f0fbac62a, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 6
+  - id: ReaperRedFlameGround
+    frames:
+    - {fileID: -2883660210115125926, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -2814705162214580345, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -2648130623187408958, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -5613963184313358132, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 5262794994432344577, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -7768318600149626261, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 3626042252634713233, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -8603586408923222020, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 4037499508823872701, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -776821997347984564, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -3939878322012682367, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 338091245367759937, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 7673520816083388022, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 2581554058846331750, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 7397668018355099134, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -8409780987914522721, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 45510413102820060, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 3942799725572290855, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 5654102788189366847, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 985164680085528713, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 8104157589283032131, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -6520555825429573732, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -799703497375950340, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -7455298642542347725, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -1569794995034683304, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -12761589289476420, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -5591593252266983771, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 7896142725868123766, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -209178966202197496, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 7931299248490457424, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -8623603808390236233, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 5267984911323613793, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -4304292254806075261, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -4523810732208046989, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 7115833583647984690, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: -7773478044178066394, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 6015852788067697931, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 1944767739798640755, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 5781540127326074052, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    - {fileID: 4125991298911186448, guid: 948297426ebc5dc4d94266c37d12fbe0, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Enemy
+    sortingOrder: -1
+  - id: ReaperRedFlameRise
+    frames:
+    - {fileID: -7246514726018327280, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -2457130321774984993, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 5434724011668675735, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 7556375155779663336, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -2174101104269774750, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 1201026032059064675, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -8222849243729808643, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 7414622031770988667, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -4490906263518527696, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 143343282185659686, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -3553009582604138358, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 8348190998155174396, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -1452550850182572275, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -7067085202475117891, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -6231125055766223327, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -7589662233977145214, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -6939572836249457422, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 6584650087318797200, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -1806834258206323699, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 3034958941434488312, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 873810655249324350, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 4878589046305647177, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -9079134706960507197, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -2127041225542299792, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 685782099445697498, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 262341001068718363, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 658257817604419568, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 2744757184469740820, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: -2638888011613658475, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 6670823558944179794, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    - {fileID: 8098593445820266900, guid: dc299bca13ecbf8469d1b68b6565d053, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Enemy
+    sortingOrder: -1
+  - id: ReaperSoulFire
+    frames:
+    - {fileID: -2570587514844461257, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3352915594592287965, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -246625093942472764, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4049701190755263630, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 3671239930568820566, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7935846407907689745, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 4179188024996084526, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3405191719578098882, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -1280168774448595982, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -9116224194034752967, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -6740453640732568981, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -1290306820091553124, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -6622558957842037829, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 1709694490103842299, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 740413358663470644, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7281890710110148218, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -3870503299501404278, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 6260220216346904326, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4188964399471249691, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -4430271556322595137, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 2676371697077147178, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 5459419384065068229, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 9137219308001599686, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 637192747412761340, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 5430696084906521132, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7394204234065732246, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 7218522593156173531, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 608764583611459618, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 2903262499975186268, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: -5255478204320366445, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    - {fileID: 6289042555903847957, guid: c6684cda7a8e05347a9913a615a95dc1, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 1
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 19
+  - id: ReaperCrescent
+    frames:
+    - {fileID: -3787781479145869370, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: 4716809748991544975, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: 7545921143713523620, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: 8763135106282075518, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: 3746146708598612088, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: 1675651565420195999, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    - {fileID: -4871849016966338766, guid: 8305e2fc0bd0d9a4f8cfeca893f76f14, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 22
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 2
+  - id: SkeletonBlockFx
+    frames:
+    - {fileID: -839395025, guid: b7117aacd82ad7743873acf9af99d2c5, type: 3}
+    - {fileID: -930722531, guid: b7117aacd82ad7743873acf9af99d2c5, type: 3}
+    - {fileID: -1719407501, guid: b7117aacd82ad7743873acf9af99d2c5, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 14
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1.4
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 40
+  - id: MageDust
+    frames:
+    - {fileID: 374842075, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: -830112667, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: 815069948, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: 490769940, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: 773941335, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: 1103287934, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: 333375426, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    - {fileID: -1943055969, guid: c880bc91be336214e8ad5e0639a3c10e, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 16
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.85
+    facesLeft: 0
+    sortingLayer: Object
+    sortingOrder: 6
+  - id: MageBurst
+    frames:
+    - {fileID: 1847140492, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: -1326389505, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: 514742073, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: -2012355204, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: -1154739305, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: 46069181, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: 491631120, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    - {fileID: 1866871228, guid: b5438e7077804554abe76f52de770bcf, type: 3}
+    prefab: {fileID: 0}
+    lifeTime: 1
+    fps: 18
+    loop: 0
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1.6
+    facesLeft: 0
+    sortingLayer: Skill
+    sortingOrder: 30

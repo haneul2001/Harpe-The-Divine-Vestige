@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 // 방 프리팹 안의 문 하나. 방향별로 최대 4개.
 //
@@ -29,8 +31,24 @@ public class Door : MonoBehaviour
     [SerializeField] private GameObject closedVisual;
     [Tooltip("이웃 방이 없어 아예 벽으로 막힐 때 켜질 오브젝트 (선택). 문이 아니라 벽처럼 보여야 함")]
     [SerializeField] private GameObject wallVisual;
+    // 이웃이 없어 벽이 될 때 바꿔 끼울 타일 (임포터가 채운다). 있으면 벽 그림(wallVisual) 대신 이것을 쓴다 —
+    // 주변 벽과 같은 타일이라 그림을 덮을 때처럼 이음새·밝은 띠가 생기지 않는다
+    [System.Serializable]
+    public class TilePatch
+    {
+        public Tilemap map;
+        public Vector3Int pos;
+        public TileBase tile;            // null이면 지운다
+        public Matrix4x4 matrix = Matrix4x4.identity;
+    }
+    [SerializeField, HideInInspector] private List<TilePatch> wallPatch = new List<TilePatch>();
+
+    public void EditorSetWallPatch(List<TilePatch> patch) { wallPatch = patch ?? new List<TilePatch>(); }
+
     [Tooltip("잠겼을 때 통행을 막는 콜라이더. IsTrigger 꺼진 것 (선택)")]
     [SerializeField] private Collider2D blocker;
+    [Tooltip("위쪽 문: 위쪽 벽의 보이는 밑선(바닥이 시작하는 선)의 문 기준 y. 임포터가 테마별로 채운다")]
+    public float wallBottom = -2.5f;
     [Tooltip("게이트 뒤에 벽 그림(wallVisual)을 항상 깔아 둔다. 보스 입구처럼 4칸 구멍 위에 3칸짜리 문을 얹을 때")]
     [SerializeField] private bool wallBehindGate = false;
 
@@ -65,6 +83,23 @@ public class Door : MonoBehaviour
         OwnerRoom = GetComponentInParent<Room>();
         if (OwnerRoom == null)
             Debug.LogError($"[Door] {name}: 부모에 Room 컴포넌트가 없음", this);
+
+        SortGateWithCharacters();
+    }
+
+    // 위·아래 문의 철창은 캐릭터와 같은 층에서 밑단(피벗) 기준으로 앞뒤를 가린다.
+    // 벽 층에 두면 캐릭터가 늘 위에 그려져, 아래 문 철창 뒤(위쪽)에 선 플레이어가 철창을 뚫고 보였다.
+    // 옆문 철창은 피벗이 그림 가운데라 이 방식이 맞지 않아 그대로 둔다. 보스 입구 문도 제 설정을 쓴다.
+    private void SortGateWithCharacters()
+    {
+        if (wallBehindGate || (dir != Dir.Up && dir != Dir.Down)) return;
+        DoorGateVisual g = Gate;
+        if (g == null) return;
+        var sr = g.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+        sr.sortingLayerName = CharacterSorting.Layer;
+        sr.sortingOrder = CharacterSorting.Order;
+        sr.spriteSortPoint = SpriteSortPoint.Pivot;
     }
 
     // 생성기가 이웃 방의 문과 짝지어 준다.
@@ -84,7 +119,18 @@ public class Door : MonoBehaviour
         if (openVisual != null) openVisual.SetActive(false);
         if (Gate != null) Gate.Hide();
         else if (closedVisual != null) closedVisual.SetActive(false);
-        if (wallVisual != null) wallVisual.SetActive(true);
+
+        if (wallPatch != null && wallPatch.Count > 0)
+        {
+            foreach (TilePatch p in wallPatch)
+            {
+                if (p == null || p.map == null) continue;
+                p.map.SetTile(p.pos, p.tile);
+                if (p.tile != null && p.matrix != Matrix4x4.identity) p.map.SetTransformMatrix(p.pos, p.matrix);
+            }
+            if (wallVisual != null) wallVisual.SetActive(false);
+        }
+        else if (wallVisual != null) wallVisual.SetActive(true);
         if (blocker != null) blocker.enabled = true;
         if (trigger != null) trigger.enabled = false;
     }
@@ -137,6 +183,20 @@ public class Door : MonoBehaviour
         if (closedVisual != null) Destroy(closedVisual);
         GameObject go = Instantiate(gatePrefab, transform);
         go.name = "ClosedVisual";
+        // 끼울 문 프리팹은 벽 밑선 -2.5 기준으로 만들어 두었다 — 이 방의 실제 밑선만큼 내린다
+        if (dir == Dir.Up)
+        {
+            go.transform.localPosition += new Vector3(0f, wallBottom + 2.5f, 0f);
+            // 양옆 막이: 벽 윗변(+0.5)부터 밑선까지
+            foreach (BoxCollider2D bc in go.GetComponentsInChildren<BoxCollider2D>(true))
+            {
+                float h = 0.5f - wallBottom;
+                bc.size = new Vector2(bc.size.x, h);
+                Vector3 lp = bc.transform.localPosition;
+                bc.transform.localPosition = new Vector3(lp.x, (0.5f + wallBottom) * 0.5f - go.transform.localPosition.y, lp.z);
+                bc.offset = Vector2.zero;
+            }
+        }
         // 정렬은 벽 그림(plug)과 같은 레이어, 그보다 앞
         SpriteRenderer wallSr = wallVisual != null ? wallVisual.GetComponent<SpriteRenderer>() : null;
         if (wallSr != null)
@@ -148,9 +208,37 @@ public class Door : MonoBehaviour
         closedVisual = go;
         gate = go.GetComponent<DoorGateVisual>();
         wallBehindGate = wallBehind;
+        // 문 뒤에 까는 벽 그림은 그림만 — 그 충돌은 구멍 전체를 막는다. 통로 폭은 끼운 문의 양옆 막이가 정한다
+        if (wallBehind && wallVisual != null)
+            foreach (Collider2D c in wallVisual.GetComponents<Collider2D>()) c.enabled = false;
+
+        // 벽을 깔고 문을 얹은 입구는 벽 그림이 구멍을 덮고 있어, 입장 판정이 벽 윗변에 있으면
+        // 벽 속으로 끝까지 파고들어야 들어가진다. 판정을 문 밑단(바닥이 시작하는 선)으로 내린다.
+        if (wallBehind && dir == Dir.Up)
+        {
+            var box = GetComponent<BoxCollider2D>();
+            if (box != null)
+            {
+                box.size = new Vector2(box.size.x, 0.8f);
+                box.offset = new Vector2(box.offset.x, wallBottom + 0.3f);
+            }
+        }
     }
 
     public void Open() => SetLocked(false);
+
+    // 처음부터 잠긴 채로 둔다 — 닫히는 연출 없이. 방을 클리어하면 Room이 SetLocked(false)로 연다 (여는 연출은 튼다)
+    public void LockSilently()
+    {
+        if (IsWalledOff) return;
+        IsLocked = true;
+        StopAllCoroutines();
+        if (openVisual != null) openVisual.SetActive(false);
+        if (wallVisual != null) wallVisual.SetActive(wallBehindGate);
+        if (Gate != null) Gate.ShowClosed();
+        else if (closedVisual != null) closedVisual.SetActive(true);
+        if (blocker != null) blocker.enabled = true;
+    }
     public void Close() => SetLocked(true);
 
     private void OnTriggerEnter2D(Collider2D other)

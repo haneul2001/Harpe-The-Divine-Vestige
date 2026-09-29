@@ -121,7 +121,11 @@ public class SkillTooltip
         float screenHalf = canvasRect != null ? canvasRect.rect.width * 0.5f : 960f;
 
         float limit = Mathf.Max(0f, screenHalf - root.sizeDelta.x * 0.5f - 12f);
-        x = Mathf.Clamp(x, -limit, limit);
+        // 줄 가운데가 화면 가운데에서 얼마나 떨어져 있는지 (줄이 오른쪽 끝에 붙어 있다)
+        float rowOffset = 0f;
+        if (parent != null && canvasRect != null)
+            rowOffset = canvasRect.InverseTransformPoint(parent.TransformPoint(parent.rect.center)).x - canvasRect.rect.center.x;
+        x = Mathf.Clamp(x, -limit - rowOffset, limit - rowOffset);
 
         // 칸 위에는 키캡(마우스 그림이 제일 크다)이 있으므로 그만큼 띄운다
         root.anchoredPosition = new Vector2(x, topY + GapAboveSlot);

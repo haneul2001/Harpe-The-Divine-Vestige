@@ -68,7 +68,7 @@ public class BossEnemy : AttackEnemyBase
     public int PhaseCount { get { return phases != null ? phases.Count : 0; } }
 
     // 체력바가 페이즈 경계선을 그릴 때 쓴다. 1페이즈의 시작(1.0)은 경계가 아니므로 뺀다.
-    public float[] PhaseBoundaries
+    public virtual float[] PhaseBoundaries
     {
         get
         {
@@ -200,6 +200,10 @@ public class BossEnemy : AttackEnemyBase
         // 연출이 끝날 때까지 여기서 기다린다 — 따로 돌리면 연출 도중에 보스가 다시 움직인다.
         yield return RunPhaseShow(ph.transitionDuration);
 
+        // 보스마다 전환 뒤에 따로 도는 구간 (용은 여기서 날아올라 공중전을 치른다).
+        // 전환 중으로 묶어 둔 채라 이 동안은 지상 패턴도, 다음 페이즈 전환도 안 나온다.
+        yield return AfterPhaseShow(target);
+
         // 연출이 걷힌 자리에 부하가 올라온다. 어둠이 덮여 있는 동안 세우면
         // 커튼 뒤에서 나타나 "갑자기 거기 있었다"가 되므로 걷힌 뒤에 부른다.
         SpawnPhaseMinions();
@@ -208,6 +212,50 @@ public class BossEnemy : AttackEnemyBase
         IsInvulnerable = false;
         IsPhaseChanging = false;
     }
+
+    // 페이즈 연출이 시작되는 순간 (시간은 멈춰 있다). 보스마다 자기 연출을 얹는다 — 용은 3페이즈에 어둠 불꽃
+    protected virtual void OnPhaseShow(int phase) { }
+
+    // 보스가 직접 여는 연출 구간 (사신 부활 등). 페이즈 전환과 똑같이 묶는다 —
+    // 공격·경직·다음 전환이 끼어들지 못하고, 맞지도 않고, 밀려나지도 않는다
+    protected IEnumerator RunScripted(IEnumerator body)
+    {
+        IsPhaseChanging = true;
+        IsInvulnerable = true;
+        StopMove();
+        SetPositionLocked(true);
+
+        yield return body;
+
+        SetPositionLocked(false);
+        IsInvulnerable = false;
+        IsPhaseChanging = false;
+    }
+
+    // 페이즈 전환 연출(시간 정지·어둠·줌)만 따로 튼다. 한 번 볼 때마다 동작이 빨라지는 것도 같다
+    protected IEnumerator PlayPhaseShow(float duration) { return RunPhaseShow(duration); }
+
+    // 페이즈를 강제로 옮긴다 (마지막 페이즈에 이르기 전에 쓰러졌다가 부활하는 경우)
+    protected void ForcePhase(int index)
+    {
+        if (phases == null || phases.Count == 0) return;
+        PhaseIndex = Mathf.Clamp(index, 0, phases.Count - 1);
+        ApplyPhase(phases[PhaseIndex]);
+    }
+
+    // 이동·공격 간격·예고 배율을 직접 준다 (페이즈 목록 밖의 단계 — 사신 두 번째 목숨)
+    protected void SetTempo(float move, float interval, float warning)
+    {
+        moveSpeed             = baseMoveSpeed  * move;
+        attackIdleTime        = baseAttackIdle * interval;
+        attackWarningDuration = baseWarning    * warning;
+    }
+
+    // 연출 때 카메라가 발밑에서 얼마나 위를 비출지. 키 큰 보스(용)는 몸통 가운데를 비춰야 머리가 안 잘린다
+    protected virtual float PhaseFocusLift { get { return 0.5f; } }
+
+    // 페이즈 연출이 끝난 직후, 전환을 마치기 전에 도는 구간. 기본은 없음
+    protected virtual IEnumerator AfterPhaseShow(int phase) { yield break; }
 
     [Header("페이즈 전환 연출")]
     [Tooltip("전환 동안 화면을 얼마나 어둡게 덮을지. 보스와 그 위 이펙트만 남는다")]
@@ -296,6 +344,7 @@ public class BossEnemy : AttackEnemyBase
         }
 
         LightPhaseFire();
+        OnPhaseShow(PhaseIndex);
 
         float zoomIn = Mathf.Min(0.35f, duration * 0.3f);
         float hold = Mathf.Max(0f, duration - zoomIn * 2f);
@@ -480,7 +529,7 @@ public class BossEnemy : AttackEnemyBase
         CameraFollow follow = FindObjectOfType<CameraFollow>();
         if (cam == null) yield break;
 
-        Vector3 focus = new Vector3(transform.position.x, transform.position.y + 0.5f, rest.z);
+        Vector3 focus = new Vector3(transform.position.x, transform.position.y + PhaseFocusLift, rest.z);
 
         bool zoomingIn = to > from;
         if (zoomingIn && follow != null)
@@ -874,16 +923,52 @@ public class BossEnemy : AttackEnemyBase
 
     public void DamagePlayerInRadius(Vector2 center, float radius)
     {
+        DamagePlayerInRadius(center, radius, attackDamage);
+    }
+
+    // 피해량을 패턴이 정한다. parryable=false면 패링으로 못 막는다(지속 장판).
+    // 반환값: 실제로 맞았는지
+    public bool DamagePlayerInRadius(Vector2 center, float radius, int damage, bool parryable = true)
+    {
         GameObject p = GameObject.FindGameObjectWithTag("Player");
-        if (p == null) return;
+        if (p == null) return false;
 
         // 보여 준 원보다 실제 판정은 조금 작다 — 가장자리에서 아슬아슬하게 피한 것이 빗나가 준다
         Transform body = p.transform;
-        if (Vector2.Distance(body.position, center) > ShrinkRadius(radius)) return;
+        if (Vector2.Distance(body.position, center) > ShrinkRadius(radius)) return false;
 
+        return HurtPlayer(p, damage, parryable);
+    }
+
+    // 부채꼴 피해. 꼭짓점 apex, angleDeg 쪽으로 halfAngle(도)만큼 벌어진다
+    public bool DamagePlayerInSector(Vector2 apex, float radius, float halfAngle, float angleDeg, int damage)
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p == null) return false;
+
+        Vector2 to = (Vector2)p.transform.position - apex;
+        if (to.magnitude > ShrinkRadius(radius)) return false;
+        if (to.sqrMagnitude > 0.0001f && Mathf.Abs(Mathf.DeltaAngle(angleDeg, Mathf.Atan2(to.y, to.x) * Mathf.Rad2Deg)) > halfAngle)
+            return false;
+
+        return HurtPlayer(p, damage, true);
+    }
+
+    // 자리와 상관없이 플레이어에게 피해 (방 전체 공격·결계 등 판정을 패턴이 직접 한 경우)
+    public bool DamagePlayer(int damage, bool parryable)
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        return p != null && HurtPlayer(p, damage, parryable);
+    }
+
+    private bool HurtPlayer(GameObject p, int damage, bool parryable)
+    {
         PlayerStatus status = p.GetComponent<PlayerStatus>();
         if (status == null) status = p.GetComponentInParent<PlayerStatus>();
-        if (status != null) status.TakeDamage(attackDamage, this);
+        if (status == null) return false;
+
+        // 패링할 수 없는 피해는 공격자를 넘기지 않는다 — 넘기면 반격 대상이 된다
+        return status.TakeDamage(damage, parryable ? this : null, parryable);
     }
 
     // 상자 모양으로 피해를 굴린다. 히트박스를 안 쓰고 자기 칸을 직접 그리는 베기용.

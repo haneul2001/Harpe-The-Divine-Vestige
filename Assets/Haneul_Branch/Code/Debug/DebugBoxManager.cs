@@ -12,7 +12,7 @@ public class DebugBoxManager : MonoBehaviour
     public static DebugBoxManager Instance { get; private set; }
 
     [Tooltip("디버그 표시 전체 on/off")]
-    [SerializeField] private bool visible = true;
+    [SerializeField] private bool visible = false;
 
     [Tooltip("눌러서 켜고 끄는 키. None이면 키 토글 없음")]
     [SerializeField] private KeyCode toggleKey = KeyCode.F2;
@@ -39,6 +39,9 @@ public class DebugBoxManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        // 게임을 켜면 항상 꺼진 채로 시작한다 — 씬·프리팹에 켜진 값이 저장돼 있어도 무시. F2로 켠다
+        visible = false;
     }
 
     private void OnEnable()

@@ -16,12 +16,14 @@ MonoBehaviour:
   icon: {fileID: 0}
   cooldown: 1.5
   soulCost: 0
-  parryWindow: 1
-  perfectWindow: 1
+  parryWindow: 0.5
+  perfectWindow: 0.5
   shieldVfxId: ParryShield
   shieldOffset: {x: 0.14, y: 0.28}
-  controlLockDuration: 0.5
+  shieldEffectLength: 1
+  controlLockTotal: 1
+  successMoveDelay: 0.1
   perfectDamageMultiplier: 0
   blockedDamageMultiplier: 0.5
   counterDamageMultiplier: 1.5
-  iframeDuration: 0.4
+  iframeDuration: 1.5

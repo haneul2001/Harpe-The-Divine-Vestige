@@ -431,6 +431,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   lastAttackTime: 0
+  hitSound: 1
   harvestable: 1
   attackHitBox: {fileID: 9058142661283257145}
   attackRangeBox: {fileID: 690968092614381325}
@@ -482,6 +483,7 @@ MonoBehaviour:
   phaseFireGrow: 0.1
   phaseAttackSpeedGrow: 0.15
   phaseAnimation: 2
+  phaseSpawnCount: 5
   phaseAnimFreezeAt: 0.95
   slashOverdraw: 1.2
   slashLift: 0.45
@@ -773,7 +775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patternName: "\uC9C0\uD558 \uC7A0\uD589"
-  minPhase: 3
+  minPhase: 1
   maxPhase: -1
   weight: 2
   cooldown: 8
@@ -800,7 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patternName: "\uBF08 \uAC10\uC625"
-  minPhase: 3
+  minPhase: 2
   maxPhase: -1
   weight: 1.5
   cooldown: 12

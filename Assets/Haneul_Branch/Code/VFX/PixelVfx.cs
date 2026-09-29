@@ -43,6 +43,15 @@ public class PixelVfx : MonoBehaviour
         go.transform.SetParent(parent, false);
         // 부모에 붙여도 월드 좌표는 지정한 자리에 오게 한다
         go.transform.position = position;
+
+        // 왼쪽을 보는 그림: 왼쪽 반원으로 갈 땐 180도 덜 돌리고, 오른쪽으로 갈 땐 좌우 반전 —
+        // 그냥 돌리면 오른쪽으로 날아가는 해골이 거꾸로 선다
+        bool flip = false;
+        if (c.facesLeft && c.prefab == null)
+        {
+            if (Mathf.Cos(rotationZ * Mathf.Deg2Rad) >= 0f) flip = true;
+            else rotationZ -= 180f;
+        }
         go.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
 
         // 부모가 커져 있으면(적은 3배로 스폰된다) 이펙트까지 같이 커진다.
@@ -56,6 +65,7 @@ public class PixelVfx : MonoBehaviour
 
         var vfx = go.AddComponent<PixelVfx>();
         vfx.Begin(c, rotationZ, stretched);
+        if (flip) vfx.sr.flipX = true;
 
         // 늘리는 건 그림이 준비된 뒤다 — 기준 크기를 실제 그려질 물건에서 재기 때문이다
         if (stretched)
@@ -178,7 +188,7 @@ public class PixelVfx : MonoBehaviour
     {
         if (!playing || clip == null || clip.prefab != null) return;
 
-        t += Time.deltaTime * clip.fps;
+        t += (unscaled ? Time.unscaledDeltaTime : Time.deltaTime) * (fpsOverride > 0f ? fpsOverride : clip.fps);
         int i = Mathf.FloorToInt(t);
 
         if (i >= clip.frames.Length)
@@ -232,6 +242,25 @@ public class PixelVfx : MonoBehaviour
         if (followTarget == null) return;
         transform.position = followTarget.position + followOffset;
     }
+
+    // 이 하나만 재생 속도를 바꾼다 (정의는 여럿이 같이 쓰므로 건드리지 않는다).
+    // 떨어지는 메테오처럼 그림 속 착지 칸을 예고가 끝나는 순간에 맞출 때 쓴다.
+    public PixelVfx SetFps(float fps)
+    {
+        fpsOverride = fps;
+        return this;
+    }
+
+    private float fpsOverride;
+
+    // 시간이 멈춘 연출(보스 페이즈 전환) 중에도 움직여야 하는 이펙트
+    public PixelVfx UseUnscaledTime()
+    {
+        unscaled = true;
+        return this;
+    }
+
+    private bool unscaled;
 
     // 루프 이펙트를 끝낼 때. 즉시 없앤다.
     public void Stop()

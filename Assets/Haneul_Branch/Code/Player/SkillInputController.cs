@@ -80,6 +80,18 @@ public class SkillInputController : MonoBehaviour
     }
 
     // 설명 패널이 스킬 에셋의 값(패링 판정 시간 등)을 직접 읽을 수 있게 내준다
+    // 해당 스킬을 readyTime에 다시 쓸 수 있게 쿨타임을 당긴다 (이미 그보다 빨리 풀리면 그대로 둔다)
+    public void SetReadyAt<T>(float readyTime) where T : PlayerSkill
+    {
+        if (slots == null) return;
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (!(slots[i].skill is T)) continue;
+            float want = readyTime - Cooldown(slots[i].skill);
+            if (want < slots[i].lastUsedTime) slots[i].lastUsedTime = want;
+        }
+    }
+
     public T FindSkill<T>() where T : PlayerSkill
     {
         if (slots == null) return null;

@@ -13,12 +13,20 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2725539258776033914, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
+      propertyPath: hitSound
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725539258776033914, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
       propertyPath: moveSpeed
       value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 2725539258776033914, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
       propertyPath: detectRange
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725539258776033914, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
+      propertyPath: hitDuration
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 2725539258776033914, guid: 74ac3c60a8f8f0d46a69b35415692ad0, type: 3}
       propertyPath: attackIdleTime

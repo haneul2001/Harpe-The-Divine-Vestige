@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e09559a32778e5448c065211c425bc4, type: 3}
+  m_Name: SfxLibrary
+  m_EditorClassIdentifier: 
+  clips:
+  - id: EnemyHitBone
+    clips:
+    - {fileID: 8300000, guid: 28035043174d44f928d428fc44f59150, type: 3}
+    volume: 0.8
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: EnemyHitBody
+    clips:
+    - {fileID: 8300000, guid: 90115a0fe3e8b4e098b1111cc014a9cc, type: 3}
+    volume: 0.8
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: PlayerParry
+    clips:
+    - {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+    volume: 0.9
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: PlayerHurt
+    clips:
+    - {fileID: 8300000, guid: 8b23b175a78d6b5458322e3a6c9905d0, type: 3}
+    volume: 0.9
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: PlayerSwing
+    clips:
+    - {fileID: 8300000, guid: 01999991d21504b5abb7a554bba05227, type: 3}
+    volume: 0.7
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: PlayerHarvest
+    clips:
+    - {fileID: 8300000, guid: 4a578695dfac4422d81299af3481ea10, type: 3}
+    volume: 0.9
+    pitchJitter: 0.05
+    minInterval: 0.04
+  - id: PlayerStealth
+    clips:
+    - {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
+    volume: 0.8
+    pitchJitter: 0.03
+    minInterval: 0.1
+  bgm: {fileID: 8300000, guid: ea63f1b3bf0191247b1ed1863d86d609, type: 3}
+  bgmVolume: 0.45
